@@ -1,4 +1,21 @@
-.App {
+:root {
+  --primary-clr:#c60a11;
+  --secondary-clr:#037a37;
+  --third-clr:#6d0905;
+  --font-family:'Poppins'
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  overflow: hidden;
+}
+
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +52,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */
