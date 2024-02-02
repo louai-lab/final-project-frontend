@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import UserContext from "../../Context/UserContext";
 
-
 function Login() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -47,6 +46,7 @@ function Login() {
 
       if (response.data) {
         setUser(response.data);
+        // localStorage.setItem("userData", JSON.stringify(response.data));
         console.log(response.data);
         return navigate("/home", { replace: true });
       }
@@ -55,9 +55,9 @@ function Login() {
     }
   };
 
-  const handleGoogleClick= async()=>{
-    console.log('try')
-  }
+  const handleGoogleClick = async () => {
+    console.log("try");
+  };
 
   return (
     <div className={StyleLogin.loginPage}>
@@ -101,14 +101,15 @@ function Login() {
                     {showPassword ? <FaEye /> : <FaEyeSlash />}
                   </div>
                 </div>
-                <div
-                  className={StyleLogin.btn}
-                
-                >
-                  {/* <input type="submit" value="Login" /> */}
-                  <button  className={StyleLogin.oauth} onClick={handleLogin}>Login</button>
-                  <button onClick={handleGoogleClick} className={StyleLogin.oauth}>
-                    <FaGoogle /> Login with Google
+                <div className={StyleLogin.btn}>
+                  <button className={StyleLogin.oauth} onClick={handleLogin}>
+                    Login
+                  </button>
+                  <button
+                    onClick={handleGoogleClick}
+                    className={StyleLogin.oauth}
+                  >
+                    <FaGoogle/> Login with Google
                   </button>
                 </div>
               </form>

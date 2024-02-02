@@ -3,7 +3,7 @@ import UserContext from '../../Context/UserContext'
 
 function Home() {
   const {user}=useContext(UserContext)
-  console.log(user)
+  // console.log(user)
   
   return (
     <div>

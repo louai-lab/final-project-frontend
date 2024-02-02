@@ -1,0 +1,19 @@
+.forbiddenContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 2rem;
+  }
+  .forbiddenContainer > h1 {
+    font-size: 60px;
+  }
+  .forbiddenContainer > h2 {
+    font-size: 50px;
+  }
+  .forbiddenContainer > p {
+    font-size: 20px;
+  }
+  
