@@ -1,10 +1,6 @@
-import React, { useContext } from 'react'
-import UserContext from '../../Context/UserContext'
+import React from 'react'
 
-function Home() {
-  const {user}=useContext(UserContext)
-  // console.log(user)
-  
+function Home() {  
   return (
     <div>
       <h1>Home</h1>

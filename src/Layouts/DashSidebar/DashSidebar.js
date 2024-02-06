@@ -8,8 +8,7 @@ import LocalMallIcon from "@mui/icons-material/LocalMall";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 import HomeIcon from "@mui/icons-material/Home";
-import { useContext, useState } from "react";
-// import { AuthContext } from "../../Context/AuthContext";
+import { useState } from "react";
 
 const DashSidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,13 +25,13 @@ const DashSidebar = () => {
   };
 
   const listItems = [
-    // {
-    //   number: 1,
-    //   item: "Overview",
-    //   link: "/dashboard",
-    //   icon: <QueryStatsIcon />,
-    // },
-    { number: 2, item: "Users", link: "/dashboard/user", icon: <GroupIcon /> },
+    {
+      number: 1,
+      item: "Overview",
+      link: "/dashboard",
+      icon: <QueryStatsIcon />,
+    },
+    { number: 2, item: "Users", link: "/dashboard/users", icon: <GroupIcon /> },
     {
       number: 3,
       item: "Players",
@@ -40,7 +39,7 @@ const DashSidebar = () => {
       icon: <LocalMallIcon />,
     },
     {
-      number: 3,
+      number: 4,
       item: "Teams",
       link: "/dashboard/teams",
       icon: <LocalMallIcon />,

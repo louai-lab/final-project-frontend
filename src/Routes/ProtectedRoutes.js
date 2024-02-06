@@ -7,10 +7,11 @@ function ProtectedRoute({
   redirectPath = "/login",
   isError = false,
 }) {
+  // console.log(isAllowed)
   if (isError) {
     return <Navigate to="./network_error" replace />;
   } else if (!isAllowed) {
-    return <Navigate to={redirectPath} replace />;
+    return <Navigate to={"/notfound"} replace />;
   }
   return children ? children : <Outlet />;
 }

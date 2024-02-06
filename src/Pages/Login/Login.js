@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import StyleLogin from "./Login.module.css";
 import logo from "../../Assets/icons/Lebanese_Football_Association_(LFA)_logo.svg";
 import { FaEye } from "react-icons/fa";
@@ -6,12 +6,12 @@ import { FaEyeSlash } from "react-icons/fa6";
 import { FaGoogle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import UserContext from "../../Context/UserContext";
+import { useUserStore } from "../../Zustand/Store";
 
 function Login() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser } = useUserStore()
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
