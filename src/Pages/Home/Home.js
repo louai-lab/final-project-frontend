@@ -1,8 +1,10 @@
 import React from 'react'
+import StyleHome from './Home.module.css'
 
 function Home() {  
   return (
-    <div>
+    <div className={StyleHome.homeContainer}>
+      
       <h1>Home</h1>
     </div>
   )

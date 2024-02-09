@@ -1,0 +1,39 @@
+.container {
+  margin-left: 80px;
+  margin-top: 20px;
+}
+.add {
+  background-color: var(--primary-clr);
+  padding: 15px;
+  font-size: 1rem;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.add:hover {
+  background-color: var(--third-clr);
+  cursor: pointer;
+}
+
+.addPopUp {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 800px;
+  max-height: 800px;
+  /* border: none; */
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: white;
+  color: black;
+  z-index: 1003;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}

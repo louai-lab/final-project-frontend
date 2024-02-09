@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route , Navigate } from "react-router-dom";
 import Home from "../Pages/Home/Home.js";
 import Login from "../Pages/Login/Login.js";
 import Matches from "../Pages/Matches/Matches.js";
@@ -12,6 +12,8 @@ import DashPlayers from "../Pages/DashPlayers/DashPlayers.js";
 import DashTeams from "../Pages/DashTeams/DashTeams.js";
 import NotFound from "../Pages/NotFound/NotFound.js";
 import DashUsers from "../Pages/DashUsers/DashUsers.js";
+import Profile from "../Pages/Profile/Profile.js";
+import WebOutlet from "./WebOutlet.js";
 
 function AppRoutes() {
   const { user } = useUserStore();
@@ -20,19 +22,25 @@ function AppRoutes() {
       <Route path="/network_error" element={<NetworkError />} />
       <Route path="/login" element={<Login />} />
       <Route element={<ProtectedRoute isAllowed={user} />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/matches" element={<Matches />} />
-        <Route path="/singlematch" element={<SingleMatch />} />
-        <Route path="/notfound" element={<NotFound/>}/>
+        <Route path="/" element={<WebOutlet />}>
+          <Route index element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/matches" element={<Matches />} />
+          <Route path="/singlematch" element={<SingleMatch />} />
+          <Route path="/profile" element={<Profile />} />
+        </Route>
       </Route>
 
       <Route
         path="/dashboard"
         element={
-          <ProtectedRoute isAllowed={user && user.role === "admin"}>
-            <DashOutlet />
-          </ProtectedRoute>
+          user && user.role === "admin" ? (
+            <ProtectedRoute isAllowed={true}>
+              <DashOutlet />
+            </ProtectedRoute>
+          ) : (
+            <Navigate to="/notfound" />
+          )
         }
       >
         <Route path="/dashboard/users" exact element={<DashUsers />} />

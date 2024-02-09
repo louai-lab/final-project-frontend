@@ -9,13 +9,13 @@ function NotFound() {
       <h1>404</h1>
       <h2>Not Found!</h2>
       <p>Sorry, the page you are looking for is not found!</p>
-      {/* <button
+      <button
         action="Take me back"
         onClick={() => navigate("/", { replace: true })}
-      /> */}
-      <button onClick={() => navigate("/", { replace: true })}>
+      />
+      {/* <button onClick={() => navigate("/", { replace: true })}>
         Take me Back
-      </button>
+      </button> */}
     </div>
   );
 }

@@ -11,7 +11,7 @@ function ProtectedRoute({
   if (isError) {
     return <Navigate to="./network_error" replace />;
   } else if (!isAllowed) {
-    return <Navigate to={"/notfound"} replace />;
+    return <Navigate to={redirectPath} replace />;
   }
   return children ? children : <Outlet />;
 }
