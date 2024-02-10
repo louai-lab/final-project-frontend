@@ -16,24 +16,3 @@
   background-color: var(--third-clr);
   cursor: pointer;
 }
-
-.addPopUp {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 600px;
-  height: 800px;
-  max-height: 800px;
-  /* border: none; */
-  border: 1px solid black;
-  border-radius: 10px;
-  background-color: white;
-  color: black;
-  z-index: 1003;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
-}
