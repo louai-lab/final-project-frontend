@@ -13,9 +13,9 @@ function NotFound() {
         action="Take me back"
         onClick={() => navigate("/", { replace: true })}
       />
-      {/* <button onClick={() => navigate("/", { replace: true })}>
+      <button onClick={() => navigate("/home", { replace: true })}>
         Take me Back
-      </button> */}
+      </button>
     </div>
   );
 }

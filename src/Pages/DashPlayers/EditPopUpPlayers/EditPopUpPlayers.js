@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useState} from "react";
 import {
   FormControl,
   TextField,
@@ -11,7 +11,7 @@ import {
 import Box from "@mui/material/Box";
 import StyleEditPopUp from "./EditPopUpPlayers.module.css";
 
-function EditPopUpPlayers({ selectedRowData, handleCancel }) {
+function EditPopUpPlayers({ selectedRowData, handleCancelEdit }) {
   const [formData, setFormData] = useState({
     name: selectedRowData.name,
     position: selectedRowData.position,
@@ -63,7 +63,7 @@ function EditPopUpPlayers({ selectedRowData, handleCancel }) {
             marginBottom: "1.5rem",
           }}
         >
-          Edit An User
+          Edit A Player
         </h1>
         <form
           //   onSubmit={handleSubmit}
@@ -77,7 +77,7 @@ function EditPopUpPlayers({ selectedRowData, handleCancel }) {
           <Stack rowGap="2rem">
             <FormControl fullWidth>
               <TextField
-                label="NAme"
+                label="Name"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
@@ -137,7 +137,7 @@ function EditPopUpPlayers({ selectedRowData, handleCancel }) {
             <button className={StyleEditPopUp.cancel} onClick={handleSave}>
               Save
             </button>
-            <button className={StyleEditPopUp.cancel} onClick={handleCancel}>
+            <button className={StyleEditPopUp.cancel} type="button" onClick={handleCancelEdit}>
               Cancel
             </button>
           </Stack>

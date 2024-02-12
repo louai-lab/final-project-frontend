@@ -18,6 +18,17 @@
     align-items: center;
     padding: 2rem;
   }
+
+  .save{
+    background-color: var(--primary-clr);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-transform: none;
+    color: white;
+    padding: 11px;
+    border-radius: 20px;
+    border: none;
+    font-weight: bold;
+  }
   
   .cancel {
     background-color: var(--third-clr);

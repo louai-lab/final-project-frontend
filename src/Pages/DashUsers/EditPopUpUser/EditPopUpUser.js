@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   FormControl,
   TextField,
-  Button,
   InputLabel,
   Select,
   MenuItem,
@@ -13,7 +12,7 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import StyleEditPopUp from "./EditPopUpUser.module.css";
 
-function EditPopUpUser({ selectedRowData, handleCancel, handleSave }) {
+function EditPopUpUser({ selectedRowData, handleCancelEdit, handleSave }) {
   const [showPassword, setShowPassword] = useState(false);
   // console.log(selectedRowData);
 
@@ -40,6 +39,7 @@ function EditPopUpUser({ selectedRowData, handleCancel, handleSave }) {
           ...formData,
           image: file,
         });
+        // console.log(file)
       }
     } else {
       setFormData((prevData) => ({
@@ -78,7 +78,7 @@ function EditPopUpUser({ selectedRowData, handleCancel, handleSave }) {
             marginBottom: "1.5rem",
           }}
         >
-          Edit An User
+          Edit A User
         </h1>
         <form
           //   onSubmit={handleSubmit}
@@ -194,10 +194,10 @@ function EditPopUpUser({ selectedRowData, handleCancel, handleSave }) {
               />
             </FormControl>
 
-            <button className={StyleEditPopUp.cancel} onClick={handleSaveClick}>
+            <button className={StyleEditPopUp.save} onClick={handleSaveClick}>
               Save
             </button>
-            <button className={StyleEditPopUp.cancel} onClick={handleCancel}>
+            <button className={StyleEditPopUp.cancel} type="button" onClick={handleCancelEdit}>
               Cancel
             </button>
           </Stack>

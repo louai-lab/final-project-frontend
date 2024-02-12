@@ -50,13 +50,9 @@ const Table = ({
         return;
       }
       if (ForWhat === "users") {
-        visibleFields = [
-          "firstName",
-          "lastName",
-          "role",
-          "email",
-          "image",
-        ];
+        visibleFields = ["firstName", "lastName", "role", "email", "image"];
+      } else if (ForWhat === "players") {
+        visibleFields = ["name", "position", "team"];
       } else {
         visibleFields = Object.keys(data[0]);
       }
@@ -66,17 +62,41 @@ const Table = ({
         headerName: field,
         flex: screenWidth < 800 ? 0 : 1,
         renderCell: (params) => {
-            if (field === "image" && params.row.image) {
-              return (
+          if (field === "image" && params.row.image) {
+            return (
+              <img
+                src={`${process.env.REACT_APP_IMAGE_PATH}/${
+                  params.row.image ? params.row.image : ""
+                }`} // Assuming the "icon" field contains the image URL
+                alt="Icon"
+                style={{ width: "140px", height: "140px" }}
+              />
+            );
+          }
+
+          if (field === "team" && params.row.team) {
+            const { id, name, image } = params.row.team;
+            return (
+              <div
+                key={id}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  rowGap: "10px",
+                  justifyContent: "center",
+                  alignContent: "center",
+                  alignItems:"center"
+                }}
+              >
                 <img
-                  src={`${process.env.REACT_APP_IMAGE_PATH}/${
-                    params.row.image ? params.row.image : ""
-                  }`} // Assuming the "icon" field contains the image URL
-                  alt="Icon"
-                  style={{ width: "140px", height: "140px" }}
+                  src={`${process.env.REACT_APP_IMAGE_PATH}/${image}`}
+                  alt={name}
+                  style={{ width: "50px", height: "50px", marginLeft: "5px" }}
                 />
-              );
-            }
+                {name}
+              </div>
+            );
+          }
 
           return params.value;
         },

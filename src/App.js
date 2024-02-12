@@ -3,21 +3,30 @@ import "./App.css";
 import AppRoutes from "./Routes/AppRoutes";
 import { useUserStore } from "./Zustand/Store";
 import { useUsersStore } from "./Zustand/Store";
+import { usePlayersStore } from "./Zustand/Store";
+import { useTeamsStore } from "./Zustand/Store";
+import Loading from "./Pages/Loading/Loading.js";
 function App() {
-  const { loading, setUser, getUser, user } = useUserStore();
-  const {getAllUsers}=useUsersStore();
-  
+  const { loading, getUser } = useUserStore();
+  const { getAllUsers } = useUsersStore();
+  const {getAllPlayers} = usePlayersStore();
+  const {getAllTeams}= useTeamsStore();
+
   useEffect(() => {
     getUser();
-    getAllUsers()
+    getAllUsers();
+    getAllPlayers();
+    getAllTeams();
   }, []);
 
-  return (
-    !loading && (
-      <div className="App">
-        <AppRoutes />
-      </div>
-    )
+  return loading ? (
+    <div>
+      <Loading />
+    </div>
+  ) : (
+    <div className="App">
+      <AppRoutes />
+    </div>
   );
 }
 

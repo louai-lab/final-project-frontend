@@ -13,7 +13,7 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import StyleAddPopUp from "./AddPopUpUser.module.css";
 
-function AddPopUp({ handleCancel , handleFormSubmit }) {
+function AddPopUp({ handleCancelAdd , handleFormSubmit }) {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -191,7 +191,7 @@ function AddPopUp({ handleCancel , handleFormSubmit }) {
             >
               Submit
             </Button>
-            <button className={StyleAddPopUp.cancel} onClick={handleCancel}>
+            <button className={StyleAddPopUp.cancel} type="button" onClick={handleCancelAdd}>
               Cancel
             </button>
           </Stack>

@@ -10,16 +10,15 @@ import {
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import StyleAddPopUp from "./AddPopUpPlayer.module.css";
+import { useTeamsStore } from "../../../Zustand/Store";
 
-function AddPopUp() {
+function AddPopUp({ handleCancelAdd, handleFormSubmitPlayer }) {
   const [isAddPopUp, setIsAddPopUp] = useState(false);
+  const { teams } = useTeamsStore();
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    role: "",
-    email: "",
-    password: "",
-    image: "",
+    name: "",
+    position: "",
+    team: "",
   });
 
   const handleChange = (e) => {
@@ -43,6 +42,7 @@ function AddPopUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    handleFormSubmitPlayer(formData);
   };
   return (
     <>
@@ -65,11 +65,11 @@ function AddPopUp() {
         >
           <h1
             style={{
-            //   width: "100%",
+              //   width: "100%",
               marginBottom: "1.5rem",
             }}
           >
-            Add A Player , need editing
+            Add A Player
           </h1>
           <form
             onSubmit={handleSubmit}
@@ -78,16 +78,14 @@ function AddPopUp() {
               flexDirection: "column",
               width: "100%",
               rowGap: "1rem",
-              //   overflow:"scroll",
-              //   paddingTop: "0.5rem",
             }}
           >
             <Stack rowGap="2rem">
               <FormControl fullWidth>
                 <TextField
-                  label="First Name"
-                  name="firstName"
-                  value={formData.firstName}
+                  label="Name"
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
                   required
                 />
@@ -95,71 +93,41 @@ function AddPopUp() {
 
               <FormControl fullWidth>
                 <TextField
-                  label="Last Name"
-                  name="lastName"
-                  value={formData.lastName}
+                  label="Position"
+                  name="position"
+                  value={formData.position}
                   onChange={handleChange}
                   required
                 />
               </FormControl>
 
               <FormControl fullWidth>
-                <TextField
-                  label="Email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-              </FormControl>
-
-              <FormControl fullWidth>
-                <TextField
-                  label="Password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                />
-              </FormControl>
-
-              <FormControl fullWidth>
-                <InputLabel htmlFor="role">Choose the role</InputLabel>
+                <InputLabel htmlFor="team">Choose the team</InputLabel>
                 <Select
-                  label="Role"
-                  name="role"
-                  value={formData.role}
+                  label="Team"
+                  name="team"
+                  value={formData.team}
                   onChange={handleChange}
                 >
-                  <MenuItem
-                    value="admin"
-                    style={{ display: "flex", gap: "20px" }}
-                  >
-                    admin
-                  </MenuItem>
-                  <MenuItem
-                    value="referee"
-                    style={{ display: "flex", gap: "20px" }}
-                  >
-                    referee
-                  </MenuItem>
-                  <MenuItem
-                    value="watcher"
-                    style={{ display: "flex", gap: "20px" }}
-                  >
-                    watcher
-                  </MenuItem>
+                  {teams.map((team) => (
+                    <MenuItem
+                      key={team._id}
+                      value={team._id}
+                      style={{ display: "flex", gap: "20px" }}
+                    >
+                      <img
+                        src={`${process.env.REACT_APP_IMAGE_PATH}/${team.image}`}
+                        alt={team.name}
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          marginLeft: "5px",
+                        }}
+                      />
+                      {team.name}
+                    </MenuItem>
+                  ))}
                 </Select>
-              </FormControl>
-
-              <FormControl fullWidth>
-                <input
-                  className={StyleAddPopUp.input}
-                  type="file"
-                  name="image"
-                  id="image"
-                  onChange={handleChange}
-                />
               </FormControl>
 
               <Button
@@ -170,7 +138,7 @@ function AddPopUp() {
                   transition: "background-color 0.3s ease, color 0.3s ease",
                   textTransform: "none",
                   fontWeight: "bold",
-                  borderRadius:"20px",
+                  borderRadius: "20px",
                   "&:hover": {
                     bgcolor: "var(--third-clr)",
                     color: "white",
@@ -179,7 +147,13 @@ function AddPopUp() {
               >
                 Submit
               </Button>
-              <button className={StyleAddPopUp.cancel}>Cancel</button>
+              <button
+                className={StyleAddPopUp.cancel}
+                type="button"
+                onClick={handleCancelAdd}
+              >
+                Cancel
+              </button>
             </Stack>
           </form>
         </Box>

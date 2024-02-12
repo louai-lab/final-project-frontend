@@ -40,4 +40,40 @@ export const useUsersStore = create((set) => ({
   },
 }));
 
+export const usePlayersStore = create((set) => ({
+  players: [],
+  loading: true,
+  getAllPlayers: async () => {
+    try {
+      set({ loading: true });
+      const response = await axiosInstance.get("/player");
+      if (response) {
+        // console.log(response.data);
+        set({ players: response.data, loading: false });
+      }
+    } catch (error) {
+      console.error(error);
+      set({ loading: false });
+    }
+  },
+}));
+
+export const useTeamsStore = create((set) => ({
+  teams: [],
+  loading: true,
+  getAllTeams: async () => {
+    try {
+      set({ loading: true });
+      const response = await axiosInstance.get("/team");
+      if (response) {
+        // console.log(response.data);
+        set({ teams: response.data, loading: false });
+      }
+    } catch (error) {
+      console.error(error);
+      set({ loading: false });
+    }
+  },
+}));
+
 
