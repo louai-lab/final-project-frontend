@@ -19,10 +19,6 @@ function DashPlayers() {
   const [isEditPopUp, setIsEditPopUp] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState(null);
   const { players } = usePlayersStore();
-  const { teams } = useTeamsStore();
-
-  // console.log(players)
-  // console.log(teams)
 
   const style = {
     position: "absolute",
@@ -94,11 +90,57 @@ function DashPlayers() {
 
   const handleEditOpen = (selectedRowData) => {
     setIsEditPopUp(true);
-    console.log(selectedRowData);
+    // console.log(selectedRowData);
   };
 
   const handleCancelEdit = () => {
     setIsEditPopUp(false);
+  };
+
+  const handleEditSave = async (id, formData) => {
+    try {
+      const response = await axiosInstance.patch(
+        `/player/update/${id}`,
+        formData
+      );
+
+      if (response) {
+        console.log("Player updated successfully:", response.data);
+        usePlayersStore.setState((state) => {
+          const updatedPlayers = state.players.map((player) => {
+            if (player._id === id) {
+              return response.data;
+            }
+            return player;
+          });
+
+          return {
+            players: updatedPlayers,
+          };
+        });
+
+        if (response.data.team) {
+          useTeamsStore.setState((state) => {
+            const updatedTeams = state.teams.map((team) => {
+              if (team._id === response.data.team._id) {
+                return response.data.team;
+              }
+              return team;
+            });
+
+            return {
+              teams: updatedTeams,
+            };
+          });
+        } else {
+          console.log("Player has no team");
+        }
+      }
+
+      setIsEditPopUp(false);
+    } catch (error) {
+      console.log("Error updating player:", error);
+    }
   };
 
   return (
@@ -128,6 +170,9 @@ function DashPlayers() {
           <EditPopUpPlayers
             selectedRowData={selectedRowData}
             handleCancelEdit={handleCancelEdit}
+            handleSave={(formData) =>
+              handleEditSave(selectedRowData._id, formData)
+            }
           />
           <div
             style={{

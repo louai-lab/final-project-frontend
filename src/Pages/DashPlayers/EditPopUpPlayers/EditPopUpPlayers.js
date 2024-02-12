@@ -1,8 +1,7 @@
-import React , {useState} from "react";
+import React, { useState } from "react";
 import {
   FormControl,
   TextField,
-  Button,
   InputLabel,
   Select,
   MenuItem,
@@ -10,12 +9,14 @@ import {
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import StyleEditPopUp from "./EditPopUpPlayers.module.css";
+import { useTeamsStore } from "../../../Zustand/Store";
 
-function EditPopUpPlayers({ selectedRowData, handleCancelEdit }) {
+function EditPopUpPlayers({ selectedRowData, handleCancelEdit, handleSave }) {
+  const { teams } = useTeamsStore();
   const [formData, setFormData] = useState({
     name: selectedRowData.name,
     position: selectedRowData.position,
-    team: selectedRowData.team,
+    team: selectedRowData.team ? selectedRowData.team._id : "",
   });
 
   const handleChange = (e) => {
@@ -37,7 +38,10 @@ function EditPopUpPlayers({ selectedRowData, handleCancelEdit }) {
     }
   };
 
-  const handleSave = () => {};
+  const handleSaveClick = (e) => {
+    e.preventDefault();
+    handleSave(formData);
+  };
 
   return (
     <>
@@ -96,48 +100,47 @@ function EditPopUpPlayers({ selectedRowData, handleCancelEdit }) {
             </FormControl>
 
             <FormControl fullWidth>
-              <TextField
+              <InputLabel htmlFor="team">Choose the team</InputLabel>
+              <Select
                 label="Team"
                 name="team"
-                value={formData.team}
-                onChange={handleChange}
-                required
-              />
-            </FormControl>
-
-            {/* <FormControl fullWidth>
-              <InputLabel htmlFor="role">Choose the role</InputLabel>
-              <Select
-                label="Role"
-                name="role"
-                value={formData.role}
+                value={formData.team || ""}
                 onChange={handleChange}
               >
-                <MenuItem
-                  value="admin"
-                  style={{ display: "flex", gap: "20px" }}
-                >
-                  Admin
-                </MenuItem>
-                <MenuItem
-                  value="referee"
-                  style={{ display: "flex", gap: "20px" }}
-                >
-                  Referee
-                </MenuItem>
-                <MenuItem
-                  value="watcher"
-                  style={{ display: "flex", gap: "20px" }}
-                >
-                  Watcher
-                </MenuItem>
+                <MenuItem value="">No Team</MenuItem>
+                {teams.map((team) => (
+                  <MenuItem
+                    key={team._id}
+                    value={team._id}
+                    style={{ display: "flex", gap: "20px" }}
+                  >
+                    <img
+                      src={
+                        team.image
+                          ? `${process.env.REACT_APP_IMAGE_PATH}/${team.image}`
+                          : ""
+                      }
+                      alt={team.name}
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        marginLeft: "5px",
+                      }}
+                    />
+                    {team.name}
+                  </MenuItem>
+                ))}
               </Select>
-            </FormControl> */}
+            </FormControl>
 
-            <button className={StyleEditPopUp.cancel} onClick={handleSave}>
+            <button className={StyleEditPopUp.cancel} onClick={handleSaveClick}>
               Save
             </button>
-            <button className={StyleEditPopUp.cancel} type="button" onClick={handleCancelEdit}>
+            <button
+              className={StyleEditPopUp.cancel}
+              type="button"
+              onClick={handleCancelEdit}
+            >
               Cancel
             </button>
           </Stack>
