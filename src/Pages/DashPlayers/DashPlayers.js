@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AddPopUpPlayer from "./AddPopUpPlayer/AddPopUpPlayer.js";
 import StyleDashPlayers from "./DashPlayers.module.css";
-import { usePlayersStore } from "../../Zustand/Store.js";
+import {usePlayersStore}  from "../../Zustand/Store.js";
 import Table from "../../Components/Table/Table.js";
 import axiosInstance from "../../Utils/AxiosInstance.js";
 import { useTeamsStore } from "../../Zustand/Store.js";
@@ -61,7 +61,7 @@ function DashPlayers() {
       }
       setIsAddPopUp(false);
     } catch (error) {
-      console.log("Error creating user:", error);
+      console.log("Error creating player:", error);
     }
   };
 

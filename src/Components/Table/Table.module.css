@@ -1,0 +1,15 @@
+.scroll {
+    overflow-y: auto;
+    max-height: 100px;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: darkgray lightgray; /* Firefox */
+
+    /* WebKit (Chrome, Safari) */
+    &::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: darkgray;
+    }
+}

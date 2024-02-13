@@ -56,6 +56,20 @@ export const usePlayersStore = create((set) => ({
       set({ loading: false });
     }
   },
+  playersNoTeam: [],
+  getAllPlayersNoTeam: async () => {
+    try {
+      set({ loading: true });
+      const response = await axiosInstance.get("/player/playersnoteam");
+      if (response) {
+        // console.log(response.data)
+        set({ playersNoTeam: response.data, loading: false });
+      }
+    } catch (error) {
+      console.error(error);
+      set({ loading: false });
+    }
+  },
 }));
 
 export const useTeamsStore = create((set) => ({
@@ -75,5 +89,3 @@ export const useTeamsStore = create((set) => ({
     }
   },
 }));
-
-

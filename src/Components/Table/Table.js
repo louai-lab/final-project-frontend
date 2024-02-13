@@ -4,6 +4,7 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Grid from "@mui/material/Unstable_Grid2";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import StyleTable from './Table.module.css'
 
 const Table = ({
   data,
@@ -53,6 +54,8 @@ const Table = ({
         visibleFields = ["firstName", "lastName", "role", "email", "image"];
       } else if (ForWhat === "players") {
         visibleFields = ["name", "position", "team"];
+      } else if (ForWhat === "teams") {
+        visibleFields = ["name", "image", "players"];
       } else {
         visibleFields = Object.keys(data[0]);
       }
@@ -85,7 +88,7 @@ const Table = ({
                   rowGap: "10px",
                   justifyContent: "center",
                   alignContent: "center",
-                  alignItems:"center"
+                  alignItems: "center",
                 }}
               >
                 <img
@@ -94,6 +97,18 @@ const Table = ({
                   style={{ width: "50px", height: "50px", marginLeft: "5px" }}
                 />
                 {name}
+              </div>
+            );
+          }
+          if (field === "players" && params.row.players) {
+            return (
+              <div className={StyleTable.scroll}>
+                <strong>Players:</strong>
+                <ul style={{ listStyleType: "none", paddingLeft: 0 }}>
+                  {params.row.players.map((player) => (
+                    <li key={player._id}>{player.name}</li>
+                  ))}
+                </ul>
               </div>
             );
           }
