@@ -62,7 +62,7 @@ function Navbar() {
                 isPending ? "pending" : isActive ? Styles.active : ""
               }
             >
-              matches
+              Matches
             </NavLink>
           </li>
           {user.role === "admin" ? (
@@ -119,7 +119,7 @@ function Navbar() {
                 isPending ? "pending" : isActive ? Styles.active : ""
               }
             >
-              matches
+              Matches
             </NavLink>
           </li>
           {user.role === "admin" ? (

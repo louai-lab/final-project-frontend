@@ -3,8 +3,8 @@ import Table from "../../Components/Table/Table";
 import { useTeamsStore } from "../../Zustand/Store";
 import StyleDashTeams from "./DashTeams.module.css";
 import AddPopUpTeam from "./AddPopUpTeam/AddPopUpTeam";
-import axiosInstance from "../../Utils/AxiosInstance.js";
-import axios from "axios";
+import axiosInstance from "../../Utils/AxiosInstance";
+
 function DashTeams() {
   const [isAddPopUp, setIsAddPopUp] = useState(false);
   const { teams } = useTeamsStore();
@@ -24,6 +24,7 @@ function DashTeams() {
         "/team/add",
         {
           ...formData,
+          // playersIds:formData.players,
           image: formData.image,
         },
         { headers: { "Content-Type": "multipart/form-data" } }

@@ -14,13 +14,13 @@ import {
 } from "@mui/material";
 import Box from "@mui/material/Box";
 
-function AddPopUpTeam({ handleCancelAdd , handleFormSubmitTeam }) {
+function AddPopUpTeam({ handleCancelAdd, handleFormSubmitTeam }) {
   const { playersNoTeam } = usePlayersStore();
   // console.log(playersNoTeam)
   const [formData, setFormData] = useState({
     name: "",
     image: "",
-    // players: [],
+    players: [],
   });
 
   const handleChange = (e) => {
@@ -33,7 +33,6 @@ function AddPopUpTeam({ handleCancelAdd , handleFormSubmitTeam }) {
           ...formData,
           image: file,
         });
-        console.log(e.target.files[0])
       }
     } else {
       setFormData((prevData) => ({
@@ -41,7 +40,7 @@ function AddPopUpTeam({ handleCancelAdd , handleFormSubmitTeam }) {
         [name]: type === "checkbox" ? checked : e.target.value,
       }));
     }
-  };
+  };  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -94,13 +93,13 @@ function AddPopUpTeam({ handleCancelAdd , handleFormSubmitTeam }) {
               />
             </FormControl>
 
-            {/* <FormControl fullWidth>
+            <FormControl fullWidth>
               <InputLabel htmlFor="players">Choose Players</InputLabel>
               <Select
                 label="Players"
                 name="players"
                 multiple
-                value={formData.players || []}
+                value={formData.players}
                 onChange={handleChange}
                 renderValue={(selected) => (
                   <div style={{ display: "flex", flexWrap: "wrap" }}>
@@ -120,7 +119,7 @@ function AddPopUpTeam({ handleCancelAdd , handleFormSubmitTeam }) {
                   </MenuItem>
                 ))}
               </Select>
-            </FormControl> */}
+            </FormControl>
 
             <FormControl fullWidth>
               <input

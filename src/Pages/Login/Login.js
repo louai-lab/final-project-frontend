@@ -3,7 +3,6 @@ import StyleLogin from "./Login.module.css";
 import logo from "../../Assets/icons/Lebanese_Football_Association_(LFA)_logo.svg";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
-import { FaGoogle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useUserStore } from "../../Zustand/Store";
@@ -55,10 +54,6 @@ function Login() {
     }
   };
 
-  const handleGoogleClick = async () => {
-    console.log("try");
-  };
-
   return (
     <div className={StyleLogin.loginPage}>
       <section className={StyleLogin.firstSection}>
@@ -104,12 +99,6 @@ function Login() {
                 <div className={StyleLogin.btn}>
                   <button className={StyleLogin.oauth} onClick={handleLogin}>
                     Login
-                  </button>
-                  <button
-                    onClick={handleGoogleClick}
-                    className={StyleLogin.oauth}
-                  >
-                    <FaGoogle/> Login with Google
                   </button>
                 </div>
               </form>
