@@ -99,9 +99,40 @@ function DashTeams() {
     setIsEditPopUp(true);
   };
 
-  const handleCancelEdit=()=>{
-    setIsEditPopUp(false)
-  }
+  const handleCancelEdit = () => {
+    setIsEditPopUp(false);
+  };
+
+  const handleEditSave = async (id, formData) => {
+    try {
+      const response = await axiosInstance.patch(
+        `/team/update/${id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      if (response) {
+        console.log("Team updated successfully:", response.data);
+        useTeamsStore.setState((state)=>{
+          const updatedTeams = state.teams.map((team)=>{
+            if(team._id === id){
+              return response.data
+            }
+            return team;
+          })
+          return{
+            teams:updatedTeams
+          }
+        })
+      }
+      setIsEditPopUp(false);
+    } catch (error) {
+      console.log("Error updating player:", error);
+    }
+  };
 
   return (
     <>
@@ -130,6 +161,9 @@ function DashTeams() {
           <EditPopUpTeams
             selectedRowData={selectedRowData}
             handleCancelEdit={handleCancelEdit}
+            handleSave={(formData) =>
+              handleEditSave(selectedRowData._id, formData)
+            }
           />
           <div
             style={{

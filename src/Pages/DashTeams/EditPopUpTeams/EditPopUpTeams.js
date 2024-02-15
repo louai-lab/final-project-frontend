@@ -3,26 +3,17 @@ import StyleEditPopUp from "./EditPopUpTeams.module.css";
 import {
   FormControl,
   TextField,
-  InputLabel,
-  Select,
-  MenuItem,
   Stack,
 } from "@mui/material";
 import Box from "@mui/material/Box";
-import { usePlayersStore } from "../../../Zustand/Store";
 
-function EditPopUpTeams({ selectedRowData, handleCancelEdit }) {
-//   const { teams } = useTeamsStore();
-  const { playersNoTeam } = usePlayersStore();
+function EditPopUpTeams({ selectedRowData, handleCancelEdit , handleSave }) {
+  
   const [formData, setFormData] = useState({
     name: selectedRowData.name,
     image: selectedRowData.image,
     players: selectedRowData.players,
-    // players: selectedRowData.players ? selectedRowData.players._id : "",
   });
-
-  console.log(formData.players)
-
   const handleChange = (e) => {
     const { name, type, checked } = e.target;
     // Check if the input type is file for handling images
@@ -41,6 +32,11 @@ function EditPopUpTeams({ selectedRowData, handleCancelEdit }) {
       }));
     }
   };
+
+  const handleSaveClick=(e)=>{
+    e.preventDefault()
+    handleSave(formData)
+  }
 
   return (
     <>
@@ -89,27 +85,6 @@ function EditPopUpTeams({ selectedRowData, handleCancelEdit }) {
             </FormControl>
 
             <FormControl fullWidth>
-              <InputLabel htmlFor="players">Choose the Players</InputLabel>
-              <Select
-                label="Players"
-                name="players"
-                value={formData.players.map((player) => player._id) || []}
-                onChange={handleChange}
-                multiple
-              >
-                {playersNoTeam.map((player) => (
-                  <MenuItem
-                    key={player._id}
-                    value={player._id}
-                    style={{ display: "flex", gap: "20px" }}
-                  >
-                    {player.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <FormControl fullWidth>
               <input
                 className={StyleEditPopUp.input}
                 type="file"
@@ -119,9 +94,9 @@ function EditPopUpTeams({ selectedRowData, handleCancelEdit }) {
               />
             </FormControl>
 
-            {/* onClick={handleSaveClick} */}
-
-            <button className={StyleEditPopUp.cancel}>Save</button>
+            <button className={StyleEditPopUp.cancel} onClick={handleSaveClick}>
+              Save
+            </button>
             <button
               className={StyleEditPopUp.cancel}
               type="button"
