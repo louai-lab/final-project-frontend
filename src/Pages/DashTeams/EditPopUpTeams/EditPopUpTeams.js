@@ -1,27 +1,27 @@
 import React, { useState } from "react";
-import StyleAddPopUp from "./AddPopUpTeam.module.css";
-// import usePlayersStore  from "../../Zustand/Store.js";
-import { usePlayersStore } from "../../../Zustand/Store";
+import StyleEditPopUp from "./EditPopUpTeams.module.css";
 import {
   FormControl,
   TextField,
-  Button,
   InputLabel,
   Select,
   MenuItem,
   Stack,
-  Chip,
 } from "@mui/material";
 import Box from "@mui/material/Box";
+import { usePlayersStore } from "../../../Zustand/Store";
 
-function AddPopUpTeam({ handleCancelAdd, handleFormSubmitTeam }) {
+function EditPopUpTeams({ selectedRowData, handleCancelEdit }) {
+//   const { teams } = useTeamsStore();
   const { playersNoTeam } = usePlayersStore();
-  // console.log(playersNoTeam)
   const [formData, setFormData] = useState({
-    name: "",
-    image: "",
-    playersIds: [],
+    name: selectedRowData.name,
+    image: selectedRowData.image,
+    players: selectedRowData.players,
+    // players: selectedRowData.players ? selectedRowData.players._id : "",
   });
+
+  console.log(formData.players)
 
   const handleChange = (e) => {
     const { name, type, checked } = e.target;
@@ -40,17 +40,12 @@ function AddPopUpTeam({ handleCancelAdd, handleFormSubmitTeam }) {
         [name]: type === "checkbox" ? checked : e.target.value,
       }));
     }
-  };  
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    handleFormSubmitTeam(formData);
   };
 
   return (
-    <div>
+    <>
       <Box
-        className={StyleAddPopUp.addPopUp}
+        className={StyleEditPopUp.addPopUp}
         sx={{
           "& .MuiOutlinedInput-notchedOutline ": {
             border: "1.5px solid  gray !important",
@@ -71,10 +66,10 @@ function AddPopUpTeam({ handleCancelAdd, handleFormSubmitTeam }) {
             marginBottom: "1.5rem",
           }}
         >
-          Add A Team
+          Edit A Team
         </h1>
         <form
-          onSubmit={handleSubmit}
+          //   onSubmit={handleSubmit}
           style={{
             display: "flex",
             flexDirection: "column",
@@ -94,27 +89,20 @@ function AddPopUpTeam({ handleCancelAdd, handleFormSubmitTeam }) {
             </FormControl>
 
             <FormControl fullWidth>
-              <InputLabel htmlFor="playersIds">Choose Players</InputLabel>
+              <InputLabel htmlFor="players">Choose the Players</InputLabel>
               <Select
                 label="Players"
-                name="playersIds"
-                multiple
-                value={formData.playersIds}
+                name="players"
+                value={formData.players.map((player) => player._id) || []}
                 onChange={handleChange}
-                renderValue={(selected) => (
-                  <div style={{ display: "flex", flexWrap: "wrap" }}>
-                    {selected.map((value) => (
-                      <Chip
-                        key={value._id}
-                        label={value.name}
-                        style={{ margin: 2 }}
-                      />
-                    ))}
-                  </div>
-                )}
+                multiple
               >
                 {playersNoTeam.map((player) => (
-                  <MenuItem key={player._id} value={player}>
+                  <MenuItem
+                    key={player._id}
+                    value={player._id}
+                    style={{ display: "flex", gap: "20px" }}
+                  >
                     {player.name}
                   </MenuItem>
                 ))}
@@ -123,44 +111,29 @@ function AddPopUpTeam({ handleCancelAdd, handleFormSubmitTeam }) {
 
             <FormControl fullWidth>
               <input
-                className={StyleAddPopUp.input}
+                className={StyleEditPopUp.input}
                 type="file"
                 name="image"
                 id="image"
                 onChange={handleChange}
-                required
               />
             </FormControl>
 
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                bgcolor: "var(--primary-clr)",
-                transition: "background-color 0.3s ease, color 0.3s ease",
-                textTransform: "none",
-                fontWeight: "bold",
-                borderRadius: "20px",
-                "&:hover": {
-                  bgcolor: "var(--third-clr)",
-                  color: "white",
-                },
-              }}
-            >
-              Submit
-            </Button>
+            {/* onClick={handleSaveClick} */}
+
+            <button className={StyleEditPopUp.cancel}>Save</button>
             <button
-              className={StyleAddPopUp.cancel}
+              className={StyleEditPopUp.cancel}
               type="button"
-              onClick={handleCancelAdd}
+              onClick={handleCancelEdit}
             >
               Cancel
             </button>
           </Stack>
         </form>
       </Box>
-    </div>
+    </>
   );
 }
 
-export default AddPopUpTeam;
+export default EditPopUpTeams;
