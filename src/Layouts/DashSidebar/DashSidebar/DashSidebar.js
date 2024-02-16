@@ -3,6 +3,7 @@ import styles from "./DashSidebar.module.css";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
+import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
 import GroupIcon from "@mui/icons-material/Group";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import { GiBabyfootPlayers } from "react-icons/gi";
@@ -45,6 +46,12 @@ const DashSidebar = () => {
       item: "Teams",
       link: "/dashboard/teams",
       icon: <BsMicrosoftTeams />,
+    },
+    {
+      number: 5,
+      item: "Matches",
+      link: "/dashboard/matches",
+      icon: <SportsSoccerIcon />,
     },
   ];
 

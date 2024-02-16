@@ -38,6 +38,48 @@ export const useUsersStore = create((set) => ({
       set({ loading: false });
     }
   },
+  referees: [],
+  getAllReferees: async () => {
+    try {
+      set({ loading: true });
+      const response = await axiosInstance.get("/user/referees");
+      if (response) {
+        // console.log(response.data)
+        set({ referees: response.data, loading: false });
+      }
+    } catch (error) {
+      console.error(error);
+      set({ loading: false });
+    }
+  },
+  watchers: [],
+  getAllWatchers: async () => {
+    try {
+      set({ loading: true });
+      const response = await axiosInstance.get("/user/watchers");
+      if (response) {
+        // console.log(response.data);
+        set({ watchers: response.data, loading: false });
+      }
+    } catch (error) {
+      console.error(error);
+      set({ loading: false });
+    }
+  },
+  linesman: [],
+  getAllLinesman: async () => {
+    try {
+      set({ loading: true });
+      const response = await axiosInstance.get("/user/linesman");
+      if (response) {
+        // console.log(response.data);
+        set({ linesman: response.data, loading: false });
+      }
+    } catch (error) {
+      console.error(error);
+      set({ loading: false });
+    }
+  },
 }));
 
 export const usePlayersStore = create((set) => ({
@@ -82,6 +124,24 @@ export const useTeamsStore = create((set) => ({
       if (response) {
         // console.log(response.data);
         set({ teams: response.data, loading: false });
+      }
+    } catch (error) {
+      console.error(error);
+      set({ loading: false });
+    }
+  },
+}));
+
+export const useMatchesStore = create((set) => ({
+  matches: [],
+  loading: true,
+  getAllMatches: async () => {
+    try {
+      set({ loading: true });
+      const response = await axiosInstance.get("/match");
+      if (response) {
+        // console.log(response.data);
+        set({ matches: response.data, loading: false });
       }
     } catch (error) {
       console.error(error);

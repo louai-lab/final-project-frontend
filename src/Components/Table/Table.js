@@ -4,7 +4,7 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Grid from "@mui/material/Unstable_Grid2";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import StyleTable from './Table.module.css'
+import StyleTable from "./Table.module.css";
 
 const Table = ({
   data,
@@ -56,6 +56,19 @@ const Table = ({
         visibleFields = ["name", "position", "team"];
       } else if (ForWhat === "teams") {
         visibleFields = ["name", "image", "players"];
+      } else if (ForWhat === "matches") {
+        visibleFields = [
+          "title",
+          "season",
+          "pitch",
+          "team_a",
+          "team_b",
+          "referee",
+          "watcher",
+          "linesman_one",
+          "linesman_two",
+          "details",
+        ];
       } else {
         visibleFields = Object.keys(data[0]);
       }
@@ -113,6 +126,57 @@ const Table = ({
             );
           }
 
+          if (field === "team_a") {
+            const { team, score } = params.row.team_a;
+            return `${team.name} (${score})`;
+          }
+          if (field === "team_b") {
+            const { team, score } = params.row.team_b;
+            return `${team.name} (${score})`;
+          }
+
+          if (field === "referee") {
+            return params.row.referee.firstName;
+          }
+          if (field === "watcher") {
+            return params.row.watcher.firstName;
+          }
+          if (field === "linesman_one") {
+            return params.row.linesman_one.firstName;
+          }
+          if (field === "linesman_two") {
+            return params.row.linesman_two.firstName;
+          }
+          // if (field === "details") {
+          //   const detailsObj = params.value || {};
+          //   const details = detailsObj.details || [];
+
+          //   return (
+          //     <div className={StyleTable.scroll}>
+          //       {details.map((item) => (
+          //         <div key={item._id}>
+          //           Type: {item.type}, Team: {item.team.name}, Player In:{" "}
+          //           {item.playerIn.name}, Minute: {item.minute}
+          //           {item.type === "substitution" && (
+          //             <span>, Player Out: {item.playerOut.name}</span>
+          //           )}
+          //         </div>
+          //       ))}
+          //     </div>
+          //   );
+          // }
+
+          if (field === "details") {
+            return (
+              <button
+                className={StyleTable.show}
+                onClick={() => handleEvent(params.value)}
+              >
+                Show Details
+              </button>
+            );
+          }
+
           return params.value;
         },
       }));
@@ -158,8 +222,43 @@ const Table = ({
     }
   }, [ForWhat, buton, data, screenWidth]);
 
+  const [selectedDetails, setSelectedDetails] = useState([]);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+
+  const handleEvent = (details) => {
+    setSelectedDetails(details || []);
+    setIsDetailsModalOpen(true);
+  };
+
   return (
     <>
+      {isDetailsModalOpen && (
+        <>
+          <div
+            className={StyleTable.modal}
+            onClick={() => setIsDetailsModalOpen(false)}
+          ></div>
+          <div className={`${StyleTable.eventDetails}`}>
+            {selectedDetails.details.map((item) => (
+              <div key={item._id} className={StyleTable.singleEvent}>
+                Type: {item.type}, Team: {item.team.name},
+                {item.type === "substitution" ? "Player In: " : "Player: "}
+                {item.playerIn?.name}, Minute: {item.minute}
+                {item.type === "substitution" && (
+                  <span>, Player Out: {item.playerOut.name}</span>
+                )}
+              </div>
+            ))}
+
+            <button
+              onClick={() => setIsDetailsModalOpen(false)}
+              className={StyleTable.exit}
+            >
+              Exit
+            </button>
+          </div>
+        </>
+      )}
       <Box
         sx={{
           height: 707,
