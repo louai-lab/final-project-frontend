@@ -3,8 +3,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 600px;
-    height: 800px;
+    width: 400px;
+    height: fit-content;
     max-height: 800px;
     /* border: none; */
     border: 1px solid black;
@@ -19,6 +19,22 @@
     padding: 2rem;
   }
   
+  .save{
+    background-color: var(--primary-clr);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-transform: none;
+    color: white;
+    padding: 11px;
+    border-radius: 20px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .save:hover{
+    background-color: var(--third-clr);
+  }
+  
   .cancel {
     background-color: var(--third-clr);
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -28,6 +44,7 @@
     border-radius: 20px;
     border: none;
     font-weight: bold;
+    cursor: pointer;
   }
   
   .cancel:hover {

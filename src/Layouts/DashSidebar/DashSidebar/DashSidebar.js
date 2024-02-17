@@ -5,7 +5,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
 import GroupIcon from "@mui/icons-material/Group";
-import LocalMallIcon from "@mui/icons-material/LocalMall";
 import { GiBabyfootPlayers } from "react-icons/gi";
 import { BsMicrosoftTeams } from "react-icons/bs";
 import LogoutIcon from "@mui/icons-material/Logout";

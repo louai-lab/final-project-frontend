@@ -15,7 +15,7 @@ import { Button } from "@mui/material";
 function DashUsers() {
   const [isAddPopUp, setIsAddPopUp] = useState(false);
   const [isEditPopUp, setIsEditPopUp] = useState(false);
-  const [isDeletePopUp, setIsDeletePopUp] = useState(false);
+  // const [isDeletePopUp, setIsDeletePopUp] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const { users } = useUsersStore();
@@ -157,7 +157,8 @@ function DashUsers() {
               left: 0,
               width: "100%",
               height: "100%",
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              // backgroundColor: "rgba(0, 0, 0, 0.5)",
+              backgroundColor: "rgba(0, 0, 0, 0.8)",
               zIndex: 1002,
             }}
             onClick={() => setIsAddPopUp(false)}
@@ -180,7 +181,8 @@ function DashUsers() {
               left: 0,
               width: "100%",
               height: "100%",
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              // backgroundColor: "rgba(0, 0, 0, 0.5)",
+              backgroundColor: "rgba(0, 0, 0, 0.8)",
               zIndex: 1002,
             }}
             onClick={() => setIsEditPopUp(false)}

@@ -3,7 +3,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 80%;
+    width: 50%;
     height: fit-content;
     max-height: 800px;
     /* border: none; */
@@ -20,11 +20,11 @@
   }
 
   .formControl{
-    width: 200px;
+    width: 150px;
   }
   .inputsWrapper{
     display: flex;
-    gap: 53px;
+    gap: 10px;
     flex-wrap: wrap;
   }
   

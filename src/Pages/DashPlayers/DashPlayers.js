@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AddPopUpPlayer from "./AddPopUpPlayer/AddPopUpPlayer.js";
 import StyleDashPlayers from "./DashPlayers.module.css";
-import {usePlayersStore}  from "../../Zustand/Store.js";
+import { usePlayersStore } from "../../Zustand/Store.js";
 import Table from "../../Components/Table/Table.js";
 import axiosInstance from "../../Utils/AxiosInstance.js";
 import { useTeamsStore } from "../../Zustand/Store.js";
@@ -158,7 +158,8 @@ function DashPlayers() {
               left: 0,
               width: "100%",
               height: "100%",
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              // backgroundColor: "rgba(0, 0, 0, 0.5)",
+              backgroundColor: "rgba(0, 0, 0, 0.8)",
               zIndex: 1002,
             }}
             onClick={() => setIsAddPopUp(false)}
@@ -181,7 +182,8 @@ function DashPlayers() {
               left: 0,
               width: "100%",
               height: "100%",
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              // backgroundColor: "rgba(0, 0, 0, 0.5)",
+              backgroundColor: "rgba(0, 0, 0, 0.8)",
               zIndex: 1002,
             }}
             onClick={() => setIsEditPopUp(false)}

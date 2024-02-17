@@ -3,10 +3,10 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 400px;
+  width: 50%;
   height: fit-content;
   max-height: 800px;
-  border: none;
+  /* border: none; */
   border: 1px solid black;
   border-radius: 10px;
   background-color: white;
@@ -19,6 +19,31 @@
   padding: 2rem;
 }
 
+.formControl {
+  width: 150px;
+}
+.inputsWrapper {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.save {
+  background-color: var(--primary-clr);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  text-transform: none;
+  color: white;
+  padding: 11px;
+  border-radius: 20px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.save:hover {
+  background-color: var(--third-clr);
+}
+
 .cancel {
   background-color: var(--third-clr);
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -28,19 +53,12 @@
   border-radius: 20px;
   border: none;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .cancel:hover {
   background-color: var(--primary-clr);
   color: white;
-}
-
-.eyeIcon {
-  position: absolute;
-  top: 55%;
-  right: 10px;
-  transform: translateY(-50%);
-  cursor: pointer;
 }
 
 @media screen and (max-width: 900px) {

@@ -142,6 +142,7 @@ function AddPopUp({ handleCancelAdd , handleFormSubmit }) {
                 name="role"
                 value={formData.role}
                 onChange={handleChange}
+                required
               >
                 <MenuItem
                   value="admin"
@@ -171,6 +172,7 @@ function AddPopUp({ handleCancelAdd , handleFormSubmit }) {
                 name="image"
                 id="image"
                 onChange={handleChange}
+                required
               />
             </FormControl>
 

@@ -13,7 +13,7 @@ import StyleAddPopUp from "./AddPopUpPlayer.module.css";
 import { useTeamsStore } from "../../../Zustand/Store";
 
 function AddPopUp({ handleCancelAdd, handleFormSubmitPlayer }) {
-  const [isAddPopUp, setIsAddPopUp] = useState(false);
+  // const [isAddPopUp, setIsAddPopUp] = useState(false);
   const { teams } = useTeamsStore();
   const [formData, setFormData] = useState({
     name: "",
@@ -108,6 +108,7 @@ function AddPopUp({ handleCancelAdd, handleFormSubmitPlayer }) {
                   name="team"
                   value={formData.team}
                   onChange={handleChange}
+                  required
                 >
                   {teams.map((team) => (
                     <MenuItem

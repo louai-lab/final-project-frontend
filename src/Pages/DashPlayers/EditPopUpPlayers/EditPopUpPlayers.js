@@ -133,7 +133,7 @@ function EditPopUpPlayers({ selectedRowData, handleCancelEdit, handleSave }) {
               </Select>
             </FormControl>
 
-            <button className={StyleEditPopUp.cancel} onClick={handleSaveClick}>
+            <button className={StyleEditPopUp.save} onClick={handleSaveClick}>
               Save
             </button>
             <button

@@ -61,6 +61,7 @@ const Table = ({
           "title",
           "season",
           "pitch",
+          "match_date",
           "team_a",
           "team_b",
           "referee",
@@ -147,24 +148,6 @@ const Table = ({
           if (field === "linesman_two") {
             return params.row.linesman_two.firstName;
           }
-          // if (field === "details") {
-          //   const detailsObj = params.value || {};
-          //   const details = detailsObj.details || [];
-
-          //   return (
-          //     <div className={StyleTable.scroll}>
-          //       {details.map((item) => (
-          //         <div key={item._id}>
-          //           Type: {item.type}, Team: {item.team.name}, Player In:{" "}
-          //           {item.playerIn.name}, Minute: {item.minute}
-          //           {item.type === "substitution" && (
-          //             <span>, Player Out: {item.playerOut.name}</span>
-          //           )}
-          //         </div>
-          //       ))}
-          //     </div>
-          //   );
-          // }
 
           if (field === "details") {
             return (
@@ -174,6 +157,27 @@ const Table = ({
               >
                 Show Details
               </button>
+            );
+          }
+          if (field === "match_date") {
+            const matchDate = new Date(`${params.value}`);
+
+            const options = {
+              weekday: "long",
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "numeric",
+              minute: "numeric",
+              hour12: true,
+              timeZone: "UTC",
+            };
+
+            const formattedDate = matchDate.toLocaleString("en-US", options);
+
+            params.row.formattedDate = formattedDate;
+            return (
+              <div className={StyleTable.scrollableDate}>{formattedDate}</div>
             );
           }
 
@@ -249,7 +253,7 @@ const Table = ({
                 )}
               </div>
             ))}
-
+            <h1>{selectedDetails.details.length === 0 && "No events yet."}</h1>
             <button
               onClick={() => setIsDetailsModalOpen(false)}
               className={StyleTable.exit}
