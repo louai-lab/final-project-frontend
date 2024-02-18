@@ -1,10 +1,9 @@
-import React , {useEffect , useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import StyleHome from "./Home.module.css";
 import firstTeam from "../../Assets/icons/Ellipse 6.svg";
 import secondTeam from "../../Assets/icons/Ellipse 8.svg";
 import { Reveal } from "../../Frammotion/RevealAnimation";
 import Typed from "typed.js";
-
 
 function Home() {
   const matches = [
@@ -39,9 +38,9 @@ function Home() {
       typeSpeed: 50,
       backSpeed: 50,
       loop: true,
-      css:{
-        color:"red"
-      }
+      css: {
+        color: "red",
+      },
     });
 
     return () => {
@@ -60,11 +59,7 @@ function Home() {
           <h1 style={{ color: "white" }}>FIXTURES</h1>
           <div className={StyleHome.fixtureContainer}>
             {matches.map((match, index) => (
-              <Reveal
-                initial={{ opacity: 0, x: -100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 100 }}
-              >
+              <Reveal>
                 <div key={index} className={StyleHome.fixture}>
                   <div className={StyleHome.info}>
                     <p className={StyleHome.title}>{match.title}</p>

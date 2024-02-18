@@ -90,20 +90,6 @@ function DashMatches() {
     setIsEditPopUp(false);
   };
 
-  // const handleEditSave = async (id, formData) => {
-  //   try {
-  //     const response = await axiosInstance.patch(
-  //       `/match/update/${id}`,
-  //       formData
-  //     );
-  //     if (response) {
-  //       console.log("Match updated successfully:", response.data);
-  //     }
-  //     setIsEditPopUp(false);
-  //   } catch (error) {
-  //     console.log("Error updating player:", error);
-  //   }
-  // };
   const handleEditSave = async (id, formData) => {
     try {
       const response = await axiosInstance.patch(
@@ -158,7 +144,6 @@ function DashMatches() {
             };
           });
         }
-
       }
       setIsEditPopUp(false);
     } catch (error) {

@@ -9,7 +9,7 @@
   align-items: center;
   column-gap: 200px;
   height: 100vh;
-  background: linear-gradient(to bottom, #e0270b, #040c12);
+  background: linear-gradient(to bottom, #e0270b, #000000);
   font-family: var(--font-family);
   /* width: 100%; */
 }

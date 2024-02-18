@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route , Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "../Pages/Home/Home.js";
 import Login from "../Pages/Login/Login.js";
 import Matches from "../Pages/Matches/Matches.js";
@@ -40,7 +40,8 @@ function AppRoutes() {
               <DashOutlet />
             </ProtectedRoute>
           ) : (
-            <Navigate to="/notfound" />
+            // <Navigate to="/notfound" />
+            <Navigate to="/" />
           )
         }
       >

@@ -15,13 +15,17 @@
 .navBar {
   width: 95%;
   /* background-color: black; */
-  margin: 0 auto;
-  padding: 10px 0;
+  margin: 10px auto;
+  /* padding: 5px 0; */
   display: flex;
   justify-content: space-between;
   align-items: center;
   overflow: hidden;
-  /* background-color: black; */
+  padding: 5px 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  /* background-color: red; */
+  border-radius: 80px;
+
 }
 .logoContainer {
   transition: 0.3s opacity ease-in-out;
@@ -92,22 +96,20 @@
 
 .linksWrapperMobile {
   background-color: rgba(167, 197, 217, 0.8);
+  backdrop-filter: blur(5px);
   position: absolute;
   width: 100%;
   height: 0;
-  top: 100px;
+  top: 105px;
   display: flex;
   flex-direction: column;
-  row-gap: 10px;
+  justify-content: center;
+  row-gap: 15px;
   list-style: none;
   transition: 0.2s height ease-in-out;
   margin: 0;
   padding: 0;
   overflow: hidden;
-}
-
-.linksWrapperMobile.activeNav {
-  height: 200px;
 }
 
 /* Your existing styles for .circle */
@@ -154,7 +156,7 @@
 }
 
 .linksWrapperMobile.activeNav {
-  height: 120px;
+  height: 150px;
 }
 
 @media screen and (max-width: 600px) {

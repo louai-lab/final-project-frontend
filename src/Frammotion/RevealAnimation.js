@@ -38,13 +38,13 @@ export const Reveal = ({ children }) => {
         animate={slideControls}
         transition={{ duration: 0.5, ease: "easeOut" }}
         style={{
-          position: "absolute",
+          // position: "absolute",
           top: 4,
           bottom: 4,
           left: 0,
           right: 0,
           background: "var(--brand)",
-          zIndex: 20,
+          // zIndex: 20,
         }}
       />
     </div>

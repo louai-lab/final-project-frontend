@@ -2,13 +2,13 @@
   /* overflow-x: auto; */
 }
 
-.association{
-    color: white;
-    font-size: 3rem;
-    height: 60px;
-    /* background-color: blue; */
-    width: 100%;
-    word-wrap: break-word;
+.association {
+  color: white;
+  font-size: 3rem;
+  height: 60px;
+  /* background-color: blue; */
+  width: 100%;
+  word-wrap: break-word;
 }
 
 .HeroSection {
@@ -51,8 +51,13 @@
   flex-direction: column;
   justify-content: center;
   row-gap: 40px;
-  
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(5px);
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Option 3: Scale up more on hover */
+.fixture:hover {
+  transform: scale(1.2);
 }
 
 .info {
@@ -87,6 +92,7 @@
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
+  row-gap: 10px;
   align-items: center;
   width: 100px;
   height: 100px;
@@ -97,31 +103,31 @@
     flex-direction: column;
     row-gap: 30px;
   }
-  .association{
-    width:100% ;
+  .association {
+    width: 100%;
     font-size: 2rem;
     height: 10px;
   }
 }
 
 @media screen and (max-width: 500px) {
-    .association{
-        font-size: 2rem;
-    }
+  .association {
+    font-size: 2rem;
   }
+}
 
-  @media screen and (max-width: 450px) {
-    .association{
-        font-size: 1.7rem;
-        width: 100%;
-    }
-  }
-
-@media screen and (max-width: 400px) {
-  .fixture{
+@media screen and (max-width: 450px) {
+  .association {
+    font-size: 1.7rem;
     width: 100%;
   }
-  .association{
+}
+
+@media screen and (max-width: 400px) {
+  .fixture {
+    width: 100%;
+  }
+  .association {
     display: none;
   }
 }
