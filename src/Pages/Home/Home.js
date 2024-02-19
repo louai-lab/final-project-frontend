@@ -59,38 +59,32 @@ function Home() {
           <h1 style={{ color: "white" }}>FIXTURES</h1>
           <div className={StyleHome.fixtureContainer}>
             {matches.map((match, index) => (
-              <Reveal>
-                <div key={index} className={StyleHome.fixture}>
-                  <div className={StyleHome.info}>
-                    <p className={StyleHome.title}>{match.title}</p>
-                    <p className={StyleHome.time}>{match.time}</p>
-                    <p className={StyleHome.stadium}>{match.stadium}</p>
+              <div key={index} className={StyleHome.fixture}>
+                <div className={StyleHome.info}>
+                  <p className={StyleHome.title}>{match.title}</p>
+                  <p className={StyleHome.time}>{match.time}</p>
+                  <p className={StyleHome.stadium}>{match.stadium}</p>
+                </div>
+                <div className={StyleHome.teams}>
+                  <div className={StyleHome.oneTeam}>
+                    <img
+                      src={firstTeam}
+                      alt={`Logo of ${match.teams[0].name}`}
+                      style={{ width: "70px" }}
+                    />
+                    <p className={StyleHome.teamName}>{match.teams[0].name}</p>
                   </div>
-                  <div className={StyleHome.teams}>
-                    <div className={StyleHome.oneTeam}>
-                      <img
-                        src={firstTeam}
-                        alt={`Logo of ${match.teams[0].name}`}
-                        style={{ width: "70px" }}
-                      />
-                      <p className={StyleHome.teamName}>
-                        {match.teams[0].name}
-                      </p>
-                    </div>
-                    <p style={{ fontWeight: "bold" }}>VS</p>
-                    <div className={StyleHome.oneTeam}>
-                      <img
-                        src={secondTeam}
-                        alt={`Logo of ${match.teams[1].name}`}
-                        style={{ width: "70px" }}
-                      />
-                      <p className={StyleHome.teamName}>
-                        {match.teams[1].name}
-                      </p>
-                    </div>
+                  <p style={{ fontWeight: "bold" }}>VS</p>
+                  <div className={StyleHome.oneTeam}>
+                    <img
+                      src={secondTeam}
+                      alt={`Logo of ${match.teams[1].name}`}
+                      style={{ width: "70px" }}
+                    />
+                    <p className={StyleHome.teamName}>{match.teams[1].name}</p>
                   </div>
                 </div>
-              </Reveal>
+              </div>
             ))}
           </div>
         </div>

@@ -55,9 +55,8 @@
   transition: transform 0.3s ease-in-out;
 }
 
-/* Option 3: Scale up more on hover */
 .fixture:hover {
-  transform: scale(1.2);
+  transform: scale(1.05);
 }
 
 .info {

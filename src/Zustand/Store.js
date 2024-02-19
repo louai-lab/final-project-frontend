@@ -148,4 +148,17 @@ export const useMatchesStore = create((set) => ({
       set({ loading: false });
     }
   },
+  lastMatch: {} ,
+  getLastMatch: async () => {
+    try {
+      set({loading:true});
+      const response = await axiosInstance.get('/match/getlastcreatedmatch');
+      if(response){
+        set({lastMatch:response.data , loading:false})
+      }
+    } catch (error) {
+      console.error(error);
+      set({ loading: false });
+    }
+  },
 }));
