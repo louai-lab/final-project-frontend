@@ -22,6 +22,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/network_error" element={<NetworkError />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/*" element={<NotFound />} />
       <Route element={<ProtectedRoute isAllowed={user} />}>
         <Route path="/" element={<WebOutlet />}>
           <Route index element={<Home />} />
@@ -49,9 +50,10 @@ function AppRoutes() {
         <Route path="/dashboard/players" exact element={<DashPlayers />} />
         <Route path="/dashboard/teams" exact element={<DashTeams />} />
         <Route path="/dashboard/matches" exact element={<DashMatches />} />
-        <Route path="/dashboard/*" exact element={<NotFound />} />
+        
       </Route>
       <Route path="/*" exact element={<NotFound />} />
+      <Route path="/dashboard/*" exact element={<NotFound />} />
     </Routes>
   );
 }

@@ -34,7 +34,7 @@ function Navbar() {
       <nav className={Styles.navBar}>
         <NavLink
           // className={Styles.logoContainer}
-          to="/"
+          to="/home"
           aria-label="Go to homepage"
         >
           <img
@@ -47,7 +47,7 @@ function Navbar() {
         <ul className={Styles.linksWrapper}>
           <li>
             <NavLink
-              to="/"
+              to="/home"
               className={({ isActive, isPending }) =>
                 isPending ? "pending" : isActive ? Styles.active : ""
               }

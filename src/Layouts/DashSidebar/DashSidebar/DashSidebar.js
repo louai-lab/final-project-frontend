@@ -18,7 +18,7 @@ const DashSidebar = () => {
   const navigate = useNavigate();
   // const {logOut} = useContext(AuthContext)
   const ReturnHome = () => {
-    navigate("/");
+    navigate("/home");
   };
 
   const handleItemClick = (item) => {

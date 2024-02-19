@@ -2,7 +2,7 @@ import { create } from "zustand";
 import axiosInstance from "../Utils/AxiosInstance";
 
 export const useUserStore = create((set) => ({
-  user: null,
+  user: {},
   loading: true,
   users: [],
   setUser: (data) => set(() => ({ user: data })),
@@ -132,6 +132,8 @@ export const useTeamsStore = create((set) => ({
   },
 }));
 
+// console.log(user)
+
 export const useMatchesStore = create((set) => ({
   matches: [],
   loading: true,
@@ -148,13 +150,29 @@ export const useMatchesStore = create((set) => ({
       set({ loading: false });
     }
   },
-  lastMatch: {} ,
+  lastMatch: {},
   getLastMatch: async () => {
     try {
-      set({loading:true});
-      const response = await axiosInstance.get('/match/getlastcreatedmatch');
-      if(response){
-        set({lastMatch:response.data , loading:false})
+      set({ loading: true });
+      const response = await axiosInstance.get("/match/getlastcreatedmatch");
+      if (response) {
+        set({ lastMatch: response.data, loading: false });
+      }
+    } catch (error) {
+      console.error(error);
+      set({ loading: false });
+    }
+  },
+  lastMatchByWatcher: {},
+  getLastMatchByWatcher: async (id) => {
+    try {
+      set({ loading: true });
+      const response = await axiosInstance.get(
+        `/match/getlastcreatedmatchbywatcher/${id}`
+      );
+      if (response) {
+        console.log(response.data)
+        set({ lastMatchByWatcher: response.data, loading: false });
       }
     } catch (error) {
       console.error(error);
