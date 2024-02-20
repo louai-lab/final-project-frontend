@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import "./App.css";
 import AppRoutes from "./Routes/AppRoutes";
 import { useUserStore } from "./Zustand/Store";
@@ -22,8 +22,11 @@ function App() {
   const { getAllPlayersNoTeam } = usePlayersStore();
   const { getAllTeams } = useTeamsStore();
   const { getAllMatches } = useMatchesStore();
+  const { getAllMatchesByWatcher } = useMatchesStore();
+  const { getAllMatchesByReferee } = useMatchesStore();
   const { getLastMatch } = useMatchesStore();
   const { getLastMatchByWatcher } = useMatchesStore();
+  const { getLastMatchByReferee } = useMatchesStore();
 
   // console.log(user);
   useEffect(() => {
@@ -36,8 +39,11 @@ function App() {
     getAllPlayersNoTeam();
     getAllTeams();
     getAllMatches();
+    getAllMatchesByWatcher();
+    getAllMatchesByReferee();
     getLastMatch();
-    getLastMatchByWatcher(user.userId);
+    getLastMatchByWatcher();
+    getLastMatchByReferee();
   }, []);
 
   return loading ? (

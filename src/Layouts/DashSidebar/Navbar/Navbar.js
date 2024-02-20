@@ -9,7 +9,6 @@ function Navbar() {
   const { user } = useUserStore();
   // console.log(user.image)
   const [collapesed, setCollapsed] = useState(false);
-  
 
   useEffect(() => {
     function updateSize() {
@@ -48,6 +47,7 @@ function Navbar() {
           <li>
             <NavLink
               to="/home"
+              exact
               className={({ isActive, isPending }) =>
                 isPending ? "pending" : isActive ? Styles.active : ""
               }

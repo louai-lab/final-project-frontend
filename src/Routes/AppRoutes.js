@@ -28,7 +28,7 @@ function AppRoutes() {
           <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/matches" element={<Matches />} />
-          <Route path="/singlematch" element={<SingleMatch />} />
+          <Route path="/match/:matchId" element={<SingleMatch />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
       </Route>

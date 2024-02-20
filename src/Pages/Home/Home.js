@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import StyleHome from "./Home.module.css";
 import firstTeam from "../../Assets/icons/Ellipse 6.svg";
 import secondTeam from "../../Assets/icons/Ellipse 8.svg";
-import { Reveal } from "../../Frammotion/RevealAnimation";
 import Typed from "typed.js";
 
 function Home() {

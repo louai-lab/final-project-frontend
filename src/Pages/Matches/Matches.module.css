@@ -1,8 +1,9 @@
 .matchesContainer {
-  margin: 110px 3%;
+  /* margin: 110px 3%; */
   margin: 0 auto;
-  color: black;
+  color: white;
   font-size: clamp(14px, 5vw, 24px);
+  background-color: #1f1d2b;
   /* background-color: rgba(242, 240, 240, 0.5); */
   /* display: flex;
   flex-direction: column; */
@@ -53,6 +54,20 @@
   height: 15rem;
 }
 
+.vs {
+  background-color: rgb(255, 0, 102);
+  width: fit-content;
+  padding: 5px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+  transform: rotate(-10deg);
+  font-size: 80%;
+  position: absolute;
+  top: 38%;
+  left: 50%;
+}
+
 .stadium {
   display: flex;
   column-gap: 5px;
@@ -66,25 +81,34 @@
 .cardsContainer {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  column-gap: 10px;
+  justify-content: space-around;
+  column-gap: 0px;
   row-gap: 10px;
-  margin: 20px;
+  /* margin-top: 20px; */
 }
 
 .cardMatch {
   width: 20rem;
-  /* background-color: rgba(51, 49, 49, 0.5); */
   border-radius: 20px;
   backdrop-filter: blur(10px);
+  background-color: #282633;
   padding: 10px;
-  border: 1px solid grey;
   display: flex;
   flex-direction: column;
   /* row-gap: 10px; */
+  /* transition: transform 0.3s ease; */
 }
 
-.aboveHr{
+.cardMatch:hover {
+  cursor: pointer;
+  /* transform: scale(1.05); */
+}
+
+.cardTitle {
+  color: grey;
+}
+
+.aboveHr {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -92,16 +116,14 @@
   margin-bottom: 10px;
 }
 
-.aboveHr:hover{
-  cursor: pointer;
-}
-
-.cardImages{
+.cardImages {
   display: flex;
+  column-gap: 10px;
   align-items: center;
-  background-color: red;
+  /* background-color: red; */
+  background-color: #3b3946;
   width: fit-content;
-  padding: 5px;
+  padding: 10px;
   border-radius: 40px;
 }
 
@@ -110,22 +132,50 @@
   height: 40px;
 }
 
-.oneTeamScore{
+.oneTeamScore {
   display: flex;
   justify-content: space-between;
 }
 
-.employees{
+.employees {
   display: flex;
   align-items: center;
   padding: 5px 0px;
 }
 
-.imageEmployees{
+.imageEmployees {
   width: 30px;
   height: 30px;
   border-radius: 50%;
 }
+
+.centerContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  margin: 0 auto
+}
+
+.football {
+  width: 250px; 
+  height: 250px; 
+  background-image: url('../../Assets/icons/football.png'); 
+  background-size: cover; 
+  background-repeat: no-repeat; 
+  background-position: center; 
+  border-radius: 50%;
+  animation: spin 3s infinite linear;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 
 @media screen and (max-width: 1000px) {
   .teamsImage {

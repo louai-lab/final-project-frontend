@@ -1,8 +1,8 @@
-import { create } from "zustand";
+import { create } from "zustand"; 
 import axiosInstance from "../Utils/AxiosInstance";
 
 export const useUserStore = create((set) => ({
-  user: {},
+  user: null,
   loading: true,
   users: [],
   setUser: (data) => set(() => ({ user: data })),
@@ -142,7 +142,6 @@ export const useMatchesStore = create((set) => ({
       set({ loading: true });
       const response = await axiosInstance.get("/match");
       if (response) {
-        // console.log(response.data);
         set({ matches: response.data, loading: false });
       }
     } catch (error) {
@@ -150,6 +149,42 @@ export const useMatchesStore = create((set) => ({
       set({ loading: false });
     }
   },
+  matchesByWatcher: [],
+  getAllMatchesByWatcher: async () => {
+    try {
+      set({ loading: true });
+      const response = await axiosInstance.get(
+        "/match/matchesbywatcher"
+      );
+      if (response) {
+        // console.log(response.data);
+        set({ matchesByWatcher: response.data, loading: false });
+      }
+    } catch (error) {
+      console.error(error);
+      set({ loading: false });
+    }
+  },
+
+  matchesByReferee: [],
+  getAllMatchesByReferee: async () => {
+    try {
+      set({ loading: true });
+      const response = await axiosInstance.get(
+        "/match/matchesbyreferee"
+      );
+      if (response) {
+        // console.log(response.data);
+        set({ matchesByReferee: response.data, loading: false });
+      }
+    } catch (error) {
+      console.error(error);
+      set({ loading: false });
+    }
+  },
+
+
+
   lastMatch: {},
   getLastMatch: async () => {
     try {
@@ -164,18 +199,34 @@ export const useMatchesStore = create((set) => ({
     }
   },
   lastMatchByWatcher: {},
-  getLastMatchByWatcher: async (id) => {
+  getLastMatchByWatcher: async () => {
     try {
       set({ loading: true });
       const response = await axiosInstance.get(
-        `/match/getlastcreatedmatchbywatcher/${id}`
+        `/match/getlastcreatedmatchbywatcher`
       );
       if (response) {
-        console.log(response.data)
+        // console.log(response.data)
         set({ lastMatchByWatcher: response.data, loading: false });
       }
     } catch (error) {
       console.error(error);
+      set({ loading: false });
+    }
+  },
+  lastMatchByReferee: {},
+  getLastMatchByReferee: async () => {
+    try {
+      set({ loading: true });
+      const response = await axiosInstance.get(
+        `/match/getlastcreatedmatchbyreferee`
+      );
+      if (response) {
+        // console.log(response.data)
+        set({ lastMatchByReferee: response.data, loading: false });
+      }
+    } catch (error) {
+      console.log(error);
       set({ loading: false });
     }
   },
