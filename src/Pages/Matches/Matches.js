@@ -6,9 +6,10 @@ import logo from "../../Assets/icons/Lebanese_Football_Association_(LFA)_logo.sv
 import StadiumIcon from "@mui/icons-material/Stadium";
 import { Reveal } from "../../Frammotion/RevealAnimation";
 import FootballLoader from "../FootballLoader/FootballLoader";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function Matches() {
+function Matches({ match }) {
+  const navigate = useNavigate();
   const { user } = useUserStore();
   const { lastMatch } = useMatchesStore();
   const { lastMatchByWatcher } = useMatchesStore();
@@ -16,23 +17,6 @@ function Matches() {
   const { loading, matches } = useMatchesStore();
   const { matchesByWatcher } = useMatchesStore();
   const { matchesByReferee } = useMatchesStore();
-
-  // const FootballLoader = () => {
-  //   const props = useSpring({
-  //     loop: true,
-  //     from: { transform: "rotate(0deg)" },
-  //     to: { transform: "rotate(360deg)" },
-  //   });
-
-  //   return (
-  //     <div className={StyleMatches.centerContainer}>
-  //       <animated.div className={StyleMatches.football} style={props} />
-  //       <h1>Loading...</h1>
-  //     </div>
-  //   );
-  // };
-
-  // console.log(matchesByReferee);
 
   let selectedMatch;
   let selectedMatches;
@@ -50,6 +34,16 @@ function Matches() {
     selectedMatch = null;
   }
 
+  const handleMatchClick = (match) => {
+    // console.log("Match object before navigation:", match);
+
+    if (match && match._id) {
+      navigate(`/match`, { state: { match } });
+    } else {
+      console.error("Match object is undefined or missing properties.");
+    }
+  };
+
   return (
     <>
       {loading && (
@@ -62,8 +56,8 @@ function Matches() {
           <section className={StyleMatches.lastMatch}>
             <img
               src={logo}
-              width={100}
-              height={80}
+              width={80}
+              height={60}
               alt="Lebanese Football Association"
             />
             <p>{selectedMatch.title}</p>
@@ -101,7 +95,10 @@ function Matches() {
           {selectedMatches.map((match) => {
             return (
               <Reveal key={match._id}>
-                <Link to={`/match/${match._id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                <button
+                  className={`${StyleMatches.navigate} ${StyleMatches.buttonReset}`}
+                  onClick={() => handleMatchClick(match)}
+                >
                   <article key={match._id} className={StyleMatches.cardMatch}>
                     <article className={StyleMatches.aboveHr}>
                       <section className={StyleMatches.cardImages}>
@@ -202,7 +199,7 @@ function Matches() {
                       />
                     </section>
                   </article>
-                </Link>
+                </button>
               </Reveal>
             );
           })}

@@ -1,12 +1,8 @@
 .matchesContainer {
-  /* margin: 110px 3%; */
   margin: 0 auto;
   color: white;
   font-size: clamp(14px, 5vw, 24px);
-  background-color: #1f1d2b;
-  /* background-color: rgba(242, 240, 240, 0.5); */
-  /* display: flex;
-  flex-direction: column; */
+  background-color: #1e1843;
 }
 
 .matchesHeroSection {
@@ -18,7 +14,7 @@
   justify-content: center;
   align-items: center;
   row-gap: 10px;
-  background-image: url("../../Assets/icons/Rectangle\ 36.svg");
+  background-image: url("../../Assets/icons/footer.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -84,19 +80,16 @@
   justify-content: space-around;
   column-gap: 0px;
   row-gap: 10px;
-  /* margin-top: 20px; */
 }
 
 .cardMatch {
   width: 20rem;
   border-radius: 20px;
   backdrop-filter: blur(10px);
-  background-color: #282633;
+  background-color: #302f3a;
   padding: 10px;
   display: flex;
   flex-direction: column;
-  /* row-gap: 10px; */
-  /* transition: transform 0.3s ease; */
 }
 
 .cardMatch:hover {
@@ -156,16 +149,16 @@
   align-items: center;
   height: 100vh;
   width: 100%;
-  margin: 0 auto
+  margin: 0 auto;
 }
 
 .football {
-  width: 250px; 
-  height: 250px; 
-  background-image: url('../../Assets/icons/football.png'); 
-  background-size: cover; 
-  background-repeat: no-repeat; 
-  background-position: center; 
+  width: 250px;
+  height: 250px;
+  background-image: url("../../Assets/icons/football.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   border-radius: 50%;
   animation: spin 3s infinite linear;
 }
@@ -176,6 +169,10 @@
   }
 }
 
+/* StyleMatches.css */
+.buttonReset {
+  all: unset;
+}
 
 @media screen and (max-width: 1000px) {
   .teamsImage {
@@ -189,6 +186,10 @@
     width: 6rem;
     height: 6rem;
   }
+  .vs {
+    font-size: 40%;
+    top: 38%;
+  }
 }
 
 @media screen and (max-width: 350px) {
@@ -198,5 +199,11 @@
   }
   .twoTeams {
     column-gap: 0px;
+  }
+  .cardMatch {
+    width: 16rem;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
   }
 }

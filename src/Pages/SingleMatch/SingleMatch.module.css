@@ -1,0 +1,131 @@
+.matchContainer {
+  margin: 0 auto;
+  color: white;
+  font-size: clamp(20px, 12vw, 30px);
+}
+
+.matchHeroSection {
+  color: white;
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  row-gap: 10px;
+  /* background-image: url("../../Assets/icons/santiago.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat; */
+}
+
+.matchHeroSection::before,
+.matchHeroSection::after {
+  content: "";
+  position: absolute;
+  height: 70vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("../../Assets/icons/santiago.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(5px);
+  z-index: -1;
+}
+
+.matchHeroSection::before {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 calc(50% - 1px));
+}
+
+.matchHeroSection::after {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 calc(50% + 1px));
+}
+
+.live {
+  color: black;
+}
+
+.position {
+  position: absolute;
+  top: 63%;
+}
+
+.tabContainer {
+  display: flex;
+  column-gap: 20px;
+  margin: 0 auto;
+}
+
+.liveContainer {
+  width: 100vw;
+  background-color: rgb(208, 251, 237);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.lineContainer {
+  width: 100vw;
+  background-color: rgb(208, 251, 237);
+}
+
+.statsContainer {
+  width: 100vw;
+  background-color: rgb(208, 251, 237);
+}
+
+.cardImage {
+  width: 15rem;
+  height: 15rem;
+}
+
+.teamA {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 20px;
+}
+
+.teamA > h1 {
+    font-size: clamp(10px, 6vw, 20px);
+}
+
+.result {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  column-gap: 5px;
+  width: fit-content;
+  height: 100px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.646);
+}
+
+@media screen and (max-width: 1000px) {
+  .cardImage {
+    width: 10rem;
+    height: 10rem;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .cardImage {
+    width: 6rem;
+    height: 6rem;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .cardImage {
+    width: 4rem;
+    height: 4rem;
+  }
+  .result{
+    height: 60px;
+    padding: 5px;
+  }
+}

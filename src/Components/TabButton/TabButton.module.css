@@ -1,0 +1,20 @@
+.tab{
+    /* color: red; */
+    color: white;
+    padding: 7px;
+    /* font-size: clamp(5px , 5rem , 24px); */
+    border: none;
+    background-color: transparent;
+    font-size: clamp(16px, 8vw, 20px);
+}
+
+.tab:hover{
+    cursor: pointer;
+}
+
+.activeTab{
+    /* color: red; */
+    border-bottom: 5px solid white;
+    font-weight: bold;
+
+}
