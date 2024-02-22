@@ -47,7 +47,7 @@ function Login() {
         setUser(response.data);
         // localStorage.setItem("userData", JSON.stringify(response.data));
         console.log(response.data);
-        return navigate("/home", { replace: true });
+        return navigate("/", { replace: true });
       }
     } catch (error) {
       console.log(error);

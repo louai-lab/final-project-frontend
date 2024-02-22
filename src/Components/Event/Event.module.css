@@ -1,0 +1,108 @@
+.popUpContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.3));
+  width: 400px;
+  height: fit-content;
+  max-height: 800px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 7px 7px 60px rgba(0, 0, 0, 0.1);
+  color: white;
+  z-index: 1003;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  font-family: var(--font-family);
+}
+
+.eventH1 {
+  text-transform: uppercase;
+  font-size: 2em;
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.control input {
+  width: 100%;
+  display: block;
+  padding: 10px;
+  color: #222;
+  border: none;
+  outline: none;
+  margin: 1em 0;
+}
+
+.select {
+  width: 100%;
+  display: block;
+  padding: 10px;
+  color: #222;
+  border: none;
+  outline: none;
+  margin: 1em 0;
+}
+
+.select option {
+  background-color: #fff; /* Background color of each option */
+  color: #333; /* Text color of each option */
+  padding: 10px;
+  border: 1px solid #ccc; /* Border of each option */
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.select option:hover {
+  background-color: #f0f0f0; /* Background color when hovering over an option */
+}
+
+.addEvent {
+  width: 100%;
+  display: block;
+  padding: 10px;
+  border: none;
+  outline: none;
+  margin: 1em 0;
+  background-color: var(--primary-clr);
+  color: #fff;
+  text-transform: uppercase;
+  /* font-size: 1.2em; */
+  font-size: clamp(5px, 4vw, 20px);
+  font-weight: bold;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.addEvent:hover {
+  opacity: 1;
+}
+
+.cancelEvent {
+  width: 100%;
+  display: block;
+  padding: 10px;
+  border: none;
+  outline: none;
+  margin: 1em 0;
+  background-color: var(--third-clr);
+  color: #fff;
+  text-transform: uppercase;
+  /* font-size: 1.2em; */
+  font-size: clamp(5px, 4vw, 20px);
+  font-weight: bold;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.cancelEvent:hover {
+  opacity: 1;
+}
+
+@media screen and (max-width: 500px) {
+  .popUpContainer {
+    width: 90%;
+  }
+}

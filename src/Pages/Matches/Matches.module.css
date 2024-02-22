@@ -78,7 +78,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  column-gap: 0px;
+  column-gap: 20px;
   row-gap: 10px;
 }
 
@@ -192,6 +192,13 @@
   }
 }
 
+@media screen and (max-width : 500px) {
+  .cardMatch{
+    width: 20rem;
+  }
+}
+
+
 @media screen and (max-width: 350px) {
   .teamsImage {
     width: 4rem;
@@ -201,9 +208,15 @@
     column-gap: 0px;
   }
   .cardMatch {
-    width: 16rem;
+    width: 18rem;
     padding: 8px;
     display: flex;
     flex-direction: column;
+  }
+}
+
+@media screen and (max-width:300px) {
+  .cardMatch{
+    width: 15rem;
   }
 }

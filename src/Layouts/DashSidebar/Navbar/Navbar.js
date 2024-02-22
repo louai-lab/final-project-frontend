@@ -102,7 +102,7 @@ function Navbar() {
         <ul className={toggleClasses}>
           <li>
             <NavLink
-              to="/home"
+              to="/"
               onClick={() => setCollapsed(false)}
               className={({ isActive, isPending }) =>
                 isPending ? "pending" : isActive ? Styles.active : ""
