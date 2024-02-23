@@ -97,7 +97,7 @@ function Login() {
                   </div>
                 </div>
                 <div className={StyleLogin.btn}>
-                  <button className={StyleLogin.oauth} onClick={handleLogin}>
+                  <button className={StyleLogin.login} onClick={handleLogin}>
                     Login
                   </button>
                 </div>

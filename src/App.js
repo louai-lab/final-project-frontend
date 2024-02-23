@@ -30,6 +30,7 @@ function App() {
 
   // console.log(user);
   useEffect(() => {
+    console.log('enter useefect' , user)
     getUser();
     getAllUsers();
     getAllReferees();
@@ -39,11 +40,17 @@ function App() {
     getAllPlayersNoTeam();
     getAllTeams();
     getAllMatches();
-    getAllMatchesByWatcher();
-    getAllMatchesByReferee();
     getLastMatch();
-    getLastMatchByWatcher();
-    getLastMatchByReferee();
+
+    if (user && user.role === "watcher") {
+      getAllMatchesByWatcher();
+      getLastMatchByWatcher();
+    }
+
+    if (user && user.role === "referee") {
+      getAllMatchesByReferee();
+      getLastMatchByReferee();
+    }
   }, []);
 
   return loading ? (

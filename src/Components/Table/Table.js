@@ -137,16 +137,16 @@ const Table = ({
           }
 
           if (field === "referee") {
-            return params.row.referee.firstName;
+            return params.row.referee?.firstName;
           }
           if (field === "watcher") {
-            return params.row.watcher.firstName;
+            return params.row.watcher?.firstName;
           }
           if (field === "linesman_one") {
-            return params.row.linesman_one.firstName;
+            return params.row.linesman_one?.firstName;
           }
           if (field === "linesman_two") {
-            return params.row.linesman_two.firstName;
+            return params.row.linesman_two?.firstName;
           }
 
           if (field === "details") {

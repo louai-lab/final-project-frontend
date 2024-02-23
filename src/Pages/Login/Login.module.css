@@ -140,8 +140,8 @@
   transform: translateY(-50%);
   cursor: pointer;
 }
-/* 
-.oauth {
+
+.login {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -155,12 +155,12 @@
   height: 2.3rem;
   transition: background-color 0.3s ease;
   font-size: 18px;
-} */
+}
 
-/* .oauth:hover{
+.login:hover{
   background-color: white;
   color: red;
-} */
+}
 
 .btn {
   display: flex;

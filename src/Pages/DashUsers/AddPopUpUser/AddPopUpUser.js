@@ -162,6 +162,12 @@ function AddPopUp({ handleCancelAdd , handleFormSubmit }) {
                 >
                   Watcher
                 </MenuItem>
+                <MenuItem
+                  value="linesman"
+                  style={{ display: "flex", gap: "20px" }}
+                >
+                  LinesMan
+                </MenuItem>
               </Select>
             </FormControl>
 

@@ -3,6 +3,8 @@ import { useLocation } from "react-router-dom";
 import StyleSingleMatch from "./SingleMatch.module.css";
 import TabButton from "../../Components/TabButton/TabButton";
 import Event from "../../Components/Event/Event";
+import axios from "axios";
+import axiosInstance from "../../Utils/AxiosInstance";
 
 function SingleMatch() {
   const [tab, setTab] = useState("live");
@@ -14,12 +16,15 @@ function SingleMatch() {
       setTab(id);
     });
   };
-  const location = useLocation();
-  const { match } = location.state || {};
+  // const location = useLocation();
+  // const { match } = location.state || {};
 
-  const cancelEvent=()=>{
-    setIsOpenPopUpEvent(false)
-  }
+  const location = useLocation();
+  const [match, setMatch] = useState(location.state?.match || {});
+
+  const cancelEvent = () => {
+    setIsOpenPopUpEvent(false);
+  };
 
   const openPopUp = () => {
     setIsOpenPopUpEvent(true);
@@ -31,11 +36,64 @@ function SingleMatch() {
     document.body.style.overflow = "auto";
   };
 
+  // useEffect(() => {
+  //   const fetchUpdatedMatch = async () => {
+  //     try {
+  //       const updatedMatchResponse = await axiosInstance.get(
+  //         `/match/match/${match._id}`
+  //       );
+  //       const updatedMatch = updatedMatchResponse.data;
+
+  //       setMatch((prevMatch) => ({ ...prevMatch, ...updatedMatch }));
+  //     } catch (error) {
+  //       console.error("Error fetching updated match:", error);
+  //     }
+  //   };
+
+  //   fetchUpdatedMatch();
+  // }, [location.state]);
+
+  const fetchUpdatedMatch = async (matchId) => {
+    try {
+      const updatedMatchResponse = await axiosInstance.get(
+        `/match/match/${matchId}`
+      );
+      const updatedMatch = updatedMatchResponse.data;
+  
+      setMatch((prevMatch) => ({ ...prevMatch, ...updatedMatch }));
+    } catch (error) {
+      console.error("Error fetching updated match:", error);
+    }
+  };
+  
   useEffect(() => {
-    // console.log(match);
-  }, [match]);
+    fetchUpdatedMatch(match._id);
+  }, [match._id]);
+
+
+
+  let detailId = match.details._id;
+  const handleEventSubmit = async (formData) => {
+    try {
+      const response = await axiosInstance.patch(
+        `/matchdetails/update/${detailId}`,
+        formData
+      );
+
+      if (response) {
+        console.log("created successfully", response.data);
+        fetchUpdatedMatch(match._id);
+        setIsOpenPopUpEvent(false);
+      }
+    } catch (error) {
+      console.error("Error updating match details:", error);
+    }
+  };
 
   // console.log(match.details._id)
+
+  // console.log(match.team_a.team.players)
+  // console.log(match.team_b.team);
 
   const events = match?.details?.details;
 
@@ -146,7 +204,15 @@ function SingleMatch() {
             onClick={closePopUp}
           ></div>
 
-          <Event cancelEvent={cancelEvent} />
+          <Event
+            cancelEvent={cancelEvent}
+            teamATeam={match.team_a.team}
+            teamBTeam={match.team_b.team}
+            playersATeam={match.team_a.team.players}
+            playersBTeam={match.team_b.team.players}
+            handleEventSubmit={handleEventSubmit}
+            // detailId={match.details._id}
+          />
           <div
             style={{
               position: "fixed",
