@@ -9,7 +9,7 @@ import { useMatchesStore } from "./Zustand/Store";
 import Loading from "./Pages/Loading/Loading.js";
 
 function App() {
-  const { user } = useUserStore();
+  const { user} = useUserStore();
   // console.log(user)
 
   // console.log(watcherID)
@@ -30,7 +30,7 @@ function App() {
 
   // console.log(user);
   useEffect(() => {
-    console.log('enter useefect' , user)
+    // console.log('enter useefect' , user)
     getUser();
     getAllUsers();
     getAllReferees();
@@ -42,15 +42,11 @@ function App() {
     getAllMatches();
     getLastMatch();
 
-    if (user && user.role === "watcher") {
-      getAllMatchesByWatcher();
-      getLastMatchByWatcher();
-    }
+    getAllMatchesByWatcher();
+    getLastMatchByWatcher();
 
-    if (user && user.role === "referee") {
-      getAllMatchesByReferee();
-      getLastMatchByReferee();
-    }
+    getAllMatchesByReferee();
+    getLastMatchByReferee();
   }, []);
 
   return loading ? (

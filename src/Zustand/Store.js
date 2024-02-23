@@ -1,12 +1,22 @@
-import { create } from "zustand"; 
+import { create } from "zustand";
 import axiosInstance from "../Utils/AxiosInstance";
 
 export const useUserStore = create((set) => ({
+  // const navigate = useNavigate();
+
   user: null,
   loading: true,
   users: [],
   setUser: (data) => set(() => ({ user: data })),
-  logOut: () => set(() => ({ user: null })),
+  logOut: async () => {
+    try {
+      await axiosInstance.post("/user/logout");
+      set(() => ({ user: null }));
+      console.log("Logged out successfully");
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  },
   getUser: async () => {
     try {
       set({ loading: true });
@@ -153,9 +163,7 @@ export const useMatchesStore = create((set) => ({
   getAllMatchesByWatcher: async () => {
     try {
       set({ loading: true });
-      const response = await axiosInstance.get(
-        "/match/matchesbywatcher"
-      );
+      const response = await axiosInstance.get("/match/matchesbywatcher");
       if (response) {
         // console.log(response.data);
         set({ matchesByWatcher: response.data, loading: false });
@@ -170,9 +178,7 @@ export const useMatchesStore = create((set) => ({
   getAllMatchesByReferee: async () => {
     try {
       set({ loading: true });
-      const response = await axiosInstance.get(
-        "/match/matchesbyreferee"
-      );
+      const response = await axiosInstance.get("/match/matchesbyreferee");
       if (response) {
         // console.log(response.data);
         set({ matchesByReferee: response.data, loading: false });
@@ -182,8 +188,6 @@ export const useMatchesStore = create((set) => ({
       set({ loading: false });
     }
   },
-
-
 
   lastMatch: {},
   getLastMatch: async () => {

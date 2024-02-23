@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 import StyleSingleMatch from "./SingleMatch.module.css";
 import TabButton from "../../Components/TabButton/TabButton";
 import Event from "../../Components/Event/Event";
-import axios from "axios";
 import axiosInstance from "../../Utils/AxiosInstance";
 
 function SingleMatch() {
@@ -105,6 +104,7 @@ function SingleMatch() {
         <div className={StyleSingleMatch.liveContainer}>
           {events.map((event) => (
             <div
+            key={event._id}
               // className={StyleSingleMatch.event}
               className={`${StyleSingleMatch.event} ${
                 event.team._id === match.team_b.team._id

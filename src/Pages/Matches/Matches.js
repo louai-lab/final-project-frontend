@@ -8,7 +8,7 @@ import { Reveal } from "../../Frammotion/RevealAnimation";
 import FootballLoader from "../FootballLoader/FootballLoader";
 import { useNavigate } from "react-router-dom";
 
-function Matches({ match }) {
+function Matches() {
   const navigate = useNavigate();
   const { user } = useUserStore();
   const { lastMatch } = useMatchesStore();

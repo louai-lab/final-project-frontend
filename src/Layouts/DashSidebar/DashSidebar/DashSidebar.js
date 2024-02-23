@@ -3,7 +3,7 @@ import styles from "./DashSidebar.module.css";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
-import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
+import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
 import GroupIcon from "@mui/icons-material/Group";
 import { GiBabyfootPlayers } from "react-icons/gi";
 import { BsMicrosoftTeams } from "react-icons/bs";
@@ -11,8 +11,10 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 import HomeIcon from "@mui/icons-material/Home";
 import { useState } from "react";
+import { useUserStore } from "../../../Zustand/Store";
 
 const DashSidebar = () => {
+  const { logOut } = useUserStore();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const navigate = useNavigate();
@@ -53,6 +55,13 @@ const DashSidebar = () => {
       icon: <SportsSoccerIcon />,
     },
   ];
+
+  const handleLogOut = async (e) => {
+    e.preventDefault();
+
+    await logOut();
+    navigate("/login");
+  };
 
   return (
     <>
@@ -191,7 +200,13 @@ const DashSidebar = () => {
                     color: "white",
                   }}
                 >
-                  Logout
+                  <button
+                    type="button"
+                    onClick={handleLogOut}
+                    className={styles.logOutDash}
+                  >
+                    Log Out
+                  </button>
                 </p>
               </button>
             </span>

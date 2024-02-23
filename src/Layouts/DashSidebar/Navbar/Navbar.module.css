@@ -25,13 +25,47 @@
   background-color: rgba(255, 255, 255, 0.5);
   /* background-color: red; */
   border-radius: 80px;
-
 }
 .logoContainer {
   transition: 0.3s opacity ease-in-out;
 }
 .logoContainer:hover {
   opacity: 0.7;
+}
+
+.logOut {
+  border: none;
+  border-radius: 10px;
+  padding: 8px;
+  background-color: var(--primary-clr);
+  color: white;
+  font-size: clamp(10px, 3rem, 18px);
+  transition: opacity 0.3s ease-in-out;
+  font-weight: bold;
+}
+
+.logOut:hover {
+  opacity: 0.8;
+}
+
+.logOutResponsive {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  border: none;
+  width: 100%;
+  border-radius: 10px;
+  padding: 8px;
+  background-color: var(--primary-clr);
+  color: white;
+  font-size: clamp(10px, 3rem, 18px);
+  transition: opacity 0.3s ease-in-out;
+  font-weight: bold;
+}
+
+.logOutResponsive {
+  opacity: 0.8;
 }
 
 .linksWrapper > li > a,
@@ -98,7 +132,7 @@
   background-color: rgba(167, 197, 217, 0.8);
   backdrop-filter: blur(5px);
   position: absolute;
-  width: 100%;
+  width: 95%;
   height: 0;
   top: 105px;
   display: flex;
@@ -109,7 +143,7 @@
   transition: 0.2s height ease-in-out;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow:hidden;
 }
 
 /* Your existing styles for .circle */
@@ -149,6 +183,7 @@
 
 .linksWrapperMobile > li {
   padding-left: 10px;
+  /* background-color: red; */
 }
 
 .navBar ul > li > a:hover {
@@ -156,7 +191,7 @@
 }
 
 .linksWrapperMobile.activeNav {
-  height: 150px;
+  height: 200px;
 }
 
 @media screen and (max-width: 600px) {

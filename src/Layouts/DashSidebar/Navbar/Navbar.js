@@ -1,13 +1,14 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Styles from "./Navbar.module.css";
 import { useEffect, useState } from "react";
 import logo from "../../../Assets/icons/Lebanese_Football_Association_(LFA)_logo.svg";
 import { useUserStore } from "../../../Zustand/Store";
 
 function Navbar() {
-  const { user } = useUserStore();
-  // console.log(user.image)
+  const { user, loading, logOut } = useUserStore();
+  const navigate = useNavigate();
+
   const [collapesed, setCollapsed] = useState(false);
 
   useEffect(() => {
@@ -28,6 +29,14 @@ function Navbar() {
   const bar1 = [Styles.line1, collapesed ? Styles.a : ""].join(" ");
   const bar2 = [Styles.line2, collapesed ? Styles.a : ""].join(" ");
   const bar3 = [Styles.line3, collapesed ? Styles.a : ""].join(" ");
+
+  const handleLogOut = async (e) => {
+    e.preventDefault();
+
+    await logOut();
+    navigate("/login");
+  };
+
   return (
     <header className={Styles.header}>
       <nav className={Styles.navBar}>
@@ -65,6 +74,7 @@ function Navbar() {
               Matches
             </NavLink>
           </li>
+
           {user.role === "admin" ? (
             <li>
               <NavLink
@@ -79,6 +89,23 @@ function Navbar() {
           ) : (
             ""
           )}
+          <li>
+            <NavLink
+              // to="/login"
+              onClick={() => setCollapsed(false)}
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? Styles.active : ""
+              }
+            >
+              <button
+                type="button"
+                className={Styles.logOut}
+                onClick={handleLogOut}
+              >
+                Log Out
+              </button>
+            </NavLink>
+          </li>
           <li>
             <NavLink
               to="/profile"
@@ -146,6 +173,24 @@ function Navbar() {
               }
             >
               Profile
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              // to="/login"
+              onClick={() => setCollapsed(false)}
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? Styles.active : ""
+              }
+            >
+              <button
+                type="button"
+                className={Styles.logOutResponsive}
+                onClick={handleLogOut}
+              >
+                Log Out
+              </button>
             </NavLink>
           </li>
         </ul>
