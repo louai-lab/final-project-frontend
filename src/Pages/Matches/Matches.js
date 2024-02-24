@@ -18,6 +18,8 @@ function Matches() {
   const { matchesByWatcher } = useMatchesStore();
   const { matchesByReferee } = useMatchesStore();
 
+  // console.log(user)
+
   let selectedMatch;
   let selectedMatches;
 
@@ -27,6 +29,7 @@ function Matches() {
   } else if (user.role === "watcher") {
     selectedMatch = lastMatchByWatcher;
     selectedMatches = matchesByWatcher;
+    
   } else if (user.role === "referee") {
     selectedMatch = lastMatchByReferee;
     selectedMatches = matchesByReferee;
@@ -35,8 +38,6 @@ function Matches() {
   }
 
   const handleMatchClick = (match) => {
-    // console.log("Match object before navigation:", match);
-
     if (match && match._id) {
       navigate(`/match`, { state: { match } });
     } else {
@@ -91,7 +92,7 @@ function Matches() {
         </article>
 
         <article className={StyleMatches.cardsContainer}>
-          {loading && <p>Loading...</p>}
+          {loading && <FootballLoader />}
           {selectedMatches.map((match) => {
             return (
               <Reveal key={match._id}>

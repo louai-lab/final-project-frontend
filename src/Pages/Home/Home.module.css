@@ -107,6 +107,9 @@
     font-size: 2rem;
     height: 10px;
   }
+  .fixture{
+    height: 280px;
+  }
 }
 
 @media screen and (max-width: 500px) {

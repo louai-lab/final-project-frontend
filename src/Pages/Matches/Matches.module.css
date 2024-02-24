@@ -43,6 +43,7 @@
 .teamsName > p {
   font-size: clamp(20px, 3vw, 60px);
   font-weight: bold;
+  text-align: center;
 }
 
 .teamsImage {
@@ -86,10 +87,12 @@
   width: 20rem;
   border-radius: 20px;
   backdrop-filter: blur(10px);
-  background-color: #302f3a;
+  /* background-color: #18183b; */
+  background-color: #151533;
   padding: 10px;
   display: flex;
   flex-direction: column;
+  /* box-shadow: 0 10px 80px rgba(195, 190, 190, 0.1); */
 }
 
 .cardMatch:hover {
@@ -181,28 +184,34 @@
   }
 }
 
-@media screen and (max-width: 700px) {
-  .teamsImage {
-    width: 6rem;
-    height: 6rem;
-  }
+@media screen and (max-width: 800px) {
   .vs {
     font-size: 40%;
     top: 38%;
   }
 }
 
-@media screen and (max-width : 500px) {
-  .cardMatch{
-    width: 20rem;
+@media screen and (max-width: 700px) {
+  .teamsImage {
+    width: 6rem;
+    height: 6rem;
   }
 }
 
-
-@media screen and (max-width: 350px) {
+@media screen and (max-width: 500px) {
+  .cardMatch {
+    width: 20rem;
+  }
   .teamsImage {
     width: 4rem;
     height: 4rem;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .teamsImage {
+    width: 3rem;
+    height: 3rem;
   }
   .twoTeams {
     column-gap: 0px;
@@ -215,8 +224,8 @@
   }
 }
 
-@media screen and (max-width:300px) {
-  .cardMatch{
+@media screen and (max-width: 300px) {
+  .cardMatch {
     width: 15rem;
   }
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import StyleEvent from "./Event.module.css";
+import { Reveal } from "../../Frammotion/RevealAnimation";
 
 function Event({
   cancelEvent,
@@ -7,23 +8,17 @@ function Event({
   teamBTeam,
   playersATeam,
   playersBTeam,
-  handleEventSubmit
+  handleEventSubmit,
 }) {
   const [formData, setFormData] = useState({
     type: "",
     team: "",
     playerIn: "",
-    playerOut:"",
+    playerOut: "",
     minute: "",
   });
 
   const [players, setPlayers] = useState([]);
-
-  // console.log(teamATeam)
-  // console.log(teamBTeam)
-  // console.log(playersATeam);
-  // console.log(playersBTeam);
-  // console.log(detailId)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -43,14 +38,13 @@ function Event({
     }
   };
 
-  const handleAdd = async(e) => {
+  const handleAdd = async (e) => {
     e.preventDefault();
-    handleEventSubmit(formData)
+    handleEventSubmit(formData);
   };
 
   return (
     <div className={StyleEvent.popUpContainer}>
-      {/* <div className={StyleEvent.formContainer}> */}
       <h1 className={StyleEvent.eventH1}>Event Form</h1>
       <form action="#">
         <div className={StyleEvent.control}>
@@ -154,7 +148,6 @@ function Event({
         </div>
       </form>
     </div>
-    // </div>
   );
 }
 

@@ -6,10 +6,11 @@ import { useUsersStore } from "./Zustand/Store";
 import { usePlayersStore } from "./Zustand/Store";
 import { useTeamsStore } from "./Zustand/Store";
 import { useMatchesStore } from "./Zustand/Store";
-import Loading from "./Pages/Loading/Loading.js";
+// import Loading from "./Pages/Loading/Loading.js";
+import FootballLoader from "./Pages/FootballLoader/FootballLoader.js";
 
 function App() {
-  const { user} = useUserStore();
+  const { user } = useUserStore();
   // console.log(user)
 
   // console.log(watcherID)
@@ -51,7 +52,7 @@ function App() {
 
   return loading ? (
     <div>
-      <Loading />
+      <FootballLoader />
     </div>
   ) : (
     <div className="App">
