@@ -29,7 +29,6 @@ function Matches() {
   } else if (user.role === "watcher") {
     selectedMatch = lastMatchByWatcher;
     selectedMatches = matchesByWatcher;
-    
   } else if (user.role === "referee") {
     selectedMatch = lastMatchByReferee;
     selectedMatches = matchesByReferee;
@@ -44,6 +43,8 @@ function Matches() {
       console.error("Match object is undefined or missing properties.");
     }
   };
+
+  // console.log(matches);
 
   return (
     <>
@@ -102,19 +103,36 @@ function Matches() {
                 >
                   <article key={match._id} className={StyleMatches.cardMatch}>
                     <article className={StyleMatches.aboveHr}>
-                      <section className={StyleMatches.cardImages}>
-                        <img
-                          src={`${process.env.REACT_APP_IMAGE_PATH}/${match.team_a?.team.image}`}
-                          alt={match.team_a?.team.name}
-                          className={StyleMatches.cardImage}
-                        />
-                        <span>vs</span>
-                        <img
-                          src={`${process.env.REACT_APP_IMAGE_PATH}/${match.team_b?.team.image}`}
-                          alt={match.team_b?.team.name}
-                          className={StyleMatches.cardImage}
-                        />
-                      </section>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                        }}
+                      >
+                        <section className={StyleMatches.cardImages}>
+                          <img
+                            src={`${process.env.REACT_APP_IMAGE_PATH}/${match.team_a?.team.image}`}
+                            alt={match.team_a?.team.name}
+                            className={StyleMatches.cardImage}
+                          />
+                          <span>vs</span>
+                          <img
+                            src={`${process.env.REACT_APP_IMAGE_PATH}/${match.team_b?.team.image}`}
+                            alt={match.team_b?.team.name}
+                            className={StyleMatches.cardImage}
+                          />
+                        </section>
+                        <p
+                          className={
+                            match.played
+                              ? StyleMatches.playedRed
+                              : StyleMatches.playedGreen
+                          }
+                        >
+                          {match.played === true ? "Played" : "Not Played Yet"}
+                        </p>
+                      </div>
 
                       <section className={StyleMatches.cardTitle}>
                         {match.title}

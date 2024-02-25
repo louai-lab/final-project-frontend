@@ -177,6 +177,17 @@
   all: unset;
 }
 
+.playedRed {
+  color: red;
+  font-size: clamp(10px, 2rem, 15px);
+  text-shadow: 1px 1px 2px black;
+}
+.playedGreen {
+  color: green;
+  font-size: clamp(10px, 2rem, 15px);
+  text-shadow: 1px 1px 2px black;
+}
+
 @media screen and (max-width: 1000px) {
   .teamsImage {
     width: 10rem;
