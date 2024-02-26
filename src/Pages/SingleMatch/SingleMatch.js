@@ -9,7 +9,9 @@ import { Reveal } from "../../Frammotion/RevealAnimation";
 import { useUserStore } from "../../Zustand/Store";
 import { useSpring, animated } from "react-spring";
 import EventDelete from "../../Assets/icons/material-symbols--delete-outline.svg";
-import EventEdit from '../../Assets/icons/material-symbols--edit-outline (1).svg'
+import EventEdit from "../../Assets/icons/material-symbols--edit-outline (1).svg";
+import EventDeletePopUp from "../../Components/Event/EventDelete";
+import EventEditPopUp from "../../Components/Event/EventEdit";
 
 function SingleMatch() {
   const { user } = useUserStore();
@@ -20,6 +22,8 @@ function SingleMatch() {
   const [watcherReport, setWatcherReport] = useState("");
   const [refereeReport, setRefereeReport] = useState("");
   const [showAnimation, setShowAnimation] = useState(false);
+  const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
+  const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
 
   const animationProps = useSpring({
     opacity: showAnimation ? 1 : 0,
@@ -146,7 +150,53 @@ function SingleMatch() {
     setRefereeReport(event.target.value);
   };
 
-  // console.log(match.played)
+  // Delete PopUp Section
+  const openPopUpDelete = () => {
+    setIsOpenPopUpDelete(true);
+    document.body.style.overflow = " hidden";
+  };
+
+  const closePopUpDelete = () => {
+    setIsOpenPopUpDelete(false);
+    document.body.style.overflow = "auto";
+  };
+
+  const cancelDeleteEvent = () => {
+    closePopUpDelete();
+  };
+
+  const handleOpenDelete = () => {
+    openPopUpDelete();
+  };
+
+  const handleDeleteEvent = (e) => {
+    e.preventDefault();
+    console.log("delete");
+  };
+  /////////////////////
+
+  const openPopUpEdit = () => {
+    setIsOpenPopUpEdit(true);
+    document.body.style.overflow = " hidden";
+  };
+
+  const closePopUpEdit = () => {
+    setIsOpenPopUpEdit(false);
+    document.body.style.overflow = "auto";
+  };
+
+  const handleOpenEdit = () => {
+    openPopUpEdit();
+  };
+
+  const cancelEditEvent = () => {
+    closePopUpEdit();
+  };
+
+  const handleEditEvent=(e)=>{
+    e.preventDefault()
+    console.log("edit")
+  }
 
   const TAB_DATA = [
     {
@@ -221,8 +271,20 @@ function SingleMatch() {
                         </div>
                         {/* <div className={StyleSingleMatch.between}></div> */}
                         <div className={StyleSingleMatch.eventActions}>
-                          <img src={EventDelete} />
-                          <img src={EventEdit} />
+                          <button
+                            type="button"
+                            onClick={handleOpenDelete}
+                            style={{ border: "none" }}
+                          >
+                            <img src={EventDelete} alt="" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={handleOpenEdit}
+                            style={{ border: "none" }}
+                          >
+                            <img src={EventEdit} alt="" />
+                          </button>
                         </div>
                         <p>{event.minute}'</p>
                       </div>
@@ -398,12 +460,65 @@ function SingleMatch() {
           ></div>
         </>
       )}
+      {isOpenPopUpDelete && (
+        <>
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100vh",
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              zIndex: 1002,
+            }}
+            onClick={closePopUpDelete}
+          ></div>
+          <EventDeletePopUp
+            cancelDeleteEvent={cancelDeleteEvent}
+            handleDeleteEvent={handleDeleteEvent}
+          />
+          <div
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 1003,
+            }}
+          ></div>
+        </>
+      )}
+      {isOpenPopUpEdit && (
+        <>
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100vh",
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              zIndex: 1002,
+            }}
+            onClick={closePopUpEdit}
+          ></div>
+          <EventEditPopUp
+            cancelEditEvent={cancelEditEvent}
+            handleEditEvent={handleEditEvent}
+          />
+          <div
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 1003,
+            }}
+          ></div>
+        </>
+      )}
       <>
-        {/* {loading ? (
-          <>
-            <FootballLoader />
-          </>
-        ) : ( */}
         <main className={StyleSingleMatch.matchContainer}>
           <article className={StyleSingleMatch.matchHeroSection}>
             <section className={StyleSingleMatch.teamA}>
@@ -455,7 +570,6 @@ function SingleMatch() {
             </section>
           </article>
         </main>
-        {/* )} */}
       </>
     </>
   );

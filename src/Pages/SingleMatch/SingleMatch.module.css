@@ -234,7 +234,7 @@
   padding: 5px;
   color: grey;
   text-align: center;
-  background-color: green;
+  /* background-color: green; */
 }
 
 /* .between {
@@ -246,11 +246,17 @@
 
 .eventActions{
   display: flex;
-  column-gap: 5px;
+  column-gap: 10px;
 }
 
 .eventActions img{
   width: 20px;
+  transition: opacity 0.3s;
+}
+
+.eventActions img:hover{
+  opacity: 0.6;
+  cursor: pointer;
 }
 
 .type {
@@ -262,8 +268,8 @@
   height: fit-content;
   border: 1px solid rgb(175, 175, 175);
   border-radius: 5px;
-  /* background-color: white; */
-  background-color: blue;
+  background-color: white;
+  /* background-color: blue; */
   padding: 5px;
   box-shadow: 0 0 10px black;
 }

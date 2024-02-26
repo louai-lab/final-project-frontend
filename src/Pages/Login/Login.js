@@ -6,6 +6,7 @@ import { FaEyeSlash } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useMatchesStore, useUserStore } from "../../Zustand/Store";
+import { Reveal } from "../../Frammotion/RevealAnimation";
 
 function Login() {
   const navigate = useNavigate();
@@ -61,49 +62,49 @@ function Login() {
         <div className={StyleLogin.color}></div>
         <div className={StyleLogin.color}></div>
         <div className={StyleLogin.box}>
-          <div className={StyleLogin.container}>
-            <div className={StyleLogin.form}>
-              <h2>Login Form</h2>
-              <form>
-                <div className={StyleLogin.inputBox}>
-                  <input
-                    type="text"
-                    name="email"
-                    value={credentials.email}
-                    onChange={handleInputChange}
-                    placeholder="Email"
-                    required
-                  />
-                </div>
-                <div
-                  className={StyleLogin.inputBox}
-                  style={{ display: "flex" }}
-                >
-                  {/* <input type="password" placeholder="Password" /> */}
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    onChange={handleInputChange}
-                    // onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Password"
-                    value={credentials.password}
-                    required
-                  />
-                  <div
-                    className={StyleLogin.eyeIcon}
-                    onClick={handleTogglePassword}
-                  >
-                    {showPassword ? <FaEye /> : <FaEyeSlash />}
+          <Reveal>
+            <div className={StyleLogin.container}>
+              <div className={StyleLogin.form}>
+                <h2>Login Form</h2>
+                <form>
+                  <div className={StyleLogin.inputBox}>
+                    <input
+                      type="text"
+                      name="email"
+                      value={credentials.email}
+                      onChange={handleInputChange}
+                      placeholder="Email"
+                      required
+                    />
                   </div>
-                </div>
-                <div className={StyleLogin.btn}>
-                  <button className={StyleLogin.login} onClick={handleLogin}>
-                    Login
-                  </button>
-                </div>
-              </form>
+                  <div
+                    className={StyleLogin.inputBox}
+                    style={{ display: "flex" }}
+                  >
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      onChange={handleInputChange}
+                      placeholder="Password"
+                      value={credentials.password}
+                      required
+                    />
+                    <div
+                      className={StyleLogin.eyeIcon}
+                      onClick={handleTogglePassword}
+                    >
+                      {showPassword ? <FaEye /> : <FaEyeSlash />}
+                    </div>
+                  </div>
+                  <div className={StyleLogin.btn}>
+                    <button className={StyleLogin.login} onClick={handleLogin}>
+                      Login
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
     </div>
