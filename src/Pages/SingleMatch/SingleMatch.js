@@ -8,6 +8,8 @@ import FootballLoader from "../FootballLoader/FootballLoader";
 import { Reveal } from "../../Frammotion/RevealAnimation";
 import { useUserStore } from "../../Zustand/Store";
 import { useSpring, animated } from "react-spring";
+import EventDelete from "../../Assets/icons/material-symbols--delete-outline.svg";
+import EventEdit from '../../Assets/icons/material-symbols--edit-outline (1).svg'
 
 function SingleMatch() {
   const { user } = useUserStore();
@@ -34,7 +36,7 @@ function SingleMatch() {
   const [match, setMatch] = useState(location.state?.match || {});
 
   const cancelEvent = () => {
-    closePopUp()
+    closePopUp();
   };
 
   const openPopUp = () => {
@@ -217,7 +219,11 @@ function SingleMatch() {
                             )}
                           </div>
                         </div>
-                        <div className={StyleSingleMatch.between}></div>
+                        {/* <div className={StyleSingleMatch.between}></div> */}
+                        <div className={StyleSingleMatch.eventActions}>
+                          <img src={EventDelete} />
+                          <img src={EventEdit} />
+                        </div>
                         <p>{event.minute}'</p>
                       </div>
                     ))}
