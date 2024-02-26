@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import StyleMatches from "./Matches.module.css";
 import { useMatchesStore } from "../../Zustand/Store";
 import { useUserStore } from "../../Zustand/Store";
+import { useTeamsStore } from "../../Zustand/Store";
 import logo from "../../Assets/icons/Lebanese_Football_Association_(LFA)_logo.svg";
 import StadiumIcon from "@mui/icons-material/Stadium";
 import { Reveal } from "../../Frammotion/RevealAnimation";
@@ -12,29 +13,20 @@ function Matches() {
   const navigate = useNavigate();
   const { user } = useUserStore();
   const { lastMatch } = useMatchesStore();
-  const { lastMatchByWatcher } = useMatchesStore();
-  const { lastMatchByReferee } = useMatchesStore();
+  const { getAllTeams } = useTeamsStore();
+  const { getAllMatches } = useMatchesStore();
+  const { getLastMatch } = useMatchesStore();
+
+  useEffect(() => {
+    getAllTeams();
+    getAllMatches();
+    getLastMatch();
+  }, []);
+
   const { loading, matches } = useMatchesStore();
-  const { matchesByWatcher } = useMatchesStore();
-  const { matchesByReferee } = useMatchesStore();
 
-  // console.log(user)
-
-  let selectedMatch;
-  let selectedMatches;
-
-  if (user.role === "admin") {
-    selectedMatch = lastMatch;
-    selectedMatches = matches;
-  } else if (user.role === "watcher") {
-    selectedMatch = lastMatchByWatcher;
-    selectedMatches = matchesByWatcher;
-  } else if (user.role === "referee") {
-    selectedMatch = lastMatchByReferee;
-    selectedMatches = matchesByReferee;
-  } else {
-    selectedMatch = null;
-  }
+  console.log(user);
+  // console.log(matches)
 
   const handleMatchClick = (match) => {
     if (match && match._id) {
@@ -43,8 +35,6 @@ function Matches() {
       console.error("Match object is undefined or missing properties.");
     }
   };
-
-  // console.log(matches);
 
   return (
     <>
@@ -62,31 +52,33 @@ function Matches() {
               height={60}
               alt="Lebanese Football Association"
             />
-            <p>{selectedMatch.title}</p>
+            <p>{lastMatch.title}</p>
           </section>
           <section className={StyleMatches.twoTeams}>
             <img
-              src={`${process.env.REACT_APP_IMAGE_PATH}/${selectedMatch.team_a?.team.image}`}
-              alt={selectedMatch.team_a?.team.name}
+              src={`${process.env.REACT_APP_IMAGE_PATH}/${lastMatch.team_a?.team.image}`}
+              alt={lastMatch.team_a?.team.name}
               className={StyleMatches.teamsImage}
             />
             <div className={StyleMatches.teamsName}>
-              <p>{selectedMatch.team_a?.team.name}</p>
-              <p>{selectedMatch.team_b?.team.name}</p>
+              <p>{lastMatch.team_a?.team.name}</p>
+              <p>{lastMatch.team_b?.team.name}</p>
             </div>
             <img
-              src={`${process.env.REACT_APP_IMAGE_PATH}/${selectedMatch.team_b?.team.image}`}
-              alt={selectedMatch.team_b?.team.name}
+              src={`${process.env.REACT_APP_IMAGE_PATH}/${lastMatch.team_b?.team.image}`}
+              alt={lastMatch.team_b?.team.name}
               className={StyleMatches.teamsImage}
             />
           </section>
           <section className={StyleMatches.stadium}>
             <StadiumIcon />
-            <p>{selectedMatch.pitch}</p>
+            <p>{lastMatch.pitch}</p>
           </section>
         </article>
 
-        {!loading && <p className={StyleMatches.vs}>VS</p>}
+        {lastMatch ? <p className={StyleMatches.vs}>VS</p> : ""}
+
+        <p className={StyleMatches.vs}>VS</p>
 
         <article className={StyleMatches.middle}>
           <h1>Fixtures & results</h1>
@@ -94,7 +86,7 @@ function Matches() {
 
         <article className={StyleMatches.cardsContainer}>
           {loading && <FootballLoader />}
-          {selectedMatches.map((match) => {
+          {matches.map((match) => {
             return (
               <Reveal key={match._id}>
                 <button

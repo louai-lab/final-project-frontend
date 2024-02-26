@@ -10,7 +10,7 @@ export const useUserStore = create((set) => ({
   setUser: (data) => set(() => ({ user: data })),
   logOut: async () => {
     try {
-      await axiosInstance.post("/user/logout");
+      await axiosInstance.post("/user/logout"); 
       set(() => ({ user: null }));
       console.log("Logged out successfully");
     } catch (error) {
@@ -159,35 +159,6 @@ export const useMatchesStore = create((set) => ({
       set({ loading: false });
     }
   },
-  matchesByWatcher: [],
-  getAllMatchesByWatcher: async () => {
-    try {
-      set({ loading: true });
-      const response = await axiosInstance.get("/match/matchesbywatcher");
-      if (response) {
-        // console.log(response.data);
-        set({ matchesByWatcher: response.data, loading: false });
-      }
-    } catch (error) {
-      console.error(error);
-      set({ loading: false });
-    }
-  },
-
-  matchesByReferee: [],
-  getAllMatchesByReferee: async () => {
-    try {
-      set({ loading: true });
-      const response = await axiosInstance.get("/match/matchesbyreferee");
-      if (response) {
-        // console.log(response.data);
-        set({ matchesByReferee: response.data, loading: false });
-      }
-    } catch (error) {
-      console.error(error);
-      set({ loading: false });
-    }
-  },
 
   lastMatch: {},
   getLastMatch: async () => {
@@ -199,38 +170,6 @@ export const useMatchesStore = create((set) => ({
       }
     } catch (error) {
       console.error(error);
-      set({ loading: false });
-    }
-  },
-  lastMatchByWatcher: {},
-  getLastMatchByWatcher: async () => {
-    try {
-      set({ loading: true });
-      const response = await axiosInstance.get(
-        `/match/getlastcreatedmatchbywatcher`
-      );
-      if (response) {
-        // console.log(response.data)
-        set({ lastMatchByWatcher: response.data, loading: false });
-      }
-    } catch (error) {
-      console.error(error);
-      set({ loading: false });
-    }
-  },
-  lastMatchByReferee: {},
-  getLastMatchByReferee: async () => {
-    try {
-      set({ loading: true });
-      const response = await axiosInstance.get(
-        `/match/getlastcreatedmatchbyreferee`
-      );
-      if (response) {
-        // console.log(response.data)
-        set({ lastMatchByReferee: response.data, loading: false });
-      }
-    } catch (error) {
-      console.log(error);
       set({ loading: false });
     }
   },

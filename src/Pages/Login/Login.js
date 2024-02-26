@@ -5,12 +5,12 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useUserStore } from "../../Zustand/Store";
+import { useMatchesStore, useUserStore } from "../../Zustand/Store";
 
 function Login() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const { user, setUser } = useUserStore()
+  const { user, setUser } = useUserStore();
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -45,7 +45,7 @@ function Login() {
 
       if (response.data) {
         setUser(response.data);
-        // localStorage.setItem("userData", JSON.stringify(response.data));
+
         console.log(response.data);
         return navigate("/", { replace: true });
       }

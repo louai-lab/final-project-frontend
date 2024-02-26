@@ -34,6 +34,7 @@ function Navbar() {
     e.preventDefault();
 
     await logOut();
+    // console.log(user)
     navigate("/login");
   };
 

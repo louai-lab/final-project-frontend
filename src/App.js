@@ -8,9 +8,11 @@ import { useTeamsStore } from "./Zustand/Store";
 import { useMatchesStore } from "./Zustand/Store";
 // import Loading from "./Pages/Loading/Loading.js";
 import FootballLoader from "./Pages/FootballLoader/FootballLoader.js";
+import Matches from "./Pages/Matches/Matches.js";
 
 function App() {
   const { user } = useUserStore();
+  const { matches } = useMatchesStore();
   // console.log(user)
 
   // console.log(watcherID)
@@ -21,17 +23,10 @@ function App() {
   const { getAllLinesman } = useUsersStore();
   const { getAllPlayers } = usePlayersStore();
   const { getAllPlayersNoTeam } = usePlayersStore();
-  const { getAllTeams } = useTeamsStore();
-  const { getAllMatches } = useMatchesStore();
-  const { getAllMatchesByWatcher } = useMatchesStore();
-  const { getAllMatchesByReferee } = useMatchesStore();
-  const { getLastMatch } = useMatchesStore();
-  const { getLastMatchByWatcher } = useMatchesStore();
-  const { getLastMatchByReferee } = useMatchesStore();
 
   // console.log(user);
+
   useEffect(() => {
-    // console.log('enter useefect' , user)
     getUser();
     getAllUsers();
     getAllReferees();
@@ -39,16 +34,10 @@ function App() {
     getAllLinesman();
     getAllPlayers();
     getAllPlayersNoTeam();
-    getAllTeams();
-    getAllMatches();
-    getLastMatch();
-
-    getAllMatchesByWatcher();
-    getLastMatchByWatcher();
-
-    getAllMatchesByReferee();
-    getLastMatchByReferee();
   }, []);
+
+  console.log(user);
+  console.log(matches);
 
   return loading ? (
     <div>
