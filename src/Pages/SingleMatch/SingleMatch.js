@@ -2,7 +2,7 @@ import React, { useEffect, useTransition, useState } from "react";
 import { useLocation } from "react-router-dom";
 import StyleSingleMatch from "./SingleMatch.module.css";
 import TabButton from "../../Components/TabButton/TabButton";
-import Event from "../../Components/Event/Event";
+import Event from "../../Components/Event/EventAdd/Event";
 import axiosInstance from "../../Utils/AxiosInstance";
 import FootballLoader from "../FootballLoader/FootballLoader";
 import { Reveal } from "../../Frammotion/RevealAnimation";
@@ -10,11 +10,13 @@ import { useUserStore } from "../../Zustand/Store";
 import { useSpring, animated } from "react-spring";
 import EventDelete from "../../Assets/icons/material-symbols--delete-outline.svg";
 import EventEdit from "../../Assets/icons/material-symbols--edit-outline (1).svg";
-import EventDeletePopUp from "../../Components/Event/EventDelete";
-import EventEditPopUp from "../../Components/Event/EventEdit";
+import EventDeletePopUp from "../../Components/Event/EventDelete/EventDelete";
+import EventEditPopUp from "../../Components/Event/EventEdit/EventEdit";
+import { useMatchesStore } from "../../Zustand/Store";
 
 function SingleMatch() {
   const { user } = useUserStore();
+  const { matches } = useMatchesStore();
   const [tab, setTab] = useState("live");
   const [isPending, startTransition] = useTransition();
   const [isOpenPopUpEvent, setIsOpenPopUpEvent] = useState(false);
@@ -24,6 +26,7 @@ function SingleMatch() {
   const [showAnimation, setShowAnimation] = useState(false);
   const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   const animationProps = useSpring({
     opacity: showAnimation ? 1 : 0,
@@ -87,19 +90,23 @@ function SingleMatch() {
   const handleEventSubmit = async (formData) => {
     try {
       const response = await axiosInstance.patch(
-        `/matchdetails/update/${detailId}`,
+        `/matchdetails/addObject/${detailId}`,
         formData
       );
 
       if (response) {
         console.log("created successfully");
+
+        if (formData.type === "goal") {
+          setShowAnimation(true);
+          setTimeout(() => {
+            setShowAnimation(false);
+          }, 5000);
+        }
+
         fetchUpdatedMatch(match._id);
         closePopUp();
       }
-      setShowAnimation(true);
-      setTimeout(() => {
-        setShowAnimation(false);
-      }, 5000);
     } catch (error) {
       console.error("Error updating match details:", error);
     }
@@ -150,7 +157,7 @@ function SingleMatch() {
     setRefereeReport(event.target.value);
   };
 
-  // Delete PopUp Section
+  // Delete PopUp Event
   const openPopUpDelete = () => {
     setIsOpenPopUpDelete(true);
     document.body.style.overflow = " hidden";
@@ -165,16 +172,35 @@ function SingleMatch() {
     closePopUpDelete();
   };
 
-  const handleOpenDelete = () => {
+  const handleOpenDelete = (id) => {
     openPopUpDelete();
+    setSelectedEvent(id);
   };
 
-  const handleDeleteEvent = (e) => {
+  const handleDeleteEvent = async (e) => {
     e.preventDefault();
-    console.log("delete");
+
+    try {
+      const response = await axiosInstance.patch(
+        `/matchdetails/deleteObject/${match.details._id}/${selectedEvent}`
+      );
+
+      if (response) {
+        console.log("Deleted successfully");
+        fetchUpdatedMatch(match._id);
+        cancelDeleteEvent();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+  // console.log(match.details._id);
+  // console.log(selectedEvent);
   /////////////////////
 
+  // console.log(match)
+
+  // Edit PopUp Event
   const openPopUpEdit = () => {
     setIsOpenPopUpEdit(true);
     document.body.style.overflow = " hidden";
@@ -185,18 +211,20 @@ function SingleMatch() {
     document.body.style.overflow = "auto";
   };
 
-  const handleOpenEdit = () => {
+  const handleOpenEdit = (event) => {
     openPopUpEdit();
+    setSelectedEvent(event);
+    // console.log(event)
   };
 
   const cancelEditEvent = () => {
     closePopUpEdit();
   };
 
-  const handleEditEvent=(e)=>{
-    e.preventDefault()
-    console.log("edit")
-  }
+  const handleEditEvent = async (formData) => {
+    console.log(formData);
+  };
+  ////////////
 
   const TAB_DATA = [
     {
@@ -273,14 +301,14 @@ function SingleMatch() {
                         <div className={StyleSingleMatch.eventActions}>
                           <button
                             type="button"
-                            onClick={handleOpenDelete}
+                            onClick={() => handleOpenDelete(event._id)}
                             style={{ border: "none" }}
                           >
                             <img src={EventDelete} alt="" />
                           </button>
                           <button
                             type="button"
-                            onClick={handleOpenEdit}
+                            onClick={() => handleOpenEdit(event)}
                             style={{ border: "none" }}
                           >
                             <img src={EventEdit} alt="" />
@@ -506,6 +534,11 @@ function SingleMatch() {
           <EventEditPopUp
             cancelEditEvent={cancelEditEvent}
             handleEditEvent={handleEditEvent}
+            teamATeam={match.team_a.team}
+            teamBTeam={match.team_b.team}
+            playersATeam={match.team_a.team.players}
+            playersBTeam={match.team_b.team.players}
+            event={selectedEvent}
           />
           <div
             style={{
@@ -530,9 +563,9 @@ function SingleMatch() {
               <h1>{match.team_a?.team.name}</h1>
             </section>
             <section className={StyleSingleMatch.result}>
-              <p>{match.team_a?.score}</p>
+              <p>{match.team_a.score}</p>
               <span>-</span>
-              <p>{match.team_b?.score}</p>
+              <p>{match.team_b.score}</p>
             </section>
             <section className={StyleSingleMatch.teamA}>
               <img

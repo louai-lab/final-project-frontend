@@ -10,7 +10,7 @@ export const useUserStore = create((set) => ({
   setUser: (data) => set(() => ({ user: data })),
   logOut: async () => {
     try {
-      await axiosInstance.post("/user/logout"); 
+      await axiosInstance.post("/user/logout");
       set(() => ({ user: null }));
       console.log("Logged out successfully");
     } catch (error) {
@@ -147,6 +147,9 @@ export const useTeamsStore = create((set) => ({
 export const useMatchesStore = create((set) => ({
   matches: [],
   loading: true,
+  setMatches: (newState) => {
+    set({ matches: newState });
+  },
   getAllMatches: async () => {
     try {
       set({ loading: true });

@@ -20,16 +20,50 @@
   font-family: var(--font-family);
 }
 
-.popUpContainer h1 {
+/* .popUpContainer h1 {
+    text-transform: uppercase;
+    font-size: 1.2em;
+    text-align: center;
+    margin-bottom: 1em;
+  } */
+
+.eventH1 {
   text-transform: uppercase;
-  font-size: 1.2em;
+  font-size: 2em;
   text-align: center;
   margin-bottom: 1em;
 }
 
-.control {
-  display: flex;
-  column-gap: 10px;
+.control input {
+  width: 100%;
+  display: block;
+  padding: 10px;
+  color: #222;
+  border: none;
+  outline: none;
+  margin: 1em 0;
+}
+
+.select {
+  width: 100%;
+  display: block;
+  padding: 10px;
+  color: #222;
+  border: none;
+  outline: none;
+  margin: 1em 0;
+}
+
+.select option {
+  background-color: #fff;
+  color: #333;
+  padding: 10px;
+  border: 1px solid #ccc;
+  transition: background-color 0.3s ease;
+}
+
+.select option:hover {
+  background-color: #f0f0f0;
 }
 
 .addEvent {
@@ -74,8 +108,8 @@
   opacity: 1;
 }
 
-@media screen and (max-width:600px) {
-    .popUpContainer{
-        width: 90%;
-    }
+@media screen and (max-width: 600px) {
+  .popUpContainer {
+    width: 90%;
+  }
 }

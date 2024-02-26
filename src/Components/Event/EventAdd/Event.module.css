@@ -48,15 +48,15 @@
 }
 
 .select option {
-  background-color: #fff; /* Background color of each option */
-  color: #333; /* Text color of each option */
+  background-color: #fff; 
+  color: #333; 
   padding: 10px;
-  border: 1px solid #ccc; /* Border of each option */
-  transition: background-color 0.3s ease; /* Smooth transition for background color */
+  border: 1px solid #ccc; 
+  transition: background-color 0.3s ease; 
 }
 
 .select option:hover {
-  background-color: #f0f0f0; /* Background color when hovering over an option */
+  background-color: #f0f0f0; 
 }
 
 .addEvent {

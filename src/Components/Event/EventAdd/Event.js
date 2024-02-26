@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import StyleEvent from "./Event.module.css";
-import { Reveal } from "../../Frammotion/RevealAnimation";
+import { Reveal } from "../../../Frammotion/RevealAnimation";
 
 function Event({
   cancelEvent,
@@ -107,6 +107,7 @@ function Event({
               className={StyleEvent.select}
               value={formData.playerOut}
               onChange={handleInputChange}
+              required
             >
               <option value="">Select an option</option>
               {players.map((player) => (
