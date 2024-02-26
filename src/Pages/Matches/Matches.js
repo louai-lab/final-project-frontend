@@ -25,8 +25,8 @@ function Matches() {
 
   const { loading, matches } = useMatchesStore();
 
-  console.log(user);
-  // console.log(matches)
+  // console.log(user);
+  // console.log(matches);
 
   const handleMatchClick = (match) => {
     if (match && match._id) {
@@ -76,9 +76,9 @@ function Matches() {
           </section>
         </article>
 
-        {lastMatch ? <p className={StyleMatches.vs}>VS</p> : ""}
+        {!lastMatch ? "" : <p className={StyleMatches.vs}>VS</p>}
 
-        <p className={StyleMatches.vs}>VS</p>
+        {/* <p className={StyleMatches.vs}>VS</p> */}
 
         <article className={StyleMatches.middle}>
           <h1>Fixtures & results</h1>
@@ -122,7 +122,33 @@ function Matches() {
                               : StyleMatches.playedGreen
                           }
                         >
-                          {match.played === true ? "Played" : "Not Played Yet"}
+                          {match.played === true ? (
+                            "FT"
+                          ) : (
+                            <>
+                              <div>
+                                {new Date(match.match_date).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    timeZone: "UTC",
+                                    year: "numeric",
+                                    month: "numeric",
+                                    day: "numeric",
+                                  }
+                                )}
+                              </div>
+                              <div>
+                                {new Date(match.match_date).toLocaleTimeString(
+                                  "en-US",
+                                  {
+                                    timeZone: "UTC",
+                                    hour: "numeric",
+                                    minute: "numeric",
+                                  }
+                                )}
+                              </div>
+                            </>
+                          )}
                         </p>
                       </div>
 

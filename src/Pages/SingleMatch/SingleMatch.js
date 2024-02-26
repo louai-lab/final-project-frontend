@@ -34,7 +34,7 @@ function SingleMatch() {
   const [match, setMatch] = useState(location.state?.match || {});
 
   const cancelEvent = () => {
-    setIsOpenPopUpEvent(false);
+    closePopUp()
   };
 
   const openPopUp = () => {
@@ -223,9 +223,13 @@ function SingleMatch() {
                     ))}
                   </>
                 )}
-                <button className={StyleSingleMatch.open} onClick={openPopUp}>
-                  +
-                </button>
+                {user.role === "admin" || user.userId === match.watcher._id ? (
+                  <button className={StyleSingleMatch.open} onClick={openPopUp}>
+                    +
+                  </button>
+                ) : (
+                  ""
+                )}
                 <animated.div
                   style={{
                     ...animationProps,
@@ -286,9 +290,6 @@ function SingleMatch() {
                     >
                       Post
                     </button>
-                    {/* <animated.div style={animationProps}>
-                      <p>Posted Successfully</p>
-                    </animated.div> */}
                   </div>
                 </div>
               </div>
@@ -321,9 +322,6 @@ function SingleMatch() {
                       >
                         Post
                       </button>
-                      {/* <animated.div style={animationProps}>
-                        <p>Posted Successfully</p>
-                      </animated.div> */}
                     </div>
                   </div>
                 </div>

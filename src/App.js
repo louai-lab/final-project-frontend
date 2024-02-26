@@ -23,6 +23,9 @@ function App() {
   const { getAllLinesman } = useUsersStore();
   const { getAllPlayers } = usePlayersStore();
   const { getAllPlayersNoTeam } = usePlayersStore();
+  const { getAllTeams } = useTeamsStore();
+  const { getAllMatches } = useMatchesStore();
+  const { getLastMatch } = useMatchesStore();
 
   // console.log(user);
 
@@ -34,10 +37,13 @@ function App() {
     getAllLinesman();
     getAllPlayers();
     getAllPlayersNoTeam();
+    getAllTeams();
+    getAllMatches();
+    getLastMatch();
   }, []);
 
-  console.log(user);
-  console.log(matches);
+  // console.log(user)
+  // console.log(matches)
 
   return loading ? (
     <div>
