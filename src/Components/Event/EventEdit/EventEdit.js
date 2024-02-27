@@ -56,6 +56,7 @@ function EventEdit({
 
   const handleEditEventSend = ( formData) => {
     handleEditEvent(formData)
+
   };
 
   return (

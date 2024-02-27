@@ -230,9 +230,10 @@
   column-gap: 20%;
   justify-content: space-between;
   align-items: center;
-  /* background-color: blue; */
+  /* background-color: red; */
   width: 38rem;
-  height: 4rem;
+  height: fit-content;
+  padding: 5px;
 }
 
 .event > p {

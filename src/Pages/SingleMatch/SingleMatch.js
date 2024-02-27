@@ -13,6 +13,7 @@ import EventEdit from "../../Assets/icons/material-symbols--edit-outline (1).svg
 import EventDeletePopUp from "../../Components/Event/EventDelete/EventDelete";
 import EventEditPopUp from "../../Components/Event/EventEdit/EventEdit";
 import { useMatchesStore } from "../../Zustand/Store";
+import { useTeamsStore } from "../../Zustand/Store";
 
 function SingleMatch() {
   const { user } = useUserStore();
@@ -27,6 +28,17 @@ function SingleMatch() {
   const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  // const [showButton , setShowButton]= useState(false)
+
+  const { getAllTeams } = useTeamsStore();
+  const { getAllMatches } = useMatchesStore();
+  const { getLastMatch } = useMatchesStore();
+
+  useEffect(() => {
+    getAllTeams();
+    getAllMatches();
+    getLastMatch();
+  }, []);
 
   const animationProps = useSpring({
     opacity: showAnimation ? 1 : 0,
@@ -41,6 +53,9 @@ function SingleMatch() {
 
   const location = useLocation();
   const [match, setMatch] = useState(location.state?.match || {});
+
+  // console.log(user);
+  // console.log(match.watcher._id);
 
   const cancelEvent = () => {
     closePopUp();
@@ -122,10 +137,10 @@ function SingleMatch() {
 
       if (response) {
         setShowAnimation(true);
-        // console.log(response.data);
+        console.log(response.data);
         setTimeout(() => {
           setShowAnimation(false);
-        }, 2000);
+        }, 5000);
       }
     } catch (error) {
       console.log(error);
@@ -140,10 +155,10 @@ function SingleMatch() {
 
       if (response) {
         setShowAnimation(true);
-        console.log(response.data);
+        // console.log(response.data);
         setTimeout(() => {
           setShowAnimation(false);
-        }, 2000);
+        }, 5000);
       }
     } catch (error) {
       console.log(error);
@@ -198,8 +213,6 @@ function SingleMatch() {
   // console.log(selectedEvent);
   /////////////////////
 
-  // console.log(match)
-
   // Edit PopUp Event
   const openPopUpEdit = () => {
     setIsOpenPopUpEdit(true);
@@ -222,7 +235,19 @@ function SingleMatch() {
   };
 
   const handleEditEvent = async (formData) => {
-    console.log(formData);
+    try {
+      const response = await axiosInstance.patch(
+        `/matchdetails/updateObject/${match.details._id}/${selectedEvent._id}`,
+        formData
+      );
+      if (response) {
+        console.log("Updated Successfully");
+        fetchUpdatedMatch(match._id);
+        cancelEditEvent();
+      }
+    } catch (error) {
+      console.error("Error updating object:", error);
+    }
   };
   ////////////
 
@@ -319,7 +344,9 @@ function SingleMatch() {
                     ))}
                   </>
                 )}
-                {user.role === "admin" || user.userId === match.watcher._id ? (
+                {user.role === "admin" ||
+                user.userId === match.watcher._id ||
+                user._id === match.watcher._id ? (
                   <button className={StyleSingleMatch.open} onClick={openPopUp}>
                     +
                   </button>
@@ -362,38 +389,67 @@ function SingleMatch() {
       content: (
         <div className={StyleSingleMatch.reportsContainer}>
           <>
-            {user.role === "admin" || user.userId === match.watcher._id ? (
-              <div className={StyleSingleMatch.singleReport}>
-                <img
-                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match.watcher.image}`}
-                  alt={match.watcher.name}
-                  className={StyleSingleMatch.imagesReports}
-                />
-                <div className={StyleSingleMatch.partReport}>
-                  <p>{match.watcher.firstName}'s Report :</p>
-                  <textarea
-                    className={StyleSingleMatch.textArea}
-                    rows="5"
-                    placeholder="Enter your report as watcher here..."
-                    value={watcherReport}
-                    onChange={handleTextareaChangeWatcher}
-                  ></textarea>
-                  <div className={StyleSingleMatch.ButtonsReport}>
-                    <button
-                      type="button"
-                      className={StyleSingleMatch.post}
-                      onClick={handleUpdateWatcherReport}
-                    >
-                      Post
-                    </button>
+            {user.role === "admin" ||
+            user.userId === match.watcher._id ||
+            user._id === match.watcher._id ? (
+              <>
+                <div className={StyleSingleMatch.singleReport}>
+                  <img
+                    src={`${process.env.REACT_APP_IMAGE_PATH}/${match.watcher.image}`}
+                    alt={match.watcher.name}
+                    className={StyleSingleMatch.imagesReports}
+                  />
+                  <div className={StyleSingleMatch.partReport}>
+                    <p>{match.watcher.firstName}'s Report :</p>
+                    <textarea
+                      className={StyleSingleMatch.textArea}
+                      rows="5"
+                      placeholder="Enter your report as watcher here..."
+                      value={watcherReport}
+                      onChange={handleTextareaChangeWatcher}
+                    ></textarea>
+                    <div className={StyleSingleMatch.ButtonsReport}>
+                      <button
+                        type="button"
+                        className={StyleSingleMatch.post}
+                        onClick={handleUpdateWatcherReport}
+                      >
+                        Post
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
+                <animated.div
+                  style={{
+                    ...animationProps,
+                    position: "fixed",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    textAlign: "center",
+                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    color: "white",
+                    padding: "10px",
+                  }}
+                >
+                  <>
+                    <p>Posted Successfully</p>
+                    <img
+                      src={`${process.env.REACT_APP_IMAGE_PATH}/football.png`}
+                      alt="goal"
+                      // className={StyleSingleMatch.iconType}
+                      style={{ width: "50px", height: "50px" }}
+                    />
+                  </>
+                </animated.div>
+              </>
             ) : null}
           </>
 
           <>
-            {user.role === "admin" || user.userId === match.referee._id ? (
+            {user.role === "admin" ||
+            user.userId === match.referee._id ||
+            user._id === match.referee._id ? (
               <>
                 <div className={StyleSingleMatch.singleReport}>
                   <img
