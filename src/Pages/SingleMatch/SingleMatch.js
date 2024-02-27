@@ -28,7 +28,6 @@ function SingleMatch() {
   const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
-  // const [showButton , setShowButton]= useState(false)
 
   const { getAllTeams } = useTeamsStore();
   const { getAllMatches } = useMatchesStore();
@@ -53,9 +52,6 @@ function SingleMatch() {
 
   const location = useLocation();
   const [match, setMatch] = useState(location.state?.match || {});
-
-  // console.log(user);
-  // console.log(match.watcher._id);
 
   const cancelEvent = () => {
     closePopUp();
@@ -155,7 +151,6 @@ function SingleMatch() {
 
       if (response) {
         setShowAnimation(true);
-        // console.log(response.data);
         setTimeout(() => {
           setShowAnimation(false);
         }, 5000);
@@ -209,8 +204,6 @@ function SingleMatch() {
       console.log(error);
     }
   };
-  // console.log(match.details._id);
-  // console.log(selectedEvent);
   /////////////////////
 
   // Edit PopUp Event
@@ -322,7 +315,6 @@ function SingleMatch() {
                             )}
                           </div>
                         </div>
-                        {/* <div className={StyleSingleMatch.between}></div> */}
                         <div className={StyleSingleMatch.eventActions}>
                           <button
                             type="button"

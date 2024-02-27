@@ -125,6 +125,12 @@ export const usePlayersStore = create((set) => ({
 }));
 
 export const useTeamsStore = create((set) => ({
+  selectedTeamId: null,
+  updateSelectedTeamId: (teamId) => {
+    console.log(teamId);
+    set({ selectedTeamId: teamId });
+  },
+
   teams: [],
   loading: true,
   getAllTeams: async () => {

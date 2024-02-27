@@ -71,9 +71,6 @@
   /* justify-content: center; */
   align-items: center;
 }
-.middle {
-  margin: 20px;
-}
 
 .cardsContainer {
   display: flex;
@@ -164,6 +161,38 @@
   background-position: center;
   border-radius: 50%;
   animation: spin 3s infinite linear;
+}
+
+.middle {
+  display: flex;
+  align-items: center;
+  background-color: #151533;
+  justify-content: space-between;
+  margin: 20px;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.CancelTransition {
+  all: unset;
+}
+
+.Filter {
+  display: flex;
+  column-gap: 10px;
+  width: fit-content;
+  padding: 10px;
+  border: 1px solid #74f6e0;
+  border-radius: 10px;
+  transition: background-color 0.3s, color 0.3s;
+  color: #74f6e0;
+  font-size: clamp(10px , 2rem , 20px);
+}
+
+.Filter:hover {
+  cursor: pointer;
+  background-color: #74f6e0;
+  color: #151533;
 }
 
 @keyframes spin {
