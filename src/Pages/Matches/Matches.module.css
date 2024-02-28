@@ -4,8 +4,18 @@
   font-size: clamp(14px, 5vw, 24px);
   background-color: #1e1843;
 }
-
+.bchh {
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(3px);
+  z-index: 111000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .matchesHeroSection {
+  z-index: 900;
   color: white;
   width: 100%;
   height: 70vh;
@@ -18,6 +28,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  backdrop-filter: blur(10px); /* Adjust the blur amount as needed */
 }
 
 .lastMatch {
@@ -49,6 +60,7 @@
 .teamsImage {
   width: 15rem;
   height: 15rem;
+  object-fit: contain;
 }
 
 .vs {
@@ -75,9 +87,10 @@
 .cardsContainer {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  /* margin: 0 auto; */
+  justify-content:space-around;
   column-gap: 20px;
-  row-gap: 10px;
+  row-gap: 20px;
 }
 
 .cardMatch {
@@ -123,6 +136,7 @@
 .cardImage {
   width: 40px;
   height: 40px;
+  object-fit: contain;
 }
 
 .oneTeamScore {
@@ -186,7 +200,7 @@
   border-radius: 10px;
   transition: background-color 0.3s, color 0.3s;
   color: #74f6e0;
-  font-size: clamp(10px , 2rem , 20px);
+  font-size: clamp(8px, 1rem, 20px);
 }
 
 .Filter:hover {
@@ -221,6 +235,29 @@
   text-shadow: 1px 1px 2px black;
 }
 
+.matchPagination{
+  display: flex;
+  flex-direction: column;
+  row-gap: 50px;
+}
+
+.pagination {
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  /* margin-bottom: 25px; */
+  background-color: white;
+  border-radius: 20px;
+  width: fit-content;
+  margin: 25px auto;
+  padding: 5px;
+}
+
+.css-19xm0h7-MuiButtonBase-root-MuiPaginationItem-root {
+  color: white !important;
+}
+
+
 @media screen and (max-width: 1000px) {
   .teamsImage {
     width: 10rem;
@@ -239,6 +276,9 @@
   .teamsImage {
     width: 6rem;
     height: 6rem;
+  }
+  .bchh {
+    row-gap: 50px;
   }
 }
 

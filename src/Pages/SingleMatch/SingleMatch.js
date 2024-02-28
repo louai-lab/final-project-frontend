@@ -244,6 +244,8 @@ function SingleMatch() {
   };
   ////////////
 
+  // console.log(match);
+
   const TAB_DATA = [
     {
       title: "Live",
@@ -392,7 +394,7 @@ function SingleMatch() {
                     className={StyleSingleMatch.imagesReports}
                   />
                   <div className={StyleSingleMatch.partReport}>
-                    <p>{match.watcher.firstName}'s Report :</p>
+                    <p>Watcher {match.watcher.firstName}'s Report :</p>
                     <textarea
                       className={StyleSingleMatch.textArea}
                       rows="5"
@@ -450,7 +452,7 @@ function SingleMatch() {
                     className={StyleSingleMatch.imagesReports}
                   />
                   <div className={StyleSingleMatch.partReport}>
-                    <p>{match.referee.firstName}'s Report :</p>
+                    <p>Referee {match.referee.firstName}'s Report :</p>
                     <textarea
                       className={StyleSingleMatch.textArea}
                       rows="5"
@@ -495,6 +497,61 @@ function SingleMatch() {
               </>
             ) : null}
           </>
+        </div>
+      ),
+    },
+    {
+      title: "info",
+      id: "info",
+      content: (
+        <div className={StyleSingleMatch.infoContainer}>
+          <h1>Info</h1>
+          <p>{match.title}</p>
+          <div className={StyleSingleMatch.linesman}>
+            <img
+              src={`${process.env.REACT_APP_IMAGE_PATH}/${match.linesman_one.image}`}
+              alt={match.linesman_one.firstName}
+              className={StyleSingleMatch.linesmanImage}
+            />
+            <p>
+              {match.linesman_one.firstName} {match.linesman_one.lastName}
+            </p>
+          </div>
+          <div className={StyleSingleMatch.linesman}>
+            <img
+              src={`${process.env.REACT_APP_IMAGE_PATH}/${match.linesman_two.image}`}
+              alt={match.linesman_two.firstName}
+              className={StyleSingleMatch.linesmanImage}
+            />
+            <p>
+              {match.linesman_two.firstName} {match.linesman_two.lastName}
+            </p>
+          </div>
+          <p>
+            {new Date(match.match_date).toLocaleDateString("en-US", {
+              timeZone: "UTC",
+              year: "numeric",
+              month: "numeric",
+              day: "numeric",
+            })}
+          </p>
+          <p>
+            {new Date(match.match_date).toLocaleTimeString("en-US", {
+              timeZone: "UTC",
+              hour: "numeric",
+              minute: "numeric",
+            })}
+          </p>
+          <p>{match.pitch}</p>
+          <p>
+            {match.referee.firstName} {match.referee.lastName}
+          </p>
+          <p>
+            {match.watcher.firstName} {match.watcher.lastName}
+          </p>
+          <p>
+            {match.season}
+          </p>
         </div>
       ),
     },
@@ -644,6 +701,12 @@ function SingleMatch() {
                   active={tab === "reports"}
                 >
                   REPORTS
+                </TabButton>
+                <TabButton
+                  selectTab={() => handleTabChange("info")}
+                  active={tab === "info"}
+                >
+                  MATCH INFO
                 </TabButton>
               </section>
 

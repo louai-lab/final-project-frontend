@@ -65,6 +65,7 @@
 .cardImage {
   width: 15rem;
   height: 15rem;
+  object-fit: contain;
 }
 
 .teamA {
@@ -142,6 +143,17 @@
   row-gap: 20px;
 }
 
+.infoContainer {
+  width: 100vw;
+  height: fit-content;
+  padding: 5px;
+  font-size: clamp(12px, 3vw, 30px);
+  background-color: rgba(240, 233, 233, 0.893);
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
 .imagesReports {
   width: 50px;
   height: 50px;
@@ -171,16 +183,15 @@
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 10px;
-  resize: vertical; 
+  resize: vertical;
 }
 
-
-.ButtonsReport{
+.ButtonsReport {
   display: flex;
   column-gap: 10px;
 }
 
-.post{
+.post {
   padding: 5px 20px;
   font-size: clamp(10px, 5vw, 20px);
   border-radius: 10px;
@@ -189,7 +200,7 @@
   background: linear-gradient(to right, var(--primary-clr), var(--third-clr));
 }
 
-.post:hover{
+.post:hover {
   cursor: pointer;
 }
 
@@ -216,11 +227,11 @@
     height: 60px;
     padding: 5px;
   }
-  .iconType{
+  .iconType {
     width: 18px;
     height: 18px;
   }
-  .liveContainer{
+  .liveContainer {
     padding: 10px;
   }
 }
@@ -245,24 +256,17 @@
   /* background-color: green; */
 }
 
-/* .between {
-  width: 10px;
-  height: 10px;
-  background-color: black;
-  border-radius: 50%;
-} */
-
-.eventActions{
+.eventActions {
   display: flex;
   column-gap: 10px;
 }
 
-.eventActions img{
+.eventActions img {
   width: 20px;
   transition: opacity 0.3s;
 }
 
-.eventActions img:hover{
+.eventActions img:hover {
   opacity: 0.6;
   cursor: pointer;
 }
@@ -288,6 +292,15 @@
 
 .rowDirection {
   flex-direction: row;
+}
+
+.linesman{
+  display: flex;
+  column-gap: 10px;
+}
+
+.linesmanImage{
+  width: 100px;
 }
 
 @media screen and (max-width: 1050px) {

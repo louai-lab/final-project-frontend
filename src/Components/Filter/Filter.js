@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import StyleFilter from "./Filter.module.css";
 import { useTeamsStore } from "../../Zustand/Store";
-import { Reveal } from "../../Frammotion/RevealAnimation";
 
 function Filter({ handleCloseFilter, handleApply }) {
   const { teams } = useTeamsStore();
   const [teamId, setTeamId] = useState(null);
-//   const {selectedTeamId ,setSelectedTeamId} = useTeamsStore()
 
   const handleTeamClick = (teamId) => {
     setTeamId(teamId);
