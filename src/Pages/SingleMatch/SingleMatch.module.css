@@ -43,11 +43,6 @@
   color: black;
 }
 
-/* .position {
-  position: absolute;
-  top: 65%;
-} */
-
 .tabContainer {
   display: flex;
   justify-content: center;
@@ -57,10 +52,6 @@
   /* margin: 0 auto; */
   color: black;
 }
-
-/* .singleTab {
-  color: red;
-} */
 
 .cardImage {
   width: 15rem;
@@ -144,14 +135,14 @@
 }
 
 .infoContainer {
-  width: 100vw;
+  width: 100%;
   height: fit-content;
-  padding: 5px;
+  padding: 20px;
   font-size: clamp(12px, 3vw, 30px);
   background-color: rgba(240, 233, 233, 0.893);
   display: flex;
-  flex-direction: column;
-  row-gap: 20px;
+  justify-content: center;
+  column-gap: 30px;
 }
 
 .imagesReports {
@@ -294,13 +285,57 @@
   flex-direction: row;
 }
 
-.linesman{
+.persons {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  width: fit-content;
+  padding: 20px;
+  border-radius: 30px;
+  /* background-color: blue; */
+  box-shadow: 0 0 5px black;
+}
+
+.things{
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0 0 5px black;
+  border-radius: 20px;
+}
+
+.thing{
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+}
+
+.linesmanContainer {
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  column-gap: 20px;
+  /* background-color: blue; */
+  font-family: var(--font-family);
+}
+
+.linesman {
   display: flex;
   column-gap: 10px;
 }
 
-.linesmanImage{
-  width: 100px;
+.linesmanImage {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: fill;
+}
+
+.iconInfo {
+  width: 50px;
+  height: 70px;
 }
 
 @media screen and (max-width: 1050px) {
@@ -343,17 +378,13 @@
 }
 
 .open {
-  padding: 0px 30px;
+  padding: 0px 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: fit-content;
-  height: fit-content;
-  /* font-size: 90px; */
-  font-size: clamp(50px, 6vw, 80px);
+  font-size: clamp(20px, 5vw, 50px);
   font-weight: bold;
   color: white;
-  /* background-color: var(--secondary-clr); */
   background-color: rgb(21, 211, 21);
   border: none;
   border-radius: 20px;
@@ -363,4 +394,23 @@
 .open:hover {
   cursor: pointer;
   background-color: var(--secondary-clr);
+}
+
+.endMatch {
+  padding: 15px 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: clamp(10px, 3vw, 20px);
+  font-weight: bold;
+  color: white;
+  background-color: red;
+  border: none;
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.endMatch:hover {
+  cursor: pointer;
+  background-color: var(--third-clr);
 }

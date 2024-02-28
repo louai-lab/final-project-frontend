@@ -14,6 +14,13 @@ import EventDeletePopUp from "../../Components/Event/EventDelete/EventDelete";
 import EventEditPopUp from "../../Components/Event/EventEdit/EventEdit";
 import { useMatchesStore } from "../../Zustand/Store";
 import { useTeamsStore } from "../../Zustand/Store";
+import Flag from "../../Assets/icons/flag.png";
+import Signal from "../../Assets/icons/signal.png";
+import Arrow from "../../Assets/icons/arrow (1).png";
+import Trophy from "../../Assets/icons/trophy.png";
+import Clock from "../../Assets/icons/clock.png";
+import Calendar from "../../Assets/icons/calendar.png";
+import Stadium from "../../Assets/icons/stadium.png";
 
 function SingleMatch() {
   const { user } = useUserStore();
@@ -120,6 +127,24 @@ function SingleMatch() {
       }
     } catch (error) {
       console.error("Error updating match details:", error);
+    }
+  };
+
+  console.log(match)
+
+  const handleEndMatch = async () => {
+    // console.log(id);
+    try {
+      const response = await axiosInstance.patch(`/match/update/${match._id}`, {
+        played: true,
+      });
+      if (response) {
+        console.log("Updated successfully");
+        console.log(response.data)
+      }
+      fetchUpdatedMatch(match._id);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -244,8 +269,6 @@ function SingleMatch() {
   };
   ////////////
 
-  // console.log(match);
-
   const TAB_DATA = [
     {
       title: "Live",
@@ -257,93 +280,113 @@ function SingleMatch() {
           ) : (
             <Reveal>
               <div className={StyleSingleMatch.liveContainer}>
-                {match.played === false ? (
+                {/* {match.played === false ? (
                   <>
                     <h1>No Such Events Yet!</h1>
                   </>
                 ) : (
                   <>
-                    {events.map((event) => (
-                      <div
-                        key={event._id}
-                        className={`${StyleSingleMatch.event} ${
-                          event.team._id === match.team_b.team._id
-                            ? StyleSingleMatch.flexStart
-                            : StyleSingleMatch.flexEnd
-                        }`}
-                      >
-                        <div
-                          className={`${StyleSingleMatch.type} ${
-                            event.team._id === match.team_b.team._id
-                              ? StyleSingleMatch.rowDirection
-                              : ""
-                          }`}
-                        >
-                          {event.type === "goal" ? (
-                            <img
-                              src={`${process.env.REACT_APP_IMAGE_PATH}/football.png`}
-                              alt="goal"
-                              className={StyleSingleMatch.iconType}
-                            />
-                          ) : event.type === "yellow_card" ? (
-                            <img
-                              src={`${process.env.REACT_APP_IMAGE_PATH}/yellow-card.png`}
-                              alt="yellow-card"
-                              className={StyleSingleMatch.iconType}
-                            />
-                          ) : event.type === "red_card" ? (
-                            <img
-                              src={`${process.env.REACT_APP_IMAGE_PATH}/red-card.png`}
-                              alt="red-card"
-                              className={StyleSingleMatch.iconType}
-                            />
-                          ) : (
-                            <img
-                              src={`${process.env.REACT_APP_IMAGE_PATH}/substitution.png`}
-                              alt="substitution"
-                              className={StyleSingleMatch.iconSubstitution}
-                            />
-                          )}
-                          <div>
-                            {event.type === "substitution" ? (
-                              <div className={StyleSingleMatch.substitution}>
-                                <p>{event.playerIn.name}</p>
-                                <p className={StyleSingleMatch.out}>
-                                  {event.playerOut.name}
-                                </p>
-                              </div>
-                            ) : (
-                              <p>{event.playerIn.name}</p>
-                            )}
-                          </div>
-                        </div>
-                        <div className={StyleSingleMatch.eventActions}>
-                          <button
-                            type="button"
-                            onClick={() => handleOpenDelete(event._id)}
-                            style={{ border: "none" }}
-                          >
-                            <img src={EventDelete} alt="" />
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => handleOpenEdit(event)}
-                            style={{ border: "none" }}
-                          >
-                            <img src={EventEdit} alt="" />
-                          </button>
-                        </div>
-                        <p>{event.minute}'</p>
-                      </div>
-                    ))}
+                    
                   </>
-                )}
+                )} */}
+                {events.map((event) => (
+                  <div
+                    key={event._id}
+                    className={`${StyleSingleMatch.event} ${
+                      event.team._id === match.team_b.team._id
+                        ? StyleSingleMatch.flexStart
+                        : StyleSingleMatch.flexEnd
+                    }`}
+                  >
+                    <div
+                      className={`${StyleSingleMatch.type} ${
+                        event.team._id === match.team_b.team._id
+                          ? StyleSingleMatch.rowDirection
+                          : ""
+                      }`}
+                    >
+                      {event.type === "goal" ? (
+                        <img
+                          src={`${process.env.REACT_APP_IMAGE_PATH}/football.png`}
+                          alt="goal"
+                          className={StyleSingleMatch.iconType}
+                        />
+                      ) : event.type === "yellow_card" ? (
+                        <img
+                          src={`${process.env.REACT_APP_IMAGE_PATH}/yellow-card.png`}
+                          alt="yellow-card"
+                          className={StyleSingleMatch.iconType}
+                        />
+                      ) : event.type === "red_card" ? (
+                        <img
+                          src={`${process.env.REACT_APP_IMAGE_PATH}/red-card.png`}
+                          alt="red-card"
+                          className={StyleSingleMatch.iconType}
+                        />
+                      ) : (
+                        <img
+                          src={`${process.env.REACT_APP_IMAGE_PATH}/substitution.png`}
+                          alt="substitution"
+                          className={StyleSingleMatch.iconSubstitution}
+                        />
+                      )}
+                      <div>
+                        {event.type === "substitution" ? (
+                          <div className={StyleSingleMatch.substitution}>
+                            <p>{event.playerIn.name}</p>
+                            <p className={StyleSingleMatch.out}>
+                              {event.playerOut.name}
+                            </p>
+                          </div>
+                        ) : (
+                          <p>{event.playerIn.name}</p>
+                        )}
+                      </div>
+                    </div>
+                    <div className={StyleSingleMatch.eventActions}>
+                      <button
+                        type="button"
+                        onClick={() => handleOpenDelete(event._id)}
+                        style={{ border: "none" }}
+                      >
+                        <img src={EventDelete} alt="" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleOpenEdit(event)}
+                        style={{ border: "none" }}
+                      >
+                        <img src={EventEdit} alt="" />
+                      </button>
+                    </div>
+                    <p>{event.minute}'</p>
+                  </div>
+                ))}
                 {user.role === "admin" ||
                 user.userId === match.watcher._id ||
                 user._id === match.watcher._id ? (
-                  <button className={StyleSingleMatch.open} onClick={openPopUp}>
-                    +
-                  </button>
+                  <div
+                    style={{
+                      display: "flex",
+                      columnGap: "20px",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <button
+                      className={StyleSingleMatch.open}
+                      onClick={openPopUp}
+                    >
+                      +
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleEndMatch}
+                      className={StyleSingleMatch.endMatch}
+                    >
+                      End Match
+                    </button>
+                  </div>
                 ) : (
                   ""
                 )}
@@ -505,53 +548,105 @@ function SingleMatch() {
       id: "info",
       content: (
         <div className={StyleSingleMatch.infoContainer}>
-          <h1>Info</h1>
-          <p>{match.title}</p>
-          <div className={StyleSingleMatch.linesman}>
-            <img
-              src={`${process.env.REACT_APP_IMAGE_PATH}/${match.linesman_one.image}`}
-              alt={match.linesman_one.firstName}
-              className={StyleSingleMatch.linesmanImage}
-            />
-            <p>
-              {match.linesman_one.firstName} {match.linesman_one.lastName}
-            </p>
+          <div className={StyleSingleMatch.persons}>
+            <div className={StyleSingleMatch.linesmanContainer}>
+              {/* <p>Referee</p> */}
+              <img src={Signal} alt="" className={StyleSingleMatch.iconInfo} />
+              <div className={StyleSingleMatch.linesman}>
+                <img
+                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match.referee.image}`}
+                  alt={match.referee.name}
+                  className={StyleSingleMatch.linesmanImage}
+                />
+                <p>
+                  {match.referee.firstName} {match.referee.lastName}
+                </p>
+              </div>
+            </div>
+            <div className={StyleSingleMatch.linesmanContainer}>
+              {/* <p>Watcher</p> */}
+              <img src={Arrow} alt="" className={StyleSingleMatch.iconInfo} />
+              <div className={StyleSingleMatch.linesman}>
+                <img
+                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match.watcher.image}`}
+                  alt={match.watcher.name}
+                  className={StyleSingleMatch.linesmanImage}
+                />
+                <p>
+                  {match.watcher.firstName} {match.watcher.lastName}
+                </p>
+              </div>
+            </div>
+            <div className={StyleSingleMatch.linesmanContainer}>
+              {/* <p>LinesMan One :</p> */}
+              <img src={Flag} alt="" className={StyleSingleMatch.iconInfo} />
+              <div className={StyleSingleMatch.linesman}>
+                <img
+                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match.linesman_one.image}`}
+                  alt={match.linesman_one.firstName}
+                  className={StyleSingleMatch.linesmanImage}
+                />
+                <p>
+                  {match.linesman_one.firstName} {match.linesman_one.lastName}
+                </p>
+              </div>
+            </div>
+            <div className={StyleSingleMatch.linesmanContainer}>
+              {/* <p>LinesMan two</p> */}
+              <img src={Flag} alt="" className={StyleSingleMatch.iconInfo} />
+              <div className={StyleSingleMatch.linesman}>
+                <img
+                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match.linesman_two.image}`}
+                  alt={match.linesman_two.firstName}
+                  className={StyleSingleMatch.linesmanImage}
+                />
+                <p>
+                  {match.linesman_two.firstName} {match.linesman_two.lastName}
+                </p>
+              </div>
+            </div>
           </div>
-          <div className={StyleSingleMatch.linesman}>
-            <img
-              src={`${process.env.REACT_APP_IMAGE_PATH}/${match.linesman_two.image}`}
-              alt={match.linesman_two.firstName}
-              className={StyleSingleMatch.linesmanImage}
-            />
-            <p>
-              {match.linesman_two.firstName} {match.linesman_two.lastName}
-            </p>
+          <div className={StyleSingleMatch.things}>
+            <div className={StyleSingleMatch.thing}>
+              <img src={Trophy} alt="" className={StyleSingleMatch.iconInfo} />
+              <p>{match.title}</p>
+            </div>
+            <div className={StyleSingleMatch.thing}>
+              <img
+                src={Calendar}
+                alt=""
+                className={StyleSingleMatch.iconInfo}
+              />
+              <p>
+                {" "}
+                {new Date(match.match_date).toLocaleDateString("en-US", {
+                  timeZone: "UTC",
+                  year: "numeric",
+                  month: "numeric",
+                  day: "numeric",
+                })}
+              </p>
+            </div>
+            <div className={StyleSingleMatch.thing}>
+              <img src={Clock} alt="" className={StyleSingleMatch.iconInfo} />
+              <p>
+                {" "}
+                {new Date(match.match_date).toLocaleTimeString("en-US", {
+                  timeZone: "UTC",
+                  hour: "numeric",
+                  minute: "numeric",
+                })}
+              </p>
+            </div>
+            <div className={StyleSingleMatch.thing}>
+              <img src={Stadium} alt="" className={StyleSingleMatch.iconInfo} />
+              <p>{match.pitch}</p>
+            </div>
+            <div className={StyleSingleMatch.thing}>
+              <img src={Stadium} alt="" className={StyleSingleMatch.iconInfo} />
+              <p>{match.season}</p>
+            </div>{" "}
           </div>
-          <p>
-            {new Date(match.match_date).toLocaleDateString("en-US", {
-              timeZone: "UTC",
-              year: "numeric",
-              month: "numeric",
-              day: "numeric",
-            })}
-          </p>
-          <p>
-            {new Date(match.match_date).toLocaleTimeString("en-US", {
-              timeZone: "UTC",
-              hour: "numeric",
-              minute: "numeric",
-            })}
-          </p>
-          <p>{match.pitch}</p>
-          <p>
-            {match.referee.firstName} {match.referee.lastName}
-          </p>
-          <p>
-            {match.watcher.firstName} {match.watcher.lastName}
-          </p>
-          <p>
-            {match.season}
-          </p>
         </div>
       ),
     },

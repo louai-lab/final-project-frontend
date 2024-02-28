@@ -47,7 +47,6 @@ function Matches() {
     setCurrentPage(value);
   };
 
-
   const handleMatchClick = (match) => {
     if (match && match._id) {
       navigate(`/match`, { state: { match } });
@@ -172,173 +171,179 @@ function Matches() {
                   </div>
                 ) : (
                   <>
-                    {currentMatches.map((match) => {
-                      return (
-                        <Reveal key={match._id}>
-                          <button
-                            className={`${StyleMatches.navigate} ${StyleMatches.buttonReset}`}
-                            onClick={() => handleMatchClick(match)}
-                          >
-                            <article
-                              key={match._id}
-                              className={StyleMatches.cardMatch}
+                    {currentMatches.length === 0 ? (
+                      <h1>No Matches Found</h1>
+                    ) : (
+                      currentMatches.map((match) => {
+                        return (
+                          <Reveal key={match._id}>
+                            <button
+                              className={`${StyleMatches.navigate} ${StyleMatches.buttonReset}`}
+                              onClick={() => handleMatchClick(match)}
                             >
-                              <article className={StyleMatches.aboveHr}>
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  <section className={StyleMatches.cardImages}>
-                                    <img
-                                      src={`${process.env.REACT_APP_IMAGE_PATH}/${match.team_a?.team.image}`}
-                                      alt={match.team_a?.team.name}
-                                      className={StyleMatches.cardImage}
-                                    />
-                                    <span>vs</span>
-                                    <img
-                                      src={`${process.env.REACT_APP_IMAGE_PATH}/${match.team_b?.team.image}`}
-                                      alt={match.team_b?.team.name}
-                                      className={StyleMatches.cardImage}
-                                    />
-                                  </section>
-                                  <p
-                                    className={
-                                      match.played
-                                        ? StyleMatches.playedRed
-                                        : StyleMatches.playedGreen
-                                    }
+                              <article
+                                key={match._id}
+                                className={StyleMatches.cardMatch}
+                              >
+                                <article className={StyleMatches.aboveHr}>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                      alignItems: "center",
+                                    }}
                                   >
-                                    {match.played === true ? (
-                                      "FT"
-                                    ) : (
-                                      <>
-                                        <div>
-                                          {new Date(
-                                            match.match_date
-                                          ).toLocaleDateString("en-US", {
-                                            timeZone: "UTC",
-                                            year: "numeric",
-                                            month: "numeric",
-                                            day: "numeric",
-                                          })}
-                                        </div>
-                                        <div>
-                                          {new Date(
-                                            match.match_date
-                                          ).toLocaleTimeString("en-US", {
-                                            timeZone: "UTC",
-                                            hour: "numeric",
-                                            minute: "numeric",
-                                          })}
-                                        </div>
-                                      </>
-                                    )}
-                                  </p>
-                                </div>
-
-                                <section className={StyleMatches.cardTitle}>
-                                  {match.title}
-                                </section>
-
-                                <section>
-                                  <section
-                                    className={StyleMatches.oneTeamScore}
-                                  >
-                                    <p
-                                      style={{
-                                        fontWeight:
-                                          match.team_a?.score >
-                                          match.team_b?.score
-                                            ? "bold"
-                                            : "normal",
-
-                                        color:
-                                          match.team_a?.score >
-                                          match.team_b?.score
-                                            ? "white"
-                                            : "grey",
-                                      }}
+                                    <section
+                                      className={StyleMatches.cardImages}
                                     >
-                                      {match.team_a?.team.name}
-                                    </p>
+                                      <img
+                                        src={`${process.env.REACT_APP_IMAGE_PATH}/${match.team_a?.team.image}`}
+                                        alt={match.team_a?.team.name}
+                                        className={StyleMatches.cardImage}
+                                      />
+                                      <span>vs</span>
+                                      <img
+                                        src={`${process.env.REACT_APP_IMAGE_PATH}/${match.team_b?.team.image}`}
+                                        alt={match.team_b?.team.name}
+                                        className={StyleMatches.cardImage}
+                                      />
+                                    </section>
                                     <p
-                                      style={{
-                                        fontWeight:
-                                          match.team_a?.score >
-                                          match.team_b?.score
-                                            ? "bold"
-                                            : "normal",
-                                        color:
-                                          match.team_a?.score >
-                                          match.team_b?.score
-                                            ? "white"
-                                            : "grey",
-                                      }}
+                                      className={
+                                        match.played
+                                          ? StyleMatches.playedRed
+                                          : StyleMatches.playedGreen
+                                      }
                                     >
-                                      {match.team_a?.score}
+                                      {match.played === true ? (
+                                        "FT"
+                                      ) : (
+                                        <>
+                                          <div>
+                                            {new Date(
+                                              match.match_date
+                                            ).toLocaleDateString("en-US", {
+                                              timeZone: "UTC",
+                                              year: "numeric",
+                                              month: "numeric",
+                                              day: "numeric",
+                                            })}
+                                          </div>
+                                          <div>
+                                            {new Date(
+                                              match.match_date
+                                            ).toLocaleTimeString("en-US", {
+                                              timeZone: "UTC",
+                                              hour: "numeric",
+                                              minute: "numeric",
+                                            })}
+                                          </div>
+                                        </>
+                                      )}
                                     </p>
+                                  </div>
+
+                                  <section className={StyleMatches.cardTitle}>
+                                    {match.title}
                                   </section>
-                                  <section
-                                    className={StyleMatches.oneTeamScore}
-                                  >
-                                    <p
-                                      style={{
-                                        fontWeight:
-                                          match.team_b?.score >
-                                          match.team_a?.score
-                                            ? "bold"
-                                            : "normal",
-                                        color:
-                                          match.team_b?.score >
-                                          match.team_a?.score
-                                            ? "white"
-                                            : "grey",
-                                      }}
-                                    >
-                                      {match.team_b?.team.name}
-                                    </p>
-                                    <p
-                                      style={{
-                                        fontWeight:
-                                          match.team_b?.score >
-                                          match.team_a?.score
-                                            ? "bold"
-                                            : "normal",
 
-                                        color:
-                                          match.team_b?.score >
-                                          match.team_a?.score
-                                            ? "white"
-                                            : "grey",
-                                      }}
+                                  <section>
+                                    <section
+                                      className={StyleMatches.oneTeamScore}
                                     >
-                                      {match.team_b?.score}
-                                    </p>
+                                      <p
+                                        style={{
+                                          fontWeight:
+                                            match.team_a?.score >
+                                            match.team_b?.score
+                                              ? "bold"
+                                              : "normal",
+
+                                          color:
+                                            match.team_a?.score >
+                                            match.team_b?.score
+                                              ? "white"
+                                              : "grey",
+                                        }}
+                                      >
+                                        {match.team_a?.team.name}
+                                      </p>
+                                      <p
+                                        style={{
+                                          fontWeight:
+                                            match.team_a?.score >
+                                            match.team_b?.score
+                                              ? "bold"
+                                              : "normal",
+                                          color:
+                                            match.team_a?.score >
+                                            match.team_b?.score
+                                              ? "white"
+                                              : "grey",
+                                        }}
+                                      >
+                                        {match.team_a?.score}
+                                      </p>
+                                    </section>
+                                    <section
+                                      className={StyleMatches.oneTeamScore}
+                                    >
+                                      <p
+                                        style={{
+                                          fontWeight:
+                                            match.team_b?.score >
+                                            match.team_a?.score
+                                              ? "bold"
+                                              : "normal",
+                                          color:
+                                            match.team_b?.score >
+                                            match.team_a?.score
+                                              ? "white"
+                                              : "grey",
+                                        }}
+                                      >
+                                        {match.team_b?.team.name}
+                                      </p>
+                                      <p
+                                        style={{
+                                          fontWeight:
+                                            match.team_b?.score >
+                                            match.team_a?.score
+                                              ? "bold"
+                                              : "normal",
+
+                                          color:
+                                            match.team_b?.score >
+                                            match.team_a?.score
+                                              ? "white"
+                                              : "grey",
+                                        }}
+                                      >
+                                        {match.team_b?.score}
+                                      </p>
+                                    </section>
                                   </section>
+                                </article>
+                                <hr className={StyleMatches.horizontalLine} />
+                                <section className={StyleMatches.employees}>
+                                  <img
+                                    src={`${process.env.REACT_APP_IMAGE_PATH}/${match.watcher?.image}`}
+                                    alt={match.team_b?.team.name}
+                                    className={StyleMatches.imageEmployees}
+                                  />
+                                  <img
+                                    src={`${process.env.REACT_APP_IMAGE_PATH}/${match.referee?.image}`}
+                                    alt={match.team_b?.team.name}
+                                    className={StyleMatches.imageEmployees}
+                                    style={{ marginLeft: "-5px" }}
+                                  />
                                 </section>
                               </article>
-                              <hr className={StyleMatches.horizontalLine} />
-                              <section className={StyleMatches.employees}>
-                                <img
-                                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match.watcher?.image}`}
-                                  alt={match.team_b?.team.name}
-                                  className={StyleMatches.imageEmployees}
-                                />
-                                <img
-                                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match.referee?.image}`}
-                                  alt={match.team_b?.team.name}
-                                  className={StyleMatches.imageEmployees}
-                                  style={{ marginLeft: "-5px" }}
-                                />
-                              </section>
-                            </article>
-                          </button>
-                        </Reveal>
-                      );
-                    })}
+                            </button>
+                          </Reveal>
+                        );
+                      })
+                    )}
                   </>
                 )}
               </article>
