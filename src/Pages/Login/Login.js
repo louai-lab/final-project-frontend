@@ -10,6 +10,7 @@ import { Reveal } from "../../Frammotion/RevealAnimation";
 
 function Login() {
   const navigate = useNavigate();
+  const [passwordValid, setPasswordValid] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const { user, setUser } = useUserStore();
   const [credentials, setCredentials] = useState({
@@ -35,7 +36,8 @@ function Login() {
     e.preventDefault();
 
     if (credentials.email === "" || credentials.password === "") {
-      return console.log("All Fields are required");
+      setPasswordValid(false);
+      return;
     }
 
     try {
@@ -45,6 +47,7 @@ function Login() {
       );
 
       if (response.data) {
+        setPasswordValid(true);
         setUser(response.data);
 
         console.log(response.data);
@@ -66,6 +69,7 @@ function Login() {
             <div className={StyleLogin.container}>
               <div className={StyleLogin.form}>
                 <h2>Login Form</h2>
+
                 <form>
                   <div className={StyleLogin.inputBox}>
                     <input
@@ -96,6 +100,11 @@ function Login() {
                       {showPassword ? <FaEye /> : <FaEyeSlash />}
                     </div>
                   </div>
+                  {!passwordValid && (
+                    <div style={{ fontSize:"clamp(8px , 3rem , 20px)" , color: "red", marginTop: "5px", position:"absolute" }}>
+                      Email & Password are required
+                    </div>
+                  )}
                   <div className={StyleLogin.btn}>
                     <button className={StyleLogin.login} onClick={handleLogin}>
                       Login

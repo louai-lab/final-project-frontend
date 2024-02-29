@@ -51,6 +51,7 @@
 
 .addEvent:hover {
   opacity: 1;
+  cursor: pointer;
 }
 
 .cancelEvent {
@@ -72,6 +73,7 @@
 
 .cancelEvent:hover {
   opacity: 1;
+  cursor: pointer;
 }
 
 @media screen and (max-width:600px) {

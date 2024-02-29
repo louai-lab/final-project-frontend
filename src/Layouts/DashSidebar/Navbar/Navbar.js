@@ -4,6 +4,7 @@ import Styles from "./Navbar.module.css";
 import { useEffect, useState } from "react";
 import logo from "../../../Assets/icons/Lebanese_Football_Association_(LFA)_logo.svg";
 import { useUserStore } from "../../../Zustand/Store";
+import Logout from "../../../Assets/icons/material-symbols--logout (2).svg";
 
 function Navbar() {
   const { user, loading, logOut } = useUserStore();
@@ -103,7 +104,10 @@ function Navbar() {
                 className={Styles.logOut}
                 onClick={handleLogOut}
               >
-                Log Out
+                LogOut{"  "}
+                <span>
+                  <img src={Logout} alt="" />
+                </span>
               </button>
             </NavLink>
           </li>
@@ -190,7 +194,10 @@ function Navbar() {
                 className={Styles.logOutResponsive}
                 onClick={handleLogOut}
               >
-                Log Out
+                LogOut{" "}
+                <span>
+                  <img src={Logout} alt="" />
+                </span>
               </button>
             </NavLink>
           </li>

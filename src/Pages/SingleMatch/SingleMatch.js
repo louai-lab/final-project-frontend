@@ -130,7 +130,7 @@ function SingleMatch() {
     }
   };
 
-  console.log(match)
+  // console.log(match);
 
   const handleEndMatch = async () => {
     // console.log(id);
@@ -140,7 +140,7 @@ function SingleMatch() {
       });
       if (response) {
         console.log("Updated successfully");
-        console.log(response.data)
+        console.log(response.data);
       }
       fetchUpdatedMatch(match._id);
     } catch (error) {
@@ -280,15 +280,9 @@ function SingleMatch() {
           ) : (
             <Reveal>
               <div className={StyleSingleMatch.liveContainer}>
-                {/* {match.played === false ? (
-                  <>
-                    <h1>No Such Events Yet!</h1>
-                  </>
-                ) : (
-                  <>
-                    
-                  </>
-                )} */}
+                <button className={StyleSingleMatch.open} onClick={openPopUp}>
+                  +
+                </button>
                 {events.map((event) => (
                   <div
                     key={event._id}
@@ -373,12 +367,6 @@ function SingleMatch() {
                       alignItems: "center",
                     }}
                   >
-                    <button
-                      className={StyleSingleMatch.open}
-                      onClick={openPopUp}
-                    >
-                      +
-                    </button>
                     <button
                       type="button"
                       onClick={handleEndMatch}

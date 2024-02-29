@@ -62,7 +62,7 @@
   align-items: center;
   height: 56px;
   width: 100%;
-  font-family: "Poppins";
+  font-family: var(--font-family);
   font-size: 17px;
   text-transform: capitalize;
   line-height: 1;
@@ -107,7 +107,7 @@
   color: white;
   font-size: 17px;
   font-weight: bold;
-  font-family: "Poppins";
+  font-family: var(--font-family);
 }
 
 .logOutDash:hover {
