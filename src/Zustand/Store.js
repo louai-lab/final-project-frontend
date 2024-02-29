@@ -125,8 +125,6 @@ export const usePlayersStore = create((set) => ({
 }));
 
 export const useTeamsStore = create((set) => ({
-  
-
   teams: [],
   loading: true,
   getAllTeams: async () => {
@@ -159,16 +157,23 @@ export const useMatchesStore = create((set) => ({
   },
   getAllMatches: async (teamId) => {
     try {
-      // console.log("hii")
-      // console.log(teamId)
       set({ loading: true });
 
-      const url = teamId ? `/match?teamId=${teamId}` : '/match'
+      const url = teamId ? `/match?teamId=${teamId}` : "/match";
 
       const response = await axiosInstance.get(url);
-      if (response) {
-        set({ matches: response.data, loading: false });
-      }
+      // if (response) {
+      //   set({ matches: response.data, loading: false });
+      // }
+
+      const matches = response.data;
+
+      // Calculate match count
+      const matchCount = matches.length;
+
+      // Update state with matches and match count
+      set({ matches, matchCount, loading: false });
+      // console.log(matchCount)
     } catch (error) {
       console.error(error);
       set({ loading: false });
