@@ -130,7 +130,7 @@ function SingleMatch() {
     }
   };
 
-  console.log(match)
+  // console.log(match)
 
   const handleEndMatch = async () => {
     // console.log(id);
