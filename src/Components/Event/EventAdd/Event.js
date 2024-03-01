@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import StyleEvent from "./Event.module.css";
-import { Reveal } from "../../../Frammotion/RevealAnimation";
 
 function Event({
   cancelEvent,
@@ -17,6 +16,7 @@ function Event({
     playerOut: "",
     minute: "",
   });
+  const [allFieldsRequired, setAllFieldsRequired] = useState(false);
 
   const [players, setPlayers] = useState([]);
 
@@ -40,6 +40,12 @@ function Event({
 
   const handleAdd = async (e) => {
     e.preventDefault();
+
+    const { type, team, playerIn, minute } = formData;
+    if (!type || !team || !playerIn || !minute) {
+      setAllFieldsRequired(true);
+      return;
+    }
     handleEventSubmit(formData);
   };
 
@@ -129,6 +135,9 @@ function Event({
             onChange={handleInputChange}
           />
         </div>
+        {allFieldsRequired && (
+          <p style={{ color: "red" }}>All fields are required!</p>
+        )}
         <div className={StyleEvent.control}>
           <button
             type="button"

@@ -87,10 +87,12 @@
 .cardsContainer {
   display: flex;
   flex-wrap: wrap;
-  /* margin: 0 auto; */
-  justify-content:space-around;
+  /* background-color: red; */
+  justify-content: space-between;
   column-gap: 20px;
   row-gap: 20px;
+  width: 97.5%;
+  margin: 0 auto;
 }
 
 .cardMatch {
@@ -205,8 +207,9 @@
 
 .Filter:hover {
   cursor: pointer;
-  background-color: #74f6e0;
-  color: #151533;
+  background-color: var(--primary-clr);
+  border: 1px solid white;
+  color: white;
 }
 
 @keyframes spin {
@@ -235,7 +238,7 @@
   text-shadow: 1px 1px 2px black;
 }
 
-.matchPagination{
+.matchPagination {
   display: flex;
   flex-direction: column;
   row-gap: 50px;
@@ -257,11 +260,13 @@
   color: white !important;
 }
 
-
 @media screen and (max-width: 1000px) {
   .teamsImage {
     width: 10rem;
     height: 10rem;
+  }
+  .cardsContainer {
+    justify-content: center;
   }
 }
 
@@ -279,6 +284,9 @@
   }
   .bchh {
     row-gap: 50px;
+  }
+  .cardMatch{
+    width: 25rem;
   }
 }
 

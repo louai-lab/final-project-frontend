@@ -2,7 +2,7 @@
   --primary-clr:#c60a11;
   --secondary-clr:#037a37;
   --third-clr:#6d0905;
-  --font-family:'Poppins'
+  --font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
 }
 
 
@@ -11,6 +11,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif */
+  /* font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; */
 }
 
 /* body{

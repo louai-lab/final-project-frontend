@@ -64,6 +64,7 @@
 
 .select option:hover {
   background-color: #f0f0f0;
+  cursor: pointer;
 }
 
 .addEvent {
@@ -85,6 +86,7 @@
 
 .addEvent:hover {
   opacity: 1;
+  cursor: pointer;
 }
 
 .cancelEvent {
@@ -106,6 +108,7 @@
 
 .cancelEvent:hover {
   opacity: 1;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 600px) {

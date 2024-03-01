@@ -12,6 +12,9 @@ import PersonIcon from "@mui/icons-material/Person";
 import HomeIcon from "@mui/icons-material/Home";
 import { useState } from "react";
 import { useUserStore } from "../../../Zustand/Store";
+import { FaUserFriends } from "react-icons/fa";
+import { MdOutlineQueryStats } from "react-icons/md";
+import { PiSoccerBallFill } from "react-icons/pi";
 
 const DashSidebar = () => {
   const { logOut } = useUserStore();
@@ -33,9 +36,14 @@ const DashSidebar = () => {
       number: 1,
       item: "Overview",
       link: "/dashboard",
-      icon: <QueryStatsIcon />,
+      icon: <MdOutlineQueryStats />,
     },
-    { number: 2, item: "Users", link: "/dashboard/users", icon: <GroupIcon /> },
+    {
+      number: 2,
+      item: "Users",
+      link: "/dashboard/users",
+      icon: <FaUserFriends />,
+    },
     {
       number: 3,
       item: "Players",
@@ -52,7 +60,7 @@ const DashSidebar = () => {
       number: 5,
       item: "Matches",
       link: "/dashboard/matches",
-      icon: <SportsSoccerIcon />,
+      icon: <PiSoccerBallFill />,
     },
   ];
 
