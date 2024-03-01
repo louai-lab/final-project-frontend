@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import StyleHome from "./Home.module.css";
 import firstTeam from "../../Assets/icons/Ellipse 6.svg";
 import secondTeam from "../../Assets/icons/Ellipse 8.svg";
@@ -32,7 +32,7 @@ function Home() {
           <p className={StyleHome.association}>
             Lebanese Football Association
           </p>
-          <h1 style={{ color: "white" }}>FIXTURES</h1>
+          <h1>FIXTURES</h1>
           <div className={StyleHome.fixtureContainer}>
             {matches.map((match, index) => (
               <div key={index} className={StyleHome.fixture}>

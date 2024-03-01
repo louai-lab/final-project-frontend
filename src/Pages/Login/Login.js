@@ -62,59 +62,57 @@ function Login() {
     <div className={StyleLogin.loginPage}>
       <section className={StyleLogin.firstSection}>
         <img src={logo} alt="logo" />
-        <div className={StyleLogin.color}></div>
-        <div className={StyleLogin.color}></div>
-        <div className={StyleLogin.box}>
-          <Reveal>
-            <div className={StyleLogin.container}>
-              <div className={StyleLogin.form}>
-                <h2>Login Form</h2>
+        <Reveal>
+          <div className={StyleLogin.form}>
+            <h2>Login Form</h2>
 
-                <form>
-                  <div className={StyleLogin.inputBox}>
-                    <input
-                      type="text"
-                      name="email"
-                      value={credentials.email}
-                      onChange={handleInputChange}
-                      placeholder="Email"
-                      required
-                    />
-                  </div>
-                  <div
-                    className={StyleLogin.inputBox}
-                    style={{ display: "flex" }}
-                  >
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      name="password"
-                      onChange={handleInputChange}
-                      placeholder="Password"
-                      value={credentials.password}
-                      required
-                    />
-                    <div
-                      className={StyleLogin.eyeIcon}
-                      onClick={handleTogglePassword}
-                    >
-                      {showPassword ? <FaEye /> : <FaEyeSlash />}
-                    </div>
-                  </div>
-                  {!passwordValid && (
-                    <div style={{ fontSize:"clamp(8px , 3rem , 20px)" , color: "red", marginTop: "5px", position:"absolute" }}>
-                      Email & Password are required
-                    </div>
-                  )}
-                  <div className={StyleLogin.btn}>
-                    <button className={StyleLogin.login} onClick={handleLogin}>
-                      Login
-                    </button>
-                  </div>
-                </form>
+            <form>
+              <div className={StyleLogin.inputBox}>
+                <input
+                  type="text"
+                  name="email"
+                  value={credentials.email}
+                  onChange={handleInputChange}
+                  placeholder="Email"
+                  required
+                />
               </div>
-            </div>
-          </Reveal>
-        </div>
+              <div className={StyleLogin.inputBox} style={{ display: "flex" }}>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  onChange={handleInputChange}
+                  placeholder="Password"
+                  value={credentials.password}
+                  required
+                />
+                <div
+                  className={StyleLogin.eyeIcon}
+                  onClick={handleTogglePassword}
+                >
+                  {showPassword ? <FaEye /> : <FaEyeSlash />}
+                </div>
+              </div>
+              {!passwordValid && (
+                <div
+                  style={{
+                    fontSize: "clamp(8px , 3rem , 20px)",
+                    color: "red",
+                    marginTop: "5px",
+                    position: "absolute",
+                  }}
+                >
+                  Email & Password are required
+                </div>
+              )}
+              <div className={StyleLogin.btn}>
+                <button className={StyleLogin.login} onClick={handleLogin}>
+                  Login
+                </button>
+              </div>
+            </form>
+          </div>
+        </Reveal>
       </section>
     </div>
   );

@@ -27,6 +27,10 @@
   }
 }
 
+.centerContainer h1{
+  color: white;
+}
+
 @media screen and (max-width: 600px) {
   .football {
     width: 150px;

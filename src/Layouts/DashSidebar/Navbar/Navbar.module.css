@@ -14,17 +14,15 @@
 
 .navBar {
   width: 95%;
-  /* background-color: black; */
   margin: 10px auto;
-  /* padding: 5px 0; */
   display: flex;
   justify-content: space-between;
   align-items: center;
   overflow: hidden;
   padding: 5px 10px;
   background-color: rgba(255, 255, 255, 0.5);
-  /* background-color: red; */
   border-radius: 80px;
+  height: 90px;
 }
 .logoContainer {
   transition: 0.3s opacity ease-in-out;
@@ -55,13 +53,15 @@
 }
 
 .logOutResponsive {
-  display: flex;
+  /* display: flex;
   justify-content: center;
   align-items: center;
-  column-gap: 5px;
+  column-gap: 5px; */
+  /* margin: 5px 10px; */
   margin: 0 auto;
   border: none;
-  width: 100%;
+  width: 98%;
+  height: fit-content;
   border-radius: 10px;
   padding: 8px;
   background-color: var(--primary-clr);
@@ -69,6 +69,9 @@
   font-size: clamp(10px, 3rem, 18px);
   transition: opacity 0.3s ease-in-out;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
 }
 
 .logOutResponsive {
@@ -79,11 +82,11 @@
 .linksWrapperMobile > li > a {
   text-decoration: none;
   color: black;
-  /* font-weight: bold; */
-  font-size: 18px;
+  font-size: clamp(10px , 3rem , 18px);
   transition: 0.3s opacity ease-in-out;
-  /* padding: 10px; */
   margin: 0 auto;
+  /* background-color: white; */
+  padding: 5px;
 }
 
 .navBar ul > li > a:hover {
@@ -180,19 +183,15 @@
   padding: 0;
   display: flex;
   /* width: 150px; */
-  column-gap: 20px;
+  column-gap: 10px;
   align-items: center;
   justify-content: space-between;
   list-style: none;
 }
 
-.linksWrapperMobile > li {
-  /* padding-left: 10px; */
-  /* background-color: red; */
-}
-
 .linksWrapperMobile.activeNav {
   height: 200px;
+  background-color: green;
 }
 
 @media screen and (max-width: 600px) {

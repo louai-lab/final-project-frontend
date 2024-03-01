@@ -31,7 +31,7 @@
 .position {
   position: relative;
   left: 3%;
-  top: 15%;
+  top: 16%;
   display: flex;
   flex-direction: column;
   row-gap: 20px;
@@ -39,18 +39,22 @@
   width: fit-content;
   height: fit-content;
 }
+.position h1{
+  color: white;
+  font-size: clamp(10px , 3rem , 20px);
+}
 
 .fixture {
   width: 300px;
-  height: 300px;
-  padding: 15px 15px;
+  height: 250px;
+  padding: 10px 10px;
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 20px;
   color: var(--primary-clr);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  row-gap: 40px;
+  row-gap: 20px;
   backdrop-filter: blur(5px);
   transition: transform 0.3s ease-in-out;
 }
@@ -100,16 +104,16 @@
 @media screen and (max-width: 700px) {
   .fixtureContainer {
     flex-direction: column;
-    row-gap: 30px;
+    row-gap: 10px;
   }
   .association {
     width: 100%;
     font-size: 2rem;
     height: 10px;
   }
-  .fixture{
+  /* .fixture{
     height: 280px;
-  }
+  } */
 }
 
 @media screen and (max-width: 500px) {

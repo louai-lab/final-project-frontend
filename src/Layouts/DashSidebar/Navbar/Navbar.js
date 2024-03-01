@@ -181,26 +181,23 @@ function Navbar() {
             </NavLink>
           </li>
 
-          <li>
-            <NavLink
-              // to="/login"
+          {/* <li> */}
+            {/* <NavLink
               onClick={() => setCollapsed(false)}
               className={({ isActive, isPending }) =>
                 isPending ? "pending" : isActive ? Styles.active : ""
               }
-            >
+            > */}
               <button
                 type="button"
                 className={Styles.logOutResponsive}
                 onClick={handleLogOut}
               >
-                LogOut{" "}
-                <span>
-                  <img src={Logout} alt="" />
-                </span>
+                <p>LogOut</p>
+                <img src={Logout} alt="" />
               </button>
-            </NavLink>
-          </li>
+            {/* </NavLink> */}
+          {/* </li> */}
         </ul>
 
         <div
