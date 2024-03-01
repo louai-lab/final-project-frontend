@@ -21,6 +21,7 @@ import Trophy from "../../Assets/icons/trophy.png";
 import Clock from "../../Assets/icons/clock.png";
 import Calendar from "../../Assets/icons/calendar.png";
 import Stadium from "../../Assets/icons/stadium.png";
+import EndMatch from "../../Components/Event/EndMatch/EndMatch";
 
 function SingleMatch() {
   const { user } = useUserStore();
@@ -35,6 +36,7 @@ function SingleMatch() {
   const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [openEndMatch, setOpenEndMatch] = useState(false);
 
   const { getAllTeams } = useTeamsStore();
   const { getAllMatches } = useMatchesStore();
@@ -130,6 +132,25 @@ function SingleMatch() {
     }
   };
 
+  // End PopUp Match
+  const openPopUpEnd = () => {
+    setOpenEndMatch(true);
+    document.body.style.overflow = " hidden";
+  };
+
+  const closePopUpEnd = () => {
+    setOpenEndMatch(false);
+    document.body.style.overflow = "auto";
+  };
+
+  const handleOpenEndMatch = (e) => {
+    openPopUpEnd();
+  };
+
+  const closePopUpEndMatch = () => {
+    closePopUpEnd();
+  };
+
   // console.log(match);
 
   const handleEndMatch = async () => {
@@ -141,6 +162,7 @@ function SingleMatch() {
       if (response) {
         console.log("Updated successfully");
         console.log(response.data);
+        closePopUpEnd()
       }
       fetchUpdatedMatch(match._id);
     } catch (error) {
@@ -369,7 +391,7 @@ function SingleMatch() {
                   >
                     <button
                       type="button"
-                      onClick={handleEndMatch}
+                      onClick={handleOpenEndMatch}
                       className={StyleSingleMatch.endMatch}
                     >
                       End Match
@@ -642,6 +664,35 @@ function SingleMatch() {
 
   return (
     <>
+      {openEndMatch && (
+        <>
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100vh",
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              zIndex: 1002,
+            }}
+            onClick={closePopUpEndMatch}
+          ></div>
+          <EndMatch
+            closePopUpEndMatch={closePopUpEndMatch}
+            handleEndMatch={handleEndMatch}
+          />
+          <div
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 1003,
+            }}
+          ></div>
+        </>
+      )}
       {isOpenPopUpEvent && (
         <>
           <div

@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import StyleHome from "./Home.module.css";
 import firstTeam from "../../Assets/icons/Ellipse 6.svg";
 import secondTeam from "../../Assets/icons/Ellipse 8.svg";
-import Typed from "typed.js";
 
 function Home() {
   const matches = [
@@ -26,33 +25,11 @@ function Home() {
     },
   ];
 
-  let mystrings;
-
-  mystrings = [""];
-  useEffect(() => {
-    mystrings.push("Lebanese Football Association");
-
-    const typed = new Typed(el.current, {
-      strings: mystrings,
-      typeSpeed: 50,
-      backSpeed: 50,
-      loop: true,
-      css: {
-        color: "red",
-      },
-    });
-
-    return () => {
-      typed.destroy();
-    };
-  }, [mystrings]);
-  const el = useRef();
-
   return (
     <div className={StyleHome.homeContainer}>
       <header className={StyleHome.HeroSection}>
         <div className={StyleHome.position}>
-          <p className={StyleHome.association} ref={el}>
+          <p className={StyleHome.association}>
             Lebanese Football Association
           </p>
           <h1 style={{ color: "white" }}>FIXTURES</h1>
@@ -88,6 +65,10 @@ function Home() {
           </div>
         </div>
       </header>
+
+      <div>
+        lets try new section
+      </div>
     </div>
   );
 }

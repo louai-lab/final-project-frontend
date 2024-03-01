@@ -20,10 +20,10 @@
 }
 
 .imageProfile {
-  width: 80%;
-  height: 60%;
+  width: 250px;
+  height: 250px;
   border-radius: 50%;
-  object-fit: fill;
+  object-fit: cover;
   padding: 10px;
 }
 
@@ -34,7 +34,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  background-color: rgba(255, 255, 255, 0.899);
+  /* background-color: rgba(255, 255, 255, 0.899); */
   border-radius: 10px;
 }
 
@@ -52,11 +52,17 @@
 .personalInfo {
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 8px;
 }
 
 .span {
-  font-weight: bold;
+  /* font-weight: bold; */
+  opacity: 1;
+  font-size: 23px;
+  font-weight: 600;
+}
+.email {
+  opacity: 0.7;
 }
 
 .matchCount {
@@ -72,22 +78,83 @@
   background-color: aliceblue;
 }
 
-
 .private {
   width: 100%;
-  background-color: red;
+  /* background-color: red; */
   /* background-color: rgba(255, 255, 255, 0.899); */
   padding: 20px;
   display: flex;
   column-gap: 20px;
 }
 
-.matchesPrivate{
-  background-color: green;
+.matchesPrivate {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+  margin: 0 auto;
+  column-gap: 20px;
+  row-gap: 20px;
+  background-color: rgba(255, 255, 255, 0.899);
+  border-radius: 10px;
 }
 
-@media screen and (max-width:600px) {
-  .profileContainer{
+.cardMatchProfile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.463);
+  border-right: 1px solid rgba(0, 0, 0, 0.463);
+  padding-bottom: 10px;
+  /* width: 40%; */
+  /* background-color: blue; */
+  transition: opacity 0.3s ease;
+  box-shadow: 0 10px 80px rgba(18, 18, 18, 0.1);
+}
+
+.cardMatchProfile:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.twoTeamsProfile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 1px solid black;
+  /* background-color: green; */
+  width: 46rem;
+}
+
+.playedRed {
+  color: red;
+  font-size: clamp(10px, 2rem, 15px);
+  font-weight: bold;
+  /* background-color: rgb(49, 46, 46); */
+  padding: 5px;
+  border-radius: 50%;
+}
+
+.singleTeamProfile {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 10px;
+  /* background-color: red; */
+  /* width: 250px; */
+  padding: 10px;
+}
+
+.dateFt {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* background-color: green; */
+  width: 150px;
+}
+
+@media screen and (max-width: 600px) {
+  .profileContainer {
     flex-direction: column;
     row-gap: 20px;
   }

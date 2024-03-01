@@ -355,7 +355,7 @@ function Matches() {
                     color="primary"
                     page={currentPage}
                     onChange={handlePageChange}
-                    style={{ color: "white" }}
+                    sx={{ color: "white" }}
                   />
                 </Stack>
               </article>

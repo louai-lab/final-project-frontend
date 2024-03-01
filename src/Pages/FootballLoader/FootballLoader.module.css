@@ -15,8 +15,10 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  object-fit: contain;
   border-radius: 50%;
   animation: spin 2s infinite linear;
+  background-color: white;
 }
 
 @keyframes spin {
