@@ -81,10 +81,6 @@ function Home() {
           </p>
         </div>
       </div>
-
-      <footer>
-        this is a footer
-      </footer>
     </div>
   );
 }
