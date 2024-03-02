@@ -151,7 +151,7 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  object-fit:cover;
+  object-fit: cover;
 }
 
 .singleReport {
@@ -211,6 +211,18 @@
     width: 6rem;
     height: 6rem;
     object-fit: contain;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .infoContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 30px;
+  }
+  .persons {
+    width: 100%;
   }
 }
 
@@ -296,24 +308,26 @@
   display: flex;
   flex-direction: column;
   row-gap: 20px;
-  width: fit-content;
+  width: 100%;
   padding: 20px;
-  border-radius: 30px;
+  border-radius: 10px;
   /* background-color: blue; */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.347);
+  box-shadow: 0 0 5px rgba(176, 176, 176, 0.347);
+  background-color: rgba(255, 255, 255, 0.748);
 }
 
-.things{
+.things {
   display: flex;
   flex-direction: column;
   row-gap: 20px;
   width: 100%;
   padding: 20px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.343);
-  border-radius: 20px;
+  box-shadow: 0 0 5px rgba(176, 176, 176, 0.347);
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.748);
 }
 
-.thing{
+.thing {
   display: flex;
   align-items: center;
   column-gap: 20px;
@@ -330,6 +344,7 @@
 
 .linesman {
   display: flex;
+  align-items: center;
   column-gap: 10px;
 }
 

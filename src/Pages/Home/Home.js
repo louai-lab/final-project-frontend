@@ -29,9 +29,7 @@ function Home() {
     <div className={StyleHome.homeContainer}>
       <header className={StyleHome.HeroSection}>
         <div className={StyleHome.position}>
-          <p className={StyleHome.association}>
-            Lebanese Football Association
-          </p>
+          <p className={StyleHome.association}>Lebanese Football Association</p>
           <h1>FIXTURES</h1>
           <div className={StyleHome.fixtureContainer}>
             {matches.map((match, index) => (
@@ -66,9 +64,27 @@ function Home() {
         </div>
       </header>
 
-      <div>
-        lets try new section
+      <div className={StyleHome.slidesHome}>
+        <div className={StyleHome.leftSlideHome}>
+          <h4>Football Program</h4>
+          <p className={StyleHome.hiddenText}>
+            Custom-made nutrition programs that will ehance your athletic
+            performance, increase focus, and give you maximum endurance
+            according to your role on the team.
+          </p>
+        </div>
+        <div className={StyleHome.rightSlideHome}>
+          <h4>Football Program</h4>
+          <p className={StyleHome.hiddenText}>
+            Nutrition programs tailored to maximise athletic performances of all
+            players on the team each according to their position and role.
+          </p>
+        </div>
       </div>
+
+      <footer>
+        this is a footer
+      </footer>
     </div>
   );
 }

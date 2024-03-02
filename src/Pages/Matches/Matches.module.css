@@ -1,7 +1,7 @@
 .matchesContainer {
   margin: 0 auto;
   color: white;
-  font-size: clamp(14px, 5vw, 24px);
+  font-size: clamp(14px, 4vw, 24px);
   background-color: #1e1843;
 }
 .bchh {

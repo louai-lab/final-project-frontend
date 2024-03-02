@@ -1,6 +1,5 @@
 .main {
   margin-top: 110px;
-  font-size: clamp(8px, 2rem, 20px);
   font-family: var(--font-family);
   /* background-color: aliceblue; */
   color: rgba(0, 0, 0, 0.735);
@@ -10,6 +9,8 @@
   background-color: aliceblue;
   width: 100%;
   height: 100%;
+  font-size: clamp(15px , 4rem , 18px);
+
 }
 
 .profileContainer {
@@ -80,8 +81,6 @@
 
 .private {
   width: 100%;
-  /* background-color: red; */
-  /* background-color: rgba(255, 255, 255, 0.899); */
   padding: 20px;
   display: flex;
   column-gap: 20px;
@@ -90,7 +89,7 @@
 .matchesPrivate {
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: center; */
+  justify-content: center;
   margin: 0 auto;
   column-gap: 20px;
   row-gap: 20px;
@@ -100,16 +99,17 @@
 
 .cardMatchProfile {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   column-gap: 20px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.463);
   border-right: 1px solid rgba(0, 0, 0, 0.463);
+  padding-top: 20px;
   padding-bottom: 10px;
-  /* width: 40%; */
-  /* background-color: blue; */
   transition: opacity 0.3s ease;
-  box-shadow: 0 10px 80px rgba(18, 18, 18, 0.1);
+  box-shadow: 0 10px 10px rgba(157, 157, 157, 0.1);
+  width: 450px;
+  /* width: 100%; */
 }
 
 .cardMatchProfile:hover {
@@ -120,27 +120,26 @@
 .twoTeamsProfile {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   border-right: 1px solid black;
-  /* background-color: green; */
-  width: 46rem;
+  /* background-color: blue; */
+  width: 100%;
 }
 
 .playedRed {
   color: red;
   font-size: clamp(10px, 2rem, 15px);
   font-weight: bold;
-  /* background-color: rgb(49, 46, 46); */
   padding: 5px;
   border-radius: 50%;
 }
 
 .singleTeamProfile {
   display: flex;
+  /* background-color: blue; */
   justify-content: space-between;
+  align-items: center;
   column-gap: 10px;
-  /* background-color: red; */
-  /* width: 250px; */
   padding: 10px;
 }
 
@@ -153,9 +152,22 @@
   width: 150px;
 }
 
+@media screen and (max-width: 950px) {
+  .cardMatchProfile{
+    /* width: 45rem; */
+    /* background-color: blue; */
+  }
+}
+
 @media screen and (max-width: 600px) {
   .profileContainer {
     flex-direction: column;
     row-gap: 20px;
+  }
+}
+
+@media screen and (max-width : 550px) {
+  .cardMatchProfile{
+    width: 260px;
   }
 }

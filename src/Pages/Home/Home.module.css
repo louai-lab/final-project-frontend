@@ -1,5 +1,8 @@
 .homeContainer {
   /* overflow-x: auto; */
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
 }
 
 .association {
@@ -39,9 +42,9 @@
   width: fit-content;
   height: fit-content;
 }
-.position h1{
+.position h1 {
   color: white;
-  font-size: clamp(10px , 3rem , 20px);
+  font-size: clamp(10px, 3rem, 20px);
 }
 
 .fixture {
@@ -101,6 +104,97 @@
   height: 100px;
 }
 
+.slidesHome {
+  display: flex;
+  justify-content: center;
+  column-gap: 10px;
+  clear: both;
+  width: 100%;
+  /* height: 400px; */
+  text-align: center;
+  transition: height 0.4s ease;
+}
+
+.leftSlideHome {
+  background: url("../../Assets/icons/del1.1.jpg");
+  background-position: 65% 30%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 20%;
+  /* margin: 25px 5px 0px 5px; */
+  min-width: 49%;
+
+  height: 400px;
+  display: flex;
+  color: black;
+  border-bottom: 1px solid black;
+  padding-top: 250px;
+  flex-direction: column;
+  align-items: center;
+  transform: scale(1);
+  transition: 0.15s all ease;
+}
+
+.leftSlideHome h4 {
+  background-color: rgba(30, 30, 30, 0.9);
+  width: 80%;
+  margin: auto;
+  padding: 15px;
+  color: white;
+}
+
+.hiddenText {
+  font-size: clamp(8px, 1rem, 14px);
+  color: white;
+  width: 80%;
+  background-color: rgba(30, 30, 30, 0.9);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  margin-bottom: 30px;
+}
+
+.leftSlideHome:hover .hiddenText {
+  display: block;
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.rightSlideHome {
+  background: url("../../Assets/icons/del3.3.jpg");
+  background-position: 65% 30%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 20%;
+  height: 400px;
+  /* margin: 25px 5px 0px 5px; */
+  min-width: 49%;
+
+  height: 400px;
+  display: flex;
+  color: black;
+  border-bottom: 1px solid black;
+  padding-top: 250px;
+  flex-direction: column;
+  align-items: center;
+  transform: scale(1);
+  transition: 0.15s all ease;
+}
+
+.rightSlideHome h4 {
+  background-color: rgba(30, 30, 30, 0.9);
+  width: 80%;
+  margin: auto;
+  padding: 15px;
+  color: white;
+}
+
+.rightSlideHome:hover .hiddenText {
+  display: block;
+  opacity: 1;
+  transform: scale(1.1);
+}
+
 @media screen and (max-width: 700px) {
   .fixtureContainer {
     flex-direction: column;
@@ -111,9 +205,20 @@
     font-size: 2rem;
     height: 10px;
   }
-  /* .fixture{
-    height: 280px;
-  } */
+}
+
+@media screen and (max-width: 550px) {
+  .slidesHome {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .leftSlideHome {
+    width: 95%;
+  }
+  .rightSlideHome {
+    width: 95%;
+  }
 }
 
 @media screen and (max-width: 500px) {

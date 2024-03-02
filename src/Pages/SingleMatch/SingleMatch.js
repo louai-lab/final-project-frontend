@@ -162,7 +162,7 @@ function SingleMatch() {
       if (response) {
         console.log("Updated successfully");
         console.log(response.data);
-        closePopUpEnd()
+        closePopUpEnd();
       }
       fetchUpdatedMatch(match._id);
     } catch (error) {
@@ -302,9 +302,16 @@ function SingleMatch() {
           ) : (
             <Reveal>
               <div className={StyleSingleMatch.liveContainer}>
-                <button className={StyleSingleMatch.open} onClick={openPopUp}>
-                  +
-                </button>
+                {user.role === "admin" ||
+                user.userId === match.watcher._id ||
+                user._id === match.watcher._id ? (
+                  <button className={StyleSingleMatch.open} onClick={openPopUp}>
+                    +
+                  </button>
+                ) : (
+                  ""
+                )}
+
                 {events.map((event) => (
                   <div
                     key={event._id}
@@ -359,22 +366,30 @@ function SingleMatch() {
                         )}
                       </div>
                     </div>
-                    <div className={StyleSingleMatch.eventActions}>
-                      <button
-                        type="button"
-                        onClick={() => handleOpenDelete(event._id)}
-                        style={{ border: "none" }}
-                      >
-                        <img src={EventDelete} alt="" />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleOpenEdit(event)}
-                        style={{ border: "none" }}
-                      >
-                        <img src={EventEdit} alt="" />
-                      </button>
-                    </div>
+
+                    {user.role === "admin" ||
+                    user.userId === match.watcher._id ||
+                    user._id === match.watcher._id ? (
+                      <div className={StyleSingleMatch.eventActions}>
+                        <button
+                          type="button"
+                          onClick={() => handleOpenDelete(event._id)}
+                          style={{ border: "none" }}
+                        >
+                          <img src={EventDelete} alt="" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleOpenEdit(event)}
+                          style={{ border: "none" }}
+                        >
+                          <img src={EventEdit} alt="" />
+                        </button>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+
                     <p>{event.minute}'</p>
                   </div>
                 ))}
@@ -560,7 +575,6 @@ function SingleMatch() {
         <div className={StyleSingleMatch.infoContainer}>
           <div className={StyleSingleMatch.persons}>
             <div className={StyleSingleMatch.linesmanContainer}>
-              {/* <p>Referee</p> */}
               <img src={Signal} alt="" className={StyleSingleMatch.iconInfo} />
               <div className={StyleSingleMatch.linesman}>
                 <img
@@ -574,7 +588,6 @@ function SingleMatch() {
               </div>
             </div>
             <div className={StyleSingleMatch.linesmanContainer}>
-              {/* <p>Watcher</p> */}
               <img src={Arrow} alt="" className={StyleSingleMatch.iconInfo} />
               <div className={StyleSingleMatch.linesman}>
                 <img

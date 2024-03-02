@@ -154,6 +154,7 @@ function Navbar() {
               Matches
             </NavLink>
           </li>
+
           {user.role === "admin" ? (
             <li>
               <NavLink
@@ -181,23 +182,14 @@ function Navbar() {
             </NavLink>
           </li>
 
-          {/* <li> */}
-            {/* <NavLink
-              onClick={() => setCollapsed(false)}
-              className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? Styles.active : ""
-              }
-            > */}
-              <button
-                type="button"
-                className={Styles.logOutResponsive}
-                onClick={handleLogOut}
-              >
-                <p>LogOut</p>
-                <img src={Logout} alt="" />
-              </button>
-            {/* </NavLink> */}
-          {/* </li> */}
+          <button
+            type="button"
+            className={Styles.logOutResponsive}
+            onClick={handleLogOut}
+          >
+            <p>LogOut</p>
+            <img src={Logout} alt="" />
+          </button>
         </ul>
 
         <div
