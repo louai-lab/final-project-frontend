@@ -11,31 +11,12 @@ function Home() {
   const navigate = useNavigate();
   const { LastTwoMatches } = useMatchesStore();
   const { loading, getLastTwoCreatedMatches } = useMatchesStore();
-  // console.log(LastTwoMatches);
+
+  console.log(LastTwoMatches);
 
   useEffect(() => {
     getLastTwoCreatedMatches();
   }, [getLastTwoCreatedMatches]);
-  // const matches = [
-  //   {
-  //     title: "Match 1",
-  //     time: "15:00",
-  //     pitch: "Stadium 1",
-  //     teams: [
-  //       { name: "Real Madrid ", logo: "teamA_logo.png" },
-  //       { name: "Liverpool", logo: "teamB_logo.png" },
-  //     ],
-  //   },
-  //   {
-  //     title: "Match 2",
-  //     time: "18:30",
-  //     pitch: "Stadium 2",
-  //     teams: [
-  //       { name: "Team C", logo: "teamC_logo.png" },
-  //       { name: "Team D", logo: "teamD_logo.png" },
-  //     ],
-  //   },
-  // ];
 
   const handleMatchClick = (match) => {
     if (match && match._id) {
@@ -53,7 +34,9 @@ function Home() {
           <h1>FIXTURES</h1>
           <div className={StyleHome.fixtureContainer}>
             {loading ? (
-              <>Loading ...</>
+              <>
+                <p>Loading ...</p>
+              </>
             ) : (
               <>
                 {LastTwoMatches.map((match, index) => (
@@ -75,7 +58,8 @@ function Home() {
                               month: "numeric",
                               day: "numeric",
                             }
-                          )}{" / "}
+                          )}
+                          {" / "}
                           {new Date(match.match_date).toLocaleTimeString(
                             "en-US",
                             {
