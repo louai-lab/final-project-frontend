@@ -2,6 +2,7 @@ import React from "react";
 import StyleHome from "./Home.module.css";
 import firstTeam from "../../Assets/icons/Ellipse 6.svg";
 import secondTeam from "../../Assets/icons/Ellipse 8.svg";
+import LandingPage from "../../Assets/icons/referee-showing-red-yellow-cards-football-soccer-player-while-gaming-white-studio-background.jpg";
 
 function Home() {
   const matches = [
@@ -79,6 +80,26 @@ function Home() {
             Nutrition programs tailored to maximise athletic performances of all
             players on the team each according to their position and role.
           </p>
+        </div>
+      </div>
+
+      <div className={StyleHome.descriptionSection}>
+        <div className={StyleHome.imageSection}>
+          <img src={LandingPage} alt="" />
+        </div>
+        <div className={StyleHome.trackHome}>
+          <h1>Track Live Match Actions</h1>
+          <p>
+            Stay up-to-date with real-time updates and comprehensive statistics
+            during the match. Our cutting-edge platform offers in-depth insights
+            into every player's move, team strategies, and key moments. Immerse
+            yourself in the game with live commentary, dynamic visualizations,
+            and personalized notifications.
+          </p>
+
+          <button type="button" className={StyleHome.explore}>
+            Explore More
+          </button>
         </div>
       </div>
     </div>

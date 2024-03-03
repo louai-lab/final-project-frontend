@@ -195,6 +195,85 @@
   transform: scale(1.1);
 }
 
+.descriptionSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 20px;
+  /* background-color: blue; */
+}
+
+.imageSection {
+  width: 50%;
+  /* background-color: red; */
+  display: flex;
+  justify-content: flex-end;
+}
+.imageSection > img {
+  /* width: 100%;
+  height: 100%; */
+  object-fit: contain;
+  width: 500px;
+  height: 500px;
+}
+
+.trackHome {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  justify-content: space-between;
+  /* background-color: green; */
+  width: 50%;
+  margin: 5px;
+  /* height: 300px; */
+}
+
+.trackHome > h1 {
+  color: rgba(0, 0, 0, 0.841);
+  font-size: clamp(10px, 3rem, 22px);
+}
+
+.trackHome > p {
+  color: rgb(83, 83, 83);
+  font-size: clamp(6px, 5rem, 15px);
+  width: 80%;
+}
+
+.explore {
+  border: none;
+  border-radius: 10px;
+  background-color: transparent;
+  padding: 10px;
+  font-size: clamp(10px, 3rem, 15px);
+  width: fit-content;
+  background-color: rgba(255, 0, 0, 0.805);
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.explore:hover {
+  cursor: pointer;
+  background-color: rgba(255, 0, 0, 0.6);
+}
+
+@media screen and (max-width: 750px) {
+  .descriptionSection {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+  }
+
+  .imageSection > img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .trackHome {
+    /* background-color: red; */
+    width: 90%;
+  }
+}
+
 @media screen and (max-width: 700px) {
   .fixtureContainer {
     flex-direction: column;
@@ -240,5 +319,14 @@
   }
   .association {
     display: none;
+  }
+
+  .imageSection {
+    display: flex;
+    justify-content: center;
+  }
+
+  .imageSection > img {
+    width: 280px;
   }
 }
