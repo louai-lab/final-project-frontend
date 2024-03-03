@@ -50,7 +50,7 @@ function DashTeams() {
       formDataToSend.append("image", formData.image);
       formDataToSend.append("playersIds", playerIds);
 
-      console.log(formData);
+      // console.log(formData);
 
       const headers = {
         "Content-Type": "multipart/form-data",
@@ -64,7 +64,7 @@ function DashTeams() {
         useTeamsStore.setState((state) => ({
           teams: [response.data, ...state.teams],
         }));
-        console.log("Team created successfully:", response.data);
+        console.log("Team created successfully:");
       }
       setIsAddPopUp(false);
     } catch (error) {
@@ -84,7 +84,7 @@ function DashTeams() {
     try {
       const response = await axiosInstance.delete(`/team/delete/${id}`);
       if (response) {
-        console.log("Team deleted successfully:", response.data);
+        console.log("Team deleted successfully:");
         useTeamsStore.setState((state) => ({
           teams: state.teams.filter((team) => team._id !== id),
         }));
@@ -115,7 +115,7 @@ function DashTeams() {
         }
       );
       if (response) {
-        console.log("Team updated successfully:", response.data);
+        console.log("Team updated successfully:");
         useTeamsStore.setState((state)=>{
           const updatedTeams = state.teams.map((team)=>{
             if(team._id === id){

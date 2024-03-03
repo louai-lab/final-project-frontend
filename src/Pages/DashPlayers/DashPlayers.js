@@ -44,7 +44,7 @@ function DashPlayers() {
     try {
       const formDataObject = new FormData();
 
-      console.log(formData);
+      // console.log(formData);
 
       for (const key in formData) {
         if (formData.hasOwnProperty(key)) {
@@ -57,7 +57,7 @@ function DashPlayers() {
         usePlayersStore.setState((state) => ({
           players: [response.data, ...state.players],
         }));
-        console.log("Player created successfully:", response.data);
+        console.log("Player created successfully:");
       }
       setIsAddPopUp(false);
     } catch (error) {
@@ -77,7 +77,7 @@ function DashPlayers() {
     try {
       const response = await axiosInstance.delete(`/player/delete/${id}`);
       if (response) {
-        console.log("Player deleted successfully:", response.data);
+        console.log("Player deleted successfully:");
         usePlayersStore.setState((state) => ({
           players: state.players.filter((player) => player._id !== id),
         }));
@@ -105,7 +105,7 @@ function DashPlayers() {
       );
 
       if (response) {
-        console.log("Player updated successfully:", response.data);
+        console.log("Player updated successfully:");
         usePlayersStore.setState((state) => {
           const updatedPlayers = state.players.map((player) => {
             if (player._id === id) {

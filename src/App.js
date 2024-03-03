@@ -26,6 +26,7 @@ function App() {
   const { getAllTeams } = useTeamsStore();
   const { getAllMatches } = useMatchesStore();
   const { getLastMatch } = useMatchesStore();
+  const { getLastTwoCreatedMatches } = useMatchesStore();
 
   // console.log(user);
 
@@ -40,6 +41,7 @@ function App() {
     getAllTeams();
     getAllMatches();
     getLastMatch();
+    getLastTwoCreatedMatches()
   }, []);
 
   // console.log(user)

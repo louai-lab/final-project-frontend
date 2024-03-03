@@ -50,7 +50,7 @@ function Login() {
         setPasswordValid(true);
         setUser(response.data);
 
-        console.log(response.data);
+        // console.log(response.data);
         return navigate("/", { replace: true });
       }
     } catch (error) {

@@ -63,7 +63,7 @@ function DashUsers() {
         useUsersStore.setState((state) => ({
           users: [response.data, ...state.users],
         }));
-        console.log("User created successfully:", response.data);
+        console.log("User created successfully:");
       }
       setIsAddPopUp(false);
     } catch (error) {
@@ -98,7 +98,7 @@ function DashUsers() {
         }
       );
       if (response) {
-        console.log("User updated successfully:", response.data);
+        console.log("User updated successfully:");
 
         useUsersStore.setState((state) => {
           const updatedUsers = state.users.map((user) => {
@@ -131,7 +131,7 @@ function DashUsers() {
     try {
       const response = await axiosInstance.delete(`/user/delete/${id}`);
       if (response) {
-        console.log("User deleted successfully:", response.data);
+        console.log("User deleted successfully:");
         useUsersStore.setState((state) => ({
           users: state.users.filter((user) => user._id !== id),
         }));

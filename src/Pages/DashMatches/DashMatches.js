@@ -49,7 +49,7 @@ function DashMatches() {
         useMatchesStore.setState((state) => ({
           matches: [response.data, ...state.matches],
         }));
-        console.log("Match created successfully:", response.data);
+        console.log("Match created successfully:");
       }
       setIsAddPopUp(false);
     } catch (error) {
@@ -70,7 +70,7 @@ function DashMatches() {
     try {
       const response = await axiosInstance.delete(`match/delete/${id}`);
       if (response) {
-        console.log("Match deleted successfully:", response.data);
+        console.log("Match deleted successfully:");
         useMatchesStore.setState((state) => ({
           matches: state.matches.filter((match) => match._id !== id),
         }));
@@ -97,7 +97,7 @@ function DashMatches() {
         formData
       );
       if (response) {
-        console.log("Match updated successfully:", response.data);
+        console.log("Match updated successfully:");
 
         // Update matches state
         useMatchesStore.setState((state) => {

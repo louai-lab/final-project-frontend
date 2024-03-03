@@ -162,16 +162,11 @@ export const useMatchesStore = create((set) => ({
       const url = teamId ? `/match?teamId=${teamId}` : "/match";
 
       const response = await axiosInstance.get(url);
-      // if (response) {
-      //   set({ matches: response.data, loading: false });
-      // }
 
       const matches = response.data;
 
-      // Calculate match count
       const matchCount = matches.length;
 
-      // Update state with matches and match count
       set({ matches, matchCount, loading: false });
       // console.log(matchCount)
     } catch (error) {
@@ -187,6 +182,22 @@ export const useMatchesStore = create((set) => ({
       const response = await axiosInstance.get("/match/getlastcreatedmatch");
       if (response) {
         set({ lastMatch: response.data, loading: false });
+      }
+    } catch (error) {
+      console.error(error);
+      set({ loading: false });
+    }
+  },
+
+  LastTwoMatches: {},
+  getLastTwoCreatedMatches: async () => {
+    try {
+      set({ loading: true });
+      const response = await axiosInstance.get(
+        "/match/getLastTwoCreatedMatches"
+      );
+      if (response) {
+        set({ LastTwoMatches: response.data, loading: false });
       }
     } catch (error) {
       console.error(error);
