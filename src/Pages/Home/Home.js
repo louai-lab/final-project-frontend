@@ -52,7 +52,7 @@ function Home() {
           <p className={StyleHome.association}>Lebanese Football Association</p>
           <h1>FIXTURES</h1>
           <div className={StyleHome.fixtureContainer}>
-            {loading === true ? (
+            {loading ? (
               <>Loading ...</>
             ) : (
               <>
@@ -66,7 +66,25 @@ function Home() {
                     <div key={match._id} className={StyleHome.fixture}>
                       <div className={StyleHome.info}>
                         <p className={StyleHome.title}>{match.title}</p>
-                        <p className={StyleHome.time}>{match.match_date}</p>
+                        <p className={StyleHome.time}>
+                          {new Date(match.match_date).toLocaleDateString(
+                            "en-US",
+                            {
+                              timeZone: "UTC",
+                              year: "numeric",
+                              month: "numeric",
+                              day: "numeric",
+                            }
+                          )}{" / "}
+                          {new Date(match.match_date).toLocaleTimeString(
+                            "en-US",
+                            {
+                              timeZone: "UTC",
+                              hour: "numeric",
+                              minute: "numeric",
+                            }
+                          )}
+                        </p>
                         <p className={StyleHome.stadium}>{match.pitch}</p>
                       </div>
                       <div className={StyleHome.teams}>
