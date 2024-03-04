@@ -202,7 +202,7 @@ function DashTeams() {
                 variant="h6"
                 component="h2"
               >
-                Are you sure to Delete this user?
+                Are you sure to Delete this Team?
               </Typography>
               <div
                 style={{
