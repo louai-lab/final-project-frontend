@@ -119,9 +119,9 @@ function SingleMatch() {
 
         if (formData.type === "goal") {
           setShowAnimation(true);
-          setTimeout(() => {
-            setShowAnimation(false);
-          }, 5000);
+          // setTimeout(() => {
+          //   setShowAnimation(false);
+          // }, 5000);
         }
 
         fetchUpdatedMatch(match._id);
@@ -415,7 +415,7 @@ function SingleMatch() {
                 ) : (
                   ""
                 )}
-                <animated.div
+                {/* <animated.div
                   style={{
                     ...animationProps,
                     position: "fixed",
@@ -429,22 +429,22 @@ function SingleMatch() {
                   }}
                 >
                   <p>Golazzzzo</p>
-                </animated.div>
+                </animated.div> */}
               </div>
             </Reveal>
           )}
         </>
       ),
     },
-    {
-      title: "Line-ups",
-      id: "line-ups",
-      content: (
-        <div className={StyleSingleMatch.lineContainer}>
-          <h1>Hi line ups</h1>
-        </div>
-      ),
-    },
+    // {
+    //   title: "Line-ups",
+    //   id: "line-ups",
+    //   content: (
+    //     <div className={StyleSingleMatch.lineContainer}>
+    //       <h1>Hi line ups</h1>
+    //     </div>
+    //   ),
+    // },
     {
       title: "reports",
       id: "reports",
