@@ -456,32 +456,33 @@ function SingleMatch() {
             user._id === match.watcher._id ? (
               <>
                 <div className={StyleSingleMatch.singleReport}>
-                  <img
-                    src={`${process.env.REACT_APP_IMAGE_PATH}/${match.watcher.image}`}
-                    alt={match.watcher.name}
-                    className={StyleSingleMatch.imagesReports}
-                  />
                   <div className={StyleSingleMatch.partReport}>
+                    <img
+                      src={`${process.env.REACT_APP_IMAGE_PATH}/${match.watcher.image}`}
+                      alt={match.watcher.name}
+                      className={StyleSingleMatch.imagesReports}
+                    />
                     <p>Watcher {match.watcher.firstName}'s Report :</p>
-                    <textarea
-                      className={StyleSingleMatch.textArea}
-                      rows="5"
-                      placeholder="Enter your report as watcher here..."
-                      value={watcherReport}
-                      onChange={handleTextareaChangeWatcher}
-                    ></textarea>
-                    <div className={StyleSingleMatch.ButtonsReport}>
-                      <button
-                        type="button"
-                        className={StyleSingleMatch.post}
-                        onClick={handleUpdateWatcherReport}
-                      >
-                        Post
-                      </button>
-                    </div>
+                  </div>
+
+                  <textarea
+                    className={StyleSingleMatch.textArea}
+                    rows="15"
+                    placeholder="Enter your report as watcher here..."
+                    value={watcherReport}
+                    onChange={handleTextareaChangeWatcher}
+                  ></textarea>
+                  <div className={StyleSingleMatch.ButtonsReport}>
+                    <button
+                      type="button"
+                      className={StyleSingleMatch.post}
+                      onClick={handleUpdateWatcherReport}
+                    >
+                      Post
+                    </button>
                   </div>
                 </div>
-                <animated.div
+                {/* <animated.div
                   style={{
                     ...animationProps,
                     position: "fixed",
@@ -503,7 +504,7 @@ function SingleMatch() {
                       style={{ width: "50px", height: "50px" }}
                     />
                   </>
-                </animated.div>
+                </animated.div> */}
               </>
             ) : null}
           </>
@@ -514,32 +515,32 @@ function SingleMatch() {
             user._id === match.referee._id ? (
               <>
                 <div className={StyleSingleMatch.singleReport}>
-                  <img
-                    src={`${process.env.REACT_APP_IMAGE_PATH}/${match.watcher.image}`}
-                    alt={match.watcher.name}
-                    className={StyleSingleMatch.imagesReports}
-                  />
                   <div className={StyleSingleMatch.partReport}>
+                    <img
+                      src={`${process.env.REACT_APP_IMAGE_PATH}/${match.watcher.image}`}
+                      alt={match.watcher.name}
+                      className={StyleSingleMatch.imagesReports}
+                    />
                     <p>Referee {match.referee.firstName}'s Report :</p>
-                    <textarea
-                      className={StyleSingleMatch.textArea}
-                      rows="5"
-                      placeholder="Enter your report as referee here..."
-                      value={refereeReport}
-                      onChange={handleTextareaChangeReferee}
-                    ></textarea>
-                    <div className={StyleSingleMatch.ButtonsReport}>
-                      <button
-                        type="button"
-                        onClick={handleUpdateRefereeReport}
-                        className={StyleSingleMatch.post}
-                      >
-                        Post
-                      </button>
-                    </div>
+                  </div>
+                  <textarea
+                    className={StyleSingleMatch.textArea}
+                    rows="15"
+                    placeholder="Enter your report as referee here..."
+                    value={refereeReport}
+                    onChange={handleTextareaChangeReferee}
+                  ></textarea>
+                  <div className={StyleSingleMatch.ButtonsReport}>
+                    <button
+                      type="button"
+                      onClick={handleUpdateRefereeReport}
+                      className={StyleSingleMatch.post}
+                    >
+                      Post
+                    </button>
                   </div>
                 </div>
-                <animated.div
+                {/* <animated.div
                   style={{
                     ...animationProps,
                     position: "fixed",
@@ -561,7 +562,7 @@ function SingleMatch() {
                       style={{ width: "50px", height: "50px" }}
                     />
                   </>
-                </animated.div>
+                </animated.div> */}
               </>
             ) : null}
           </>

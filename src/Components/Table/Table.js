@@ -5,6 +5,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import StyleTable from "./Table.module.css";
+import moment from "moment";
 
 const Table = ({
   data,
@@ -62,6 +63,7 @@ const Table = ({
           "season",
           "pitch",
           "match_date",
+          "match_time",
           "team_a",
           "team_b",
           "referee",
@@ -167,10 +169,6 @@ const Table = ({
               year: "numeric",
               month: "2-digit",
               day: "2-digit",
-              hour: "numeric",
-              minute: "numeric",
-              hour12: true,
-              timeZone: "UTC",
             };
 
             const formattedDate = matchDate.toLocaleString("en-US", options);
@@ -178,6 +176,22 @@ const Table = ({
             params.row.formattedDate = formattedDate;
             return (
               <div className={StyleTable.scrollableDate}>{formattedDate}</div>
+            );
+          }
+          if (field === "match_time") {
+            const formattedTime = new Date(
+              `2000-01-01T${params.value}:00Z`
+            ).toLocaleTimeString("en-US", {
+              timeZone: "UTC",
+              hour: "numeric",
+              minute: "numeric",
+              hour12: true,
+            });
+
+            params.row.formattedTime = formattedTime;
+
+            return (
+              <div className={StyleTable.scrollableDate}>{formattedTime}</div>
             );
           }
 

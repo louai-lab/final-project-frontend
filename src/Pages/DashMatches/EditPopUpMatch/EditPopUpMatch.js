@@ -12,7 +12,7 @@ import Box from "@mui/material/Box";
 import { useTeamsStore } from "../../../Zustand/Store";
 import { useUsersStore } from "../../../Zustand/Store";
 
-function EditPopUpMatch({ selectedRowData, handleCancelEdit , handleSave }) {
+function EditPopUpMatch({ selectedRowData, handleCancelEdit, handleSave }) {
   const { teams } = useTeamsStore();
   const { referees } = useUsersStore();
   const { watchers } = useUsersStore();
@@ -23,7 +23,9 @@ function EditPopUpMatch({ selectedRowData, handleCancelEdit , handleSave }) {
     season: selectedRowData.season,
     pitch: selectedRowData.pitch,
     match_date: combinedDateTime.toISOString().split("T")[0],
-    match_time: combinedDateTime.toISOString().split("T")[1].slice(0, 5),
+    // match_time: combinedDateTime.toISOString().split("T")[1].slice(0, 5),
+    // match_date: selectedRowData.match_date,
+    match_time: selectedRowData.match_time,
     team_a: {
       team: selectedRowData.team_a.team._id,
     },
@@ -74,8 +76,8 @@ function EditPopUpMatch({ selectedRowData, handleCancelEdit , handleSave }) {
   };
 
   const handleSaveClick = (e) => {
-    e.preventDefault()
-    handleSave(formData)
+    e.preventDefault();
+    handleSave(formData);
   };
 
   return (

@@ -231,11 +231,12 @@ function Matches() {
                                           </div>
                                           <div>
                                             {new Date(
-                                              match.match_date
+                                              `2000-01-01T${match.match_time}:00Z`
                                             ).toLocaleTimeString("en-US", {
                                               timeZone: "UTC",
                                               hour: "numeric",
                                               minute: "numeric",
+                                              hour12: true, 
                                             })}
                                           </div>
                                         </>

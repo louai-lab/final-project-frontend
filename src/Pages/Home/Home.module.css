@@ -123,7 +123,7 @@
   background-size: cover;
   width: 20%;
   /* margin: 25px 5px 0px 5px; */
-  min-width: 50%;
+  min-width: 49%;
 
   height: 400px;
   display: flex;
@@ -169,7 +169,7 @@
   width: 20%;
   height: 400px;
   /* margin: 25px 5px 0px 5px; */
-  min-width: 50%;
+  min-width: 49%;
 
   height: 400px;
   display: flex;

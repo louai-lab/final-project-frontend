@@ -39,7 +39,6 @@ function AddPopUpMatch({ handleCancelAdd, handleFormSubmitMatch }) {
   const handleChange = (e) => {
     const { name, type, checked, value } = e.target;
 
-    // Check if the input type is file for handling images
     if (type === "file") {
       const file = e.target.files[0];
       if (file) {
@@ -50,9 +49,8 @@ function AddPopUpMatch({ handleCancelAdd, handleFormSubmitMatch }) {
       }
     } else {
       setFormData((prevData) => {
-        // Handle nested structure for team_a and team_b
         if (name === "team_a" || name === "team_b") {
-          const teamKey = name; // Either "team_a" or "team_b"
+          const teamKey = name; 
           const updatedTeam = {
             ...prevData[teamKey],
             team: value,
@@ -64,7 +62,6 @@ function AddPopUpMatch({ handleCancelAdd, handleFormSubmitMatch }) {
           };
         }
 
-        // For other fields
         return {
           ...prevData,
           [name]: type === "checkbox" ? checked : value,

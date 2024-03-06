@@ -128,12 +128,13 @@
 .reportsContainer {
   width: 100vw;
   height: fit-content;
-  padding: 5px;
+  padding: 10px;
   font-size: clamp(12px, 3vw, 30px);
   background-color: rgba(240, 233, 233, 0.893);
   display: flex;
-  flex-direction: column;
-  row-gap: 20px;
+  column-gap: 10px;
+  /* flex-direction: column; */
+  /* row-gap: 20px; */
 }
 
 .infoContainer {
@@ -156,19 +157,22 @@
 
 .singleReport {
   display: flex;
-  column-gap: 5px;
+  flex-direction: column;
+  row-gap: 10px;
+  width: 49%;
 }
 
 .partReport {
   display: flex;
-  flex-direction: column;
-  row-gap: 5px;
-  justify-content: center;
+  /* flex-direction: column; */
+  column-gap: 10px;
+  /* justify-content: center; */
+  align-items: center;
   width: 100%;
 }
 
 .partReport > p {
-  font-size: clamp(15px, 5vw, 25px);
+  font-size: clamp(12px, 3vw, 22px);
 }
 
 .textArea {
@@ -204,17 +208,16 @@
     height: 10rem;
     object-fit: contain;
   }
-}
-
-@media screen and (max-width: 700px) {
-  .cardImage {
-    width: 6rem;
-    height: 6rem;
-    object-fit: contain;
+  .reportsContainer {
+    flex-direction: column;
+    row-gap: 20px;
+  }
+  .singleReport {
+    width: 99%;
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 800px) {
   .infoContainer {
     display: flex;
     flex-direction: column;
@@ -223,6 +226,14 @@
   }
   .persons {
     width: 100%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .cardImage {
+    width: 6rem;
+    height: 6rem;
+    object-fit: contain;
   }
 }
 
@@ -248,17 +259,17 @@
 
 .event {
   display: flex;
-  column-gap: 20%;
+  column-gap: 10%;
   justify-content: space-between;
   align-items: center;
   /* background-color: red; */
-  width: 38rem;
+  width: 45rem;
   height: fit-content;
   padding: 5px;
 }
 
 .event > p {
-  width: 12rem;
+  width: 15rem;
   height: fit-content;
   padding: 5px;
   color: grey;
@@ -285,15 +296,17 @@
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
+  justify-content: center;
   column-gap: 10px;
-  width: 12rem;
+  width: 15rem;
   height: fit-content;
   border: 1px solid rgb(175, 175, 175);
   border-radius: 5px;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.904);
   /* background-color: blue; */
   padding: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.183);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
 .flexStart {
@@ -307,6 +320,7 @@
 .persons {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   row-gap: 20px;
   width: 100%;
   padding: 20px;
@@ -364,7 +378,7 @@
 
 @media screen and (max-width: 1050px) {
   .event {
-    width: 65%;
+    width: 80%;
   }
 }
 
@@ -376,28 +390,34 @@
 
 @media screen and (max-width: 680px) {
   .event {
-    width: 95%;
+    width: 99%;
   }
 }
 
 @media screen and (max-width: 550px) {
+  .liveContainer {
+    padding: 5px;
+  }
+  .event {
+    column-gap: 8%;
+  }
   .type {
-    width: 7rem;
+    width: 12rem;
   }
   .event > p {
-    width: 7rem;
+    width: 12rem;
   }
 }
 
 @media screen and (max-width: 450px) {
   .event {
-    column-gap: 10%;
+    column-gap: 8%;
   }
 }
 
 @media screen and (max-width: 350px) {
   .event {
-    column-gap: 5%;
+    column-gap: 3%;
   }
 }
 
