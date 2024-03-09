@@ -41,7 +41,7 @@ function App() {
     getAllTeams();
     getAllMatches();
     getLastMatch();
-    getLastTwoCreatedMatches()
+    getLastTwoCreatedMatches();
   }, []);
 
   // console.log(user)

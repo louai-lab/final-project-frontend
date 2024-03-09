@@ -105,7 +105,11 @@ function SingleMatch() {
     }
   }, [match]);
 
-  let detailId = match.details?._id;
+  // console.log(match)
+
+  let detailId = match?.detailsWatcher._id;
+
+  // console.log(detailId)
 
   const handleEventSubmit = async (formData) => {
     try {
@@ -114,14 +118,13 @@ function SingleMatch() {
         formData
       );
 
+      // console.log(formData)
+
       if (response) {
         console.log("created successfully");
 
         if (formData.type === "goal") {
           setShowAnimation(true);
-          // setTimeout(() => {
-          //   setShowAnimation(false);
-          // }, 5000);
         }
 
         fetchUpdatedMatch(match._id);
@@ -170,7 +173,9 @@ function SingleMatch() {
     }
   };
 
-  const events = match?.details?.details;
+  // console.log(match)
+
+  const events = match?.detailsWatcher?.details;
 
   const handleUpdateWatcherReport = async () => {
     try {
@@ -180,7 +185,7 @@ function SingleMatch() {
 
       if (response) {
         setShowAnimation(true);
-        console.log(response.data);
+        // console.log(response.data);
         setTimeout(() => {
           setShowAnimation(false);
         }, 5000);
@@ -239,7 +244,7 @@ function SingleMatch() {
 
     try {
       const response = await axiosInstance.patch(
-        `/matchdetails/deleteObject/${match.details._id}/${selectedEvent}`
+        `/matchdetails/deleteObject/${match.detailsWatcher._id}/${selectedEvent}`
       );
 
       if (response) {
@@ -277,7 +282,7 @@ function SingleMatch() {
   const handleEditEvent = async (formData) => {
     try {
       const response = await axiosInstance.patch(
-        `/matchdetails/updateObject/${match.details._id}/${selectedEvent._id}`,
+        `/matchdetails/updateObject/${match.detailsWatcher._id}/${selectedEvent._id}`,
         formData
       );
       if (response) {
@@ -305,7 +310,11 @@ function SingleMatch() {
                 {user.role === "admin" ||
                 user.userId === match.watcher._id ||
                 user._id === match.watcher._id ? (
-                  <button className={StyleSingleMatch.open} onClick={openPopUp}>
+                  <button
+                    className={StyleSingleMatch.open}
+                    onClick={openPopUp}
+                    disabled={match.played}
+                  >
                     +
                   </button>
                 ) : (
@@ -436,15 +445,15 @@ function SingleMatch() {
         </>
       ),
     },
-    // {
-    //   title: "Line-ups",
-    //   id: "line-ups",
-    //   content: (
-    //     <div className={StyleSingleMatch.lineContainer}>
-    //       <h1>Hi line ups</h1>
-    //     </div>
-    //   ),
-    // },
+    {
+      title: "Line-ups",
+      id: "line-ups",
+      content: (
+        <div className={StyleSingleMatch.lineContainer}>
+          <h1>In Progress ...</h1>
+        </div>
+      ),
+    },
     {
       title: "reports",
       id: "reports",
@@ -616,7 +625,6 @@ function SingleMatch() {
               </div>
             </div>
             <div className={StyleSingleMatch.linesmanContainer}>
-              {/* <p>LinesMan two</p> */}
               <img src={Flag} alt="" className={StyleSingleMatch.iconInfo} />
               <div className={StyleSingleMatch.linesman}>
                 <img

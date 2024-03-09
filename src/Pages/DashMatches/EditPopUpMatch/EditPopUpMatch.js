@@ -100,11 +100,11 @@ function EditPopUpMatch({ selectedRowData, handleCancelEdit, handleSave }) {
       >
         <h1
           style={{
-            //   width: "100%",
             marginBottom: "1.5rem",
+            fontSize: "clamp(10px , 4rem , 25px)",
           }}
         >
-          Edit A Match
+          Edit Match
         </h1>
         <form
           //   onSubmit={handleSubmit}
@@ -115,7 +115,14 @@ function EditPopUpMatch({ selectedRowData, handleCancelEdit, handleSave }) {
             rowGap: "1rem",
           }}
         >
-          <Stack rowGap="2rem">
+          <Stack
+            rowGap="2rem"
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <div className={StyleEditPopUp.inputsWrapper}>
               <FormControl className={StyleEditPopUp.formControl}>
                 <TextField

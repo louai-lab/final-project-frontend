@@ -440,6 +440,11 @@
   background-color: var(--secondary-clr);
 }
 
+.open:disabled{
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .endMatch {
   padding: 15px 15px;
   display: flex;

@@ -10,7 +10,7 @@ function Profile() {
   const { matchCount } = useMatchesStore();
   const { matches } = useMatchesStore();
   // console.log(user);
-  console.log(matches);
+  // console.log(matches);
 
   const handleMatchClick = (match) => {
     if (match && match._id) {

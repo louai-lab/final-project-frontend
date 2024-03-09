@@ -71,7 +71,7 @@ function AddPopUpTeam({ handleCancelAdd, handleFormSubmitTeam }) {
             marginBottom: "1.5rem",
           }}
         >
-          Add A Team
+          Add Team
         </h1>
         <form
           onSubmit={handleSubmit}

@@ -1,8 +1,6 @@
 .tab{
-    /* color: red; */
     color: black;
     padding: 7px;
-    /* font-size: clamp(5px , 5rem , 24px); */
     border: none;
     background-color: transparent;
     font-size: clamp(15px, 4vw, 20px);

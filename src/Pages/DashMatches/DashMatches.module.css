@@ -1,6 +1,7 @@
 .container {
     margin-left: 80px;
     margin-top: 20px;
+    /* background-color: rgba(245, 243, 243, 0.954); */
   }
   .add {
     background-color: var(--primary-clr);

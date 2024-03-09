@@ -62,7 +62,7 @@ function EditPopUpTeams({ selectedRowData, handleCancelEdit , handleSave }) {
             marginBottom: "1.5rem",
           }}
         >
-          Edit A Team
+          Edit Team
         </h1>
         <form
           //   onSubmit={handleSubmit}

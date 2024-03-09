@@ -259,7 +259,7 @@ function DashPlayers() {
       )}
       <div className={StyleDashPlayers.container}>
         <button className={StyleDashPlayers.add} onClick={handleOpenPopUp}>
-          Add A Player
+          Add Player
         </button>
         <Table
           data={players}

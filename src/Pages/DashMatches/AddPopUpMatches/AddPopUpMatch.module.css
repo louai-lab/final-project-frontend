@@ -1,62 +1,97 @@
 .addPopUp {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: fit-content;
+  height: 600px;
+  /* border: none; */
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.939);
+  color: black;
+  z-index: 1003;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 2rem;
+}
+
+.formControl {
+  /* width: 150px; */
+  width: 270px;
+}
+.inputsWrapper {
+  /* display: flex;
+  flex-wrap: wrap;
+  gap: 10px; */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.submit {
+  background-color: var(--primary-clr) !important;
+  width: 250px !important;
+  transition: background-color 0.3s ease, color 0.3s ease !important;
+  text-transform: none !important;
+  font-weight: bold !important;
+  border-radius: 20px !important;
+
+  &:hover {
+    background-color: var(--third-clr) !important;
+    color: white !important;
+  }
+}
+
+.cancel {
+  background-color: var(--third-clr);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  text-transform: none;
+  color: white;
+  padding: 11px;
+  border-radius: 20px;
+  border: none;
+  font-weight: bold;
+  width: 250px;
+}
+
+.cancel:hover {
+  background-color: var(--primary-clr);
+  color: white;
+}
+
+@media screen and (max-width: 900px) {
+  .addPopUp {
+    /* background-color: green; */
+    width: 80%;
     height: fit-content;
-    max-height: 800px;
-    /* border: none; */
-    border: 1px solid black;
-    border-radius: 10px;
-    background-color: white;
-    color: black;
-    z-index: 1003;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
   }
+}
 
-  .formControl{
-    width: 150px;
+@media screen and (max-width: 700px) {
+  .inputsWrapper {
+    grid-template-columns: 1fr;
   }
-  .inputsWrapper{
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+}
+
+@media screen and (max-width: 500px) {
+  .addPopUp {
+    /* background-color: green; */
+    width: 80%;
+    height: fit-content;
   }
-  
+}
+
+@media screen and (max-width: 400px) {
+  .formControl {
+    width: 220px;
+  }
   .cancel {
-    background-color: var(--third-clr);
-    transition: background-color 0.3s ease, color 0.3s ease;
-    text-transform: none;
-    color: white;
-    padding: 11px;
-    border-radius: 20px;
-    border: none;
-    font-weight: bold;
+    width: 200px;
   }
-  
-  .cancel:hover {
-    background-color: var(--primary-clr);
-    color: white;
+  .submit {
+    width: 200px !important;
   }
-
-  @media screen and (max-width: 900px) {
-    .addPopUp {
-      /* background-color: green; */
-      width: 60%;
-      height: fit-content;
-    }
-  }
-  
-  @media screen and (max-width: 500px) {
-    .addPopUp {
-      /* background-color: green; */
-      width: 80%;
-      height: fit-content;
-    }
-  }
-  
+}

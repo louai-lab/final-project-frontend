@@ -5,7 +5,6 @@ import Grid from "@mui/material/Unstable_Grid2";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import StyleTable from "./Table.module.css";
-import moment from "moment";
 
 const Table = ({
   data,
@@ -47,7 +46,6 @@ const Table = ({
   useEffect(() => {
     try {
       if (!data || data.length === 0) {
-        // Handle the case where data is undefined or empty
         setError(true);
         return;
       }
@@ -70,7 +68,7 @@ const Table = ({
           "watcher",
           "linesman_one",
           "linesman_two",
-          "details",
+          "detailsWatcher",
         ];
       } else {
         visibleFields = Object.keys(data[0]);
@@ -86,7 +84,7 @@ const Table = ({
               <img
                 src={`${process.env.REACT_APP_IMAGE_PATH}/${
                   params.row.image ? params.row.image : ""
-                }`} // Assuming the "icon" field contains the image URL
+                }`}
                 alt="Icon"
                 style={{ width: "140px", height: "140px" }}
               />
@@ -151,7 +149,7 @@ const Table = ({
             return params.row.linesman_two?.firstName;
           }
 
-          if (field === "details") {
+          if (field === "detailsWatcher") {
             return (
               <button
                 className={StyleTable.show}
@@ -308,7 +306,8 @@ const Table = ({
             fontFamily: "Helvetica Neue",
             marginBottom: "4rem",
             width: "98%",
-            border: "solid 1px #BABABA",
+            // border: "solid 1px #BABABA",
+            border:"none",
             "& .MuiToolbar-root , .MuiInputBase-input , .MuiDataGrid-columnHeaderTitleContainer , .MuiDataGrid-cell":
               {
                 color: "black",
@@ -349,6 +348,10 @@ const Table = ({
                 maxHeight: "100px !important",
                 fontSize: "1.2rem",
                 mb: screenWidth < 500 ? "1rem" : "0",
+                border:"1px solid grey",
+                borderRadius:"10px",
+                marginBottom:"10px",
+                backgroundColor:"lightgrey"
               },
             "& .MuiDataGrid-columnHeaderTitleContainer": {
               color: "var(--primary-clr) !important",

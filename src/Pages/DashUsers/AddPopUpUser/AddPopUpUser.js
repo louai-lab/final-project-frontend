@@ -76,7 +76,7 @@ function AddPopUp({ handleCancelAdd , handleFormSubmit }) {
             marginBottom: "1.5rem",
           }}
         >
-          Add An User
+          Add User
         </h1>
         <form
           onSubmit={handleSubmit}

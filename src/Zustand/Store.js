@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import axiosInstance from "../Utils/AxiosInstance";
+import { queryClient } from "../Utils/react-query-config";
 
 export const useUserStore = create((set) => ({
   // const navigate = useNavigate();
@@ -147,7 +148,6 @@ export const useTeamsStore = create((set) => ({
 export const useMatchesStore = create((set) => ({
   selectedTeamId: null,
   updateSelectedTeamId: (teamId) => {
-    // console.log(teamId);
     set({ selectedTeamId: teamId });
   },
   matches: [],
@@ -161,14 +161,22 @@ export const useMatchesStore = create((set) => ({
 
       const url = teamId ? `/match?teamId=${teamId}` : "/match";
 
-      const response = await axiosInstance.get(url);
+      // const response = await axiosInstance.get(url);
 
-      const matches = response.data;
+      // const matches = response.data;
 
-      const matchCount = matches.length;
+      // const matchCount = matches.length;
 
-      set({ matches, matchCount, loading: false });
-      // console.log(matchCount)
+      // set({ matches, matchCount, loading: false });
+
+      // Fetch data using React Query
+      const data = await queryClient.fetchQuery(["matches", teamId], () =>
+        axiosInstance.get(url).then((res) => res.data)
+      );
+
+      const matchCount = data.length;
+
+      set({ matches: data, matchCount, loading: false });
     } catch (error) {
       console.error(error);
       set({ loading: false });

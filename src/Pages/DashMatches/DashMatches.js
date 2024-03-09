@@ -16,7 +16,6 @@ import EditPopUpMatch from "./EditPopUpMatch/EditPopUpMatch.js";
 
 function DashMatches() {
   const { matches } = useMatchesStore();
-  // console.log(matches)
   const [isAddPopUp, setIsAddPopUp] = useState(false);
   const [isEditPopUp, setIsEditPopUp] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -83,7 +82,6 @@ function DashMatches() {
 
   const handleEditOpen = () => {
     setIsEditPopUp(true);
-    // console.log(selectedRowData);
   };
 
   const handleCancelEdit = () => {
@@ -99,7 +97,6 @@ function DashMatches() {
       if (response) {
         console.log("Match updated successfully:");
 
-        // Update matches state
         useMatchesStore.setState((state) => {
           const updatedMatches = state.matches.map((match) => {
             if (match._id === id) {
@@ -113,7 +110,6 @@ function DashMatches() {
           };
         });
 
-        // Update teams state
         if (response.data.team) {
           useTeamsStore.setState((state) => {
             const updatedTeams = state.teams.map((team) => {
@@ -129,7 +125,6 @@ function DashMatches() {
           });
         }
 
-        // Update users state
         if (response.data.user) {
           useUsersStore.setState((state) => {
             const updatedUsers = state.users.map((user) => {
@@ -267,7 +262,7 @@ function DashMatches() {
       )}
       <div className={StyleDashMatches.container}>
         <button className={StyleDashMatches.add} onClick={handleOpenPopUp}>
-          Add A Match
+          Add Match
         </button>
         <Table
           data={matches}

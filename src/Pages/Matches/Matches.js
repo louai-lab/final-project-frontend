@@ -134,6 +134,7 @@ function Matches() {
                   />
                   <div className={StyleMatches.teamsName}>
                     <p>{lastMatch.team_a?.team.name}</p>
+                    <span className={StyleMatches.vs}>VS</span>
                     <p>{lastMatch.team_b?.team.name}</p>
                   </div>
                   <img
@@ -149,7 +150,7 @@ function Matches() {
               </div>
             </article>
 
-            {loading ? "" : <p className={StyleMatches.vs}>VS</p>}
+            {/* {loading ? "" : <p className={StyleMatches.vs}>VS</p>} */}
 
             <article className={StyleMatches.middle}>
               <h1>Fixtures & results</h1>
@@ -236,7 +237,7 @@ function Matches() {
                                               timeZone: "UTC",
                                               hour: "numeric",
                                               minute: "numeric",
-                                              hour12: true, 
+                                              hour12: true,
                                             })}
                                           </div>
                                         </>

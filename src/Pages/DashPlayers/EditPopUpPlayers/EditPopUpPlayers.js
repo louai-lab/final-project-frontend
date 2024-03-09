@@ -67,7 +67,7 @@ function EditPopUpPlayers({ selectedRowData, handleCancelEdit, handleSave }) {
             marginBottom: "1.5rem",
           }}
         >
-          Edit A Player
+          Edit Player
         </h1>
         <form
           //   onSubmit={handleSubmit}

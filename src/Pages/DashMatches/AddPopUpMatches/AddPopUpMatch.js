@@ -50,7 +50,7 @@ function AddPopUpMatch({ handleCancelAdd, handleFormSubmitMatch }) {
     } else {
       setFormData((prevData) => {
         if (name === "team_a" || name === "team_b") {
-          const teamKey = name; 
+          const teamKey = name;
           const updatedTeam = {
             ...prevData[teamKey],
             team: value,
@@ -96,22 +96,31 @@ function AddPopUpMatch({ handleCancelAdd, handleFormSubmitMatch }) {
         >
           <h1
             style={{
-              //   width: "100%",
               marginBottom: "1.5rem",
+              fontSize: "clamp(10px , 4rem , 25px)",
             }}
           >
-            Add A Match
+            Add Match
           </h1>
           <form
             onSubmit={handleSubmit}
             style={{
               display: "flex",
               flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
               width: "100%",
               rowGap: "1rem",
             }}
           >
-            <Stack rowGap="2rem">
+            <Stack
+              rowGap="2rem"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <div className={StyleAddPopUp.inputsWrapper}>
                 <FormControl className={StyleAddPopUp.formControl}>
                   <TextField
@@ -316,17 +325,20 @@ function AddPopUpMatch({ handleCancelAdd, handleFormSubmitMatch }) {
               <Button
                 type="submit"
                 variant="contained"
-                sx={{
-                  bgcolor: "var(--primary-clr)",
-                  transition: "background-color 0.3s ease, color 0.3s ease",
-                  textTransform: "none",
-                  fontWeight: "bold",
-                  borderRadius: "20px",
-                  "&:hover": {
-                    bgcolor: "var(--third-clr)",
-                    color: "white",
-                  },
-                }}
+                className={StyleAddPopUp.submit}
+
+                // sx={{
+                //   bgcolor: "var(--primary-clr)",
+                //   width: "250px",
+                //   transition: "background-color 0.3s ease, color 0.3s ease",
+                //   textTransform: "none",
+                //   fontWeight: "bold",
+                //   borderRadius: "20px",
+                //   "&:hover": {
+                //     bgcolor: "var(--third-clr)",
+                //     color: "white",
+                //   },
+                // }}
               >
                 Submit
               </Button>

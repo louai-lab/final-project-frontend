@@ -250,7 +250,7 @@ function DashTeams() {
       )}
       <div className={StyleDashTeams.container}>
         <button className={StyleDashTeams.add} onClick={handleOpenPopUp}>
-          Add A Team
+          Add Team
         </button>
         <Table
           data={teams}

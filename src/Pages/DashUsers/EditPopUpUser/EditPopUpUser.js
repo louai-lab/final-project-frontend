@@ -78,7 +78,7 @@ function EditPopUpUser({ selectedRowData, handleCancelEdit, handleSave }) {
             marginBottom: "1.5rem",
           }}
         >
-          Edit A User
+          Edit User
         </h1>
         <form
           //   onSubmit={handleSubmit}

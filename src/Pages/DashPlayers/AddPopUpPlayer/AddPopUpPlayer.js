@@ -69,7 +69,7 @@ function AddPopUp({ handleCancelAdd, handleFormSubmitPlayer }) {
               marginBottom: "1.5rem",
             }}
           >
-            Add A Player
+            Add Player
           </h1>
           <form
             onSubmit={handleSubmit}

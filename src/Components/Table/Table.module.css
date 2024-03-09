@@ -74,14 +74,17 @@
   padding: 5px;
 }
 
-/* Add this style to your CSS */
+
 .scrollableDate {
   overflow: auto;
-  white-space: nowrap; /* Ensures the date doesn't wrap to the next line */
+  white-space: nowrap; 
 }
 
-/* Additional styling for the date format */
 .scrollableDate::before {
-  content: "Date: "; /* Add a label before the date */
+  content: "Date: ";
   font-weight: bold;
+}
+
+.dataGridCustom{
+  border: none;
 }
