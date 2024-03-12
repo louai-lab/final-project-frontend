@@ -4,66 +4,99 @@ import logo from "../../Assets/icons/Lebanese_Football_Association_(LFA)_logo.sv
 import { NavLink } from "react-router-dom";
 import Facebook from "../../Assets/icons/devicon--facebook.svg";
 import Instagram from "../../Assets/icons/skill-icons--instagram.svg";
+import { useLanguage } from "../../Utils/LanguageContext";
 
 function Footer() {
+  const { language } = useLanguage();
+
   return (
     <div className={StyleFooter.footer}>
       <div className={StyleFooter.footerContainer}>
         <div className={StyleFooter.descriptionFooter}>
           <img src={logo} alt="" className={StyleFooter.logoFooter} />
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+          <p className={language === "ar" ? StyleFooter.rtl : ""}>
+            {language === "en"
+              ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed doeiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi utaliquip ex ea commodo consequat."
+              : "أبجد هوز دولور الجلوس امات  ولكن قد يحدث وقت طويل من العمل والألم الكبير. إننا لا نسمح إلا بالحد الأدنى من النشاط الذي نمارسه من خلال العمل، ولا نتركه بعيدًا عن أي شيء يترتب على ذلك."}
           </p>
         </div>
 
         <div className={StyleFooter.relatedFooter}>
-          <p className={StyleFooter.titleFooter}>
-            Lebanese Football Association
+          <p
+            className={`${StyleFooter.titleFooter} ${
+              language === "ar" ? StyleFooter.rtl : ""
+            }`}
+          >
+            {language === "en"
+              ? "Lebanese Football Association In The North"
+              : "الاتحاد اللبناني لكرة القدم في الشمال"}
           </p>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+          <p className={language === "ar" ? StyleFooter.rtl : ""}>
+            {language === "en"
+              ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed doeiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi utaliquip ex ea commodo consequat."
+              : "أبجد هوز دولور الجلوس امات  ولكن قد يحدث وقت طويل من العمل والألم الكبير. إننا لا نسمح إلا بالحد الأدنى من النشاط الذي نمارسه من خلال العمل، ولا نتركه بعيدًا عن أي شيء يترتب على ذلك."}
           </p>
-          <p>North , Lebanon</p>
+          <p className={StyleFooter.rtl}>
+            {language === "en" ? "North , Lebanon" : "الشمال , لبنان"}
+          </p>
 
-          <p className={StyleFooter.red}>louaibaghdadi27@gmail.com</p>
-          <p className={StyleFooter.red}>+961 70 178056</p>
+          <p
+            className={`${StyleFooter.red} ${
+              language === "ar" ? StyleFooter.rtl : ""
+            }`}
+          >
+            louaibaghdadi27@gmail.com
+          </p>
+          <p
+            className={`${StyleFooter.red} ${
+              language === "ar" ? StyleFooter.rtl : ""
+            }`}
+          >
+            +961 70 178056
+          </p>
         </div>
 
         <div className={StyleFooter.linksFooter}>
-          <p className={StyleFooter.titleFooter}>Links</p>
+          <p
+            className={`${StyleFooter.titleFooter} ${
+              language === "ar" ? StyleFooter.rtl : ""
+            }`}
+          >
+            {language === "en" ? "Links" : "الروابط"}
+          </p>
           <ul className={StyleFooter.ulFooter}>
-            <li>
+            <li className={language === "ar" ? StyleFooter.rtl : ""}>
               <NavLink
                 to="/"
                 className={({ isActive, isPending }) =>
                   isPending ? "pending" : isActive ? StyleFooter.active : ""
                 }
               >
-                Home
+                {language === "en" ? "Home" : "الصفحة الرئيسية"}
               </NavLink>
             </li>
-            <li>
+            <li className={language === "ar" ? StyleFooter.rtl : ""}>
               <NavLink
                 to="/matches"
                 className={({ isActive, isPending }) =>
                   isPending ? "pending" : isActive ? StyleFooter.active : ""
                 }
               >
-                Matches
+                {language === "en" ? "Matches" : "المباريات"}
               </NavLink>
             </li>
           </ul>
         </div>
 
         <div className={StyleFooter.connectFooter}>
-          <p className={StyleFooter.titleFooter}>Connect with us</p>
-          <div className={StyleFooter.socialFooter}>
+          <p className={StyleFooter.titleFooter}>
+            {language === "en" ? "Connect with us" : "تواصل معنا"}
+          </p>
+          <div
+            className={`${StyleFooter.socialFooter} ${
+              language === "ar" ? StyleFooter.rtl : ""
+            }`}
+          >
             <img src={Facebook} alt="" className={StyleFooter.iconFacebook} />
             <img src={Instagram} alt="" className={StyleFooter.iconInsta} />
           </div>
@@ -71,8 +104,9 @@ function Footer() {
       </div>
 
       <p>
-        Lebanese Football Association in The North &copy; 2024 All rights
-        reserved.
+        {language === "en"
+          ? `Lebanese Football Association in The North © 2024 All rights reserved.`
+          : "جميع الحقوق محفوظة © الاتحاد اللبناني لكرة القدم في الشمال"}
       </p>
     </div>
   );

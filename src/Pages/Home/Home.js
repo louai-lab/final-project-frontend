@@ -5,10 +5,11 @@ import secondTeam from "../../Assets/icons/Ellipse 8.svg";
 import LandingPage from "../../Assets/icons/referee-showing-red-yellow-cards-football-soccer-player-while-gaming-white-studio-background.jpg";
 import { useMatchesStore } from "../../Zustand/Store";
 import { useNavigate } from "react-router-dom";
-import { Reveal } from "../../Frammotion/RevealAnimation";
 import FootballLoader from "../FootballLoader/FootballLoader";
+import { useLanguage } from "../../Utils/LanguageContext";
 
 function Home() {
+  const { language } = useLanguage();
   const navigate = useNavigate();
   const { LastTwoMatches } = useMatchesStore();
   const { loading, getLastTwoCreatedMatches } = useMatchesStore();
@@ -36,12 +37,24 @@ function Home() {
       ) : (
         <>
           <div className={StyleHome.homeContainer}>
-            <header className={StyleHome.HeroSection}>
-              <div className={StyleHome.position}>
+            <header
+              className={`${StyleHome.HeroSection} ${
+                language === "ar" ? StyleHome.scale : ""
+              }`}
+            >
+              <div
+                className={
+                  language === "en"
+                    ? StyleHome.position
+                    : StyleHome.positionArabic
+                }
+              >
                 <p className={StyleHome.association}>
-                  Lebanese Football Association
+                  {language === "en"
+                    ? "Lebanese Football Association In The North"
+                    : "الاتحاد اللبناني لكرة القدم في الشمال"}
                 </p>
-                <h1>FIXTURES</h1>
+                <h1>{language === "en" ? "Fixtures" : "تجهيزات"}</h1>
                 <div className={StyleHome.fixtureContainer}>
                   {Array.isArray(LastTwoMatches) &&
                   LastTwoMatches.length > 0 ? (
@@ -120,19 +133,23 @@ function Home() {
 
             <div className={StyleHome.slidesHome}>
               <div className={StyleHome.leftSlideHome}>
-                <h4>Football Program</h4>
+                <h4>
+                  {language === "en" ? "Football Program" : "برنامج كرة القدم"}
+                </h4>
                 <p className={StyleHome.hiddenText}>
-                  Custom-made nutrition programs that will ehance your athletic
-                  performance, increase focus, and give you maximum endurance
-                  according to your role on the team.
+                  {language === "en"
+                    ? "Custom-made nutrition programs that will enhance your athletic performance, increase focus, and give you maximum endurance according to your role on the team."
+                    : "برامج تغذية مصممة خصيصًا من شأنها تحسين أدائك الرياضي وزيادة التركيز وتمنحك أقصى قدر من القدرة على التحمل وفقًا لدورك في الفريق."}
                 </p>
               </div>
               <div className={StyleHome.rightSlideHome}>
-                <h4>Football Program</h4>
+                <h4>
+                  {language === "en" ? "Football Program" : "برنامج كرة القدم"}
+                </h4>
                 <p className={StyleHome.hiddenText}>
-                  Nutrition programs tailored to maximise athletic performances
-                  of all players on the team each according to their position
-                  and role.
+                  {language === "en"
+                    ? "Custom-made nutrition programs that will enhance your athletic performance, increase focus, and give you maximum endurance according to your role on the team."
+                    : "برامج تغذية مصممة خصيصًا من شأنها تحسين أدائك الرياضي وزيادة التركيز وتمنحك أقصى قدر من القدرة على التحمل وفقًا لدورك في الفريق."}
                 </p>
               </div>
             </div>

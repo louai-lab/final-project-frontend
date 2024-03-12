@@ -32,6 +32,21 @@
   cursor: pointer;
 }
 
+.select {
+  display: flex;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+}
+
+.option{
+  padding: 20px;
+  background-color: rgba(229, 226, 226, 0.791);
+}
+
 .logOut {
   border: none;
   border-radius: 10px;
@@ -189,7 +204,7 @@
   /* background-color: green; */
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
   .navBar {
     width: 100%;
   }

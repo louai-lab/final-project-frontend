@@ -5,8 +5,11 @@ import { useEffect, useState } from "react";
 import logo from "../../../Assets/icons/Lebanese_Football_Association_(LFA)_logo.svg";
 import { useUserStore } from "../../../Zustand/Store";
 import Logout from "../../../Assets/icons/material-symbols--logout (2).svg";
+import { useLanguage } from "../../../Utils/LanguageContext";
+import { Style } from "@mui/icons-material";
 
 function Navbar() {
+  const { language, toggleLanguage } = useLanguage();
   const { user, loading, logOut } = useUserStore();
   const navigate = useNavigate();
 
@@ -39,6 +42,13 @@ function Navbar() {
     navigate("/login");
   };
 
+  const handleLanguageChange = (event) => {
+    const selectedLanguage = event.target.value;
+    if (selectedLanguage !== language) {
+      toggleLanguage();
+    }
+  };
+
   return (
     <header className={Styles.header}>
       <nav className={Styles.navBar}>
@@ -54,6 +64,19 @@ function Navbar() {
             alt="Lebanese Football Association"
           />
         </NavLink>
+        <select
+          id="languageSelect"
+          value={language}
+          onChange={handleLanguageChange}
+          className={Styles.select}
+        >
+          <option value="en" className={Styles.option}>
+            English
+          </option>
+          <option value="ar" className={Styles.option}>
+            Arabic
+          </option>
+        </select>
         <ul className={Styles.linksWrapper}>
           <li>
             <NavLink
