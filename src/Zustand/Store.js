@@ -150,26 +150,29 @@ export const useMatchesStore = create((set) => ({
   updateSelectedTeamId: (teamId) => {
     set({ selectedTeamId: teamId });
   },
+  pageNumber: 1,
+  selectedPageNumber: null,
+  updateSelectedPageNumber: (pageNumber) => {
+    set({ selectedPageNumber: pageNumber });
+    // console.log(pageNumber);
+  },
   matches: [],
   loading: true,
   setMatches: (newState) => {
     set({ matches: newState });
   },
-  getAllMatches: async (teamId) => {
+
+  getAllMatches: async (teamId, pageNumber, pageSize = 5) => {
     try {
       set({ loading: true });
 
-      const url = teamId ? `/match?teamId=${teamId}` : "/match";
+      // console.log(pageNumber)
 
-      // const response = await axiosInstance.get(url);
+      // const url = teamId ? `/match?teamId=${teamId}` : "/match";
+      const url = teamId
+        ? `/match?teamId=${teamId}&pageNumber=${pageNumber}&pageSize=${pageSize}`
+        : `/match?pageNumber=${pageNumber}&pageSize=${pageSize}`;
 
-      // const matches = response.data;
-
-      // const matchCount = matches.length;
-
-      // set({ matches, matchCount, loading: false });
-
-      // Fetch data using React Query
       const data = await queryClient.fetchQuery(["matches", teamId], () =>
         axiosInstance.get(url).then((res) => res.data)
       );

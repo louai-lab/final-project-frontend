@@ -22,21 +22,29 @@ function Matches() {
   const { getLastMatch } = useMatchesStore();
   const [popUpFilter, setPopUpFilter] = useState(false);
   const { selectedTeamId, updateSelectedTeamId } = useMatchesStore();
+  const { selectedPageNumber, updateSelectedPageNumber } = useMatchesStore();
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     getAllTeams();
     getAllMatches(selectedTeamId);
+    getAllMatches(selectedPageNumber);
     getLastMatch();
-  }, [getAllTeams, getAllMatches, getLastMatch, selectedTeamId]);
+  }, [
+    getAllTeams,
+    getAllMatches,
+    getLastMatch,
+    selectedTeamId,
+    selectedPageNumber,
+  ]);
+
+  const { loading, matches } = useMatchesStore();
 
   const handleApply = (teamId) => {
     updateSelectedTeamId(teamId);
     closePopUpFilter();
   };
-
-  const { loading, matches } = useMatchesStore();
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -45,6 +53,8 @@ function Matches() {
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
+    // console.log(value)
+    updateSelectedPageNumber(value);
   };
 
   const handleMatchClick = (match) => {
@@ -352,8 +362,8 @@ function Matches() {
               <article className={StyleMatches.pagination}>
                 <Stack spacing={2} sx={{ color: "white" }}>
                   <Pagination
-                    // count={10}
-                    count={Math.ceil(matches.length / itemsPerPage)}
+                    count={10}
+                    // count={Math.ceil(matches.length / itemsPerPage)}
                     color="primary"
                     page={currentPage}
                     onChange={handlePageChange}
