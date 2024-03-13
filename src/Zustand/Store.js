@@ -145,12 +145,11 @@ export const useTeamsStore = create((set) => ({
 
 // console.log(user)
 
-export const useMatchesStore = create((set) => ({
+export const useMatchesStore = create((set, get) => ({
   selectedTeamId: null,
   updateSelectedTeamId: (teamId) => {
     set({ selectedTeamId: teamId });
   },
-  pageNumber: 1,
   selectedPageNumber: null,
   updateSelectedPageNumber: (pageNumber) => {
     set({ selectedPageNumber: pageNumber });
@@ -162,19 +161,19 @@ export const useMatchesStore = create((set) => ({
     set({ matches: newState });
   },
 
-  getAllMatches: async (teamId, pageNumber, pageSize = 5) => {
+  getAllMatches: async (teamId) => {
     try {
       set({ loading: true });
 
-      // console.log(pageNumber)
+      const pageNumber = get().selectedPageNumber || 1;
 
-      // const url = teamId ? `/match?teamId=${teamId}` : "/match";
       const url = teamId
-        ? `/match?teamId=${teamId}&pageNumber=${pageNumber}&pageSize=${pageSize}`
-        : `/match?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+        ? `/match?teamId=${teamId}&pageNumber=${pageNumber}&pageSize=${5}`
+        : `/match?pageNumber=${pageNumber}&pageSize=${5}`;
 
-      const data = await queryClient.fetchQuery(["matches", teamId], () =>
-        axiosInstance.get(url).then((res) => res.data)
+      const data = await queryClient.fetchQuery(
+        ["matches", teamId, pageNumber],
+        async () => axiosInstance.get(url).then((res) => res.data)
       );
 
       const matchCount = data.length;

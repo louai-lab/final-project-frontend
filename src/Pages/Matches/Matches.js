@@ -23,21 +23,17 @@ function Matches() {
   const [popUpFilter, setPopUpFilter] = useState(false);
   const { selectedTeamId, updateSelectedTeamId } = useMatchesStore();
   const { selectedPageNumber, updateSelectedPageNumber } = useMatchesStore();
-  const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     getAllTeams();
-    getAllMatches(selectedTeamId);
-    getAllMatches(selectedPageNumber);
+    getAllMatches(selectedTeamId, selectedPageNumber);
     getLastMatch();
-  }, [
-    getAllTeams,
-    getAllMatches,
-    getLastMatch,
-    selectedTeamId,
-    selectedPageNumber,
-  ]);
+  }, [getAllTeams, getAllMatches, getLastMatch, selectedTeamId]);
+
+  useEffect(() => {
+    getAllMatches(selectedTeamId, selectedPageNumber);
+  }, [selectedPageNumber]);
 
   const { loading, matches } = useMatchesStore();
 
@@ -46,15 +42,9 @@ function Matches() {
     closePopUpFilter();
   };
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-
-  const currentMatches = matches.slice(startIndex, endIndex);
-
   const handlePageChange = (event, value) => {
-    setCurrentPage(value);
-    // console.log(value)
     updateSelectedPageNumber(value);
+    setCurrentPage(value);
   };
 
   const handleMatchClick = (match) => {
@@ -85,7 +75,7 @@ function Matches() {
     closePopUpFilter();
   };
 
-  // console.log(matches)
+  // console.log(matches);
 
   return (
     <>
@@ -160,8 +150,6 @@ function Matches() {
               </div>
             </article>
 
-            {/* {loading ? "" : <p className={StyleMatches.vs}>VS</p>} */}
-
             <article className={StyleMatches.middle}>
               <h1>Fixtures & results</h1>
               <button
@@ -182,10 +170,10 @@ function Matches() {
                   </div>
                 ) : (
                   <>
-                    {currentMatches.length === 0 ? (
+                    {matches.length === 0 ? (
                       <h1>No Matches Found</h1>
                     ) : (
-                      currentMatches.map((match) => {
+                      matches.map((match) => {
                         return (
                           <Reveal key={match._id}>
                             <button
