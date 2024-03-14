@@ -40,7 +40,7 @@ function App() {
     getAllPlayersNoTeam();
     getAllTeams();
     getAllMatches();
-    getLastMatch();
+    // getLastMatch();
     getLastTwoCreatedMatches();
   }, []);
 

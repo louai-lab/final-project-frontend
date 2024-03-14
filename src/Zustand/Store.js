@@ -167,32 +167,20 @@ export const useMatchesStore = create((set, get) => ({
 
       const pageNumber = get().selectedPageNumber || 1;
 
+      const pageSize =  5;
+
       const url = teamId
-        ? `/match?teamId=${teamId}&pageNumber=${pageNumber}&pageSize=${5}`
-        : `/match?pageNumber=${pageNumber}&pageSize=${5}`;
+        ? `/match?teamId=${teamId}&pageNumber=${pageNumber}&pageSize=${pageSize}`
+        : `/match?pageNumber=${pageNumber}&pageSize=${pageSize}`;
 
       const data = await queryClient.fetchQuery(
-        ["matches", teamId, pageNumber],
+        ["matches", teamId, pageNumber, pageSize],
         async () => axiosInstance.get(url).then((res) => res.data)
       );
 
       const matchCount = data.length;
 
       set({ matches: data, matchCount, loading: false });
-    } catch (error) {
-      console.error(error);
-      set({ loading: false });
-    }
-  },
-
-  lastMatch: {},
-  getLastMatch: async () => {
-    try {
-      set({ loading: true });
-      const response = await axiosInstance.get("/match/getlastcreatedmatch");
-      if (response) {
-        set({ lastMatch: response.data, loading: false });
-      }
     } catch (error) {
       console.error(error);
       set({ loading: false });

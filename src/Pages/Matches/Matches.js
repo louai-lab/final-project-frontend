@@ -16,7 +16,8 @@ import Stack from "@mui/material/Stack";
 function Matches() {
   const navigate = useNavigate();
   const { user } = useUserStore();
-  const { lastMatch } = useMatchesStore();
+  // const { lastMatch } = useMatchesStore();
+  const { LastTwoMatches } = useMatchesStore();
   const { getAllTeams } = useTeamsStore();
   const { getAllMatches } = useMatchesStore();
   const { getLastMatch } = useMatchesStore();
@@ -28,14 +29,16 @@ function Matches() {
   useEffect(() => {
     getAllTeams();
     getAllMatches(selectedTeamId, selectedPageNumber);
-    getLastMatch();
-  }, [getAllTeams, getAllMatches, getLastMatch, selectedTeamId]);
+    // getLastMatch();
+  }, [getAllTeams, getAllMatches, LastTwoMatches, selectedTeamId]);
 
   useEffect(() => {
     getAllMatches(selectedTeamId, selectedPageNumber);
   }, [selectedPageNumber]);
 
   const { loading, matches } = useMatchesStore();
+
+  // console.table(LastTwoMatches[0]);
 
   const handleApply = (teamId) => {
     updateSelectedTeamId(teamId);
@@ -76,9 +79,6 @@ function Matches() {
   };
 
   // console.log(matches);
-
-
-  
 
   return (
     <>
@@ -127,28 +127,28 @@ function Matches() {
                     height={60}
                     alt="Lebanese Football Association"
                   />
-                  <p>{lastMatch.title}</p>
+                  <p>{LastTwoMatches[0]?.title}</p>
                 </section>
                 <section className={StyleMatches.twoTeams}>
                   <img
-                    src={`${process.env.REACT_APP_IMAGE_PATH}/${lastMatch.team_a?.team.image}`}
-                    alt={lastMatch.team_a?.team.name}
+                    src={`${process.env.REACT_APP_IMAGE_PATH}/${LastTwoMatches[0].team_a?.team.image}`}
+                    alt={LastTwoMatches[0]?.team_a?.team.name}
                     className={StyleMatches.teamsImage}
                   />
                   <div className={StyleMatches.teamsName}>
-                    <p>{lastMatch.team_a?.team.name}</p>
+                    <p>{LastTwoMatches[0]?.team_a?.team.name}</p>
                     <span className={StyleMatches.vs}>VS</span>
-                    <p>{lastMatch.team_b?.team.name}</p>
+                    <p>{LastTwoMatches[0]?.team_b?.team.name}</p>
                   </div>
                   <img
-                    src={`${process.env.REACT_APP_IMAGE_PATH}/${lastMatch.team_b?.team.image}`}
-                    alt={lastMatch.team_b?.team.name}
+                    src={`${process.env.REACT_APP_IMAGE_PATH}/${LastTwoMatches[0].team_b?.team.image}`}
+                    alt={LastTwoMatches[0]?.team_b?.team.name}
                     className={StyleMatches.teamsImage}
                   />
                 </section>
                 <section className={StyleMatches.stadium}>
                   <StadiumIcon />
-                  <p>{lastMatch.pitch}</p>
+                  <p>{LastTwoMatches[0]?.pitch}</p>
                 </section>
               </div>
             </article>

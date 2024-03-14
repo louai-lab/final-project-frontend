@@ -307,7 +307,7 @@ const Table = ({
             marginBottom: "4rem",
             width: "98%",
             // border: "solid 1px #BABABA",
-            border:"none",
+            border: "none",
             "& .MuiToolbar-root , .MuiInputBase-input , .MuiDataGrid-columnHeaderTitleContainer , .MuiDataGrid-cell":
               {
                 color: "black",
@@ -348,10 +348,10 @@ const Table = ({
                 maxHeight: "100px !important",
                 fontSize: "1.2rem",
                 mb: screenWidth < 500 ? "1rem" : "0",
-                border:"1px solid grey",
-                borderRadius:"10px",
-                marginBottom:"10px",
-                backgroundColor:"lightgrey"
+                border: "1px solid grey",
+                borderRadius: "10px",
+                marginBottom: "10px",
+                backgroundColor: "lightgrey",
               },
             "& .MuiDataGrid-columnHeaderTitleContainer": {
               color: "var(--primary-clr) !important",
