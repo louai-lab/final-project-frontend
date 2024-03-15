@@ -167,7 +167,7 @@ export const useMatchesStore = create((set, get) => ({
 
       const pageNumber = get().selectedPageNumber || 1;
 
-      const pageSize =  5;
+      const pageSize = 5;
 
       const url = teamId
         ? `/match?teamId=${teamId}&pageNumber=${pageNumber}&pageSize=${pageSize}`
@@ -178,9 +178,10 @@ export const useMatchesStore = create((set, get) => ({
         async () => axiosInstance.get(url).then((res) => res.data)
       );
 
-      const matchCount = data.length;
+      // const matchCount = data.length;
+      const matchCount = data.matchCount;
 
-      set({ matches: data, matchCount, loading: false });
+      set({ matches: data.matches, matchCount, loading: false });
     } catch (error) {
       console.error(error);
       set({ loading: false });

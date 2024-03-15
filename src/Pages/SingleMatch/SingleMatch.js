@@ -45,7 +45,7 @@ function SingleMatch() {
   useEffect(() => {
     getAllTeams();
     getAllMatches();
-    getLastMatch();
+    // getLastMatch();
   }, []);
 
   const animationProps = useSpring({

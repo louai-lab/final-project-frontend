@@ -5,6 +5,9 @@ import Grid from "@mui/material/Unstable_Grid2";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import StyleTable from "./Table.module.css";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
+import { useMatchesStore } from "../../Zustand/Store";
 
 const Table = ({
   data,
@@ -17,6 +20,27 @@ const Table = ({
   const [columns, setColumns] = useState([]);
   const [error, setError] = useState(false);
   const buton = isEdit === true ? true : false;
+
+  const { loading, matches, matchCount } = useMatchesStore();
+  const { selectedPageNumber, updateSelectedPageNumber } = useMatchesStore();
+  const [currentPage, setCurrentPage] = useState(1);
+  const { getAllMatches } = useMatchesStore();
+  const { selectedTeamId, updateSelectedTeamId } = useMatchesStore();
+
+  const handlePageChange = (event, value) => {
+    updateSelectedPageNumber(value);
+    setCurrentPage(value);
+  };
+
+  useEffect(() => {
+    getAllMatches(selectedTeamId, selectedPageNumber);
+    // getLastTwoCreatedMatches();
+    // getLastMatch();
+  }, [getAllMatches, selectedTeamId]);
+
+  useEffect(() => {
+    getAllMatches(selectedTeamId, selectedPageNumber);
+  }, [selectedPageNumber]);
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -289,14 +313,40 @@ const Table = ({
           rows={data}
           getRowId={(row) => row._id}
           pageSizeOptions={[5, 10, 20, 100]}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 5,
-              },
-            },
+          // initialState={{
+          //   pagination: {
+          //     paginationModel: {
+          //       pageSize: 5,
+          //     },
+          //   },
+          // }}
+          // slots={{
+          //   toolbar: GridToolbar,
+          // }}
+          slots={{
+            pagination: () => (
+              <div>
+                {/* <h1>Hello Hello</h1> */}
+                <Stack spacing={2} sx={{ color: "white" }}>
+                  <Pagination
+                    // count={1000}
+                    // count={Math.ceil(matchCount / 5)}
+                    count={Math.ceil(matchCount / 5)}
+                    color="primary"
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    sx={{ color: "white" }}
+                  />
+                </Stack>
+              </div>
+            ),
+            toolbar: (props) => (
+              <div>
+                <h1>Your Custom Content</h1>
+                <GridToolbar {...props} />
+              </div>
+            ),
           }}
-          slots={{ toolbar: GridToolbar }}
           slotProps={{
             toolbar: {
               showQuickFilter: true,

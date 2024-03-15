@@ -20,7 +20,7 @@ function Matches() {
   const { LastTwoMatches } = useMatchesStore();
   const { getAllTeams } = useTeamsStore();
   const { getAllMatches } = useMatchesStore();
-  const { getLastMatch } = useMatchesStore();
+  const { getLastTwoCreatedMatches } = useMatchesStore();
   const [popUpFilter, setPopUpFilter] = useState(false);
   const { selectedTeamId, updateSelectedTeamId } = useMatchesStore();
   const { selectedPageNumber, updateSelectedPageNumber } = useMatchesStore();
@@ -29,6 +29,7 @@ function Matches() {
   useEffect(() => {
     getAllTeams();
     getAllMatches(selectedTeamId, selectedPageNumber);
+    // getLastTwoCreatedMatches();
     // getLastMatch();
   }, [getAllTeams, getAllMatches, LastTwoMatches, selectedTeamId]);
 
@@ -36,9 +37,9 @@ function Matches() {
     getAllMatches(selectedTeamId, selectedPageNumber);
   }, [selectedPageNumber]);
 
-  const { loading, matches } = useMatchesStore();
+  const { loading, matches, matchCount } = useMatchesStore();
 
-  // console.table(LastTwoMatches[0]);
+  // console.log(LastTwoMatches[0]);
 
   const handleApply = (teamId) => {
     updateSelectedTeamId(teamId);
@@ -79,6 +80,7 @@ function Matches() {
   };
 
   // console.log(matches);
+  // console.log(matchCount);
 
   return (
     <>
@@ -131,7 +133,7 @@ function Matches() {
                 </section>
                 <section className={StyleMatches.twoTeams}>
                   <img
-                    src={`${process.env.REACT_APP_IMAGE_PATH}/${LastTwoMatches[0].team_a?.team.image}`}
+                    src={`${process.env.REACT_APP_IMAGE_PATH}/${LastTwoMatches[0]?.team_a?.team.image}`}
                     alt={LastTwoMatches[0]?.team_a?.team.name}
                     className={StyleMatches.teamsImage}
                   />
@@ -141,7 +143,7 @@ function Matches() {
                     <p>{LastTwoMatches[0]?.team_b?.team.name}</p>
                   </div>
                   <img
-                    src={`${process.env.REACT_APP_IMAGE_PATH}/${LastTwoMatches[0].team_b?.team.image}`}
+                    src={`${process.env.REACT_APP_IMAGE_PATH}/${LastTwoMatches[0]?.team_b?.team.image}`}
                     alt={LastTwoMatches[0]?.team_b?.team.name}
                     className={StyleMatches.teamsImage}
                   />
@@ -353,8 +355,9 @@ function Matches() {
               <article className={StyleMatches.pagination}>
                 <Stack spacing={2} sx={{ color: "white" }}>
                   <Pagination
-                    count={10}
-                    // count={Math.ceil(matches.length / itemsPerPage)}
+                    // count={1000}
+                    // count={Math.ceil(matchCount / 5)}
+                    count={Math.ceil(matchCount / 5)}
                     color="primary"
                     page={currentPage}
                     onChange={handlePageChange}

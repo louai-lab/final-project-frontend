@@ -89,7 +89,7 @@
 .matchesPrivate {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  /* justify-content: center; */
   margin: 0 auto;
   column-gap: 20px;
   row-gap: 20px;
@@ -156,6 +156,9 @@
   .cardMatchProfile{
     /* width: 45rem; */
     /* background-color: blue; */
+  }
+  .matchesPrivate{
+    justify-content: center;
   }
 }
 
