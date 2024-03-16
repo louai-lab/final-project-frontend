@@ -22,6 +22,7 @@ import Clock from "../../Assets/icons/clock.png";
 import Calendar from "../../Assets/icons/calendar.png";
 import Stadium from "../../Assets/icons/stadium.png";
 import EndMatch from "../../Components/Event/EndMatch/EndMatch";
+import { useLanguage } from "../../Utils/LanguageContext";
 
 function SingleMatch() {
   const { user } = useUserStore();
@@ -37,6 +38,7 @@ function SingleMatch() {
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [openEndMatch, setOpenEndMatch] = useState(false);
+  const { language } = useLanguage();
 
   const { getAllTeams } = useTeamsStore();
   const { getAllMatches } = useMatchesStore();
@@ -844,25 +846,25 @@ function SingleMatch() {
                   selectTab={() => handleTabChange("live")}
                   active={tab === "live"}
                 >
-                  LIVE
+                  {language === "en" ? "LIVE" : "مباشر"}
                 </TabButton>
                 <TabButton
                   selectTab={() => handleTabChange("line-ups")}
                   active={tab === "line-ups"}
                 >
-                  LINE-UPS
+                  {language === "en" ? "LINE-UPS" : "التشكيلة"}
                 </TabButton>
                 <TabButton
                   selectTab={() => handleTabChange("reports")}
                   active={tab === "reports"}
                 >
-                  REPORTS
+                  {language === "en" ? "REPORTS" : "التقارير"}
                 </TabButton>
                 <TabButton
                   selectTab={() => handleTabChange("info")}
                   active={tab === "info"}
                 >
-                  MATCH INFO
+                  {language === "en" ? "MATCH INFO" : "التفاصيل"}
                 </TabButton>
               </section>
 

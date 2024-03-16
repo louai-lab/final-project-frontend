@@ -8,6 +8,8 @@ import StyleTable from "./Table.module.css";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { useMatchesStore } from "../../Zustand/Store";
+import { useTeamsStore } from "../../Zustand/Store";
+import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 const Table = ({
   data,
@@ -26,16 +28,25 @@ const Table = ({
   const [currentPage, setCurrentPage] = useState(1);
   const { getAllMatches } = useMatchesStore();
   const { selectedTeamId, updateSelectedTeamId } = useMatchesStore();
+  const { getAllTeams } = useMatchesStore();
+  const [selectedTeam, setSelectedTeam] = useState(null);
 
   const handlePageChange = (event, value) => {
     updateSelectedPageNumber(value);
     setCurrentPage(value);
   };
 
+  const { teams } = useTeamsStore();
+
+  const handleSelectChange = (event) => {
+    const teamId = event.target.value;
+    updateSelectedTeamId(teamId);
+    const team = teams.find((team) => team._id === teamId);
+    setSelectedTeam(team);
+  };
+
   useEffect(() => {
     getAllMatches(selectedTeamId, selectedPageNumber);
-    // getLastTwoCreatedMatches();
-    // getLastMatch();
   }, [getAllMatches, selectedTeamId]);
 
   useEffect(() => {
@@ -301,7 +312,7 @@ const Table = ({
       )}
       <Box
         sx={{
-          height: 707,
+          height: 800,
           mt: "3rem",
           mb: "3rem",
           fontFamily: "Helvetica Neue",
@@ -313,40 +324,134 @@ const Table = ({
           rows={data}
           getRowId={(row) => row._id}
           pageSizeOptions={[5, 10, 20, 100]}
-          // initialState={{
-          //   pagination: {
-          //     paginationModel: {
-          //       pageSize: 5,
-          //     },
-          //   },
-          // }}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 10,
+              },
+            },
+          }}
           // slots={{
           //   toolbar: GridToolbar,
           // }}
-          slots={{
-            pagination: () => (
-              <div>
-                {/* <h1>Hello Hello</h1> */}
-                <Stack spacing={2} sx={{ color: "white" }}>
-                  <Pagination
-                    // count={1000}
-                    // count={Math.ceil(matchCount / 5)}
-                    count={Math.ceil(matchCount / 5)}
-                    color="primary"
-                    page={currentPage}
-                    onChange={handlePageChange}
-                    sx={{ color: "white" }}
-                  />
-                </Stack>
-              </div>
-            ),
-            toolbar: (props) => (
-              <div>
-                <h1>Your Custom Content</h1>
-                <GridToolbar {...props} />
-              </div>
-            ),
-          }}
+          slots={
+            ForWhat === "matches"
+              ? {
+                  pagination: () => (
+                    <div>
+                      <Stack spacing={2} sx={{ color: "white" }}>
+                        <Pagination
+                          count={Math.ceil(matchCount / 10)}
+                          color="primary"
+                          page={currentPage}
+                          onChange={handlePageChange}
+                          sx={{ color: "white" }}
+                        />
+                      </Stack>
+                    </div>
+                  ),
+                  toolbar: (props) => (
+                    <div>
+                      <FormControl
+                        variant="outlined"
+                        fullWidth
+                        sx={{ marginBottom: "10px" }}
+                      >
+                        <InputLabel id="team-select-label">
+                          Select a team
+                        </InputLabel>
+                        <Select
+                          labelId="team-select-label"
+                          id="team-select"
+                          value={selectedTeam ? selectedTeam._id : ""}
+                          onChange={handleSelectChange}
+                          label="Select a team"
+                        >
+                          <MenuItem value="">
+                            <em>Select a team</em>
+                          </MenuItem>
+                          {teams.map((team) => (
+                            <MenuItem
+                              key={team._id}
+                              value={team._id}
+                              sx={{
+                                display: "flex",
+                                columnGap: "20px",
+                              }}
+                            >
+                              <img
+                                src={`${process.env.REACT_APP_IMAGE_PATH}/${team.image}`}
+                                alt="Icon"
+                                style={{ width: "80px", height: "80px" }}
+                              />{" "}
+                              <span>{team.name}</span>
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+
+                      <GridToolbar {...props} />
+                    </div>
+                  ),
+                }
+              : {}
+          }
+          // slots={{
+          //   pagination: () => (
+          //     <div>
+          //       <Stack spacing={2} sx={{ color: "white" }}>
+          //         <Pagination
+          //           count={Math.ceil(matchCount / 10)}
+          //           color="primary"
+          //           page={currentPage}
+          //           onChange={handlePageChange}
+          //           sx={{ color: "white" }}
+          //         />
+          //       </Stack>
+          //     </div>
+          //   ),
+          //   toolbar: (props) => (
+          //     <div>
+          //       <FormControl
+          //         variant="outlined"
+          //         fullWidth
+          //         sx={{ marginBottom: "10px" }}
+          //       >
+          //         <InputLabel id="team-select-label">Select a team</InputLabel>
+          //         <Select
+          //           labelId="team-select-label"
+          //           id="team-select"
+          //           value={selectedTeam ? selectedTeam._id : ""}
+          //           onChange={handleSelectChange}
+          //           label="Select a team"
+          //         >
+          //           <MenuItem value="">
+          //             <em>Select a team</em>
+          //           </MenuItem>
+          //           {teams.map((team) => (
+          //             <MenuItem
+          //               key={team._id}
+          //               value={team._id}
+          //               sx={{
+          //                 display: "flex",
+          //                 columnGap: "20px",
+          //               }}
+          //             >
+          //               <img
+          //                 src={`${process.env.REACT_APP_IMAGE_PATH}/${team.image}`}
+          //                 alt="Icon"
+          //                 style={{ width: "80px", height: "80px" }}
+          //               />{" "}
+          //               <span>{team.name}</span>
+          //             </MenuItem>
+          //           ))}
+          //         </Select>
+          //       </FormControl>
+
+          //       <GridToolbar {...props} />
+          //     </div>
+          //   ),
+          // }}
           slotProps={{
             toolbar: {
               showQuickFilter: true,

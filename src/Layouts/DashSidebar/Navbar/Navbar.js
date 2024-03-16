@@ -74,7 +74,7 @@ function Navbar() {
             English
           </option>
           <option value="ar" className={Styles.option}>
-            Arabic
+            العربية
           </option>
         </select>
         <ul className={Styles.linksWrapper}>
@@ -86,7 +86,7 @@ function Navbar() {
                 isPending ? "pending" : isActive ? Styles.active : ""
               }
             >
-              Home
+              {language === "en" ? "Home" : "الصفحة الرئيسية"}
             </NavLink>
           </li>
           <li>
@@ -96,19 +96,19 @@ function Navbar() {
                 isPending ? "pending" : isActive ? Styles.active : ""
               }
             >
-              Matches
+              {language === "en" ? "Matches" : "المباريات"}
             </NavLink>
           </li>
 
-          {user.role === "admin" ? (
-            <li>
+          {user && user.role === "admin" ? (
+            <li className={language === "ar" ? Styles.rtl : ""}>
               <NavLink
                 to="/dashboard"
                 className={({ isActive, isPending }) =>
                   isPending ? "pending" : isActive ? Styles.active : ""
                 }
               >
-                Dashboard
+                {language === "en" ? "Dashboard" : "لوحة القيادة"}
               </NavLink>
             </li>
           ) : (
@@ -127,7 +127,8 @@ function Navbar() {
                 className={Styles.logOut}
                 onClick={handleLogOut}
               >
-                LogOut{"  "}
+                {language === "en" ? "LogOut" : "تسجيل خروج"}
+                {"  "}
                 <span>
                   <img src={Logout} alt="" />
                 </span>

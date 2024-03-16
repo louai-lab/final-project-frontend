@@ -36,7 +36,7 @@ function Footer() {
               ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed doeiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi utaliquip ex ea commodo consequat."
               : "أبجد هوز دولور الجلوس امات  ولكن قد يحدث وقت طويل من العمل والألم الكبير. إننا لا نسمح إلا بالحد الأدنى من النشاط الذي نمارسه من خلال العمل، ولا نتركه بعيدًا عن أي شيء يترتب على ذلك."}
           </p>
-          <p className={StyleFooter.rtl}>
+          <p className={language === "ar" ? StyleFooter.rtl : ""}>
             {language === "en" ? "North , Lebanon" : "الشمال , لبنان"}
           </p>
 

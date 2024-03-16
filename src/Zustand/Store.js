@@ -167,7 +167,7 @@ export const useMatchesStore = create((set, get) => ({
 
       const pageNumber = get().selectedPageNumber || 1;
 
-      const pageSize = 5;
+      const pageSize = 10;
 
       const url = teamId
         ? `/match?teamId=${teamId}&pageNumber=${pageNumber}&pageSize=${pageSize}`

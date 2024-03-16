@@ -355,9 +355,7 @@ function Matches() {
               <article className={StyleMatches.pagination}>
                 <Stack spacing={2} sx={{ color: "white" }}>
                   <Pagination
-                    // count={1000}
-                    // count={Math.ceil(matchCount / 5)}
-                    count={Math.ceil(matchCount / 5)}
+                    count={Math.ceil(matchCount / 10)}
                     color="primary"
                     page={currentPage}
                     onChange={handlePageChange}
