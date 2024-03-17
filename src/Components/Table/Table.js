@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, TextField } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Grid from "@mui/material/Unstable_Grid2";
 import EditIcon from "@mui/icons-material/Edit";
@@ -7,9 +7,15 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import StyleTable from "./Table.module.css";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { useMatchesStore } from "../../Zustand/Store";
+import { useMatchesStore, usePlayersStore } from "../../Zustand/Store";
 import { useTeamsStore } from "../../Zustand/Store";
-import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button,
+} from "@mui/material";
 
 const Table = ({
   data,
@@ -27,12 +33,22 @@ const Table = ({
   const { selectedPageNumber, updateSelectedPageNumber } = useMatchesStore();
   const [currentPage, setCurrentPage] = useState(1);
   const { getAllMatches } = useMatchesStore();
+  const { getAllPlayers, playersCount } = usePlayersStore();
   const { selectedTeamId, updateSelectedTeamId } = useMatchesStore();
   const { getAllTeams } = useMatchesStore();
   const [selectedTeam, setSelectedTeam] = useState(null);
+  const [playerName, setPlayerName] = useState("");
+  const { selectedPlayerName, updateSelectedPlayerName } = usePlayersStore();
+  const { selectedPageNumberPlayer, updateSelectedPageNumberPlayer } =
+    usePlayersStore();
 
   const handlePageChange = (event, value) => {
     updateSelectedPageNumber(value);
+    setCurrentPage(value);
+  };
+
+  const handlePageChangePlayer = (event, value) => {
+    updateSelectedPageNumberPlayer(value);
     setCurrentPage(value);
   };
 
@@ -44,6 +60,24 @@ const Table = ({
     const team = teams.find((team) => team._id === teamId);
     setSelectedTeam(team);
   };
+
+  const handlePlayerNameChange = (event) => {
+    const playerNamee = event.target.value;
+    setPlayerName(playerNamee);
+  };
+
+  const handleSearch = () => {
+    // console.log("Searching for player:", playerName);
+    updateSelectedPlayerName(playerName);
+  };
+
+  useEffect(() => {
+    getAllPlayers(selectedPlayerName);
+  }, [getAllPlayers, selectedPlayerName]);
+
+  useEffect(() => {
+    getAllPlayers(selectedPageNumberPlayer);
+  }, [getAllPlayers, selectedPageNumberPlayer]);
 
   useEffect(() => {
     getAllMatches(selectedTeamId, selectedPageNumber);
@@ -331,9 +365,6 @@ const Table = ({
               },
             },
           }}
-          // slots={{
-          //   toolbar: GridToolbar,
-          // }}
           slots={
             ForWhat === "matches"
               ? {
@@ -355,7 +386,7 @@ const Table = ({
                       <FormControl
                         variant="outlined"
                         fullWidth
-                        sx={{ marginBottom: "10px" }}
+                        sx={{ marginBottom: "10px", position: "sticky" }}
                       >
                         <InputLabel id="team-select-label">
                           Select a team
@@ -394,64 +425,55 @@ const Table = ({
                     </div>
                   ),
                 }
-              : {}
+              : ForWhat === "players"
+              ? {
+                  pagination: () => (
+                    <div>
+                      <Stack spacing={2} sx={{ color: "white" }}>
+                        <Pagination
+                          count={Math.ceil(playersCount / 10)}
+                          color="primary"
+                          page={currentPage}
+                          onChange={handlePageChangePlayer}
+                          sx={{ color: "white" }}
+                        />
+                      </Stack>
+                    </div>
+                  ),
+                  toolbar: () => (
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      <TextField
+                        sx={{
+                          marginRight: "10px",
+                          width: "auto",
+                          position: "sticky",
+                        }}
+                        label="Enter player name"
+                        variant="outlined"
+                        fullWidth
+                        value={playerName}
+                        onChange={handlePlayerNameChange}
+                        // autoFocus
+                      />
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        sx={{ height: "55px" }}
+                        onClick={handleSearch}
+                      >
+                        Search
+                      </Button>
+                    </div>
+                  ),
+                }
+              : { toolbar: (props) => <GridToolbar {...props} /> }
           }
-          // slots={{
-          //   pagination: () => (
-          //     <div>
-          //       <Stack spacing={2} sx={{ color: "white" }}>
-          //         <Pagination
-          //           count={Math.ceil(matchCount / 10)}
-          //           color="primary"
-          //           page={currentPage}
-          //           onChange={handlePageChange}
-          //           sx={{ color: "white" }}
-          //         />
-          //       </Stack>
-          //     </div>
-          //   ),
-          //   toolbar: (props) => (
-          //     <div>
-          //       <FormControl
-          //         variant="outlined"
-          //         fullWidth
-          //         sx={{ marginBottom: "10px" }}
-          //       >
-          //         <InputLabel id="team-select-label">Select a team</InputLabel>
-          //         <Select
-          //           labelId="team-select-label"
-          //           id="team-select"
-          //           value={selectedTeam ? selectedTeam._id : ""}
-          //           onChange={handleSelectChange}
-          //           label="Select a team"
-          //         >
-          //           <MenuItem value="">
-          //             <em>Select a team</em>
-          //           </MenuItem>
-          //           {teams.map((team) => (
-          //             <MenuItem
-          //               key={team._id}
-          //               value={team._id}
-          //               sx={{
-          //                 display: "flex",
-          //                 columnGap: "20px",
-          //               }}
-          //             >
-          //               <img
-          //                 src={`${process.env.REACT_APP_IMAGE_PATH}/${team.image}`}
-          //                 alt="Icon"
-          //                 style={{ width: "80px", height: "80px" }}
-          //               />{" "}
-          //               <span>{team.name}</span>
-          //             </MenuItem>
-          //           ))}
-          //         </Select>
-          //       </FormControl>
-
-          //       <GridToolbar {...props} />
-          //     </div>
-          //   ),
-          // }}
           slotProps={{
             toolbar: {
               showQuickFilter: true,

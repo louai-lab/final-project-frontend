@@ -93,22 +93,43 @@ export const useUsersStore = create((set) => ({
   },
 }));
 
-export const usePlayersStore = create((set) => ({
+export const usePlayersStore = create((set, get) => ({
+  selectedPlayerName: null,
+  updateSelectedPlayerName: (playerName) => {
+    set({ selectedPlayerName: playerName });
+    // console.log(playerName);
+  },
+  selectedPageNumberPlayer: null,
+  updateSelectedPageNumberPlayer: (pageNumber) => {
+    set({ selectedPageNumberPlayer: pageNumber });
+    // console.log(pageNumber);
+  },
   players: [],
   loading: true,
   getAllPlayers: async () => {
     try {
       set({ loading: true });
-      const response = await axiosInstance.get("/player");
-      if (response) {
-        // console.log(response.data);
-        set({ players: response.data, loading: false });
-      }
+      const playerName = get().selectedPlayerName || "";
+      // console.log(playerName);
+      // const pageNumber = 1;
+      const pageNumber = get().selectedPageNumberPlayer || "";
+      const pageSize = 10;
+      const data = await queryClient.fetchQuery(["players"], async () =>
+        axiosInstance
+          .get(
+            `/player?playerName=${playerName}&pageNumber=${pageNumber}&pageSize=${pageSize}`
+          )
+          .then((res) => res.data)
+      );
+      const playersCount = data.playersCount;
+
+      set({ players: data.players, playersCount, loading: false });
     } catch (error) {
       console.error(error);
       set({ loading: false });
     }
   },
+
   playersNoTeam: [],
   getAllPlayersNoTeam: async () => {
     try {
