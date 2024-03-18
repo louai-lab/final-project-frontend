@@ -421,6 +421,24 @@
   }
 }
 
+.delete {
+  border: none;
+}
+
+.delete:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.edit {
+  border: none;
+}
+
+.edit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .open {
   padding: 0px 20px;
   display: flex;
@@ -440,7 +458,7 @@
   background-color: var(--secondary-clr);
 }
 
-.open:disabled{
+.open:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }

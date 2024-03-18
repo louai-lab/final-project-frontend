@@ -385,14 +385,17 @@ function SingleMatch() {
                         <button
                           type="button"
                           onClick={() => handleOpenDelete(event._id)}
-                          style={{ border: "none" }}
+                          className={StyleSingleMatch.delete}
+                          disabled={match.played}
                         >
                           <img src={EventDelete} alt="" />
                         </button>
                         <button
                           type="button"
                           onClick={() => handleOpenEdit(event)}
-                          style={{ border: "none" }}
+                          // style={{ border: "none" }}
+                          className={StyleSingleMatch.edit}
+                          disabled={match.played}
                         >
                           <img src={EventEdit} alt="" />
                         </button>

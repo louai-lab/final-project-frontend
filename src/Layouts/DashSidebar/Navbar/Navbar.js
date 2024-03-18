@@ -155,7 +155,11 @@ function Navbar() {
             </NavLink>
           </li>
         </ul>
-        <ul className={toggleClasses}>
+        <ul
+          className={`${toggleClasses} ${
+            language === "ar" ? Styles.rtl : ""
+          }`}
+        >
           <li>
             <NavLink
               to="/"
@@ -164,7 +168,7 @@ function Navbar() {
                 isPending ? "pending" : isActive ? Styles.active : ""
               }
             >
-              Home
+              {language === "en" ? "Home" : "الصفحة الرئيسية"}
             </NavLink>
           </li>
           <li>
@@ -175,7 +179,7 @@ function Navbar() {
                 isPending ? "pending" : isActive ? Styles.active : ""
               }
             >
-              Matches
+              {language === "en" ? "Matches" : "المباريات"}
             </NavLink>
           </li>
 
@@ -188,7 +192,7 @@ function Navbar() {
                   isPending ? "pending" : isActive ? Styles.active : ""
                 }
               >
-                Dashboard
+                {language === "en" ? "Dashboard" : "لوحة القيادة"}
               </NavLink>
             </li>
           ) : (
@@ -202,7 +206,7 @@ function Navbar() {
                 isPending ? "pending" : isActive ? Styles.active : ""
               }
             >
-              Profile
+              {language === "en" ? "Profile" : "الصفحة الشخصية"}
             </NavLink>
           </li>
 
@@ -211,7 +215,7 @@ function Navbar() {
             className={Styles.logOutResponsive}
             onClick={handleLogOut}
           >
-            <p>LogOut</p>
+            <p>{language === "en" ? "LogOut" : "تسجيل خروج"}</p>
             <img src={Logout} alt="" />
           </button>
         </ul>
