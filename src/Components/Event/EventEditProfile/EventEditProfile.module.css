@@ -3,8 +3,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: linear-gradient(rgba(0, 0, 0, 0.878), rgba(0, 0, 0, 0.672));
-  width: fit-content;
+  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.3));
+  width: 400px;
   height: fit-content;
   max-height: 800px;
   border: none;
@@ -20,19 +20,47 @@
   font-family: var(--font-family);
 }
 
-.confirmTitle {
+.eventH1 {
   text-transform: uppercase;
-  font-size: clamp(10px , 2rem , 20px);
+  font-size: 2em;
   text-align: center;
   margin-bottom: 1em;
 }
 
-.confirButtons {
-  display: flex;
-  column-gap: 10px;
+.control input {
+  width: 100%;
+  display: block;
+  padding: 10px;
+  color: #222;
+  border: none;
+  outline: none;
+  margin: 1em 0;
 }
 
-.confirm {
+.select {
+  width: 100%;
+  display: block;
+  padding: 10px;
+  color: #222;
+  border: none;
+  outline: none;
+  margin: 1em 0;
+}
+
+.select option {
+  background-color: #fff;
+  color: #333;
+  padding: 10px;
+  border: 1px solid #ccc;
+  transition: background-color 0.3s ease;
+}
+
+.select option:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.addEvent {
   width: 100%;
   display: block;
   padding: 10px;
@@ -49,12 +77,12 @@
   transition: opacity 0.3s ease;
 }
 
-.confirm:hover {
+.addEvent:hover {
   opacity: 0.7;
   cursor: pointer;
 }
 
-.cancelEnd {
+.cancelEvent {
   width: 100%;
   display: block;
   padding: 10px;
@@ -71,7 +99,13 @@
   transition: opacity 0.3s ease;
 }
 
-.cancelEnd:hover {
+.cancelEvent:hover {
   opacity: 0.7;
   cursor: pointer;
+}
+
+@media screen and (max-width: 500px) {
+  .popUpContainer {
+    width: 90%;
+  }
 }

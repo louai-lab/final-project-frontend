@@ -17,6 +17,7 @@ function Login() {
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
   axios.defaults.withCredentials = true;
 
   const handleTogglePassword = () => {
@@ -35,10 +36,10 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (credentials.email === "" || credentials.password === "") {
-      setPasswordValid(false);
-      return;
-    }
+    // if (credentials.email === "" || credentials.password === "") {
+    //   setPasswordValid(false);
+    //   return;
+    // }
 
     try {
       const response = await axios.post(
@@ -55,6 +56,15 @@ function Login() {
       }
     } catch (error) {
       console.log(error);
+      if (error.response && error.response.status === 400) {
+        setError("Email and password are required");
+      } else if (error.response && error.response.status === 401) {
+        setError("Email is incorrect");
+      } else if (error.response && error.response.status === 402) {
+        setError("Password is incorrect");
+      } else {
+        setError("Email and password are required");
+      }
     }
   };
 
@@ -93,17 +103,18 @@ function Login() {
                   {showPassword ? <FaEye /> : <FaEyeSlash />}
                 </div>
               </div>
-              {!passwordValid && (
-                <div
+
+              {error && (
+                <p
                   style={{
-                    fontSize: "clamp(8px , 3rem , 20px)",
+                    fontSize: "clamp(8px , 3rem , 18px)",
                     color: "red",
                     marginTop: "5px",
                     position: "absolute",
                   }}
                 >
-                  Email & Password are required
-                </div>
+                  {error}
+                </p>
               )}
               <div className={StyleLogin.btn}>
                 <button className={StyleLogin.login} onClick={handleLogin}>

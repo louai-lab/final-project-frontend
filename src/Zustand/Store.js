@@ -8,7 +8,11 @@ export const useUserStore = create((set) => ({
   user: null,
   loading: true,
   users: [],
-  setUser: (data) => set(() => ({ user: data })),
+  // setUser: (data) => set(() => ({ user: data })),
+  setUser: (data) => {
+    // console.log("Setting user:", data);
+    set(() => ({ user: data }));
+  },
   logOut: async () => {
     try {
       await axiosInstance.post("/user/logout");
@@ -23,7 +27,7 @@ export const useUserStore = create((set) => ({
       set({ loading: true });
       const response = await axiosInstance.get("/user/logged-in-user");
       if (response) {
-        // console.log(response);
+        // console.log("Fetched user data:", response.data.user);
         set({ user: response.data.user, loading: false });
       }
     } catch (err) {
