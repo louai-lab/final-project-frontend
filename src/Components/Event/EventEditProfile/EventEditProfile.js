@@ -3,10 +3,14 @@ import StyleEditProfile from "./EventEditProfile.module.css";
 import { useUserStore } from "../../../Zustand/Store";
 import axiosInstance from "../../../Utils/AxiosInstance";
 import { FormControl } from "@mui/material";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa6";
 
 function EventEditProfile({ setIsOpenProfilePopUp }) {
   const { user, loading, getUser } = useUserStore();
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordNew, setShowPasswordNew] = useState(false);
 
   // console.log(user);
   const id = (user && user._id) || (user && user.userId);
@@ -41,15 +45,12 @@ function EventEditProfile({ setIsOpenProfilePopUp }) {
 
   const handleEditProfile = async () => {
     try {
-      const response = await axiosInstance.patch(
-        `/user/update/${id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      formData.id = id;
+      const response = await axiosInstance.patch(`/user/update`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       if (response) {
         console.log("User updated successfully:");
@@ -65,6 +66,14 @@ function EventEditProfile({ setIsOpenProfilePopUp }) {
         setError("Old password is incorrect");
       }
     }
+  };
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleTogglePasswordNew = () => {
+    setShowPasswordNew(!showPasswordNew);
   };
 
   return (
@@ -108,21 +117,19 @@ function EventEditProfile({ setIsOpenProfilePopUp }) {
         </div>
 
         <div className={StyleEditProfile.control}>
-          <label htmlFor="checkPassword">Old Password</label>
-          {error && (
-            <p
-              style={{
-                fontSize: "clamp(8px , 3rem , 18px)",
-                color: "red",
-                // marginTop: "5px",
-                // position: "absolute",
-              }}
-            >
-              {error}
-            </p>
-          )}
+          <label htmlFor="checkPassword">
+            Old Password{" "}
+            {error && (
+              <span
+                style={{ fontSize: "clamp(8px, 2.5rem, 15px)", color: "red" }}
+              >
+                {error}
+              </span>
+            )}
+          </label>
+
           <input
-            type="text"
+            type={showPassword ? "text" : "password"}
             name="checkPassword"
             id="checkPassword"
             value={formData.checkPassword}
@@ -130,12 +137,18 @@ function EventEditProfile({ setIsOpenProfilePopUp }) {
             onChange={handleChange}
             autoComplete="off"
           />
+          <div
+            className={StyleEditProfile.eyeIcon}
+            onClick={handleTogglePassword}
+          >
+            {showPassword ? <FaEye /> : <FaEyeSlash />}
+          </div>
         </div>
 
         <div className={StyleEditProfile.control}>
           <label htmlFor="newPassword">New Password</label>
           <input
-            type="text"
+            type={showPasswordNew ? "text" : "password"}
             name="newPassword"
             id="newPassword"
             value={formData.newPassword}
@@ -143,7 +156,24 @@ function EventEditProfile({ setIsOpenProfilePopUp }) {
             onChange={handleChange}
             autoComplete="off"
           />
+          <div
+            className={StyleEditProfile.eyeIconNew}
+            onClick={handleTogglePasswordNew}
+          >
+            {showPasswordNew ? <FaEye /> : <FaEyeSlash />}
+          </div>
         </div>
+
+        {/* {error && (
+          <p
+            style={{
+              fontSize: "clamp(8px , 3rem , 18px)",
+              color: "red",
+            }}
+          >
+            {error}
+          </p>
+        )} */}
 
         <FormControl fullWidth>
           <input type="file" name="image" id="image" onChange={handleChange} />

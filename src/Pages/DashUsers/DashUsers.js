@@ -88,15 +88,13 @@ function DashUsers() {
 
       formDataObject.append("image", formData.image);
 
-      const response = await axiosInstance.patch(
-        `/user/update/${id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      formData.id = id;
+
+      const response = await axiosInstance.patch(`/user/update`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       if (response) {
         console.log("User updated successfully:");
 
