@@ -40,7 +40,7 @@ function AddPopUpTeam({ handleCancelAdd, handleFormSubmitTeam }) {
         [name]: type === "checkbox" ? checked : e.target.value,
       }));
     }
-  };  
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -137,13 +137,16 @@ function AddPopUpTeam({ handleCancelAdd, handleFormSubmitTeam }) {
               variant="contained"
               sx={{
                 bgcolor: "var(--primary-clr)",
-                transition: "background-color 0.3s ease, color 0.3s ease",
+                opacity: "1",
+                transition: "opacity 0.3s ease",
                 textTransform: "none",
                 fontWeight: "bold",
                 borderRadius: "20px",
                 "&:hover": {
-                  bgcolor: "var(--third-clr)",
+                  bgcolor: "var(--primary-clr)",
                   color: "white",
+                  opacity: "0.7",
+                  cursor: "pointer",
                 },
               }}
             >

@@ -16,7 +16,6 @@ import Stack from "@mui/material/Stack";
 function Matches() {
   const navigate = useNavigate();
   const { user } = useUserStore();
-  // const { lastMatch } = useMatchesStore();
   const { LastTwoMatches } = useMatchesStore();
   const { getAllTeams } = useTeamsStore();
   const { getAllMatches } = useMatchesStore();
@@ -29,17 +28,19 @@ function Matches() {
   useEffect(() => {
     getAllTeams();
     getAllMatches(selectedTeamId, selectedPageNumber);
-    // getLastTwoCreatedMatches();
-    // getLastMatch();
-  }, [getAllTeams, getAllMatches, LastTwoMatches, selectedTeamId]);
+    // console.log("first");
+  }, [getAllTeams, getAllMatches, selectedTeamId]);
 
   useEffect(() => {
     getAllMatches(selectedTeamId, selectedPageNumber);
   }, [selectedPageNumber]);
 
-  const { loading, matches, matchCount } = useMatchesStore();
+  useEffect(() => {
+    getLastTwoCreatedMatches();
+    // console.log("second");
+  }, []);
 
-  // console.log(LastTwoMatches[0]);
+  const { loading, matches, matchCount } = useMatchesStore();
 
   const handleApply = (teamId) => {
     updateSelectedTeamId(teamId);
@@ -78,9 +79,6 @@ function Matches() {
     e.preventDefault();
     closePopUpFilter();
   };
-
-  // console.log(matches);
-  // console.log(matchCount);
 
   return (
     <>

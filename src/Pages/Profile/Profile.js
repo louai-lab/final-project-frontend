@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StyleProfile from "./Profile.module.css";
 import { useUserStore } from "../../Zustand/Store";
 import { useMatchesStore } from "../../Zustand/Store";
@@ -12,8 +12,14 @@ function Profile() {
   const { matchCount } = useMatchesStore();
   const { matches } = useMatchesStore();
   const [isOpenEditProfilePopUp, setIsOpenProfilePopUp] = useState(false);
+  const { getAllMatches } = useMatchesStore();
+
   // console.log(user);
   // console.log(matches);
+
+  useEffect(() => {
+    getAllMatches();
+  }, []);
 
   const handleMatchClick = (match) => {
     if (match && match._id) {
@@ -47,7 +53,10 @@ function Profile() {
             }}
             onClick={handleCloseEditProfile}
           ></div>
-          <EventEditProfile setIsOpenProfilePopUp={setIsOpenProfilePopUp} />
+          <EventEditProfile
+            setIsOpenProfilePopUp={setIsOpenProfilePopUp}
+            handleCloseEditProfile={handleCloseEditProfile}
+          />
           <div
             style={{
               position: "fixed",

@@ -22,7 +22,7 @@
 
 .eventH1 {
   text-transform: uppercase;
-  font-size: 1.8em;
+  font-size: 1.6em;
   text-align: center;
   margin-bottom: 1em;
 }
@@ -35,6 +35,7 @@
   border: none;
   outline: none;
   margin: 1em 0;
+  border-radius: 10px;
 }
 
 .select {
@@ -75,6 +76,7 @@
   font-weight: bold;
   opacity: 1;
   transition: opacity 0.3s ease;
+  border-radius: 10px;
 }
 
 .addEvent:hover {
@@ -97,6 +99,7 @@
   font-weight: bold;
   opacity: 1;
   transition: opacity 0.3s ease;
+  border-radius: 10px;
 }
 
 .cancelEvent:hover {
@@ -106,8 +109,8 @@
 
 .eyeIcon {
   position: absolute;
-  top: 56%;
-  right: 90px;
+  top: 55%;
+  right: 50px;
   transform: translateY(-50%);
   cursor: pointer;
   color: black;
@@ -115,8 +118,8 @@
 
 .eyeIconNew {
   position: absolute;
-  top: 67.5%;
-  right: 90px;
+  top: 67%;
+  right: 50px;
   transform: translateY(-50%);
   cursor: pointer;
   color: black;
@@ -124,41 +127,50 @@
 
 @media screen and (max-width: 500px) {
   .popUpContainer {
-    width: 90%;
+    width: 80%;
+    height: 650px;
   }
+
+  /* .control {
+    width: fit-content;
+  } */
+
+  /* .control input {
+    width: 100%;
+  } */
   .eyeIcon {
-    right: 25%;
-    top: 392px;
+    right: 12%;
+    top: 360px;
   }
   .eyeIconNew {
-    right: 25%;
-    top: 470px;
+    right: 12%;
+    top: 440px;
   }
 }
 
 @media screen and (max-width: 420px) {
   .eyeIcon {
-    right: 20%;
-    top: 390px;
+    right: 12%;
+    top: 370px;
   }
   .eyeIconNew {
-    right: 20%;
-    top: 470px;
+    right: 12%;
+    top: 450px;
   }
 }
 
 @media screen and (max-width: 380px) {
   .eyeIcon {
     right: 15%;
-    top: 390px;
+    top: 380px;
   }
   .eyeIconNew {
     right: 15%;
-    top: 470px;
+    top: 460px;
   }
 }
 
-@media screen and (max-width: 316px) {
+/* @media screen and (max-width: 316px) {
   .eyeIcon {
     right: 10%;
     top: 430px;
@@ -167,4 +179,4 @@
     right: 10%;
     top: 510px;
   }
-}
+} */

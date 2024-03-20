@@ -6,7 +6,7 @@ import { FormControl } from "@mui/material";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 
-function EventEditProfile({ setIsOpenProfilePopUp }) {
+function EventEditProfile({ setIsOpenProfilePopUp, handleCloseEditProfile }) {
   const { user, loading, getUser } = useUserStore();
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -79,7 +79,12 @@ function EventEditProfile({ setIsOpenProfilePopUp }) {
   return (
     <div className={StyleEditProfile.popUpContainer}>
       <h1 className={StyleEditProfile.eventH1}>Edit Profile</h1>
-      <form action="#">
+      <form
+        action="#"
+        style={{
+          width: "100%"
+        }}
+      >
         <div className={StyleEditProfile.control}>
           <label htmlFor="firstName">First Name</label>
           <input
@@ -164,17 +169,6 @@ function EventEditProfile({ setIsOpenProfilePopUp }) {
           </div>
         </div>
 
-        {/* {error && (
-          <p
-            style={{
-              fontSize: "clamp(8px , 3rem , 18px)",
-              color: "red",
-            }}
-          >
-            {error}
-          </p>
-        )} */}
-
         <FormControl fullWidth>
           <input type="file" name="image" id="image" onChange={handleChange} />
         </FormControl>
@@ -191,7 +185,7 @@ function EventEditProfile({ setIsOpenProfilePopUp }) {
         <div className={StyleEditProfile.control}>
           <button
             type="button"
-            // onClick={cancelEvent}
+            onClick={handleCloseEditProfile}
             className={StyleEditProfile.cancelEvent}
           >
             Exit

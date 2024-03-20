@@ -203,11 +203,13 @@ function DashMatches() {
                   variant="contained"
                   sx={{
                     bgcolor: "var(--primary-clr)",
-                    transition: "background-color 0.3s ease, color 0.3s ease",
+                    opacity: "1",
+                    transition: "opacity 0.3s ease",
                     textTransform: "none",
                     "&:hover": {
-                      bgcolor: "var(--third-clr)",
-                      color: "white",
+                      bgcolor: "var(--primary-clr)",
+                      opacity: "0.7",
+                      cursor: "pointer",
                     },
                   }}
                   onClick={() => handleDelete(selectedRowData._id)}
@@ -219,12 +221,13 @@ function DashMatches() {
                   sx={{
                     color: "var(--primary-clr)",
                     borderColor: "var(--primary-clr)",
-                    transition: "background-color 0.3s ease, color 0.3s ease",
                     textTransform: "none",
+                    opacity: "1",
+                    transition: "opacity 0.3s ease",
                     "&:hover": {
                       borderColor: "var(--third-clr)",
-                      backgroundColor: "var(--third-clr)",
-                      color: "white",
+                      opacity: "0.7",
+                      cursor: "pointer",
                     },
                   }}
                   onClick={handleClose}

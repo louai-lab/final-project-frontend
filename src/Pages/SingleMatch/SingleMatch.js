@@ -47,7 +47,6 @@ function SingleMatch() {
   useEffect(() => {
     getAllTeams();
     getAllMatches();
-    // getLastMatch();
   }, []);
 
   const animationProps = useSpring({
@@ -107,11 +106,7 @@ function SingleMatch() {
     }
   }, [match]);
 
-  // console.log(match)
-
   let detailId = match?.detailsWatcher._id;
-
-  // console.log(detailId)
 
   const handleEventSubmit = async (formData) => {
     try {
@@ -119,8 +114,6 @@ function SingleMatch() {
         `/matchdetails/addObject/${detailId}`,
         formData
       );
-
-      // console.log(formData)
 
       if (response) {
         console.log("created successfully");
@@ -159,7 +152,6 @@ function SingleMatch() {
   // console.log(match);
 
   const handleEndMatch = async () => {
-    // console.log(id);
     try {
       const response = await axiosInstance.patch(`/match/update/${match._id}`, {
         played: true,
@@ -175,8 +167,6 @@ function SingleMatch() {
     }
   };
 
-  // console.log(match)
-
   const events = match?.detailsWatcher?.details;
 
   const handleUpdateWatcherReport = async () => {
@@ -187,7 +177,6 @@ function SingleMatch() {
 
       if (response) {
         setShowAnimation(true);
-        // console.log(response.data);
         setTimeout(() => {
           setShowAnimation(false);
         }, 5000);
@@ -469,7 +458,13 @@ function SingleMatch() {
             user.userId === match.watcher._id ||
             user._id === match.watcher._id ? (
               <>
-                <div className={StyleSingleMatch.singleReport}>
+                <div
+                  className={`${StyleSingleMatch.singleReport} ${
+                    user.role !== "admin"
+                      ? StyleSingleMatch.singleReportFull
+                      : ""
+                  }`}
+                >
                   <div className={StyleSingleMatch.partReport}>
                     <img
                       src={`${process.env.REACT_APP_IMAGE_PATH}/${match.watcher.image}`}
@@ -528,7 +523,13 @@ function SingleMatch() {
             user.userId === match.referee._id ||
             user._id === match.referee._id ? (
               <>
-                <div className={StyleSingleMatch.singleReport}>
+                <div
+                  className={`${StyleSingleMatch.singleReport} ${
+                    user.role !== "admin"
+                      ? StyleSingleMatch.singleReportFull
+                      : ""
+                  }`}
+                >
                   <div className={StyleSingleMatch.partReport}>
                     <img
                       src={`${process.env.REACT_APP_IMAGE_PATH}/${match.watcher.image}`}

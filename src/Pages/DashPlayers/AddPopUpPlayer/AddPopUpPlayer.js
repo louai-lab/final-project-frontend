@@ -136,13 +136,16 @@ function AddPopUp({ handleCancelAdd, handleFormSubmitPlayer }) {
                 variant="contained"
                 sx={{
                   bgcolor: "var(--primary-clr)",
-                  transition: "background-color 0.3s ease, color 0.3s ease",
+                  // transition: "background-color 0.3s ease, color 0.3s ease",
+                  opacity: "1",
+                  transition: "opacity 0.3s ease",
                   textTransform: "none",
                   fontWeight: "bold",
                   borderRadius: "20px",
                   "&:hover": {
-                    bgcolor: "var(--third-clr)",
-                    color: "white",
+                    bgcolor: "var(--primary-clr)",
+                    opacity: "0.7",
+                    cursor: "pointer",
                   },
                 }}
               >

@@ -21,18 +21,22 @@
 
 .cancel {
   background-color: var(--third-clr);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  /* transition: background-color 0.3s ease, color 0.3s ease; */
   text-transform: none;
   color: white;
   padding: 11px;
   border-radius: 20px;
   border: none;
   font-weight: bold;
+  opacity: 1;
+  transition: opacity 0.3s ease;
 }
 
 .cancel:hover {
-  background-color: var(--primary-clr);
-  color: white;
+  /* background-color: var(--primary-clr);
+  color: white; */
+  opacity: 0.7;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 900px) {
