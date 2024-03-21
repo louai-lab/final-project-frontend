@@ -118,7 +118,7 @@
 
 .eyeIconNew {
   position: absolute;
-  top: 67%;
+  top: 66.5%;
   right: 50px;
   transform: translateY(-50%);
   cursor: pointer;
@@ -131,20 +131,13 @@
     height: 650px;
   }
 
-  /* .control {
-    width: fit-content;
-  } */
-
-  /* .control input {
-    width: 100%;
-  } */
   .eyeIcon {
     right: 12%;
-    top: 360px;
+    top: 365px;
   }
   .eyeIconNew {
     right: 12%;
-    top: 440px;
+    top: 445px;
   }
 }
 
@@ -169,14 +162,3 @@
     top: 460px;
   }
 }
-
-/* @media screen and (max-width: 316px) {
-  .eyeIcon {
-    right: 10%;
-    top: 430px;
-  }
-  .eyeIconNew{
-    right: 10%;
-    top: 510px;
-  }
-} */

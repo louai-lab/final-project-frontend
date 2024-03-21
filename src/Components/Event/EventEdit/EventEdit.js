@@ -61,7 +61,7 @@ function EventEdit({
 
   return (
     <div className={StyleEditEvent.popUpContainer}>
-      <h1 className={StyleEditEvent.eventH1}>Hello Edit</h1>
+      <h1 className={StyleEditEvent.eventH1}>Edit Event</h1>
 
       <form action="#">
         <div className={StyleEditEvent.control}>

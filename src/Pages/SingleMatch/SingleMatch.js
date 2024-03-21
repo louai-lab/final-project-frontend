@@ -532,8 +532,8 @@ function SingleMatch() {
                 >
                   <div className={StyleSingleMatch.partReport}>
                     <img
-                      src={`${process.env.REACT_APP_IMAGE_PATH}/${match.watcher.image}`}
-                      alt={match.watcher.name}
+                      src={`${process.env.REACT_APP_IMAGE_PATH}/${match.referee.image}`}
+                      alt={match.referee.name}
                       className={StyleSingleMatch.imagesReports}
                     />
                     <p>Referee {match.referee.firstName}'s Report :</p>
