@@ -220,12 +220,14 @@ export const useMatchesStore = create((set, get) => ({
       const response = await axiosInstance.get(
         "/match/getLastTwoCreatedMatches"
       );
-      if (response) {
+      if (response.data.length > 0) {
         set({ LastTwoMatches: response.data, loading: false });
+      } else {
+        // console.log("No Matches Found");
+        set({ LastTwoMatches: {}, loading: false });
       }
     } catch (error) {
-      console.error(error);
-      set({ loading: false });
+      set({ LastTwoMatches: {}, loading: false });
     }
   },
 }));

@@ -119,38 +119,42 @@ function Matches() {
           )}
           <main className={StyleMatches.matchesContainer}>
             <article className={StyleMatches.matchesHeroSection}>
-              <div className={StyleMatches.bchh}>
-                <section className={StyleMatches.lastMatch}>
-                  <img
-                    src={logo}
-                    width={80}
-                    height={60}
-                    alt="Lebanese Football Association"
-                  />
-                  <p>{LastTwoMatches[0]?.title}</p>
-                </section>
-                <section className={StyleMatches.twoTeams}>
-                  <img
-                    src={`${process.env.REACT_APP_IMAGE_PATH}/${LastTwoMatches[0]?.team_a?.team.image}`}
-                    alt={LastTwoMatches[0]?.team_a?.team.name}
-                    className={StyleMatches.teamsImage}
-                  />
-                  <div className={StyleMatches.teamsName}>
-                    <p>{LastTwoMatches[0]?.team_a?.team.name}</p>
-                    <span className={StyleMatches.vs}>VS</span>
-                    <p>{LastTwoMatches[0]?.team_b?.team.name}</p>
-                  </div>
-                  <img
-                    src={`${process.env.REACT_APP_IMAGE_PATH}/${LastTwoMatches[0]?.team_b?.team.image}`}
-                    alt={LastTwoMatches[0]?.team_b?.team.name}
-                    className={StyleMatches.teamsImage}
-                  />
-                </section>
-                <section className={StyleMatches.stadium}>
-                  <StadiumIcon />
-                  <p>{LastTwoMatches[0]?.pitch}</p>
-                </section>
-              </div>
+              {LastTwoMatches.length > 0 ? (
+                <div className={StyleMatches.bchh}>
+                  <section className={StyleMatches.lastMatch}>
+                    <img
+                      src={logo}
+                      width={80}
+                      height={60}
+                      alt="Lebanese Football Association"
+                    />
+                    <p>{LastTwoMatches[0]?.title}</p>
+                  </section>
+                  <section className={StyleMatches.twoTeams}>
+                    <img
+                      src={`${process.env.REACT_APP_IMAGE_PATH}/${LastTwoMatches[0]?.team_a?.team.image}`}
+                      alt={LastTwoMatches[0]?.team_a?.team.name}
+                      className={StyleMatches.teamsImage}
+                    />
+                    <div className={StyleMatches.teamsName}>
+                      <p>{LastTwoMatches[0]?.team_a?.team.name}</p>
+                      <span className={StyleMatches.vs}>VS</span>
+                      <p>{LastTwoMatches[0]?.team_b?.team.name}</p>
+                    </div>
+                    <img
+                      src={`${process.env.REACT_APP_IMAGE_PATH}/${LastTwoMatches[0]?.team_b?.team.image}`}
+                      alt={LastTwoMatches[0]?.team_b?.team.name}
+                      className={StyleMatches.teamsImage}
+                    />
+                  </section>
+                  <section className={StyleMatches.stadium}>
+                    <StadiumIcon />
+                    <p>{LastTwoMatches[0]?.pitch}</p>
+                  </section>
+                </div>
+              ) : (
+                <h1>"No Matches For You"</h1>
+              )}
             </article>
 
             <article className={StyleMatches.middle}>

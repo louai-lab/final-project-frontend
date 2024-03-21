@@ -7,17 +7,21 @@ import { useMatchesStore } from "../../Zustand/Store";
 import { useNavigate } from "react-router-dom";
 import FootballLoader from "../FootballLoader/FootballLoader";
 import { useLanguage } from "../../Utils/LanguageContext";
+import { useUserStore } from "../../Zustand/Store";
 
 function Home() {
   const { language } = useLanguage();
   const navigate = useNavigate();
-  const { LastTwoMatches } = useMatchesStore();
-  const { loading, getLastTwoCreatedMatches } = useMatchesStore();
+  const { user, getUser } = useUserStore();
+  const { loading, LastTwoMatches, getLastTwoCreatedMatches } =
+    useMatchesStore();
 
   // console.log(LastTwoMatches);
+  // console.log(user);
 
   useEffect(() => {
     getLastTwoCreatedMatches();
+    // console.log("hi")
   }, [getLastTwoCreatedMatches]);
 
   const handleMatchClick = (match) => {

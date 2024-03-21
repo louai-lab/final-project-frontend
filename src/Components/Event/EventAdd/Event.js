@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import StyleEvent from "./Event.module.css";
+import { useLanguage } from "../../../Utils/LanguageContext";
 
 function Event({
   cancelEvent,
@@ -17,7 +18,7 @@ function Event({
     minute: "",
   });
   const [allFieldsRequired, setAllFieldsRequired] = useState(false);
-
+  const { language } = useLanguage();
   const [players, setPlayers] = useState([]);
 
   const handleInputChange = (e) => {
@@ -51,10 +52,14 @@ function Event({
 
   return (
     <div className={StyleEvent.popUpContainer}>
-      <h1 className={StyleEvent.eventH1}>Event Form</h1>
+      <h1 className={StyleEvent.eventH1}>
+        {language === "en" ? "Event Form" : "نموذج حدث"}
+      </h1>
       <form action="#">
         <div className={StyleEvent.control}>
-          <label htmlFor="type">Select Type</label>
+          <label htmlFor="type">
+            {language === "en" ? "Select Type" : "اختار نوع الحدث"}
+          </label>
           <select
             id="type"
             name="type"
@@ -62,15 +67,25 @@ function Event({
             className={StyleEvent.select}
             onChange={handleInputChange}
           >
-            <option value="">Select an option</option>
-            <option value="goal">Goal</option>
-            <option value="yellow_card">Yellow Cart</option>
-            <option value="red_card">Red Cart</option>
-            <option value="substitution">Substitution</option>
+            <option value="">
+              {language === "en" ? "Select an option" : "حدّد"}
+            </option>
+            <option value="goal">{language === "en" ? "Goal" : "هدف"}</option>
+            <option value="yellow_card">
+              {language === "en" ? "Yellow Cart" : "بطاقة صفراء"}
+            </option>
+            <option value="red_card">
+              {language === "en" ? "Red Cart" : "بطاقة حمراء"}
+            </option>
+            <option value="substitution">
+              {language === "en" ? "Substitution" : "تبديل"}
+            </option>
           </select>
         </div>
         <div className={StyleEvent.control}>
-          <label htmlFor="team">Select Team</label>
+          <label htmlFor="team">
+            {language === "en" ? "Select Team" : "اختار الفريق"}
+          </label>
           <select
             id="team"
             name="team"
@@ -78,14 +93,18 @@ function Event({
             value={formData.team}
             onChange={handleInputChange}
           >
-            <option value="">Select an option</option>
+            <option value="">
+              {language === "en" ? "Select an option" : "حدّد"}
+            </option>
             <option value={teamATeam._id}>{teamATeam.name}</option>
             <option value={teamBTeam._id}>{teamBTeam.name}</option>
           </select>
         </div>
         <div className={StyleEvent.control}>
           {formData.type === "substitution" ? (
-            <label htmlFor="playerIn">Player In</label>
+            <label htmlFor="playerIn">
+              {language === "en" ? "Player In" : "البديل"}
+            </label>
           ) : (
             <label htmlFor="playerIn">Player</label>
           )}
@@ -96,7 +115,9 @@ function Event({
             value={formData.playerIn}
             onChange={handleInputChange}
           >
-            <option value="">Select an option</option>
+            <option value="">
+              {language === "en" ? "Select an option" : "حدّد"}
+            </option>
             {players.map((player) => (
               <option key={player._id} value={player._id}>
                 {player.name}
@@ -106,7 +127,9 @@ function Event({
         </div>
         {formData.type === "substitution" && (
           <div className={StyleEvent.control}>
-            <label htmlFor="playerOut">Player Out</label>
+            <label htmlFor="playerOut">
+              {language === "en" ? "Player Out" : "المستبدل"}
+            </label>
             <select
               id="playerOut"
               name="playerOut"
@@ -115,7 +138,9 @@ function Event({
               onChange={handleInputChange}
               required
             >
-              <option value="">Select an option</option>
+              <option value="">
+                {language === "en" ? "Select an option" : "حدّد"}
+              </option>
               {players.map((player) => (
                 <option key={player._id} value={player._id}>
                   {player.name}
@@ -125,13 +150,15 @@ function Event({
           </div>
         )}
         <div className={StyleEvent.control}>
-          <label htmlFor="minute">Minutes</label>
+          <label htmlFor="minute">
+            {language === "en" ? "Minutes" : "الدقيقة"}
+          </label>
           <input
             type="number"
             name="minute"
             id="minute"
             value={formData.minute}
-            placeholder="Minute"
+            placeholder={language === "en" ? "Minute" : "الدقيقة"}
             onChange={handleInputChange}
           />
         </div>
@@ -144,7 +171,7 @@ function Event({
             onClick={handleAdd}
             className={StyleEvent.addEvent}
           >
-            Create
+            {language === "en" ? "Add" : "أضف"}
           </button>
         </div>
         <div className={StyleEvent.control}>
@@ -153,7 +180,7 @@ function Event({
             onClick={cancelEvent}
             className={StyleEvent.cancelEvent}
           >
-            Exit
+            {language === "en" ? "Cancel" : "إلغاء"}
           </button>
         </div>
       </form>
