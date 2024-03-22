@@ -87,23 +87,22 @@
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: space-between;   */
-  column-gap: 20px;
+  justify-content: space-between;  
+  align-items: flex-start;
+  column-gap: 15px;
   row-gap: 20px;
   width: 97.5%;
   margin: 0 auto;
 }
 
 .cardMatch {
-  width: 20rem;
+  width: 22.2rem;
   border-radius: 20px;
   backdrop-filter: blur(10px);
-  /* background-color: #18183b; */
   background-color: #151533;
   padding: 10px;
   display: flex;
   flex-direction: column;
-  /* box-shadow: 0 10px 80px rgba(195, 190, 190, 0.1); */
 }
 
 .cardMatch:hover {
@@ -259,6 +258,12 @@
 
 .MuiPaginationItem-root.css-1to7aaw-MuiButtonBase-root-MuiPaginationItem-root {
   color: white;
+}
+
+@media screen and (max-width: 1518px) {
+  .cardMatch{
+    width: 22rem;
+  }
 }
 
 @media screen and (max-width: 1000px) {

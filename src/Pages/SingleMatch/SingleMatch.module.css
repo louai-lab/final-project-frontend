@@ -295,7 +295,7 @@
 
 .eventActions img:hover {
   opacity: 0.6;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 .type {
@@ -430,6 +430,9 @@
 .delete {
   border: none;
 }
+.delete:hover {
+  cursor: pointer;
+}
 
 .delete:disabled {
   opacity: 0.5;
@@ -438,6 +441,10 @@
 
 .edit {
   border: none;
+}
+
+.edit:hover {
+  cursor: pointer;
 }
 
 .edit:disabled {
@@ -486,4 +493,9 @@
 .endMatch:hover {
   cursor: pointer;
   background-color: var(--third-clr);
+}
+
+.endMatch:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
