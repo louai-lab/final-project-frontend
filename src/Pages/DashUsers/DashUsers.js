@@ -90,7 +90,7 @@ function DashUsers() {
 
       formData.id = id;
 
-      const response = await axiosInstance.patch(`/user/update`, formData, {
+      const response = await axiosInstance.patch(`/user/updateNoCheck`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

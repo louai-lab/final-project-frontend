@@ -88,6 +88,10 @@
   row-gap: 20px;
   box-sizing: border-box;
 }
+.rtl {
+  direction: rtl;
+  text-align: right;
+}
 
 .position h1 {
   color: white;
@@ -280,7 +284,7 @@
   /* height: 300px; */
 }
 
-.trackHome > h1 {
+.track {
   color: rgba(0, 0, 0, 0.841);
   font-size: clamp(10px, 3rem, 22px);
 }

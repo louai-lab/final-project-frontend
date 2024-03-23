@@ -5,6 +5,7 @@ import { useMatchesStore } from "../../Zustand/Store";
 import { useNavigate } from "react-router-dom";
 import { MdModeEditOutline } from "react-icons/md";
 import EventEditProfile from "../../Components/Event/EventEditProfile/EventEditProfile";
+import { Helmet } from "react-helmet-async";
 
 function Profile() {
   const navigate = useNavigate();
@@ -39,6 +40,17 @@ function Profile() {
 
   return (
     <>
+      <Helmet>
+        <title>Lebanese Association in the North - Profile</title>
+        <meta
+          name="description"
+          content="View your profile on the official website of the Lebanese Association in the North."
+        />
+        <meta
+          name="keywords"
+          content="Lebanese Association in the North, profile"
+        />
+      </Helmet>
       {isOpenEditProfilePopUp && (
         <>
           <div

@@ -6,9 +6,11 @@ import { useUsersStore } from "./Zustand/Store";
 import { usePlayersStore } from "./Zustand/Store";
 import { useTeamsStore } from "./Zustand/Store";
 import { useMatchesStore } from "./Zustand/Store";
-// import Loading from "./Pages/Loading/Loading.js";
 import FootballLoader from "./Pages/FootballLoader/FootballLoader.js";
-import Matches from "./Pages/Matches/Matches.js";
+// import Matches from "./Pages/Matches/Matches.js";
+import { Helmet } from "react-helmet-async";
+import { HelmetProvider } from "react-helmet-async";
+import FavIcon from "./Assets/icons/Lebanese_Football_Association_(LFA)_logo.svg";
 
 function App() {
   const { user } = useUserStore();
@@ -51,7 +53,13 @@ function App() {
     </div>
   ) : (
     <div className="App">
-      <AppRoutes />
+      <HelmetProvider>
+        <Helmet>
+          <link rel="shortcut icon" href={FavIcon} type="image/x-icon" />
+          <title>Lebanese Football Association in The North</title>
+        </Helmet>
+        <AppRoutes />
+      </HelmetProvider>
     </div>
   );
 }

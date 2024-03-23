@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useMatchesStore, useUserStore } from "../../Zustand/Store";
 import { Reveal } from "../../Frammotion/RevealAnimation";
+import { Helmet } from "react-helmet-async";
 
 function Login() {
   const navigate = useNavigate();
@@ -69,63 +70,79 @@ function Login() {
   };
 
   return (
-    <div className={StyleLogin.loginPage}>
-      <section className={StyleLogin.firstSection}>
-        <img src={logo} alt="logo" />
-        <Reveal>
-          <div className={StyleLogin.form}>
-            <h2>Login Form</h2>
+    <>
+      <Helmet>
+        <title>Lebanese Association in the North - Login</title>
+        <meta
+          name="description"
+          content="Login to the official website of the Lebanese Association in the North. Access your account to stay updated with the latest matches, leagues, and events happening in the northern region for the third and fourth levels in the league."
+        />
+        <meta
+          name="keywords"
+          content="Lebanese Association in the North, login, account, matches, leagues, northern region, third level league, fourth level league, soccer, football, sports"
+        />
+      </Helmet>
+      <div className={StyleLogin.loginPage}>
+        <section className={StyleLogin.firstSection}>
+          <img src={logo} alt="logo" />
+          <Reveal>
+            <div className={StyleLogin.form}>
+              <h2>Login Form</h2>
 
-            <form>
-              <div className={StyleLogin.inputBox}>
-                <input
-                  type="text"
-                  name="email"
-                  value={credentials.email}
-                  onChange={handleInputChange}
-                  placeholder="Email"
-                  required
-                />
-              </div>
-              <div className={StyleLogin.inputBox} style={{ display: "flex" }}>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  onChange={handleInputChange}
-                  placeholder="Password"
-                  value={credentials.password}
-                  required
-                />
-                <div
-                  className={StyleLogin.eyeIcon}
-                  onClick={handleTogglePassword}
-                >
-                  {showPassword ? <FaEye /> : <FaEyeSlash />}
+              <form>
+                <div className={StyleLogin.inputBox}>
+                  <input
+                    type="text"
+                    name="email"
+                    value={credentials.email}
+                    onChange={handleInputChange}
+                    placeholder="Email"
+                    required
+                  />
                 </div>
-              </div>
-
-              {error && (
-                <p
-                  style={{
-                    fontSize: "clamp(8px , 3rem , 18px)",
-                    color: "red",
-                    marginTop: "5px",
-                    position: "absolute",
-                  }}
+                <div
+                  className={StyleLogin.inputBox}
+                  style={{ display: "flex" }}
                 >
-                  {error}
-                </p>
-              )}
-              <div className={StyleLogin.btn}>
-                <button className={StyleLogin.login} onClick={handleLogin}>
-                  Login
-                </button>
-              </div>
-            </form>
-          </div>
-        </Reveal>
-      </section>
-    </div>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    onChange={handleInputChange}
+                    placeholder="Password"
+                    value={credentials.password}
+                    required
+                  />
+                  <div
+                    className={StyleLogin.eyeIcon}
+                    onClick={handleTogglePassword}
+                  >
+                    {showPassword ? <FaEye /> : <FaEyeSlash />}
+                  </div>
+                </div>
+
+                {error && (
+                  <p
+                    style={{
+                      fontSize: "clamp(8px , 3rem , 18px)",
+                      color: "red",
+                      marginTop: "5px",
+                      position: "absolute",
+                    }}
+                  >
+                    {error}
+                  </p>
+                )}
+                <div className={StyleLogin.btn}>
+                  <button className={StyleLogin.login} onClick={handleLogin}>
+                    Login
+                  </button>
+                </div>
+              </form>
+            </div>
+          </Reveal>
+        </section>
+      </div>
+    </>
   );
 }
 

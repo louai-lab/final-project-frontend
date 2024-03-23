@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import FootballLoader from "../FootballLoader/FootballLoader";
 import { useLanguage } from "../../Utils/LanguageContext";
 import { useUserStore } from "../../Zustand/Store";
+import { Helmet } from "react-helmet-async";
 
 function Home() {
   const { language } = useLanguage();
@@ -40,6 +41,17 @@ function Home() {
         </>
       ) : (
         <>
+          <Helmet>
+            <title>Lebanese Association in the North - Home</title>
+            <meta
+              name="description"
+              content="Welcome to the official website of the Lebanese Association in the North. Stay updated with the latest matches, leagues, and events happening in the northern region for the third and fourth levels in the league."
+            />
+            <meta
+              name="keywords"
+              content="Lebanese Association in the North, matches, leagues, northern region, third level league, fourth level league, soccer, football, sports , watcher , referee"
+            />
+          </Helmet>
           <div className={StyleHome.homeContainer}>
             <header
               className={`${StyleHome.HeroSection} ${
@@ -163,14 +175,33 @@ function Home() {
                 <img src={LandingPage} alt="" />
               </div>
               <div className={StyleHome.trackHome}>
-                <h1>Track Live Match Actions</h1>
+                {/* <h1> */}
+                  {language === "en" ? (
+                    <h1>Track Live Match Actions</h1>
+                  ) : (
+                    <h1> تتبع إجراءات المباراة الحية</h1>
+                  )}
+                {/* </h1> */}
                 <p>
-                  Stay up-to-date with real-time updates and comprehensive
-                  statistics during the match. Our cutting-edge platform offers
-                  in-depth insights into every player's move, team strategies,
-                  and key moments. Immerse yourself in the game with live
-                  commentary, dynamic visualizations, and personalized
-                  notifications.
+                  {language === "en" ? (
+                    <p>
+                      {" "}
+                      Stay up-to-date with real-time updates and comprehensive
+                      statistics during the match. Our cutting-edge platform
+                      offers in-depth insights into every player's move, team
+                      strategies, and key moments. Immerse yourself in the game
+                      with live commentary, dynamic visualizations, and
+                      personalized notifications.
+                    </p>
+                  ) : (
+                    <p className={language === "ar" ? StyleHome.rtl : ""}>
+                      لبقاء ما يصل إلى موعد مع التحديثات في الوقت الحقيقي وشاملة
+                      الإحصائيات خلال المباراة. عروض منصتنا المتطورة رؤى متعمقة
+                      حول تحركات كل لاعب، واستراتيجيات الفريق، واللحظات
+                      الرئيسية. انغمس في اللعبة مع البث المباشر التعليق،
+                      والتصورات الديناميكية، وشخصية إشعارات.
+                    </p>
+                  )}
                 </p>
 
                 <button type="button" className={StyleHome.explore}>

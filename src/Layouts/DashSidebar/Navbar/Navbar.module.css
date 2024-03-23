@@ -148,20 +148,23 @@
 
 .linksWrapperMobile {
   background-color: rgba(167, 197, 217, 0.8);
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(10px);
   position: absolute;
   width: 95%;
   height: 0;
-  top: 110px;
+  top: 105px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
+  justify-content: space-evenly;
   row-gap: 15px;
   list-style: none;
   transition: 0.2s height ease-in-out;
   margin: 0;
   /* padding: 5px; */
   overflow: hidden;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 /* Your existing styles for .circle */

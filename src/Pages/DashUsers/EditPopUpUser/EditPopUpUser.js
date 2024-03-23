@@ -20,7 +20,7 @@ function EditPopUpUser({ selectedRowData, handleCancelEdit, handleSave }) {
     firstName: selectedRowData.firstName,
     lastName: selectedRowData.lastName,
     email: selectedRowData.email,
-    checkPassword: "",
+    // checkPassword: "",
     newPassword: "",
     role: selectedRowData.role,
     image: selectedRowData.image,
@@ -117,7 +117,7 @@ function EditPopUpUser({ selectedRowData, handleCancelEdit, handleSave }) {
               />
             </FormControl>
 
-            <FormControl fullWidth>
+            {/* <FormControl fullWidth>
               <TextField
                 type={showPassword ? "text" : "password"}
                 label="Old Password"
@@ -131,7 +131,7 @@ function EditPopUpUser({ selectedRowData, handleCancelEdit, handleSave }) {
               >
                 {showPassword ? <FaEye /> : <FaEyeSlash />}
               </div>
-            </FormControl>
+            </FormControl> */}
 
             <FormControl fullWidth>
               <TextField

@@ -12,6 +12,7 @@ import iconFilter from "../../Assets/icons/ion--filter (1).svg";
 import Filter from "../../Components/Filter/Filter";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import { Helmet } from "react-helmet-async";
 
 function Matches() {
   const navigate = useNavigate();
@@ -88,6 +89,17 @@ function Matches() {
         </div>
       ) : (
         <>
+          <Helmet>
+            <title>Lebanese Association in the North - Matches</title>
+            <meta
+              name="description"
+              content="Explore the latest matches hosted by the Lebanese Association in the North. Filter matches by team and time to find the ones you're interested in. Stay updated with the third and fourth level leagues happening in the northern region."
+            />
+            <meta
+              name="keywords"
+              content="Lebanese Association in the North, matches, leagues, northern region, third level league, fourth level league, soccer, football, sports, team filter, time filter"
+            />
+          </Helmet>
           {popUpFilter && (
             <>
               <div
@@ -117,6 +129,7 @@ function Matches() {
               ></div>
             </>
           )}
+
           <main className={StyleMatches.matchesContainer}>
             <article className={StyleMatches.matchesHeroSection}>
               {LastTwoMatches.length > 0 ? (
