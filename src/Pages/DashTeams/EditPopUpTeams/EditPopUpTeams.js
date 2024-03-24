@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 import StyleEditPopUp from "./EditPopUpTeams.module.css";
-import {
-  FormControl,
-  TextField,
-  Stack,
-} from "@mui/material";
+import { FormControl, TextField, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
+// import { InputLabel, Select, Chip, MenuItem } from "@mui/material";
+// import { usePlayersStore } from "../../../Zustand/Store";
 
-function EditPopUpTeams({ selectedRowData, handleCancelEdit , handleSave }) {
-  
+function EditPopUpTeams({ selectedRowData, handleCancelEdit, handleSave }) {
   const [formData, setFormData] = useState({
     name: selectedRowData.name,
     image: selectedRowData.image,
-    players: selectedRowData.players,
+    // playerIds: selectedRowData.players,
   });
+  // const { playersNoTeam } = usePlayersStore();
+
+  // console.log(playersNoTeam)
+
+  // console.log(formData.playerIds);
   const handleChange = (e) => {
     const { name, type, checked } = e.target;
-    // Check if the input type is file for handling images
     if (type === "file") {
       const file = e.target.files[0];
       if (file) {
@@ -33,10 +34,40 @@ function EditPopUpTeams({ selectedRowData, handleCancelEdit , handleSave }) {
     }
   };
 
-  const handleSaveClick=(e)=>{
-    e.preventDefault()
-    handleSave(formData)
-  }
+  // const handleChange = (e) => {
+  //   const { name, type, checked } = e.target;
+
+  //   if (name === "playerIds") {
+  //     const selectedPlayerIds = Array.isArray(e.target.value)
+  //       ? e.target.value
+  //       : [e.target.value];
+
+  //     setFormData((prevData) => ({
+  //       ...prevData,
+  //       [name]: selectedPlayerIds,
+  //     }));
+  //   } else if (type === "file") {
+  //     const file = e.target.files[0];
+  //     if (file) {
+  //       setFormData((prevData) => ({
+  //         ...prevData,
+  //         image: file,
+  //       }));
+  //     }
+  //   } else {
+  //     setFormData((prevData) => ({
+  //       ...prevData,
+  //       [name]: type === "checkbox" ? checked : e.target.value,
+  //     }));
+  //   }
+  // };
+
+ 
+
+  const handleSaveClick = (e) => {
+    e.preventDefault();
+    handleSave(formData);
+  };
 
   return (
     <>
@@ -93,6 +124,39 @@ function EditPopUpTeams({ selectedRowData, handleCancelEdit , handleSave }) {
                 onChange={handleChange}
               />
             </FormControl>
+
+            {/* <FormControl fullWidth>
+              <InputLabel htmlFor="playerIds">Choose Players</InputLabel>
+              <Select
+                label="Players"
+                name="playerIds"
+                multiple
+                value={formData.playerIds}
+                onChange={handleChange}
+                renderValue={(selected) => (
+                  <div style={{ display: "flex", flexWrap: "wrap" }}>
+                    {formData.playerIds.map((player) => (
+                      <Chip
+                        key={player._id}
+                        label={player.name}
+                        style={{ margin: 2 }}
+                        onDelete={() => handleRemovePlayer(player._id)} // Use onDelete to trigger handleRemovePlayer
+                      />
+                    ))}
+                  </div>
+                )}
+              >
+                {playersNoTeam.map((player) => (
+                  <MenuItem
+                    key={player._id}
+                    value={player._id}
+                    selected={formData.playerIds.includes(player._id)}
+                  >
+                    {player.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl> */}
 
             <button className={StyleEditPopUp.save} onClick={handleSaveClick}>
               Save

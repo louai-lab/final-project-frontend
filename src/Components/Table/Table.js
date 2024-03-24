@@ -37,8 +37,10 @@ const Table = ({
   const { selectedTeamId, updateSelectedTeamId } = useMatchesStore();
   const { getAllTeams } = useMatchesStore();
   const [selectedTeam, setSelectedTeam] = useState(null);
+  const [teamForPlayer, setTeamForPlayer] = useState(null);
   const [playerName, setPlayerName] = useState("");
   const { selectedPlayerName, updateSelectedPlayerName } = usePlayersStore();
+  const { selectedTeamPlayer, updateSelectedTeamPlayer } = usePlayersStore();
   const { selectedPageNumberPlayer, updateSelectedPageNumberPlayer } =
     usePlayersStore();
 
@@ -66,14 +68,28 @@ const Table = ({
     setPlayerName(playerNamee);
   };
 
+  const handleTeamChange = (event) => {
+    const team = event.target.value;
+    setTeamForPlayer(team);
+    // console.log(team)
+  };
+
   const handleSearch = () => {
     // console.log("Searching for player:", playerName);
     updateSelectedPlayerName(playerName);
+    updateSelectedTeamPlayer(teamForPlayer);
+    // console.log(selectedTeamForPlayer)
   };
 
   useEffect(() => {
     getAllPlayers(selectedPlayerName);
   }, [getAllPlayers, selectedPlayerName]);
+
+  useEffect(() => {
+    getAllPlayers(selectedTeamPlayer);
+  }, [getAllPlayers, selectedTeamPlayer]);
+
+  // console.log(selectedTeamForPlayer)
 
   useEffect(() => {
     getAllPlayers(selectedPageNumberPlayer);
@@ -441,35 +457,57 @@ const Table = ({
                     </div>
                   ),
                   toolbar: () => (
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "10px",
-                      }}
-                    >
-                      <TextField
-                        sx={{
-                          marginRight: "10px",
-                          width: "auto",
-                          position: "sticky",
+                    <>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          marginBottom: "10px",
                         }}
-                        label="Enter player name"
-                        variant="outlined"
-                        fullWidth
-                        value={playerName}
-                        onChange={handlePlayerNameChange}
-                        // autoFocus
-                      />
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        sx={{ height: "55px" }}
-                        onClick={handleSearch}
                       >
-                        Search
-                      </Button>
-                    </div>
+                        <TextField
+                          sx={{
+                            marginRight: "10px",
+                            width: "auto",
+                            position: "sticky",
+                          }}
+                          label="Enter player name"
+                          variant="outlined"
+                          fullWidth
+                          value={playerName}
+                          onChange={handlePlayerNameChange}
+                          // autoFocus
+                        />
+                        <Select
+                          value={teamForPlayer || ""}
+                          onChange={handleTeamChange}
+                          displayEmpty
+                          variant="outlined"
+                          sx={{ width: 200 }}
+                        >
+                          <MenuItem value="">All Teams</MenuItem>
+                          {teams.map((team) => (
+                            <MenuItem key={team._id} value={team._id}>
+                              <img
+                                src={`${process.env.REACT_APP_IMAGE_PATH}/${team.image}`}
+                                alt="Icon"
+                                style={{ width: "20px", height: "20px" }}
+                              />
+                              {team.name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          sx={{ height: "55px" }}
+                          onClick={handleSearch}
+                        >
+                          Search
+                        </Button>
+                      </div>
+                    </>
                   ),
                 }
               : { toolbar: (props) => <GridToolbar {...props} /> }

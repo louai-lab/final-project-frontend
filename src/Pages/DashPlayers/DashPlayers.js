@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddPopUpPlayer from "./AddPopUpPlayer/AddPopUpPlayer.js";
 import StyleDashPlayers from "./DashPlayers.module.css";
 import { usePlayersStore } from "../../Zustand/Store.js";
@@ -18,7 +18,11 @@ function DashPlayers() {
   const [isOpen, setIsOpen] = useState(false);
   const [isEditPopUp, setIsEditPopUp] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState(null);
-  const { players } = usePlayersStore();
+  const { players, getAllPlayers } = usePlayersStore();
+
+  // useEffect(() => {
+  //   getAllPlayers();
+  // }, []);
 
   const style = {
     position: "absolute",
@@ -90,7 +94,6 @@ function DashPlayers() {
 
   const handleEditOpen = (selectedRowData) => {
     setIsEditPopUp(true);
-    // console.log(selectedRowData);
   };
 
   const handleCancelEdit = () => {

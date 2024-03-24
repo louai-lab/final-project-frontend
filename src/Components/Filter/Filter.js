@@ -19,7 +19,7 @@ function Filter({ handleCloseFilter, handleApply }) {
   return (
     <main className={StyleFilter.popUpFilter}>
       <div className={StyleFilter.headerFilter}>
-        <h1>Filter</h1>
+        <h1>Filter Matches by Team</h1>
         <button
           type="button"
           onClick={handleCloseFilter}

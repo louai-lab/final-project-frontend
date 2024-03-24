@@ -98,36 +98,55 @@ export const useUsersStore = create((set) => ({
 }));
 
 export const usePlayersStore = create((set, get) => ({
+  selectedTeamPlayer: null,
+  updateSelectedTeamPlayer: (team) => {
+    set({
+      selectedTeamPlayer: team,
+    });
+  },
+
   selectedPlayerName: null,
   updateSelectedPlayerName: (playerName) => {
-    set({ selectedPlayerName: playerName });
-    // console.log(playerName);
+    set(
+      { selectedPlayerName: playerName }
+      // console.log(team)
+    );
   },
   selectedPageNumberPlayer: null,
   updateSelectedPageNumberPlayer: (pageNumber) => {
     set({ selectedPageNumberPlayer: pageNumber });
-    // console.log(pageNumber);
   },
   players: [],
   loading: true,
   getAllPlayers: async () => {
+    // console.log("hi")
     try {
       set({ loading: true });
       const playerName = get().selectedPlayerName || "";
-      // console.log(playerName);
-      // const pageNumber = 1;
-      const pageNumber = get().selectedPageNumberPlayer || "";
+      const team = get().selectedTeamPlayer || "";
+      const pageNumber = get().selectedPageNumberPlayer || 1;
       const pageSize = 10;
+
+      const url =
+        playerName && team
+          ? `/player?playerName=${playerName}&team=${team}&pageNumber=${pageNumber}&pageSize=${pageSize}`
+          : playerName
+          ? `/player?playerName=${playerName}&pageNumber=${pageNumber}&pageSize=${pageSize}`
+          : team
+          ? `/player?team=${team}&pageNumber=${pageNumber}&pageSize=${pageSize}`
+          : `/player?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+
+      // console.log(url)
+
       const data = await queryClient.fetchQuery(["players"], async () =>
-        axiosInstance
-          .get(
-            `/player?playerName=${playerName}&pageNumber=${pageNumber}&pageSize=${pageSize}`
-          )
-          .then((res) => res.data)
+        axiosInstance.get(url).then((res) => res.data)
       );
+
       const playersCount = data.playersCount;
 
       set({ players: data.players, playersCount, loading: false });
+
+      // console.log(data.players)
     } catch (error) {
       console.error(error);
       set({ loading: false });

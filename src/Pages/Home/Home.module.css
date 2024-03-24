@@ -183,7 +183,7 @@
   display: flex;
   color: black;
   border-bottom: 1px solid black;
-  padding-top: 250px;
+  padding-top: 240px;
   flex-direction: column;
   align-items: center;
   transform: scale(1);
@@ -229,7 +229,7 @@
   display: flex;
   color: black;
   border-bottom: 1px solid black;
-  padding-top: 250px;
+  padding-top: 240px;
   flex-direction: column;
   align-items: center;
   transform: scale(1);
@@ -282,6 +282,13 @@
   width: 50%;
   margin: 5px;
   /* height: 300px; */
+}
+
+.trackHome h1{
+  width: fit-content;
+  text-align: center;
+  font-size: clamp(16px, 8vw, 35px);
+
 }
 
 .track {
