@@ -21,20 +21,46 @@ function Event({
   const { language } = useLanguage();
   const [players, setPlayers] = useState([]);
 
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData({
+  //     ...formData,
+  //     [name]: value,
+  //   });
+
+  //   if (name === "team") {
+  //     if (value === teamATeam._id) {
+  //       setPlayers(playersATeam);
+  //     } else if (value === teamBTeam._id) {
+  //       setPlayers(playersBTeam);
+  //     } else {
+  //       setPlayers([]);
+  //     }
+  //   }
+  // };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    if (name === "type" && value === "HT") {
+      setFormData({
+        type: value,
+        
+      });
+      setPlayers([]);
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
 
-    if (name === "team") {
-      if (value === teamATeam._id) {
-        setPlayers(playersATeam);
-      } else if (value === teamBTeam._id) {
-        setPlayers(playersBTeam);
-      } else {
-        setPlayers([]);
+      if (name === "team") {
+        if (value === teamATeam._id) {
+          setPlayers(playersATeam);
+        } else if (value === teamBTeam._id) {
+          setPlayers(playersBTeam);
+        } else {
+          setPlayers([]);
+        }
       }
     }
   };
@@ -43,10 +69,10 @@ function Event({
     e.preventDefault();
 
     const { type, team, playerIn, minute } = formData;
-    if (!type || !team || !playerIn || !minute) {
-      setAllFieldsRequired(true);
-      return;
-    }
+    // if (!type || !team || !playerIn || !minute) {
+    //   setAllFieldsRequired(true);
+    //   return;
+    // }
     handleEventSubmit(formData);
   };
 
@@ -79,6 +105,9 @@ function Event({
             </option>
             <option value="substitution">
               {language === "en" ? "Substitution" : "تبديل"}
+            </option>
+            <option value="HT">
+              {language === "en" ? "HT" : "نهاية الشوط الأول"}
             </option>
           </select>
         </div>
