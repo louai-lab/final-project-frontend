@@ -342,7 +342,7 @@ const Table = ({
           <div className={`${StyleTable.eventDetails}`}>
             {selectedDetails.details.map((item) => (
               <div key={item._id} className={StyleTable.singleEvent}>
-                Type: {item.type}, Team: {item.team.name},
+                Type: {item?.type}, Team: {item?.team?.name},
                 {item.type === "substitution" ? "Player In: " : "Player: "}
                 {item.playerIn?.name}, Minute: {item.minute}
                 {item.type === "substitution" && (
@@ -478,34 +478,36 @@ const Table = ({
                           onChange={handlePlayerNameChange}
                           // autoFocus
                         />
-                        <Select
-                          value={teamForPlayer || ""}
-                          onChange={handleTeamChange}
-                          displayEmpty
-                          variant="outlined"
-                          sx={{ width: 200 }}
-                        >
-                          <MenuItem value="">All Teams</MenuItem>
-                          {teams.map((team) => (
-                            <MenuItem key={team._id} value={team._id}>
-                              <img
-                                src={`${process.env.REACT_APP_IMAGE_PATH}/${team.image}`}
-                                alt="Icon"
-                                style={{ width: "20px", height: "20px" }}
-                              />
-                              {team.name}
-                            </MenuItem>
-                          ))}
-                        </Select>
+                        <div style={{ display: "flex", columnGap: "10px" }}>
+                          <Select
+                            value={teamForPlayer || ""}
+                            onChange={handleTeamChange}
+                            displayEmpty
+                            variant="outlined"
+                            sx={{ width: 200 }}
+                          >
+                            <MenuItem value="">All Teams</MenuItem>
+                            {teams.map((team) => (
+                              <MenuItem key={team._id} value={team._id}>
+                                <img
+                                  src={`${process.env.REACT_APP_IMAGE_PATH}/${team.image}`}
+                                  alt="Icon"
+                                  style={{ width: "20px", height: "20px" }}
+                                />
+                                {team.name}
+                              </MenuItem>
+                            ))}
+                          </Select>
 
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          sx={{ height: "55px" }}
-                          onClick={handleSearch}
-                        >
-                          Search
-                        </Button>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            sx={{ height: "55px" }}
+                            onClick={handleSearch}
+                          >
+                            Search
+                          </Button>
+                        </div>
                       </div>
                     </>
                   ),
@@ -559,8 +561,8 @@ const Table = ({
             },
             "& .MuiDataGrid-columnHeaders , & .MuiDataGrid-toolbarContainer , & .MuiDataGrid-footerContainer":
               {
-                height: "100px !important",
-                maxHeight: "100px !important",
+                height: "120px !important",
+                maxHeight: "120px !important",
                 fontSize: "1.2rem",
                 mb: screenWidth < 500 ? "1rem" : "0",
                 border: "1px solid grey",
