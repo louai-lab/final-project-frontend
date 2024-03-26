@@ -39,6 +39,8 @@ function SingleMatch() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [openEndMatch, setOpenEndMatch] = useState(false);
   const { language } = useLanguage();
+  const [actionWatcher, setActionWatcher] = useState("");
+  const [actionReferee, setActionReferee] = useState("");
 
   const { getAllTeams } = useTeamsStore();
   const { getAllMatches } = useMatchesStore();
@@ -176,10 +178,7 @@ function SingleMatch() {
       });
 
       if (response) {
-        setShowAnimation(true);
-        setTimeout(() => {
-          setShowAnimation(false);
-        }, 5000);
+        setActionWatcher("");
       }
     } catch (error) {
       console.log(error);
@@ -193,10 +192,7 @@ function SingleMatch() {
       });
 
       if (response) {
-        setShowAnimation(true);
-        setTimeout(() => {
-          setShowAnimation(false);
-        }, 5000);
+        setActionReferee("");
       }
     } catch (error) {
       console.log(error);
@@ -206,6 +202,23 @@ function SingleMatch() {
   const handleTextareaChangeWatcher = (event) => {
     setWatcherReport(event.target.value);
   };
+
+  const handleActionChange = (e) => {
+    setActionWatcher(e.target.value);
+    if (e.target.value === "Edit") {
+      document.getElementById("watcher-report-textarea").disabled = false;
+      document.getElementById("watcher-report-textarea").focus();
+    }
+  };
+
+  const handleActionChangeReferee = (e) => {
+    setActionReferee(e.target.value);
+    if (e.target.value === "Edit") {
+      document.getElementById("referee-report-textarea").disabled = false;
+      document.getElementById("referee-report-textarea").focus();
+    }
+  };
+
   const handleTextareaChangeReferee = (event) => {
     setRefereeReport(event.target.value);
   };
@@ -564,31 +577,74 @@ function SingleMatch() {
                       : ""
                   }`}
                 >
-                  <div className={StyleSingleMatch.partReport}>
-                    <img
-                      src={`${process.env.REACT_APP_IMAGE_PATH}/${match.watcher.image}`}
-                      alt={match.watcher.name}
-                      className={StyleSingleMatch.imagesReports}
-                    />
-                    <p>Watcher {match.watcher.firstName}'s Report :</p>
+                  <div
+                    className={
+                      language === "en"
+                        ? StyleSingleMatch.reportOption
+                        : StyleSingleMatch.reportOptionAr
+                    }
+                  >
+                    <div
+                      className={
+                        language === "en"
+                          ? StyleSingleMatch.partReport
+                          : StyleSingleMatch.partReportAr
+                      }
+                    >
+                      <img
+                        src={`${process.env.REACT_APP_IMAGE_PATH}/${match.watcher.image}`}
+                        alt={match.watcher.name}
+                        className={StyleSingleMatch.imagesReports}
+                      />
+                      <p>
+                        {language === "en"
+                          ? `Watcher ${match.watcher.firstName}'s Report :`
+                          : `تقرير المراقب ${match.watcher.firstName}`}
+                      </p>
+                    </div>
+                    <div className={StyleSingleMatch.customSelect}>
+                      <select value='' onChange={handleActionChange}>
+                        <option value="" disabled hidden></option>
+                        <option
+                          value="Edit"
+                          className={StyleSingleMatch.customOption}
+                        >
+                          Edit
+                        </option>
+                      </select>
+                    </div>
                   </div>
 
-                  <textarea
-                    className={StyleSingleMatch.textArea}
-                    rows="15"
-                    placeholder="Enter your report as watcher here..."
-                    value={watcherReport}
-                    onChange={handleTextareaChangeWatcher}
-                  ></textarea>
-                  <div className={StyleSingleMatch.ButtonsReport}>
-                    <button
-                      type="button"
-                      className={StyleSingleMatch.post}
-                      onClick={handleUpdateWatcherReport}
+                  <>
+                    <textarea
+                      id="watcher-report-textarea"
+                      className={StyleSingleMatch.textArea}
+                      rows="15"
+                      placeholder="Enter your report as watcher here..."
+                      value={watcherReport}
+                      onChange={handleTextareaChangeWatcher}
+                      disabled={actionWatcher !== "Edit"}
+                    ></textarea>
+                    <div
+                      className={
+                        language === "en"
+                          ? StyleSingleMatch.ButtonsReport
+                          : StyleSingleMatch.ButtonsReportAr
+                      }
                     >
-                      Post
-                    </button>
-                  </div>
+                      {actionWatcher === "Edit" ? (
+                        <button
+                          type="button"
+                          className={StyleSingleMatch.post}
+                          onClick={handleUpdateWatcherReport}
+                        >
+                          Post
+                        </button>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  </>
                 </div>
                 {/* <animated.div
                   style={{
@@ -629,29 +685,73 @@ function SingleMatch() {
                       : ""
                   }`}
                 >
-                  <div className={StyleSingleMatch.partReport}>
-                    <img
-                      src={`${process.env.REACT_APP_IMAGE_PATH}/${match.referee.image}`}
-                      alt={match.referee.name}
-                      className={StyleSingleMatch.imagesReports}
-                    />
-                    <p>Referee {match.referee.firstName}'s Report :</p>
+                  <div
+                    className={
+                      language === "en"
+                        ? StyleSingleMatch.reportOption
+                        : StyleSingleMatch.reportOptionAr
+                    }
+                  >
+                    <div
+                      className={
+                        language === "en"
+                          ? StyleSingleMatch.partReport
+                          : StyleSingleMatch.partReportAr
+                      }
+                    >
+                      <img
+                        src={`${process.env.REACT_APP_IMAGE_PATH}/${match.referee.image}`}
+                        alt={match.referee.name}
+                        className={StyleSingleMatch.imagesReports}
+                      />
+                      <p>
+                        {language === "en"
+                          ? `Referee ${match.referee.firstName}'s Report :`
+                          : `تقرير الحكم ${match.referee.firstName}`}
+                      </p>
+                    </div>
+                    <div className={StyleSingleMatch.customSelect}>
+                      <select
+                        value=""
+                        onChange={handleActionChangeReferee}
+                      >
+                        <option value="" disabled hidden></option>
+                        <option
+                          value="Edit"
+                          className={StyleSingleMatch.customOption}
+                        >
+                          Edit
+                        </option>
+                      </select>
+                    </div>
                   </div>
                   <textarea
+                    id="referee-report-textarea"
                     className={StyleSingleMatch.textArea}
                     rows="15"
                     placeholder="Enter your report as referee here..."
                     value={refereeReport}
                     onChange={handleTextareaChangeReferee}
+                    disabled={actionReferee !== "Edit"}
                   ></textarea>
-                  <div className={StyleSingleMatch.ButtonsReport}>
-                    <button
-                      type="button"
-                      onClick={handleUpdateRefereeReport}
-                      className={StyleSingleMatch.post}
-                    >
-                      Post
-                    </button>
+                  <div
+                    className={
+                      language === "en"
+                        ? StyleSingleMatch.ButtonsReport
+                        : StyleSingleMatch.ButtonsReportAr
+                    }
+                  >
+                    {actionReferee === "Edit" ? (
+                      <button
+                        type="button"
+                        onClick={handleUpdateRefereeReport}
+                        className={StyleSingleMatch.post}
+                      >
+                        Post
+                      </button>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
                 {/* <animated.div

@@ -44,7 +44,6 @@ function Event({
     if (name === "type" && value === "HT") {
       setFormData({
         type: value,
-        
       });
       setPlayers([]);
     } else {
@@ -121,6 +120,7 @@ function Event({
             className={StyleEvent.select}
             value={formData.team}
             onChange={handleInputChange}
+            disabled={formData.type === "HT"}
           >
             <option value="">
               {language === "en" ? "Select an option" : "حدّد"}
@@ -135,7 +135,9 @@ function Event({
               {language === "en" ? "Player In" : "البديل"}
             </label>
           ) : (
-            <label htmlFor="playerIn">Player</label>
+            <label htmlFor="playerIn">
+              {language === "en" ? "Player" : "اختار اللاعب"}
+            </label>
           )}
           <select
             id="playerIn"
@@ -143,6 +145,7 @@ function Event({
             className={StyleEvent.select}
             value={formData.playerIn}
             onChange={handleInputChange}
+            disabled={formData.type === "HT"}
           >
             <option value="">
               {language === "en" ? "Select an option" : "حدّد"}
@@ -166,6 +169,7 @@ function Event({
               value={formData.playerOut}
               onChange={handleInputChange}
               required
+              disabled={formData.type === "HT"}
             >
               <option value="">
                 {language === "en" ? "Select an option" : "حدّد"}
@@ -189,6 +193,7 @@ function Event({
             value={formData.minute}
             placeholder={language === "en" ? "Minute" : "الدقيقة"}
             onChange={handleInputChange}
+            disabled={formData.type === "HT"}
           />
         </div>
         {allFieldsRequired && (

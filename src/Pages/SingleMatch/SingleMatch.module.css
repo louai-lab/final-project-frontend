@@ -177,6 +177,16 @@
   width: 100%;
 }
 
+.partReportAr {
+  display: flex;
+  flex-direction: row-reverse;
+  /* flex-direction: column; */
+  column-gap: 10px;
+  /* justify-content: flex-end; */
+  align-items: center;
+  width: 100%;
+}
+
 .partReport > p {
   font-size: clamp(12px, 3vw, 22px);
 }
@@ -192,6 +202,12 @@
 
 .ButtonsReport {
   display: flex;
+  column-gap: 10px;
+}
+
+.ButtonsReportAr {
+  display: flex;
+  justify-content: flex-end;
   column-gap: 10px;
 }
 
@@ -322,6 +338,57 @@
 
 .rowDirection {
   flex-direction: row;
+}
+
+.reportOption {
+  display: flex;
+}
+
+.reportOptionAr {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.customSelect {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 50px;
+}
+
+.customSelect select {
+  /* width: 100%; */
+  width: fit-content;
+  padding: 10px;
+  font-size: 20px;
+  /* border: 1px solid #ccc; */
+  border: none;
+  border-radius: 6px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: transparent;
+}
+
+.customSelect select:hover {
+  cursor: pointer;
+}
+
+.customSelect::after {
+  content: "\00b7\00b7\00b7";
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #373737;
+}
+
+
+.customOption {
+  color: var(--primary-clr); 
+  font-weight: bold;
 }
 
 .persons {

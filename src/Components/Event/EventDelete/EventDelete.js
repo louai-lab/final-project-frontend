@@ -1,10 +1,17 @@
 import React from "react";
 import StyleDeleteEvent from "./EventDelete.module.css";
+import { useLanguage } from "../../../Utils/LanguageContext";
 
-function EventDelete({cancelDeleteEvent , handleDeleteEvent}) {
+function EventDelete({ cancelDeleteEvent, handleDeleteEvent }) {
+  const { language } = useLanguage();
+
   return (
     <div className={StyleDeleteEvent.popUpContainer}>
-      <h1>Are you sure to Delete this event?!</h1>
+      <h1>
+        {language === "en"
+          ? "Are you sure to Delete this event?!"
+          : "هل أنت متأكد من حذف هذا الحدث !؟"}
+      </h1>
       <div>
         <div className={StyleDeleteEvent.control}>
           <button
@@ -12,14 +19,14 @@ function EventDelete({cancelDeleteEvent , handleDeleteEvent}) {
             onClick={handleDeleteEvent}
             className={StyleDeleteEvent.addEvent}
           >
-            Confirm
+            {language === "en" ? "Confirm" : "تأكيد"}
           </button>
           <button
             type="button"
             onClick={cancelDeleteEvent}
             className={StyleDeleteEvent.cancelEvent}
           >
-            Cancel
+            {language === "en" ? "Cancel" : "إلغاء"}
           </button>
         </div>
       </div>
