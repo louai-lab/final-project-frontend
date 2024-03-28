@@ -74,10 +74,9 @@
   padding: 5px;
 }
 
-
 .scrollableDate {
   overflow: auto;
-  white-space: nowrap; 
+  white-space: nowrap;
 }
 
 .scrollableDate::before {
@@ -85,6 +84,19 @@
   font-weight: bold;
 }
 
-.dataGridCustom{
+.dataGridCustom {
   border: none;
+}
+
+@media screen and (max-width: 600px) {
+  .playerSearch {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+
+  .playerSearch2{
+    flex-direction: column;
+    row-gap: 10px;
+  }
 }

@@ -132,7 +132,7 @@
   font-size: clamp(12px, 3vw, 30px);
   background-color: rgba(240, 233, 233, 0.893);
   display: flex;
-  column-gap: 10px;
+  column-gap: 24px;
   /* flex-direction: column; */
   /* row-gap: 20px; */
 }
@@ -358,11 +358,9 @@
 }
 
 .customSelect select {
-  /* width: 100%; */
   width: fit-content;
   padding: 10px;
   font-size: 20px;
-  /* border: 1px solid #ccc; */
   border: none;
   border-radius: 6px;
   appearance: none;
@@ -390,6 +388,25 @@
   color: var(--primary-clr); 
   font-weight: bold;
 }
+
+/* .containerOption{
+  display: flex;
+  flex-direction: column;
+}
+
+.customSelect{
+  display: flex;
+  column-gap: 3px;
+  justify-content: center;
+  align-items: center;
+}
+
+.circleOption{
+  width: 8px;
+  height: 8px;
+  background-color: rgba(40, 39, 39, 0.476);
+  border-radius: 50%;
+} */
 
 .persons {
   display: flex;

@@ -41,6 +41,7 @@ function SingleMatch() {
   const { language } = useLanguage();
   const [actionWatcher, setActionWatcher] = useState("");
   const [actionReferee, setActionReferee] = useState("");
+  const [open, setOpen] = useState(false);
 
   const { getAllTeams } = useTeamsStore();
   const { getAllMatches } = useMatchesStore();
@@ -602,8 +603,12 @@ function SingleMatch() {
                           : `تقرير المراقب ${match.watcher.firstName}`}
                       </p>
                     </div>
-                    <div className={StyleSingleMatch.customSelect}>
-                      <select value='' onChange={handleActionChange}>
+                    <div className={StyleSingleMatch.containerOption}>
+                      <div
+                        className={StyleSingleMatch.customSelect}
+                        // onClick={() => setOpen(!open)}
+                      >
+                        <select value="" onChange={handleActionChange}>
                         <option value="" disabled hidden></option>
                         <option
                           value="Edit"
@@ -612,6 +617,11 @@ function SingleMatch() {
                           Edit
                         </option>
                       </select>
+                        {/* <div className={StyleSingleMatch.circleOption}></div>
+                        <div className={StyleSingleMatch.circleOption}></div>
+                        <div className={StyleSingleMatch.circleOption}></div> */}
+                      </div>
+                      {/* {open && <div>Edit</div>} */}
                     </div>
                   </div>
 
@@ -711,10 +721,7 @@ function SingleMatch() {
                       </p>
                     </div>
                     <div className={StyleSingleMatch.customSelect}>
-                      <select
-                        value=""
-                        onChange={handleActionChangeReferee}
-                      >
+                      <select value="" onChange={handleActionChangeReferee}>
                         <option value="" disabled hidden></option>
                         <option
                           value="Edit"
@@ -867,11 +874,13 @@ function SingleMatch() {
             <div className={StyleSingleMatch.thing}>
               <img src={Clock} alt="" className={StyleSingleMatch.iconInfo} />
               <p>
-                {" "}
-                {new Date(match.match_date).toLocaleTimeString("en-US", {
+                {new Date(
+                  `2000-01-01T${match.match_time}:00Z`
+                ).toLocaleTimeString("en-US", {
                   timeZone: "UTC",
                   hour: "numeric",
                   minute: "numeric",
+                  hour12: true,
                 })}
               </p>
             </div>

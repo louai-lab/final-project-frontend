@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 import StyleMatches from "./Matches.module.css";
 import { useMatchesStore } from "../../Zustand/Store";
 import { useUserStore } from "../../Zustand/Store";
@@ -13,6 +13,8 @@ import Filter from "../../Components/Filter/Filter";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { Helmet } from "react-helmet-async";
+
+const LazyImage = lazy(() => import("../../Utils/LazyImage"));
 
 function Matches() {
   const navigate = useNavigate();
@@ -154,6 +156,7 @@ function Matches() {
                       <span className={StyleMatches.vs}>VS</span>
                       <p>{LastTwoMatches[0]?.team_b?.team.name}</p>
                     </div>
+
                     <img
                       src={`${process.env.REACT_APP_IMAGE_PATH}/${LastTwoMatches[0]?.team_b?.team.image}`}
                       alt={LastTwoMatches[0]?.team_b?.team.name}
@@ -178,7 +181,7 @@ function Matches() {
                 className={`${StyleMatches.Filter} ${StyleMatches.CancelTransition}`}
               >
                 <p>Filter</p>
-                <img src={iconFilter} alt="" />
+                <img src={iconFilter} alt="Filter Icon" />
               </button>
             </article>
 
@@ -215,17 +218,26 @@ function Matches() {
                                     <section
                                       className={StyleMatches.cardImages}
                                     >
-                                      <img
-                                        src={`${process.env.REACT_APP_IMAGE_PATH}/${match.team_a?.team.image}`}
-                                        alt={match.team_a?.team.name}
-                                        className={StyleMatches.cardImage}
-                                      />
+                                      <Suspense
+                                        fallback={<div>Loading...</div>}
+                                      >
+                                        <LazyImage
+                                          src={`${process.env.REACT_APP_IMAGE_PATH}/${match.team_a?.team.image}`}
+                                          alt={match.team_a?.team.name}
+                                          className={StyleMatches.cardImage}
+                                        />
+                                      </Suspense>
                                       <span>vs</span>
-                                      <img
-                                        src={`${process.env.REACT_APP_IMAGE_PATH}/${match.team_b?.team.image}`}
-                                        alt={match.team_b?.team.name}
-                                        className={StyleMatches.cardImage}
-                                      />
+
+                                      <Suspense
+                                        fallback={<div>Loading...</div>}
+                                      >
+                                        <LazyImage
+                                          src={`${process.env.REACT_APP_IMAGE_PATH}/${match.team_b?.team.image}`}
+                                          alt={match.team_b?.team.name}
+                                          className={StyleMatches.cardImage}
+                                        />
+                                      </Suspense>
                                     </section>
                                     <p
                                       className={
@@ -346,17 +358,22 @@ function Matches() {
                                 </article>
                                 <hr className={StyleMatches.horizontalLine} />
                                 <section className={StyleMatches.employees}>
-                                  <img
-                                    src={`${process.env.REACT_APP_IMAGE_PATH}/${match.watcher?.image}`}
-                                    alt={match.team_b?.team.name}
-                                    className={StyleMatches.imageEmployees}
-                                  />
-                                  <img
-                                    src={`${process.env.REACT_APP_IMAGE_PATH}/${match.referee?.image}`}
-                                    alt={match.team_b?.team.name}
-                                    className={StyleMatches.imageEmployees}
-                                    style={{ marginLeft: "-5px" }}
-                                  />
+                                  <Suspense fallback={<div>Loading...</div>}>
+                                    <LazyImage
+                                      src={`${process.env.REACT_APP_IMAGE_PATH}/${match.watcher?.image}`}
+                                      alt={match.team_b?.team.name}
+                                      className={StyleMatches.imageEmployees}
+                                    />
+                                  </Suspense>
+
+                                  <Suspense fallback={<div>Loading...</div>}>
+                                    <LazyImage
+                                      src={`${process.env.REACT_APP_IMAGE_PATH}/${match.referee?.image}`}
+                                      alt={match.team_b?.team.name}
+                                      className={StyleMatches.imageEmployees}
+                                      style={{ marginLeft: "-5px" }}
+                                    />
+                                  </Suspense>
                                 </section>
                               </article>
                             </button>

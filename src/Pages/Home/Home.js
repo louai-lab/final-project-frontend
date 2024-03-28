@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import StyleHome from "./Home.module.css";
-import firstTeam from "../../Assets/icons/Ellipse 6.svg";
-import secondTeam from "../../Assets/icons/Ellipse 8.svg";
+// import firstTeam from "../../Assets/icons/Ellipse 6.svg";
+// import secondTeam from "../../Assets/icons/Ellipse 8.svg";
 import LandingPage from "../../Assets/icons/referee-showing-red-yellow-cards-football-soccer-player-while-gaming-white-studio-background.jpg";
 import { useMatchesStore } from "../../Zustand/Store";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,9 @@ import FootballLoader from "../FootballLoader/FootballLoader";
 import { useLanguage } from "../../Utils/LanguageContext";
 import { useUserStore } from "../../Zustand/Store";
 import { Helmet } from "react-helmet-async";
+import { lazy, Suspense } from "react";
+
+const LazyImage = lazy(() => import("../../Utils/LazyImage"));
 
 function Home() {
   const { language } = useLanguage();
@@ -172,15 +175,17 @@ function Home() {
 
             <div className={StyleHome.descriptionSection}>
               <div className={StyleHome.imageSection}>
-                <img src={LandingPage} alt="" />
+                <Suspense fallback={<div>Loading...</div>}>
+                  <LazyImage src={LandingPage} alt="" />
+                </Suspense>
               </div>
               <div className={StyleHome.trackHome}>
                 {/* <h1> */}
-                  {language === "en" ? (
-                    <h1>Track Live Match Actions</h1>
-                  ) : (
-                    <h1> تتبع إجراءات المباراة الحية</h1>
-                  )}
+                {language === "en" ? (
+                  <h1>Track Live Match Actions</h1>
+                ) : (
+                  <h1> تتبع إجراءات المباراة الحية</h1>
+                )}
                 {/* </h1> */}
                 <p>
                   {language === "en" ? (

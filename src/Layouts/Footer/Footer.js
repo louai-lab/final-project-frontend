@@ -1,10 +1,12 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import StyleFooter from "./Footer.module.css";
 import logo from "../../Assets/icons/Lebanese_Football_Association_(LFA)_logo.svg";
 import { NavLink } from "react-router-dom";
 import Facebook from "../../Assets/icons/devicon--facebook.svg";
 import Instagram from "../../Assets/icons/skill-icons--instagram.svg";
 import { useLanguage } from "../../Utils/LanguageContext";
+
+const LazyImage = lazy(() => import("../../Utils/LazyImage"));
 
 function Footer() {
   const { language } = useLanguage();
@@ -13,7 +15,10 @@ function Footer() {
     <div className={StyleFooter.footer}>
       <div className={StyleFooter.footerContainer}>
         <div className={StyleFooter.descriptionFooter}>
-          <img src={logo} alt="" className={StyleFooter.logoFooter} />
+          {/* <img src={logo} alt="" className={StyleFooter.logoFooter} /> */}
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyImage src={logo} alt="" className={StyleFooter.logoFooter} />
+          </Suspense>
           <p className={language === "ar" ? StyleFooter.rtl : ""}>
             {language === "en"
               ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed doeiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi utaliquip ex ea commodo consequat."
@@ -97,8 +102,20 @@ function Footer() {
               language === "ar" ? StyleFooter.rtl : ""
             }`}
           >
-            <img src={Facebook} alt="" className={StyleFooter.iconFacebook} />
-            <img src={Instagram} alt="" className={StyleFooter.iconInsta} />
+            <Suspense fallback={<div>Loading...</div>}>
+              <LazyImage
+                src={Facebook}
+                alt="facebook icon"
+                className={StyleFooter.iconFacebook}
+              />
+            </Suspense>
+            <Suspense fallback={<div>Loading...</div>}>
+              <LazyImage
+                src={Instagram}
+                alt="instagram icon"
+                className={StyleFooter.iconInsta}
+              />
+            </Suspense>
           </div>
         </div>
       </div>

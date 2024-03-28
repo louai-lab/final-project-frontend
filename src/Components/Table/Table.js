@@ -461,9 +461,10 @@ const Table = ({
                       <div
                         style={{
                           display: "flex",
-                          alignItems: "center",
+                          // alignItems: "center",
                           marginBottom: "10px",
                         }}
+                        className={StyleTable.playerSearch}
                       >
                         <TextField
                           sx={{
@@ -478,13 +479,13 @@ const Table = ({
                           onChange={handlePlayerNameChange}
                           // autoFocus
                         />
-                        <div style={{ display: "flex", columnGap: "10px" }}>
+                        <div style={{ display: "flex", columnGap: "10px" }} className={StyleTable.playerSearch2}>
                           <Select
                             value={teamForPlayer || ""}
                             onChange={handleTeamChange}
                             displayEmpty
                             variant="outlined"
-                            sx={{ width: 200 }}
+                            sx={{ width: "auto" }}
                           >
                             <MenuItem value="">All Teams</MenuItem>
                             {teams.map((team) => (
