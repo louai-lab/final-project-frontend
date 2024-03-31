@@ -188,7 +188,8 @@
 }
 
 .partReport > p {
-  font-size: clamp(12px, 3vw, 22px);
+  /* font-size: clamp(12px, 3vw, 22px); */
+  font-size: clamp(10px, 2.5vw, 18px);
 }
 
 .textArea {
@@ -218,10 +219,26 @@
   border: none;
   color: white;
   background: linear-gradient(to right, var(--primary-clr), var(--third-clr));
+  transition: opacity 0.3s ease;
 }
 
 .post:hover {
   cursor: pointer;
+  opacity: 0.7;
+}
+
+.back {
+  color: var(--primary-clr);
+  border: 1px solid var(--primary-clr);
+  padding: 5px 20px;
+  font-size: clamp(10px, 5vw, 20px);
+  border-radius: 10px;
+  transition: opacity 0.3s ease;
+}
+
+.back:hover {
+  cursor: pointer;
+  opacity: 0.7;
 }
 
 @media screen and (max-width: 1000px) {
@@ -334,6 +351,8 @@
 
 .flexStart {
   flex-direction: row-reverse;
+  justify-content: center;
+  align-items: center;
 }
 
 .rowDirection {
@@ -342,6 +361,8 @@
 
 .reportOption {
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .reportOptionAr {
@@ -349,16 +370,23 @@
   flex-direction: row-reverse;
 }
 
+.containerOption {
+  /* width: 150px; */
+}
+
 .customSelect {
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 50px;
+  /* width: 50px; */
+  width: fit-content;
+  /* background-color: green; */
 }
 
 .customSelect select {
-  width: fit-content;
+  /* width: fit-content; */
+  /* width: 30px; */
   padding: 10px;
   font-size: 20px;
   border: none;
@@ -383,30 +411,17 @@
   color: #373737;
 }
 
-
 .customOption {
-  color: var(--primary-clr); 
+  /* color: var(--primary-clr);  */
+  color: rgba(0, 0, 0, 0.848);
   font-weight: bold;
+  padding: 10px;
 }
 
-/* .containerOption{
-  display: flex;
-  flex-direction: column;
+.reported {
+  font-size: clamp(10px, 2.5vw, 18px);
+  color: var(--primary-clr);
 }
-
-.customSelect{
-  display: flex;
-  column-gap: 3px;
-  justify-content: center;
-  align-items: center;
-}
-
-.circleOption{
-  width: 8px;
-  height: 8px;
-  background-color: rgba(40, 39, 39, 0.476);
-  border-radius: 50%;
-} */
 
 .persons {
   display: flex;

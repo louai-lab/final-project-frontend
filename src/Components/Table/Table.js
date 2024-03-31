@@ -154,6 +154,7 @@ const Table = ({
           "linesman_one",
           "linesman_two",
           "detailsWatcher",
+          "reported",
         ];
       } else {
         visibleFields = Object.keys(data[0]);
@@ -216,6 +217,11 @@ const Table = ({
             const { team, score } = params.row.team_a;
             return `${team.name} (${score})`;
           }
+
+          if (field === "reported") {
+            return params.row.reported === true ? "Not Allowed" : "Allowed";
+          }
+
           if (field === "team_b") {
             const { team, score } = params.row.team_b;
             return `${team.name} (${score})`;
@@ -244,6 +250,7 @@ const Table = ({
               </button>
             );
           }
+
           if (field === "match_date") {
             const matchDate = new Date(`${params.value}`);
 
@@ -479,7 +486,10 @@ const Table = ({
                           onChange={handlePlayerNameChange}
                           // autoFocus
                         />
-                        <div style={{ display: "flex", columnGap: "10px" }} className={StyleTable.playerSearch2}>
+                        <div
+                          style={{ display: "flex", columnGap: "10px" }}
+                          className={StyleTable.playerSearch2}
+                        >
                           <Select
                             value={teamForPlayer || ""}
                             onChange={handleTeamChange}

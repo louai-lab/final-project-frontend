@@ -23,6 +23,7 @@ import Calendar from "../../Assets/icons/calendar.png";
 import Stadium from "../../Assets/icons/stadium.png";
 import EndMatch from "../../Components/Event/EndMatch/EndMatch";
 import { useLanguage } from "../../Utils/LanguageContext";
+import  Season from '../../Assets/icons/ic--baseline-update.svg'
 
 function SingleMatch() {
   const { user } = useUserStore();
@@ -65,6 +66,8 @@ function SingleMatch() {
 
   const location = useLocation();
   const [match, setMatch] = useState(location.state?.match || {});
+
+  // console.log(match)
 
   const cancelEvent = () => {
     closePopUp();
@@ -184,6 +187,14 @@ function SingleMatch() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleBackWatcher = () => {
+    setActionWatcher("");
+  };
+
+  const handleBackReferee = () => {
+    setActionReferee("");
   };
 
   const handleUpdateRefereeReport = async () => {
@@ -603,26 +614,34 @@ function SingleMatch() {
                           : `تقرير المراقب ${match.watcher.firstName}`}
                       </p>
                     </div>
-                    <div className={StyleSingleMatch.containerOption}>
-                      <div
-                        className={StyleSingleMatch.customSelect}
-                        // onClick={() => setOpen(!open)}
-                      >
-                        <select value="" onChange={handleActionChange}>
-                        <option value="" disabled hidden></option>
-                        <option
-                          value="Edit"
-                          className={StyleSingleMatch.customOption}
-                        >
-                          Edit
-                        </option>
-                      </select>
-                        {/* <div className={StyleSingleMatch.circleOption}></div>
-                        <div className={StyleSingleMatch.circleOption}></div>
-                        <div className={StyleSingleMatch.circleOption}></div> */}
-                      </div>
-                      {/* {open && <div>Edit</div>} */}
-                    </div>
+                    {match.reported === true ? (
+                      <p className={StyleSingleMatch.reported}>
+                        Not Allowed To Update this Report anymore!
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                    {match.reported != true ? (
+                      actionWatcher === "Edit" ? (
+                        ""
+                      ) : (
+                        <div className={StyleSingleMatch.containerOption}>
+                          <div className={StyleSingleMatch.customSelect}>
+                            <select value="" onChange={handleActionChange}>
+                              <option value="" disabled hidden></option>
+                              <option
+                                value="Edit"
+                                className={StyleSingleMatch.customOption}
+                              >
+                                Edit Report
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                      )
+                    ) : (
+                      ""
+                    )}
                   </div>
 
                   <>
@@ -643,13 +662,22 @@ function SingleMatch() {
                       }
                     >
                       {actionWatcher === "Edit" ? (
-                        <button
-                          type="button"
-                          className={StyleSingleMatch.post}
-                          onClick={handleUpdateWatcherReport}
-                        >
-                          Post
-                        </button>
+                        <>
+                          <button
+                            type="button"
+                            className={StyleSingleMatch.back}
+                            onClick={handleBackWatcher}
+                          >
+                            Back
+                          </button>
+                          <button
+                            type="button"
+                            className={StyleSingleMatch.post}
+                            onClick={handleUpdateWatcherReport}
+                          >
+                            Save
+                          </button>
+                        </>
                       ) : (
                         ""
                       )}
@@ -720,17 +748,37 @@ function SingleMatch() {
                           : `تقرير الحكم ${match.referee.firstName}`}
                       </p>
                     </div>
-                    <div className={StyleSingleMatch.customSelect}>
-                      <select value="" onChange={handleActionChangeReferee}>
-                        <option value="" disabled hidden></option>
-                        <option
-                          value="Edit"
-                          className={StyleSingleMatch.customOption}
-                        >
-                          Edit
-                        </option>
-                      </select>
-                    </div>
+                    {match.reported === true ? (
+                      <p className={StyleSingleMatch.reported}>
+                        Not Allowed To Update this Report anymore!
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                    {match.reported != true ? (
+                      actionReferee === "Edit" ? (
+                        ""
+                      ) : (
+                        <div className={StyleSingleMatch.containerOption}>
+                          <div className={StyleSingleMatch.customSelect}>
+                            <select
+                              value=""
+                              onChange={handleActionChangeReferee}
+                            >
+                              <option value="" disabled hidden></option>
+                              <option
+                                value="Edit"
+                                className={StyleSingleMatch.customOption}
+                              >
+                                Edit Report
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                      )
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <textarea
                     id="referee-report-textarea"
@@ -749,13 +797,22 @@ function SingleMatch() {
                     }
                   >
                     {actionReferee === "Edit" ? (
-                      <button
-                        type="button"
-                        onClick={handleUpdateRefereeReport}
-                        className={StyleSingleMatch.post}
-                      >
-                        Post
-                      </button>
+                      <>
+                        <button
+                          type="button"
+                          className={StyleSingleMatch.back}
+                          onClick={handleBackReferee}
+                        >
+                          Back
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleUpdateRefereeReport}
+                          className={StyleSingleMatch.post}
+                        >
+                          Save
+                        </button>
+                      </>
                     ) : (
                       ""
                     )}
@@ -857,7 +914,7 @@ function SingleMatch() {
             </div>
             <div className={StyleSingleMatch.thing}>
               <img
-                src={Calendar}
+                src={Season}
                 alt=""
                 className={StyleSingleMatch.iconInfo}
               />
@@ -889,7 +946,11 @@ function SingleMatch() {
               <p>{match.pitch}</p>
             </div>
             <div className={StyleSingleMatch.thing}>
-              <img src={Stadium} alt="" className={StyleSingleMatch.iconInfo} />
+              <img
+                src={Calendar}
+                alt=""
+                className={StyleSingleMatch.iconInfo}
+              />{" "}
               <p>{match.season}</p>
             </div>{" "}
           </div>

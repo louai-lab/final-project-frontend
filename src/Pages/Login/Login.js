@@ -37,11 +37,6 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // if (credentials.email === "" || credentials.password === "") {
-    //   setPasswordValid(false);
-    //   return;
-    // }
-
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND}/user/login`,
