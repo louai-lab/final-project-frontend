@@ -1,7 +1,7 @@
 import React, { Suspense, lazy, useEffect, useState } from "react";
 import StyleMatches from "./Matches.module.css";
 import { useMatchesStore } from "../../Zustand/Store";
-import { useUserStore } from "../../Zustand/Store";
+// import { useUserStore } from "../../Zustand/Store";
 import { useTeamsStore } from "../../Zustand/Store";
 import logo from "../../Assets/icons/Lebanese_Football_Association_(LFA)_logo.svg";
 import StadiumIcon from "@mui/icons-material/Stadium";
@@ -13,12 +13,13 @@ import Filter from "../../Components/Filter/Filter";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { Helmet } from "react-helmet-async";
+import { Language } from "@mui/icons-material";
 
 const LazyImage = lazy(() => import("../../Utils/LazyImage"));
 
 function Matches() {
   const navigate = useNavigate();
-  const { user } = useUserStore();
+  // const { user } = useUserStore();
   const { LastTwoMatches } = useMatchesStore();
   const { getAllTeams } = useTeamsStore();
   const { getAllMatches } = useMatchesStore();
@@ -32,16 +33,16 @@ function Matches() {
     getAllTeams();
     getAllMatches(selectedTeamId, selectedPageNumber);
     // console.log("first");
-  }, [getAllTeams, getAllMatches, selectedTeamId]);
+  }, [getAllTeams, getAllMatches, selectedTeamId , selectedPageNumber]);
 
   useEffect(() => {
     getAllMatches(selectedTeamId, selectedPageNumber);
-  }, [selectedPageNumber]);
+  }, [getAllMatches , selectedPageNumber , selectedTeamId]);
 
   useEffect(() => {
     getLastTwoCreatedMatches();
     // console.log("second");
-  }, []);
+  }, [getLastTwoCreatedMatches]);
 
   const { loading, matches, matchCount } = useMatchesStore();
 
@@ -173,14 +174,24 @@ function Matches() {
               )}
             </article>
 
-            <article className={StyleMatches.middle}>
-              <h1>Fixtures & results</h1>
+            <article
+              className={
+                Language === "en"
+                  ? StyleMatches.middle
+                  : StyleMatches.middleArabic
+              }
+            >
+              <h1>
+                {Language === "en"
+                  ? "Fixtures & results"
+                  : "المباريات و النتائج"}
+              </h1>
               <button
                 onClick={handleOpenFilter}
                 type="button"
                 className={`${StyleMatches.Filter} ${StyleMatches.CancelTransition}`}
               >
-                <p>Filter</p>
+                <p>{Language === "en" ? "Filter" : "بحث"}</p>
                 <img src={iconFilter} alt="Filter Icon" />
               </button>
             </article>

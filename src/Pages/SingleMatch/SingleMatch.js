@@ -7,7 +7,7 @@ import axiosInstance from "../../Utils/AxiosInstance";
 import FootballLoader from "../FootballLoader/FootballLoader";
 import { Reveal } from "../../Frammotion/RevealAnimation";
 import { useUserStore } from "../../Zustand/Store";
-import { useSpring, animated } from "react-spring";
+// import { useSpring, animated } from "react-spring";
 import EventDelete from "../../Assets/icons/material-symbols--delete-outline.svg";
 import EventEdit from "../../Assets/icons/material-symbols--edit-outline (1).svg";
 import EventDeletePopUp from "../../Components/Event/EventDelete/EventDelete";
@@ -23,18 +23,18 @@ import Calendar from "../../Assets/icons/calendar.png";
 import Stadium from "../../Assets/icons/stadium.png";
 import EndMatch from "../../Components/Event/EndMatch/EndMatch";
 import { useLanguage } from "../../Utils/LanguageContext";
-import  Season from '../../Assets/icons/ic--baseline-update.svg'
+import Season from "../../Assets/icons/ic--baseline-update.svg";
 
 function SingleMatch() {
   const { user } = useUserStore();
-  const { matches } = useMatchesStore();
+  // const { matches } = useMatchesStore();
   const [tab, setTab] = useState("live");
   const [isPending, startTransition] = useTransition();
   const [isOpenPopUpEvent, setIsOpenPopUpEvent] = useState(false);
   const [loading, setLoading] = useState(true);
   const [watcherReport, setWatcherReport] = useState("");
   const [refereeReport, setRefereeReport] = useState("");
-  const [showAnimation, setShowAnimation] = useState(false);
+  // const [showAnimation, setShowAnimation] = useState(false);
   const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -42,21 +42,20 @@ function SingleMatch() {
   const { language } = useLanguage();
   const [actionWatcher, setActionWatcher] = useState("");
   const [actionReferee, setActionReferee] = useState("");
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
   const { getAllTeams } = useTeamsStore();
   const { getAllMatches } = useMatchesStore();
-  const { getLastMatch } = useMatchesStore();
 
   useEffect(() => {
     getAllTeams();
     getAllMatches();
-  }, []);
+  }, [getAllTeams , getAllMatches]);
 
-  const animationProps = useSpring({
-    opacity: showAnimation ? 1 : 0,
-    from: { opacity: 0 },
-  });
+  // const animationProps = useSpring({
+  //   opacity: showAnimation ? 1 : 0,
+  //   from: { opacity: 0 },
+  // });
 
   const handleTabChange = (id) => {
     startTransition(() => {
@@ -621,7 +620,7 @@ function SingleMatch() {
                     ) : (
                       ""
                     )}
-                    {match.reported != true ? (
+                    {match.reported !== true ? (
                       actionWatcher === "Edit" ? (
                         ""
                       ) : (
@@ -633,7 +632,9 @@ function SingleMatch() {
                                 value="Edit"
                                 className={StyleSingleMatch.customOption}
                               >
-                                Edit Report
+                                {language === "en"
+                                  ? "Edit Report"
+                                  : "تعديل التقرير"}
                               </option>
                             </select>
                           </div>
@@ -668,14 +669,14 @@ function SingleMatch() {
                             className={StyleSingleMatch.back}
                             onClick={handleBackWatcher}
                           >
-                            Back
+                            {language === "en" ? "Back" : "العودة"}
                           </button>
                           <button
                             type="button"
                             className={StyleSingleMatch.post}
                             onClick={handleUpdateWatcherReport}
                           >
-                            Save
+                            {language === "en" ? "Save" : "حفظ"}
                           </button>
                         </>
                       ) : (
@@ -755,7 +756,7 @@ function SingleMatch() {
                     ) : (
                       ""
                     )}
-                    {match.reported != true ? (
+                    {match.reported !== true ? (
                       actionReferee === "Edit" ? (
                         ""
                       ) : (
@@ -770,7 +771,9 @@ function SingleMatch() {
                                 value="Edit"
                                 className={StyleSingleMatch.customOption}
                               >
-                                Edit Report
+                                {language === "en"
+                                  ? "Edit Report"
+                                  : "تعديل التقرير"}
                               </option>
                             </select>
                           </div>
@@ -803,14 +806,14 @@ function SingleMatch() {
                           className={StyleSingleMatch.back}
                           onClick={handleBackReferee}
                         >
-                          Back
+                          {language === "en" ? "Back" : "العودة"}
                         </button>
                         <button
                           type="button"
                           onClick={handleUpdateRefereeReport}
                           className={StyleSingleMatch.post}
                         >
-                          Save
+                          {language === "en" ? "Save" : "حفظ"}
                         </button>
                       </>
                     ) : (
@@ -913,11 +916,7 @@ function SingleMatch() {
               <p>{match.title}</p>
             </div>
             <div className={StyleSingleMatch.thing}>
-              <img
-                src={Season}
-                alt=""
-                className={StyleSingleMatch.iconInfo}
-              />
+              <img src={Season} alt="" className={StyleSingleMatch.iconInfo} />
               <p>
                 {" "}
                 {new Date(match.match_date).toLocaleDateString("en-US", {

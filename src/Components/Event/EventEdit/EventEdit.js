@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import StyleEditEvent from "./EventEdit.module.css";
+import { useLanguage } from "../../../Utils/LanguageContext";
 
 function EventEdit({
   cancelEditEvent,
@@ -9,7 +10,7 @@ function EventEdit({
   playersATeam,
   playersBTeam,
   event,
-  handleEditEvent
+  handleEditEvent,
 }) {
   const [formData, setFormData] = useState({
     type: event.type || "",
@@ -22,6 +23,7 @@ function EventEdit({
   // console.log(formData.playerIn)
   // console.log(formData.team)
 
+  const { language } = useLanguage();
   const [players, setPlayers] = useState([]);
 
   useEffect(() => {
@@ -54,19 +56,23 @@ function EventEdit({
     });
   };
 
-  const handleEditEventSend = ( formData) => {
-    handleEditEvent(formData)
-
+  const handleEditEventSend = (formData) => {
+    handleEditEvent(formData);
   };
 
   return (
     <div className={StyleEditEvent.popUpContainer}>
-      <h1 className={StyleEditEvent.eventH1}>Edit Event</h1>
+      <h1 className={StyleEditEvent.eventH1}>
+        {" "}
+        {language === "en" ? "Edit Event" : "تعديل الحدث"}
+      </h1>
 
       <form action="#">
         <div className={StyleEditEvent.control}>
           <div className={StyleEditEvent.control}>
-            <label htmlFor="type">Select Type</label>
+            <label htmlFor="type">
+              {language === "en" ? "Select Type" : "إختار نوع الحدث"}
+            </label>
             <select
               id="type"
               name="type"
@@ -74,15 +80,30 @@ function EventEdit({
               className={StyleEditEvent.select}
               onChange={handleInputChange}
             >
-              <option value="">Select an option</option>
-              <option value="goal">Goal</option>
-              <option value="yellow_card">Yellow Cart</option>
-              <option value="red_card">Red Cart</option>
-              <option value="substitution">Substitution</option>
+              <option value="">
+                {" "}
+                {language === "en" ? "Select an option" : "حدّد"}
+              </option>
+              <option value="goal">{language === "en" ? "Goal" : "هدف"}</option>
+              <option value="yellow_card">
+                {" "}
+                {language === "en" ? "Yellow Cart" : "بطاقة صفراء"}
+              </option>
+              <option value="red_card">
+                {" "}
+                {language === "en" ? "Red Cart" : "بطاقة حمراء"}
+              </option>
+              <option value="substitution">
+                {" "}
+                {language === "en" ? "Substitution" : "تبديل"}
+              </option>
             </select>
           </div>
           <div className={StyleEditEvent.control}>
-            <label htmlFor="team">Select Team</label>
+            <label htmlFor="team">
+              {" "}
+              {language === "en" ? "Select Team" : "اختار الفريق"}
+            </label>
             <select
               id="team"
               name="team"
@@ -90,16 +111,25 @@ function EventEdit({
               value={formData.team}
               onChange={handleInputChange}
             >
-              <option value="">Select an option</option>
+              <option value="">
+                {" "}
+                {language === "en" ? "Select an option" : "حدّد"}
+              </option>
               <option value={teamATeam._id}>{teamATeam.name}</option>
               <option value={teamBTeam._id}>{teamBTeam.name}</option>
             </select>
           </div>
           <div className={StyleEditEvent.control}>
             {formData.type === "substitution" ? (
-              <label htmlFor="playerIn">Player In</label>
+              <label htmlFor="playerIn">
+                {" "}
+                {language === "en" ? "Player In" : "البديل"}
+              </label>
             ) : (
-              <label htmlFor="playerIn">Player</label>
+              <label htmlFor="playerIn">
+                {" "}
+                {language === "en" ? "Player" : "اختار اللاعب"}
+              </label>
             )}
             <select
               id="playerIn"
@@ -108,7 +138,10 @@ function EventEdit({
               value={formData.playerIn}
               onChange={handleInputChange}
             >
-              <option value="">Select an option</option>
+              <option value="">
+                {" "}
+                {language === "en" ? "Select an option" : "حدّد"}
+              </option>
               {players.map((player) => (
                 <option key={player._id} value={player._id}>
                   {player.name}
@@ -118,7 +151,10 @@ function EventEdit({
           </div>
           {formData.type === "substitution" && (
             <div className={StyleEditEvent.control}>
-              <label htmlFor="playerOut">Player Out</label>
+              <label htmlFor="playerOut">
+                {" "}
+                {language === "en" ? "Player Out" : "المستبدل"}
+              </label>
               <select
                 id="playerOut"
                 name="playerOut"
@@ -126,7 +162,10 @@ function EventEdit({
                 value={formData.playerOut}
                 onChange={handleInputChange}
               >
-                <option value="">Select an option</option>
+                <option value="">
+                  {" "}
+                  {language === "en" ? "Select an option" : "حدّد"}
+                </option>
                 {players.map((player) => (
                   <option key={player._id} value={player._id}>
                     {player.name}
@@ -136,30 +175,33 @@ function EventEdit({
             </div>
           )}
           <div className={StyleEditEvent.control}>
-            <label htmlFor="minute">Minutes</label>
+            <label htmlFor="minute">
+              {" "}
+              {language === "en" ? "Minutes" : "الدقيقة"}
+            </label>
             <input
               type="number"
               name="minute"
               id="minute"
               value={formData.minute}
-              placeholder="Minute"
+              placeholder={language === "en" ? "Minute" : "الدقيقة"}
               onChange={handleInputChange}
             />
           </div>
           <div className={StyleEditEvent.control}>
             <button
               type="button"
-              onClick={()=>handleEditEventSend(formData)}
+              onClick={() => handleEditEventSend(formData)}
               className={StyleEditEvent.addEvent}
             >
-              Save
+              {language === "en" ? "Save" : "حفظ"}
             </button>
             <button
               type="button"
               onClick={cancelEditEvent}
               className={StyleEditEvent.cancelEvent}
             >
-              Cancel
+              {language === "en" ? "Cancel" : "إلغاء"}
             </button>
           </div>
         </div>
