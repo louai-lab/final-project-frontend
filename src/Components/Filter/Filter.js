@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import StyleFilter from "./Filter.module.css";
 import { useTeamsStore } from "../../Zustand/Store";
+import { useLanguage } from "../../Utils/LanguageContext";
 
 function Filter({ handleCloseFilter, handleApply }) {
   const { teams } = useTeamsStore();
   const [teamId, setTeamId] = useState(null);
+
+  const { language } = useLanguage();
 
   const handleTeamClick = (teamId) => {
     setTeamId(teamId);
@@ -18,8 +21,18 @@ function Filter({ handleCloseFilter, handleApply }) {
   //   console.log(teams);
   return (
     <main className={StyleFilter.popUpFilter}>
-      <div className={StyleFilter.headerFilter}>
-        <h1>Filter Matches by Team</h1>
+      <div
+        className={
+          language === "en"
+            ? StyleFilter.headerFilter
+            : StyleFilter.headerFilterAR
+        }
+      >
+        <h1 style={{ fontSize: "clamp(12px , 3vw , 25px)" }}>
+          {language === "en"
+            ? "Filter Matches by Team"
+            : "بحث عن المباريات حسب الفريق"}
+        </h1>
         <button
           type="button"
           onClick={handleCloseFilter}
@@ -54,7 +67,7 @@ function Filter({ handleCloseFilter, handleApply }) {
           className={StyleFilter.apply}
           onClick={handleSendApply}
         >
-          Apply Selection
+          {language === "en" ? "Apply Selection" : "تطبيق"}
         </button>
       </div>
     </main>

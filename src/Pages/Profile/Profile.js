@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { MdModeEditOutline } from "react-icons/md";
 import EventEditProfile from "../../Components/Event/EventEditProfile/EventEditProfile";
 import { Helmet } from "react-helmet-async";
+import { useLanguage } from "../../Utils/LanguageContext";
 
 function Profile() {
   const navigate = useNavigate();
@@ -14,6 +15,8 @@ function Profile() {
   const { matches } = useMatchesStore();
   const [isOpenEditProfilePopUp, setIsOpenProfilePopUp] = useState(false);
   const { getAllMatches } = useMatchesStore();
+
+  const { language } = useLanguage();
 
   // console.log(user);
   // console.log(matches);
@@ -84,23 +87,41 @@ function Profile() {
         <div className={StyleProfile.profileContainer}>
           <div className={StyleProfile.left}>
             <img
-              src={`${process.env.REACT_APP_IMAGE_PATH}/${user.image}`}
-              alt={user.firstName}
+              src={`${process.env.REACT_APP_IMAGE_PATH}/${user?.image}`}
+              alt={user?.firstName}
               className={StyleProfile.imageProfile}
             />
           </div>
 
           <div className={StyleProfile.right}>
-            <div className={StyleProfile.personalInfo}>
+            <div
+              className={
+                language === "en"
+                  ? StyleProfile.personalInfo
+                  : StyleProfile.personalInfoAR
+              }
+            >
               <p>
                 <span className={StyleProfile.span}>
-                  {user.firstName} {user.lastName}
+                  {user?.firstName} {user?.lastName}
                 </span>
               </p>
               <p>
-                <span className={StyleProfile.email}>{user.email}</span>
+                <span className={StyleProfile.email}>{user?.email}</span>
               </p>
-              <p style={{ opacity: "0.7" }}>{user.role}</p>
+              {/* <p style={{ opacity: "0.7" }}>{user.role}</p> */}
+              <p style={{ opacity: "0.7" }}>
+                {language === "en"
+                  ? user?.role
+                  : user?.role === "admin"
+                  ? "أدمن"
+                  : user?.role === "watcher"
+                  ? "مراقب"
+                  : user?.role === "referee"
+                  ? "حكم ساحة"
+                  : user?.role}
+              </p>
+
               <button
                 className={StyleProfile.editProfile}
                 onClick={handleOpenEditProfile}
@@ -108,12 +129,14 @@ function Profile() {
                 <span>
                   <MdModeEditOutline />
                 </span>
-                <p>Edit Profile</p>
+                <p>
+                  {language === "en" ? "Edit Profile" : "تعديل الملف الشخصي"}
+                </p>
               </button>
             </div>
             <div className={StyleProfile.statisticContainer}>
               <div className={StyleProfile.matchCount}>
-                <p>Matches</p>
+                <p>{language === "en" ? "Matches" : "المباريات"}</p>
                 <p>+{matchCount}</p>
               </div>
             </div>

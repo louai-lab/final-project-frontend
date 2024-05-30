@@ -67,6 +67,26 @@
   cursor: pointer;
 }
 
+.logIn {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 5px;
+  background-color: var(--primary-clr);
+  color: white;
+  font-size: clamp(10px, 3rem, 18px);
+  transition: opacity 0.3s ease-in-out;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 5px;
+}
+
+.logIn:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
 .logOutResponsive {
   margin: 0 auto;
   border: none;
@@ -85,6 +105,27 @@
 }
 
 .logOutResponsive {
+  opacity: 0.8;
+}
+
+.logInResponsive {
+  margin: 0 auto;
+  border: none;
+  width: 98%;
+  height: fit-content;
+  border-radius: 10px;
+  padding: 8px;
+  background-color: var(--primary-clr);
+  color: white;
+  font-size: clamp(10px, 3rem, 18px);
+  transition: opacity 0.3s ease-in-out;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.logInResponsive {
   opacity: 0.8;
 }
 

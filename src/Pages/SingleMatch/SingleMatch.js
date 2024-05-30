@@ -24,6 +24,7 @@ import Stadium from "../../Assets/icons/stadium.png";
 import EndMatch from "../../Components/Event/EndMatch/EndMatch";
 import { useLanguage } from "../../Utils/LanguageContext";
 import Season from "../../Assets/icons/ic--baseline-update.svg";
+import { ClearCache } from "../../Utils/ClearCache.js";
 
 function SingleMatch() {
   const { user } = useUserStore();
@@ -50,7 +51,7 @@ function SingleMatch() {
   useEffect(() => {
     getAllTeams();
     getAllMatches();
-  }, [getAllTeams , getAllMatches]);
+  }, [getAllTeams, getAllMatches]);
 
   // const animationProps = useSpring({
   //   opacity: showAnimation ? 1 : 0,
@@ -85,6 +86,8 @@ function SingleMatch() {
   const fetchUpdatedMatch = async (matchId) => {
     try {
       setLoading(true);
+      // await ClearCache();
+
       const updatedMatchResponse = await axiosInstance.get(
         `/match/match/${matchId}`
       );
@@ -100,6 +103,7 @@ function SingleMatch() {
 
   useEffect(() => {
     fetchUpdatedMatch(match._id);
+    // console.log("mmmmm")
   }, [match._id]);
 
   useEffect(() => {
@@ -124,9 +128,7 @@ function SingleMatch() {
         console.log("created successfully");
         closePopUp();
 
-        // if (formData.type === "goal") {
-        //   setShowAnimation(true);
-        // }
+        // await ClearCache();
 
         fetchUpdatedMatch(match._id);
       }
@@ -183,6 +185,7 @@ function SingleMatch() {
       if (response) {
         setActionWatcher("");
       }
+      fetchUpdatedMatch(match._id);
     } catch (error) {
       console.log(error);
     }
@@ -205,6 +208,7 @@ function SingleMatch() {
       if (response) {
         setActionReferee("");
       }
+      fetchUpdatedMatch(match._id);
     } catch (error) {
       console.log(error);
     }
@@ -322,9 +326,9 @@ function SingleMatch() {
           ) : (
             <Reveal>
               <div className={StyleSingleMatch.liveContainer}>
-                {user.role === "admin" ||
-                user.userId === match.watcher._id ||
-                user._id === match.watcher._id ? (
+                {user?.role === "admin" ||
+                user?.userId === match.watcher._id ||
+                user?._id === match.watcher._id ? (
                   <button
                     className={StyleSingleMatch.open}
                     onClick={openPopUp}
@@ -338,6 +342,40 @@ function SingleMatch() {
 
                 {events.length > 0 ? (
                   <>
+                    <div
+                      style={{
+                        display: "flex",
+                        columnGap: "10%",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "60px",
+                          height: "2px",
+                          backgroundColor: "green",
+                        }}
+                      ></div>
+                      <h1
+                        style={{
+                          color: "green",
+                          textAlign: "center",
+                          fontSize: "clamp(15px , 4vw , 25px)",
+                        }}
+                      >
+                        {language === "en" ? "Match begins!" : "بداية المباراة"}
+                      </h1>
+                      <div
+                        style={{
+                          width: "60px",
+                          height: "2px",
+                          backgroundColor: "green",
+                        }}
+                      ></div>
+                    </div>
                     {events.map((event) => (
                       <>
                         {event.type === "HT" ? (
@@ -352,23 +390,33 @@ function SingleMatch() {
                             >
                               <div
                                 style={{
-                                  width: "80px",
+                                  width: "60px",
                                   height: "2px",
                                   backgroundColor: "red",
                                 }}
                               ></div>
-                              <h1 style={{ color: "red" }}>HT'</h1>
+                              <h1
+                                style={{
+                                  color: "red",
+                                  textAlign: "center",
+                                  fontSize: "clamp(15px , 4vw , 25px)",
+                                }}
+                              >
+                                {language === "en"
+                                  ? "HT'"
+                                  : "نهاية الشوط الأول"}
+                              </h1>
                               <div
                                 style={{
-                                  width: "80px",
+                                  width: "60px",
                                   height: "2px",
                                   backgroundColor: "red",
                                 }}
                               ></div>
                             </div>
-                            {user.role === "admin" ||
-                            user.userId === match.watcher._id ||
-                            user._id === match.watcher._id ? (
+                            {user?.role === "admin" ||
+                            user?.userId === match.watcher._id ||
+                            user?._id === match.watcher._id ? (
                               <div className={StyleSingleMatch.eventActions}>
                                 <button
                                   type="button"
@@ -449,9 +497,9 @@ function SingleMatch() {
                               </div>
                             </div>
 
-                            {user.role === "admin" ||
-                            user.userId === match.watcher._id ||
-                            user._id === match.watcher._id ? (
+                            {user?.role === "admin" ||
+                            user?.userId === match.watcher._id ||
+                            user?._id === match.watcher._id ? (
                               <div className={StyleSingleMatch.eventActions}>
                                 <button
                                   type="button"
@@ -485,9 +533,52 @@ function SingleMatch() {
                   "No Event Yet!"
                 )}
 
-                {user.role === "admin" ||
-                user.userId === match.watcher._id ||
-                user._id === match.watcher._id ? (
+                <div>
+                  {match.played === true ? (
+                    <div
+                      style={{
+                        display: "flex",
+                        columnGap: "10%",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "60px",
+                          height: "2px",
+                          backgroundColor: "red",
+                        }}
+                      ></div>
+                      <h1
+                        style={{
+                          color: "red",
+                          textAlign: "center",
+                          fontSize: "clamp(15px , 4vw , 25px)",
+                        }}
+                      >
+                        {language === "en"
+                          ? "Match is over!"
+                          : "نهاية المباراة"}
+                      </h1>
+                      <div
+                        style={{
+                          width: "60px",
+                          height: "2px",
+                          backgroundColor: "red",
+                        }}
+                      ></div>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+
+                {user?.role === "admin" ||
+                user?.userId === match.watcher._id ||
+                user?._id === match.watcher._id ? (
                   <div
                     style={{
                       display: "flex",
@@ -499,36 +590,6 @@ function SingleMatch() {
                       alignItems: "center",
                     }}
                   >
-                    <div>
-                      {match.played === true ? (
-                        <div
-                          style={{
-                            display: "flex",
-                            columnGap: "10%",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          <div
-                            style={{
-                              width: "80px",
-                              height: "2px",
-                              backgroundColor: "red",
-                            }}
-                          ></div>
-                          <h1 style={{ color: "red" }}>90'</h1>
-                          <div
-                            style={{
-                              width: "80px",
-                              height: "2px",
-                              backgroundColor: "red",
-                            }}
-                          ></div>
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                    </div>
                     <button
                       type="button"
                       onClick={handleOpenEndMatch}
@@ -577,13 +638,13 @@ function SingleMatch() {
       content: (
         <div className={StyleSingleMatch.reportsContainer}>
           <>
-            {user.role === "admin" ||
-            user.userId === match.watcher._id ||
-            user._id === match.watcher._id ? (
+            {user?.role === "admin" ||
+            user?.userId === match.watcher._id ||
+            user?._id === match.watcher._id ? (
               <>
                 <div
                   className={`${StyleSingleMatch.singleReport} ${
-                    user.role !== "admin"
+                    user?.role !== "admin"
                       ? StyleSingleMatch.singleReportFull
                       : ""
                   }`}
@@ -615,7 +676,9 @@ function SingleMatch() {
                     </div>
                     {match.reported === true ? (
                       <p className={StyleSingleMatch.reported}>
-                        Not Allowed To Update this Report anymore!
+                        {language === "en"
+                          ? "Not Allowed To Update this Report anymore!"
+                          : "لم يعد بإمكانك تعديل هذا التقرير بعد الآن"}
                       </p>
                     ) : (
                       ""
@@ -685,41 +748,18 @@ function SingleMatch() {
                     </div>
                   </>
                 </div>
-                {/* <animated.div
-                  style={{
-                    ...animationProps,
-                    position: "fixed",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    textAlign: "center",
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                    color: "white",
-                    padding: "10px",
-                  }}
-                >
-                  <>
-                    <p>Posted Successfully</p>
-                    <img
-                      src={`${process.env.REACT_APP_IMAGE_PATH}/football.png`}
-                      alt="goal"
-                      // className={StyleSingleMatch.iconType}
-                      style={{ width: "50px", height: "50px" }}
-                    />
-                  </>
-                </animated.div> */}
               </>
             ) : null}
           </>
 
           <>
-            {user.role === "admin" ||
-            user.userId === match.referee._id ||
-            user._id === match.referee._id ? (
+            {user?.role === "admin" ||
+            user?.userId === match.referee._id ||
+            user?._id === match.referee._id ? (
               <>
                 <div
                   className={`${StyleSingleMatch.singleReport} ${
-                    user.role !== "admin"
+                    user?.role !== "admin"
                       ? StyleSingleMatch.singleReportFull
                       : ""
                   }`}
@@ -751,7 +791,9 @@ function SingleMatch() {
                     </div>
                     {match.reported === true ? (
                       <p className={StyleSingleMatch.reported}>
-                        Not Allowed To Update this Report anymore!
+                        {language === "en"
+                          ? "Not Allowed To Update this Report anymore!"
+                          : "لم يعد بإمكانك تعديل هذا التقرير بعد الآن"}
                       </p>
                     ) : (
                       ""
@@ -821,29 +863,6 @@ function SingleMatch() {
                     )}
                   </div>
                 </div>
-                {/* <animated.div
-                  style={{
-                    ...animationProps,
-                    position: "fixed",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    textAlign: "center",
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                    color: "white",
-                    padding: "10px",
-                  }}
-                >
-                  <>
-                    <p>Posted Successfully</p>
-                    <img
-                      src={`${process.env.REACT_APP_IMAGE_PATH}/football.png`}
-                      alt="goal"
-                      // className={StyleSingleMatch.iconType}
-                      style={{ width: "50px", height: "50px" }}
-                    />
-                  </>
-                </animated.div> */}
               </>
             ) : null}
           </>
@@ -1126,12 +1145,14 @@ function SingleMatch() {
                 >
                   {language === "en" ? "LINE-UPS" : "التشكيلة"}
                 </TabButton>
-                <TabButton
-                  selectTab={() => handleTabChange("reports")}
-                  active={tab === "reports"}
-                >
-                  {language === "en" ? "REPORTS" : "التقارير"}
-                </TabButton>
+                {user && (
+                  <TabButton
+                    selectTab={() => handleTabChange("reports")}
+                    active={tab === "reports"}
+                  >
+                    {language === "en" ? "REPORTS" : "التقارير"}
+                  </TabButton>
+                )}
                 <TabButton
                   selectTab={() => handleTabChange("info")}
                   active={tab === "info"}

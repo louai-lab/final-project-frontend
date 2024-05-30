@@ -13,7 +13,7 @@ import Filter from "../../Components/Filter/Filter";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { Helmet } from "react-helmet-async";
-import { Language } from "@mui/icons-material";
+import { useLanguage } from "../../Utils/LanguageContext";
 
 const LazyImage = lazy(() => import("../../Utils/LazyImage"));
 
@@ -29,15 +29,17 @@ function Matches() {
   const { selectedPageNumber, updateSelectedPageNumber } = useMatchesStore();
   const [currentPage, setCurrentPage] = useState(1);
 
+  const { language } = useLanguage();
+
   useEffect(() => {
     getAllTeams();
     getAllMatches(selectedTeamId, selectedPageNumber);
     // console.log("first");
-  }, [getAllTeams, getAllMatches, selectedTeamId , selectedPageNumber]);
+  }, [getAllTeams, getAllMatches, selectedTeamId, selectedPageNumber]);
 
   useEffect(() => {
     getAllMatches(selectedTeamId, selectedPageNumber);
-  }, [getAllMatches , selectedPageNumber , selectedTeamId]);
+  }, [getAllMatches, selectedPageNumber, selectedTeamId]);
 
   useEffect(() => {
     getLastTwoCreatedMatches();
@@ -45,6 +47,8 @@ function Matches() {
   }, [getLastTwoCreatedMatches]);
 
   const { loading, matches, matchCount } = useMatchesStore();
+
+  // console.log(matches);
 
   const handleApply = (teamId) => {
     updateSelectedTeamId(teamId);
@@ -176,13 +180,13 @@ function Matches() {
 
             <article
               className={
-                Language === "en"
+                language === "en"
                   ? StyleMatches.middle
                   : StyleMatches.middleArabic
               }
             >
               <h1>
-                {Language === "en"
+                {language === "en"
                   ? "Fixtures & results"
                   : "المباريات و النتائج"}
               </h1>
@@ -191,7 +195,7 @@ function Matches() {
                 type="button"
                 className={`${StyleMatches.Filter} ${StyleMatches.CancelTransition}`}
               >
-                <p>{Language === "en" ? "Filter" : "بحث"}</p>
+                <p>{language === "en" ? "Filter" : "بحث"}</p>
                 <img src={iconFilter} alt="Filter Icon" />
               </button>
             </article>

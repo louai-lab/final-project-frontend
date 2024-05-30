@@ -5,12 +5,14 @@ import axiosInstance from "../../../Utils/AxiosInstance";
 import { FormControl } from "@mui/material";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
+import { useLanguage } from "../../../Utils/LanguageContext";
 
 function EventEditProfile({ setIsOpenProfilePopUp, handleCloseEditProfile }) {
   const { user, loading, getUser } = useUserStore();
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordNew, setShowPasswordNew] = useState(false);
+  const { language } = useLanguage();
 
   // console.log(user);
   const id = (user && user._id) || (user && user.userId);
@@ -78,15 +80,26 @@ function EventEditProfile({ setIsOpenProfilePopUp, handleCloseEditProfile }) {
 
   return (
     <div className={StyleEditProfile.popUpContainer}>
-      <h1 className={StyleEditProfile.eventH1}>Edit Profile</h1>
+      <h1 className={StyleEditProfile.eventH1}>
+        {language === "en" ? "Edit Profile" : "تعديل الملف الشخصي"}
+      </h1>
       <form
         action="#"
         style={{
-          width: "100%"
+          width: "100%",
         }}
       >
         <div className={StyleEditProfile.control}>
-          <label htmlFor="firstName">First Name</label>
+          <label
+            htmlFor="firstName"
+            style={
+              language === "en"
+                ? {}
+                : { display: "flex", justifyContent: "end" }
+            }
+          >
+            {language === "en" ? "First Name" : "الإسم الأول"}
+          </label>
           <input
             type="text"
             name="firstName"
@@ -98,7 +111,16 @@ function EventEditProfile({ setIsOpenProfilePopUp, handleCloseEditProfile }) {
         </div>
 
         <div className={StyleEditProfile.control}>
-          <label htmlFor="lastName">Last Name</label>
+          <label
+            htmlFor="lastName"
+            style={
+              language === "en"
+                ? {}
+                : { display: "flex", justifyContent: "end" }
+            }
+          >
+            {language === "en" ? "Last Name" : "الإسم الأخير"}
+          </label>
           <input
             type="text"
             name="lastName"
@@ -110,7 +132,16 @@ function EventEditProfile({ setIsOpenProfilePopUp, handleCloseEditProfile }) {
         </div>
 
         <div className={StyleEditProfile.control}>
-          <label htmlFor="email">Email</label>
+          <label
+            htmlFor="email"
+            style={
+              language === "en"
+                ? {}
+                : { display: "flex", justifyContent: "end" }
+            }
+          >
+            {language === "en" ? "Email" : "البريد الإلكتروني"}
+          </label>
           <input
             type="text"
             name="email"
@@ -122,8 +153,15 @@ function EventEditProfile({ setIsOpenProfilePopUp, handleCloseEditProfile }) {
         </div>
 
         <div className={StyleEditProfile.control}>
-          <label htmlFor="checkPassword">
-            Old Password{" "}
+          <label
+            htmlFor="checkPassword"
+            style={
+              language === "en"
+                ? {}
+                : { display: "flex", justifyContent: "end" }
+            }
+          >
+            {language === "en" ? "Old Password" : "كلمة المرور القديمة"}
             {error && (
               <span
                 style={{ fontSize: "clamp(8px, 2.5rem, 15px)", color: "red" }}
@@ -151,7 +189,14 @@ function EventEditProfile({ setIsOpenProfilePopUp, handleCloseEditProfile }) {
         </div>
 
         <div className={StyleEditProfile.control}>
-          <label htmlFor="newPassword">New Password</label>
+          <label htmlFor="newPassword" 
+          style={
+              language === "en"
+                ? {}
+                : { display: "flex", justifyContent: "end" }
+            }>
+            {language === "en" ? "New Password" : "كلمة المرور الجديدة"}
+          </label>
           <input
             type={showPasswordNew ? "text" : "password"}
             name="newPassword"
@@ -179,7 +224,7 @@ function EventEditProfile({ setIsOpenProfilePopUp, handleCloseEditProfile }) {
             onClick={handleEditProfile}
             className={StyleEditProfile.addEvent}
           >
-            Save
+            {language === "en" ? "Save" : "حفظ"}
           </button>
         </div>
         <div className={StyleEditProfile.control}>
@@ -188,7 +233,7 @@ function EventEditProfile({ setIsOpenProfilePopUp, handleCloseEditProfile }) {
             onClick={handleCloseEditProfile}
             className={StyleEditProfile.cancelEvent}
           >
-            Exit
+            {language === "en" ? "Cancel" : "إلغاء"}
           </button>
         </div>
       </form>

@@ -53,6 +53,16 @@
   display: flex;
   flex-direction: column;
   row-gap: 8px;
+  /* color: green; */
+  /* align-items:flex-start; */
+}
+
+.personalInfoAR {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  /* color: red; */
+  align-items: end;
 }
 
 .span {

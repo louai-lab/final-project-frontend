@@ -15,8 +15,8 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const { user, setUser } = useUserStore();
   const [credentials, setCredentials] = useState({
-    email: "louaiadmin@gmail.com",
-    password: "123",
+    email: "",
+    password: "",
   });
   const [error, setError] = useState("");
   axios.defaults.withCredentials = true;

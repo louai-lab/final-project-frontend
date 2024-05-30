@@ -20,7 +20,7 @@ function AppRoutes() {
   const { user } = useUserStore();
   return (
     <Routes>
-      <Route path="/network_error" element={<NetworkError />} />
+      {/* <Route path="/network_error" element={<NetworkError />} />
       <Route path="/login" element={<Login />} />
       <Route path="/*" element={<NotFound />} />
       <Route element={<ProtectedRoute isAllowed={user} />}>
@@ -31,7 +31,20 @@ function AppRoutes() {
           <Route path="/match" element={<SingleMatch />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
+      </Route> */}
+
+      <Route path="/network_error" element={<NetworkError />} />
+      <Route path="/login" element={<Login />} />
+
+      <Route path="/" element={<WebOutlet />}>
+          <Route index element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/matches" element={<Matches />} />
+          <Route path="/match" element={<SingleMatch />} />
+          <Route path="/profile" element={<Profile />} />
       </Route>
+
+
 
       <Route
         path="/dashboard"
