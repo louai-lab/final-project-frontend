@@ -31,15 +31,18 @@ function Matches() {
 
   const { language } = useLanguage();
 
+  console.log("matches re-rendered")
+
   useEffect(() => {
     getAllTeams();
     getAllMatches(selectedTeamId, selectedPageNumber);
-    // console.log("first");
+    // console.log("matches useeffect")
+    
   }, [getAllTeams, getAllMatches, selectedTeamId, selectedPageNumber]);
 
-  useEffect(() => {
-    getAllMatches(selectedTeamId, selectedPageNumber);
-  }, [getAllMatches, selectedPageNumber, selectedTeamId]);
+  // useEffect(() => {
+  //   getAllMatches(selectedTeamId, selectedPageNumber);
+  // }, [getAllMatches, selectedPageNumber, selectedTeamId]);
 
   useEffect(() => {
     getLastTwoCreatedMatches();

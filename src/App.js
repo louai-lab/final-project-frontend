@@ -42,7 +42,19 @@ function App() {
     getAllTeams();
     getAllMatches();
     getLastTwoCreatedMatches();
-  }, []);
+    // console.log("app useeffect")
+  }, [
+    getUser,
+    getAllUsers,
+    getAllReferees,
+    getAllWatchers,
+    getAllLinesman,
+    getAllPlayers,
+    getAllPlayersNoTeam,
+    getAllTeams,
+    getAllMatches,
+    getLastTwoCreatedMatches,
+  ]);
 
   // console.log(user)
   // console.log(matches)

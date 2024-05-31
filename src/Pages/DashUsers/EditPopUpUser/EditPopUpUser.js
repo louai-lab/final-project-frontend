@@ -117,22 +117,6 @@ function EditPopUpUser({ selectedRowData, handleCancelEdit, handleSave }) {
               />
             </FormControl>
 
-            {/* <FormControl fullWidth>
-              <TextField
-                type={showPassword ? "text" : "password"}
-                label="Old Password"
-                name="checkPassword"
-                value={formData.checkPassword}
-                onChange={handleChange}
-              />
-              <div
-                className={StyleEditPopUp.eyeIcon}
-                onClick={handleTogglePassword}
-              >
-                {showPassword ? <FaEye /> : <FaEyeSlash />}
-              </div>
-            </FormControl> */}
-
             <FormControl fullWidth>
               <TextField
                 type={showPassword ? "text" : "password"}
@@ -174,6 +158,12 @@ function EditPopUpUser({ selectedRowData, handleCancelEdit, handleSave }) {
                   style={{ display: "flex", gap: "20px" }}
                 >
                   Watcher
+                </MenuItem>
+                <MenuItem
+                  value="linesman"
+                  style={{ display: "flex", gap: "20px" }}
+                >
+                  Linesman
                 </MenuItem>
               </Select>
             </FormControl>

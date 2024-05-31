@@ -16,6 +16,7 @@ import {
   MenuItem,
   Button,
 } from "@mui/material";
+import PlayerSearchInput from "../PlayerSearchInput/PlayerSearchInput";
 
 const Table = ({
   data,
@@ -82,26 +83,22 @@ const Table = ({
   };
 
   useEffect(() => {
-    getAllPlayers(selectedPlayerName);
-  }, [getAllPlayers, selectedPlayerName]);
-
-  useEffect(() => {
-    getAllPlayers(selectedTeamPlayer);
-  }, [getAllPlayers, selectedTeamPlayer]);
-
-  // console.log(selectedTeamForPlayer)
-
-  useEffect(() => {
-    getAllPlayers(selectedPageNumberPlayer);
-  }, [getAllPlayers, selectedPageNumberPlayer]);
-
-  useEffect(() => {
+    getAllPlayers(
+      selectedPlayerName,
+      selectedTeamPlayer,
+      selectedPageNumberPlayer
+    );
     getAllMatches(selectedTeamId, selectedPageNumber);
-  }, [getAllMatches, selectedTeamId]);
-
-  useEffect(() => {
-    getAllMatches(selectedTeamId, selectedPageNumber);
-  }, [selectedPageNumber]);
+    // console.log("tabel useeffect");
+  }, [
+    getAllPlayers,
+    getAllMatches,
+    selectedPlayerName,
+    selectedTeamPlayer,
+    selectedPageNumberPlayer,
+    selectedTeamId,
+    selectedPageNumber,
+  ]);
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -172,7 +169,7 @@ const Table = ({
                   params.row.image ? params.row.image : ""
                 }`}
                 alt="Icon"
-                style={{ width: "140px", height: "140px" }}
+                style={{ width: "140px", height: "140px", objectFit: "cover" }}
               />
             );
           }
@@ -473,7 +470,7 @@ const Table = ({
                         }}
                         className={StyleTable.playerSearch}
                       >
-                        <TextField
+                        {/* <TextField
                           sx={{
                             marginRight: "10px",
                             width: "auto",
@@ -485,7 +482,29 @@ const Table = ({
                           value={playerName}
                           onChange={handlePlayerNameChange}
                           // autoFocus
+                        /> */}
+                        <input
+                          type="text"
+                          style={{
+                            marginRight: "10px",
+                            width: "auto",
+                            position: "sticky",
+                            padding: "10px",
+                            border: "1px solid #ccc",
+                            borderRadius: "4px",
+                            outline: "none",
+                          }}
+                          autoFocus
+                          placeholder="Enter player name"
+                          value={playerName}
+                          onChange={handlePlayerNameChange}
                         />
+
+                        {/* <PlayerSearchInput
+                          playerName={playerName}
+                          handlePlayerNameChange={handlePlayerNameChange}
+                        /> */}
+
                         <div
                           style={{ display: "flex", columnGap: "10px" }}
                           className={StyleTable.playerSearch2}
