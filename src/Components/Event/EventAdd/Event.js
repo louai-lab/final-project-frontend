@@ -21,24 +21,6 @@ function Event({
   const { language } = useLanguage();
   const [players, setPlayers] = useState([]);
 
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData({
-  //     ...formData,
-  //     [name]: value,
-  //   });
-
-  //   if (name === "team") {
-  //     if (value === teamATeam._id) {
-  //       setPlayers(playersATeam);
-  //     } else if (value === teamBTeam._id) {
-  //       setPlayers(playersBTeam);
-  //     } else {
-  //       setPlayers([]);
-  //     }
-  //   }
-  // };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === "type" && value === "HT") {

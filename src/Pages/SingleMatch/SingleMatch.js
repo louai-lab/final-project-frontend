@@ -7,7 +7,6 @@ import axiosInstance from "../../Utils/AxiosInstance";
 import FootballLoader from "../FootballLoader/FootballLoader";
 import { Reveal } from "../../Frammotion/RevealAnimation";
 import { useUserStore } from "../../Zustand/Store";
-// import { useSpring, animated } from "react-spring";
 import EventDelete from "../../Assets/icons/material-symbols--delete-outline.svg";
 import EventEdit from "../../Assets/icons/material-symbols--edit-outline (1).svg";
 import EventDeletePopUp from "../../Components/Event/EventDelete/EventDelete";
@@ -24,7 +23,6 @@ import Stadium from "../../Assets/icons/stadium.png";
 import EndMatch from "../../Components/Event/EndMatch/EndMatch";
 import { useLanguage } from "../../Utils/LanguageContext";
 import Season from "../../Assets/icons/ic--baseline-update.svg";
-import { ClearCache } from "../../Utils/ClearCache.js";
 
 function SingleMatch() {
   const { user } = useUserStore();
@@ -35,7 +33,6 @@ function SingleMatch() {
   const [loading, setLoading] = useState(true);
   const [watcherReport, setWatcherReport] = useState("");
   const [refereeReport, setRefereeReport] = useState("");
-  // const [showAnimation, setShowAnimation] = useState(false);
   const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -43,20 +40,57 @@ function SingleMatch() {
   const { language } = useLanguage();
   const [actionWatcher, setActionWatcher] = useState("");
   const [actionReferee, setActionReferee] = useState("");
-  // const [open, setOpen] = useState(false);
-
   const { getAllTeams } = useTeamsStore();
   const { getAllMatches } = useMatchesStore();
+  const [selectedEventType, setSelectedEventType] = useState("");
+
+  const [formAction, setFormAction] = useState({
+    type: "",
+    team: "",
+    playerIn: "",
+    playerOut: "",
+    minute: "",
+  });
+
+  const handleEventClickTeamA = (type) => {
+    setSelectedEventType(type);
+    setFormAction({ ...formAction, type: type, team: match.team_a?.team._id });
+  };
+
+  const handleCancel = () => {
+    setSelectedEventType("");
+    setFormAction({
+      type: "",
+      team: "",
+      playerIn: "",
+      playerOut: "",
+      minute: "",
+    });
+  };
+
+  const handleAddAction = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axiosInstance.patch(
+        `/matchdetails/addObject/${detailIdWatcher}`,
+        formAction
+      );
+
+      if (response) {
+        console.log("created successfully");
+        handleCancel();
+
+        fetchUpdatedMatch(match._id);
+      }
+    } catch (error) {
+      console.error("Error updating match details:", error);
+    }
+  };
 
   useEffect(() => {
     getAllTeams();
     getAllMatches();
   }, [getAllTeams, getAllMatches]);
-
-  // const animationProps = useSpring({
-  //   opacity: showAnimation ? 1 : 0,
-  //   from: { opacity: 0 },
-  // });
 
   const handleTabChange = (id) => {
     startTransition(() => {
@@ -67,7 +101,7 @@ function SingleMatch() {
   const location = useLocation();
   const [match, setMatch] = useState(location.state?.match || {});
 
-  // console.log(match)
+  // console.log(match);
 
   const cancelEvent = () => {
     closePopUp();
@@ -86,7 +120,6 @@ function SingleMatch() {
   const fetchUpdatedMatch = async (matchId) => {
     try {
       setLoading(true);
-      // await ClearCache();
 
       const updatedMatchResponse = await axiosInstance.get(
         `/match/match/${matchId}`
@@ -103,7 +136,6 @@ function SingleMatch() {
 
   useEffect(() => {
     fetchUpdatedMatch(match._id);
-    // console.log("mmmmm")
   }, [match._id]);
 
   useEffect(() => {
@@ -115,12 +147,12 @@ function SingleMatch() {
     }
   }, [match]);
 
-  let detailId = match?.detailsWatcher._id;
+  let detailIdWatcher = match?.detailsWatcher?._id;
 
   const handleEventSubmit = async (formData) => {
     try {
       const response = await axiosInstance.patch(
-        `/matchdetails/addObject/${detailId}`,
+        `/matchdetails/addObject/${detailIdWatcher}`,
         formData
       );
 
@@ -128,13 +160,12 @@ function SingleMatch() {
         console.log("created successfully");
         closePopUp();
 
-        // await ClearCache();
-
         fetchUpdatedMatch(match._id);
       }
     } catch (error) {
       console.error("Error updating match details:", error);
     }
+    // console.log(formData);
   };
 
   // End PopUp Match
@@ -155,8 +186,6 @@ function SingleMatch() {
   const closePopUpEndMatch = () => {
     closePopUpEnd();
   };
-
-  // console.log(match);
 
   const handleEndMatch = async () => {
     try {
@@ -332,7 +361,8 @@ function SingleMatch() {
                   <button
                     className={StyleSingleMatch.open}
                     onClick={openPopUp}
-                    disabled={match.played}
+                    // disabled={match.played}
+                    disabled={match.reported}
                   >
                     +
                   </button>
@@ -340,7 +370,7 @@ function SingleMatch() {
                   ""
                 )}
 
-                {events.length > 0 ? (
+                {events?.length > 0 ? (
                   <>
                     <div
                       style={{
@@ -422,7 +452,8 @@ function SingleMatch() {
                                   type="button"
                                   onClick={() => handleOpenDelete(event._id)}
                                   className={StyleSingleMatch.delete}
-                                  disabled={match.played}
+                                  // disabled={match.played}
+                                  disabled={match.reported}
                                 >
                                   <img src={EventDelete} alt="" />
                                 </button>
@@ -431,7 +462,8 @@ function SingleMatch() {
                                   onClick={() => handleOpenEdit(event)}
                                   // style={{ border: "none" }}
                                   className={StyleSingleMatch.edit}
-                                  disabled={match.played}
+                                  // disabled={match.played}
+                                  disabled={match.reported}
                                 >
                                   <img src={EventEdit} alt="" />
                                 </button>
@@ -505,7 +537,8 @@ function SingleMatch() {
                                   type="button"
                                   onClick={() => handleOpenDelete(event._id)}
                                   className={StyleSingleMatch.delete}
-                                  disabled={match.played}
+                                  // disabled={match.played}
+                                  disabled={match.reported}
                                 >
                                   <img src={EventDelete} alt="" />
                                 </button>
@@ -514,7 +547,8 @@ function SingleMatch() {
                                   onClick={() => handleOpenEdit(event)}
                                   // style={{ border: "none" }}
                                   className={StyleSingleMatch.edit}
-                                  disabled={match.played}
+                                  // disabled={match.played}
+                                  disabled={match.reported}
                                 >
                                   <img src={EventEdit} alt="" />
                                 </button>
@@ -594,7 +628,8 @@ function SingleMatch() {
                       type="button"
                       onClick={handleOpenEndMatch}
                       className={StyleSingleMatch.endMatch}
-                      disabled={match.played}
+                      // disabled={match.played}
+                      disabled={match.reported}
                     >
                       End Match
                     </button>
@@ -602,21 +637,6 @@ function SingleMatch() {
                 ) : (
                   ""
                 )}
-                {/* <animated.div
-                  style={{
-                    ...animationProps,
-                    position: "fixed",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    textAlign: "center",
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                    color: "white",
-                    padding: "10px",
-                  }}
-                >
-                  <p>Golazzzzo</p>
-                </animated.div> */}
               </div>
             </Reveal>
           )}
@@ -664,14 +684,14 @@ function SingleMatch() {
                       }
                     >
                       <img
-                        src={`${process.env.REACT_APP_IMAGE_PATH}/${match.watcher.image}`}
-                        alt={match.watcher.name}
+                        src={`${process.env.REACT_APP_IMAGE_PATH}/${match?.watcher?.image}`}
+                        alt={match?.watcher?.name}
                         className={StyleSingleMatch.imagesReports}
                       />
                       <p>
                         {language === "en"
-                          ? `Watcher ${match.watcher.firstName}'s Report :`
-                          : `تقرير المراقب ${match.watcher.firstName}`}
+                          ? `Watcher ${match?.watcher?.firstName}'s Report :`
+                          : `تقرير المراقب ${match?.watcher?.firstName}`}
                       </p>
                     </div>
                     {match.reported === true ? (
@@ -779,14 +799,14 @@ function SingleMatch() {
                       }
                     >
                       <img
-                        src={`${process.env.REACT_APP_IMAGE_PATH}/${match.referee.image}`}
-                        alt={match.referee.name}
+                        src={`${process.env.REACT_APP_IMAGE_PATH}/${match?.referee?.image}`}
+                        alt={match?.referee?.name}
                         className={StyleSingleMatch.imagesReports}
                       />
                       <p>
                         {language === "en"
-                          ? `Referee ${match.referee.firstName}'s Report :`
-                          : `تقرير الحكم ${match.referee.firstName}`}
+                          ? `Referee ${match?.referee?.firstName}'s Report :`
+                          : `تقرير الحكم ${match?.referee?.firstName}`}
                       </p>
                     </div>
                     {match.reported === true ? (
@@ -879,12 +899,12 @@ function SingleMatch() {
               <img src={Signal} alt="" className={StyleSingleMatch.iconInfo} />
               <div className={StyleSingleMatch.linesman}>
                 <img
-                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match.referee.image}`}
-                  alt={match.referee.name}
+                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match?.referee?.image}`}
+                  alt={match?.referee?.name}
                   className={StyleSingleMatch.linesmanImage}
                 />
                 <p>
-                  {match.referee.firstName} {match.referee.lastName}
+                  {match?.referee?.firstName} {match?.referee?.lastName}
                 </p>
               </div>
             </div>
@@ -892,12 +912,12 @@ function SingleMatch() {
               <img src={Arrow} alt="" className={StyleSingleMatch.iconInfo} />
               <div className={StyleSingleMatch.linesman}>
                 <img
-                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match.watcher.image}`}
-                  alt={match.watcher.name}
+                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match?.watcher?.image}`}
+                  alt={match?.watcher?.name}
                   className={StyleSingleMatch.linesmanImage}
                 />
                 <p>
-                  {match.watcher.firstName} {match.watcher.lastName}
+                  {match?.watcher?.firstName} {match?.watcher?.lastName}
                 </p>
               </div>
             </div>
@@ -906,12 +926,13 @@ function SingleMatch() {
               <img src={Flag} alt="" className={StyleSingleMatch.iconInfo} />
               <div className={StyleSingleMatch.linesman}>
                 <img
-                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match.linesman_one.image}`}
-                  alt={match.linesman_one.firstName}
+                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match?.linesman_one?.image}`}
+                  alt={match?.linesman_one?.firstName}
                   className={StyleSingleMatch.linesmanImage}
                 />
                 <p>
-                  {match.linesman_one.firstName} {match.linesman_one.lastName}
+                  {match?.linesman_one?.firstName}{" "}
+                  {match?.linesman_one?.lastName}
                 </p>
               </div>
             </div>
@@ -919,12 +940,13 @@ function SingleMatch() {
               <img src={Flag} alt="" className={StyleSingleMatch.iconInfo} />
               <div className={StyleSingleMatch.linesman}>
                 <img
-                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match.linesman_two.image}`}
-                  alt={match.linesman_two.firstName}
+                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match?.linesman_two?.image}`}
+                  alt={match?.linesman_two?.firstName}
                   className={StyleSingleMatch.linesmanImage}
                 />
                 <p>
-                  {match.linesman_two.firstName} {match.linesman_two.lastName}
+                  {match?.linesman_two?.firstName}{" "}
+                  {match?.linesman_two?.lastName}
                 </p>
               </div>
             </div>
@@ -1115,19 +1137,167 @@ function SingleMatch() {
                 className={StyleSingleMatch.cardImage}
               />
               <h1>{match.team_a?.team.name}</h1>
+
+              <div className={StyleSingleMatch.containerActions}>
+                <button
+                  onClick={() => handleEventClickTeamA("goal")}
+                  // className={StyleSingleMatch.singleAction}
+                  className={`${StyleSingleMatch.singleAction} ${
+                    selectedEventType === "goal"
+                      ? StyleSingleMatch.selected
+                      : ""
+                  }`}
+                >
+                  <img
+                    src={`${process.env.REACT_APP_IMAGE_PATH}/football.png`}
+                    alt="football"
+                    className={StyleSingleMatch.iconActions}
+                  />
+                </button>
+                <button
+                  onClick={() => handleEventClickTeamA("red_card")}
+                  className={`${StyleSingleMatch.singleAction} ${
+                    selectedEventType === "red_card"
+                      ? StyleSingleMatch.selected
+                      : ""
+                  }`}
+                >
+                  <img
+                    src={`${process.env.REACT_APP_IMAGE_PATH}/red-card.png`}
+                    alt="red card"
+                    className={StyleSingleMatch.iconActions}
+                  />
+                </button>
+                <button
+                  onClick={() => handleEventClickTeamA("yellow_card")}
+                  className={`${StyleSingleMatch.singleAction} ${
+                    selectedEventType === "yellow_card"
+                      ? StyleSingleMatch.selected
+                      : ""
+                  }`}
+                >
+                  <img
+                    src={`${process.env.REACT_APP_IMAGE_PATH}/yellow-card.png`}
+                    alt="yellow card"
+                    className={StyleSingleMatch.iconActions}
+                  />
+                </button>
+                <button
+                  onClick={() => handleEventClickTeamA("substitution")}
+                  className={`${StyleSingleMatch.singleAction} ${
+                    selectedEventType === "substitution"
+                      ? StyleSingleMatch.selected
+                      : ""
+                  }`}
+                >
+                  <img
+                    src={`${process.env.REACT_APP_IMAGE_PATH}/substitution.png`}
+                    alt="substitution"
+                    className={StyleSingleMatch.iconActions}
+                  />
+                </button>
+              </div>
+
+              {selectedEventType && (
+                <form
+                  onSubmit={handleAddAction}
+                  className={StyleSingleMatch.eventForm}
+                >
+                  <div className={StyleSingleMatch.control}>
+                    <select
+                      id="playerIn"
+                      value={formAction.playerIn}
+                      className={StyleSingleMatch.select}
+                      onChange={(e) =>
+                        setFormAction({
+                          ...formAction,
+                          playerIn: e.target.value,
+                        })
+                      }
+                    >
+                      <option value="">
+                        {selectedEventType === "substitution"
+                          ? language === "en"
+                            ? "Select Player In"
+                            : "اختر لاعب دخول"
+                          : language === "en"
+                          ? "Select Player"
+                          : "اختر لاعب"}
+                      </option>
+                      {match.team_a.team.players.map((player) => (
+                        <option key={player._id} value={player._id}>
+                          {player.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {formAction.type === "substitution" && (
+                    <div className={StyleSingleMatch.control}>
+                      <select
+                        id="playerOut"
+                        name="playerOut"
+                        value={formAction.playerOut}
+                        className={StyleSingleMatch.select}
+                        onChange={(e) =>
+                          setFormAction({
+                            ...formAction,
+                            playerOut: e.target.value,
+                          })
+                        }
+                        required
+                        disabled={formAction.type === "HT"}
+                      >
+                        <option value="">
+                          {language === "en" ? "Select Player Out" : "حدّد"}
+                        </option>
+                        {match.team_a.team.players.map((player) => (
+                          <option key={player._id} value={player._id}>
+                            {player.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                  <div className={StyleSingleMatch.control}>
+                    {/* <label htmlFor="minute">Minute</label> */}
+                    <input
+                      id="minute"
+                      type="number"
+                      className={StyleSingleMatch.minute}
+                      value={formAction.minute}
+                      placeholder={language === "en" ? "Minute" : "الدقيقة"}
+                      onChange={(e) =>
+                        setFormAction({ ...formAction, minute: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className={StyleSingleMatch.addCancel}>
+                    <button type="submit" className={StyleSingleMatch.addEvent}>
+                      {language === "en" ? "Add" : "اضافة"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleCancel}
+                      className={StyleSingleMatch.cancelEvent}
+                    >
+                      {language === "en" ? "Cancel" : "إلغاء"}
+                    </button>
+                  </div>
+                </form>
+              )}
             </section>
             <section className={StyleSingleMatch.result}>
-              <p>{match.team_a.score}</p>
+              <p>{match?.team_a?.score}</p>
               <span>-</span>
-              <p>{match.team_b.score}</p>
+              <p>{match?.team_b?.score}</p>
             </section>
             <section className={StyleSingleMatch.teamA}>
               <img
                 src={`${process.env.REACT_APP_IMAGE_PATH}/${match.team_b?.team.image}`}
-                alt={match.team_b?.team.name}
+                alt={match?.team_b?.team.name}
                 className={StyleSingleMatch.cardImage}
               />
-              <h1>{match.team_b?.team.name}</h1>
+              <h1>{match?.team_b?.team.name}</h1>
             </section>
           </article>
           <article className={StyleSingleMatch.live}>

@@ -482,6 +482,127 @@
   object-fit: contain;
 }
 
+
+.containerActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.iconActions {
+  max-width: 30px;
+}
+
+.singleAction {
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.284);
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.singleAction:hover {
+  cursor: pointer;
+}
+
+.selected{
+  background-color: rgba(65, 65, 65, 0.793);
+}
+
+
+
+.select {
+  width: 100%;
+  display: block;
+  padding: 10px;
+  color: #222;
+  border: none;
+  outline: none;
+  margin: 1em 0;
+}
+
+.select option {
+  background-color: #fff; 
+  color: #333; 
+  padding: 10px;
+  border: 1px solid #ccc; 
+  transition: background-color 0.3s ease; 
+}
+
+.select option:hover {
+  background-color: #f0f0f0; 
+  cursor: pointer;
+}
+
+.minute {
+  width: 100%;
+  display: block;
+  padding: 10px;
+  color: #222;
+  border: none;
+  outline: none;
+  margin: 1em 0;
+}
+
+.addEvent {
+  width: fit-content;
+  display: block;
+  padding: 5px;
+  border: none;
+  outline: none;
+  margin: 0.2em 0;
+  background-color: var(--primary-clr);
+  color: #fff;
+  text-transform: uppercase;
+  /* font-size: 1.2em; */
+  font-size: clamp(5px, 3vw, 15px);
+  font-weight:normal;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.addEvent:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.cancelEvent {
+  width:  fit-content;
+  display: block;
+  padding: 5px;
+  border: none;
+  outline: none;
+  margin: 0.2em 0;
+  background-color: var(--third-clr);
+  color: #fff;
+  text-transform: uppercase;
+  /* font-size: 1.2em; */
+  font-size: clamp(5px, 3vw, 15px);
+  font-weight:normal;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.cancelEvent:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.addCancel{
+  display: flex;
+  column-gap: 10px;
+  justify-content: center
+}
+
+.control{
+  display: flex;
+  justify-content: center;
+}
+
+
+
 @media screen and (max-width: 1050px) {
   .event {
     width: 80%;
@@ -498,6 +619,31 @@
   .event {
     width: 99%;
   }
+
+
+  .containerActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+    margin: 10px;
+  }
+  
+  .iconActions {
+    max-width: 20px;
+  }
+  
+  .singleAction {
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.284);
+    padding: 5px;
+    border-radius: 10px;
+  }
+
+
 }
 
 @media screen and (max-width: 550px) {
@@ -513,6 +659,36 @@
   .event > p {
     width: 12rem;
   }
+
+  .select {
+    width: 80%;
+    display: block;
+    padding: 5px;
+    color: #222;
+    border: none;
+    outline: none;
+    margin: 0.2em 0;
+  }
+  
+  /* .select option {
+    background-color: #fff; 
+    color: #333; 
+    padding: 10px;
+    border: 1px solid #ccc; 
+    transition: background-color 0.3s ease; 
+  } */
+
+  .minute {
+    width: 80%;
+    display: block;
+    padding: 5px;
+    color: #222;
+    border: none;
+    outline: none;
+    margin: 1em 0;
+  }
+
+
 }
 
 @media screen and (max-width: 450px) {
