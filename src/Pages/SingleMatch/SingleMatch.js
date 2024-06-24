@@ -23,6 +23,7 @@ import Stadium from "../../Assets/icons/stadium.png";
 import EndMatch from "../../Components/Event/EndMatch/EndMatch";
 import { useLanguage } from "../../Utils/LanguageContext";
 import Season from "../../Assets/icons/ic--baseline-update.svg";
+import whistle from "../../Assets/icons/mdi--whistle.svg";
 
 function SingleMatch() {
   const { user } = useUserStore();
@@ -42,7 +43,11 @@ function SingleMatch() {
   const [actionReferee, setActionReferee] = useState("");
   const { getAllTeams } = useTeamsStore();
   const { getAllMatches } = useMatchesStore();
+  const [selectedEventTypeA, setSelectedEventTypeA] = useState("");
+  const [selectedEventTypeB, setSelectedEventTypeB] = useState("");
   const [selectedEventType, setSelectedEventType] = useState("");
+  const [selectedPenaltyTypeA, setSelectedPenaltyTypeA] = useState("");
+  const [selectedPenaltyTypeB, setSelectedPenaltyTypeB] = useState("");
 
   const [formAction, setFormAction] = useState({
     type: "",
@@ -50,26 +55,54 @@ function SingleMatch() {
     playerIn: "",
     playerOut: "",
     minute: "",
+    penalty: "",
   });
 
-  const handleEventClickTeamA = (type) => {
-    setSelectedEventType(type);
-    setFormAction({ ...formAction, type: type, team: match.team_a?.team._id });
+  const handleEventClickTeamA = (type, penalty = null) => {
+    setSelectedEventTypeA(type);
+    setSelectedPenaltyTypeA(penalty);
+    // console.log(penalty);
+    setFormAction({
+      ...formAction,
+      type: type,
+      penalty: penalty,
+      team: match.team_a?.team._id,
+    });
   };
 
+  const handleEventClickTeamB = (type, penalty = null) => {
+    setSelectedEventTypeB(type);
+    setSelectedPenaltyTypeB(penalty);
+    // console.log(penalty);
+    setFormAction({
+      ...formAction,
+      type: type,
+      penalty: penalty,
+      team: match.team_b?.team._id,
+    });
+  };
+
+  const handleEventClick = (type) => {
+    setSelectedEventType(type);
+    setFormAction({ ...formAction, type: type });
+    // console.log(type)
+  };
   const handleCancel = () => {
-    setSelectedEventType("");
+    setSelectedEventTypeA("");
+    setSelectedEventTypeB("");
     setFormAction({
       type: "",
       team: "",
       playerIn: "",
       playerOut: "",
       minute: "",
+      penalty: "",
     });
   };
 
   const handleAddAction = async (e) => {
     e.preventDefault();
+    console.log(formAction);
     try {
       const response = await axiosInstance.patch(
         `/matchdetails/addObject/${detailIdWatcher}`,
@@ -79,6 +112,7 @@ function SingleMatch() {
       if (response) {
         console.log("created successfully");
         handleCancel();
+        console.log(response.data);
 
         fetchUpdatedMatch(match._id);
       }
@@ -158,7 +192,7 @@ function SingleMatch() {
 
       if (response) {
         console.log("created successfully");
-        closePopUp();
+        // closePopUp();
 
         fetchUpdatedMatch(match._id);
       }
@@ -358,14 +392,116 @@ function SingleMatch() {
                 {user?.role === "admin" ||
                 user?.userId === match.watcher._id ||
                 user?._id === match.watcher._id ? (
-                  <button
-                    className={StyleSingleMatch.open}
-                    onClick={openPopUp}
-                    // disabled={match.played}
-                    disabled={match.reported}
-                  >
-                    +
-                  </button>
+                  <>
+                    {/* <button
+                      className={StyleSingleMatch.open}
+                      onClick={openPopUp}
+                      // disabled={match.played}
+                      disabled={match.reported}
+                    >
+                      +
+                    </button> */}
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        rowGap: "10px",
+                      }}
+                    >
+                      <h1>Try smth</h1>
+                      <div
+                        style={{
+                          display: "flex",
+                          columnGap: "10px",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <button
+                          onClick={() => handleEventClick("HT")}
+                          className={`${StyleSingleMatch.singleAction} ${
+                            selectedEventType === "HT"
+                              ? StyleSingleMatch.selectedEvent
+                              : ""
+                          }`}
+                        >
+                          <img
+                            src={`${process.env.REACT_APP_IMAGE_PATH}/half-time.png`}
+                            alt="half time"
+                            className={StyleSingleMatch.iconActions}
+                          />
+                        </button>
+                        <button
+                          onClick={() => handleEventClick("full_time")}
+                          className={`${StyleSingleMatch.singleAction} ${
+                            selectedEventType === "full_time"
+                              ? StyleSingleMatch.selectedEvent
+                              : ""
+                          }`}
+                        >
+                          <img
+                            src={`${process.env.REACT_APP_IMAGE_PATH}/full-time.png`}
+                            alt="full time"
+                            className={StyleSingleMatch.iconActions}
+                          />
+                        </button>
+                        <button
+                          onClick={() => handleEventClick("firstExtraTime")}
+                          className={`${StyleSingleMatch.singleAction} ${
+                            selectedEventType === "firstExtraTime"
+                              ? StyleSingleMatch.selectedEvent
+                              : ""
+                          }`}
+                          // className={StyleSingleMatch.singleAction}
+                        >
+                          <img
+                            src={`${process.env.REACT_APP_IMAGE_PATH}/firstExtraTime.png`}
+                            alt="firstExtraTime"
+                            className={StyleSingleMatch.iconActions}
+                          />
+                        </button>
+                        <button
+                          onClick={() => handleEventClick("secondExtraTime")}
+                          className={`${StyleSingleMatch.singleAction} ${
+                            selectedEventType === "secondExtraTime"
+                              ? StyleSingleMatch.selectedEvent
+                              : ""
+                          }`}
+                          // className={StyleSingleMatch.singleAction}
+                        >
+                          <img
+                            src={`${process.env.REACT_APP_IMAGE_PATH}/secondExtraTime.png`}
+                            alt="secondExtraTime"
+                            className={StyleSingleMatch.iconActions}
+                          />
+                        </button>
+                        <button
+                          onClick={() => handleEventClick("penalties")}
+                          className={`${StyleSingleMatch.singleAction} ${
+                            selectedEventType === "penalties"
+                              ? StyleSingleMatch.selectedEvent
+                              : ""
+                          }`}
+                          // className={StyleSingleMatch.singleAction}
+                        >
+                          <img
+                            src={`${process.env.REACT_APP_IMAGE_PATH}/penalties.png`}
+                            alt="penalties"
+                            className={StyleSingleMatch.iconActions}
+                          />
+                        </button>
+                      </div>
+
+                      {selectedEventType && (
+                        <button
+                          onClick={handleAddAction}
+                          className={StyleSingleMatch.whistle}
+                        >
+                          <img src={whistle} alt="whistle" />
+                          Whistle
+                        </button>
+                      )}
+                    </div>
+                  </>
                 ) : (
                   ""
                 )}
@@ -406,9 +542,59 @@ function SingleMatch() {
                         }}
                       ></div>
                     </div>
+
                     {events.map((event) => (
                       <>
                         {event.type === "HT" ? (
+                          <div>
+                            <section className={StyleSingleMatch.resultHT}>
+                              <p style={{ color: "white" }}>
+                                {match?.team_a?.scoreHT}
+                              </p>
+
+                              <h1
+                                style={{
+                                  color: "red",
+                                  textAlign: "center",
+                                  fontSize: "clamp(15px , 4vw , 20px)",
+                                }}
+                              >
+                                {language === "en" ? "HT" : "نهاية الشوط الأول"}
+                              </h1>
+                              <p style={{ color: "white" }}>
+                                {match?.team_b?.scoreHT}
+                              </p>
+                            </section>
+
+                            {user?.role === "admin" ||
+                            user?.userId === match.watcher._id ||
+                            user?._id === match.watcher._id ? (
+                              <div className={StyleSingleMatch.eventActions}>
+                                <button
+                                  type="button"
+                                  onClick={() => handleOpenDelete(event._id)}
+                                  className={StyleSingleMatch.delete}
+                                  // disabled={match.played}
+                                  disabled={match.reported}
+                                >
+                                  <img src={EventDelete} alt="" />
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleOpenEdit(event)}
+                                  // style={{ border: "none" }}
+                                  className={StyleSingleMatch.edit}
+                                  // disabled={match.played}
+                                  disabled={match.reported}
+                                >
+                                  <img src={EventEdit} alt="" />
+                                </button>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                        ) : event.type === "full_time" ? (
                           <div>
                             <div
                               style={{
@@ -429,12 +615,12 @@ function SingleMatch() {
                                 style={{
                                   color: "red",
                                   textAlign: "center",
-                                  fontSize: "clamp(15px , 4vw , 25px)",
+                                  fontSize: "clamp(15px , 4vw , 20px)",
                                 }}
                               >
                                 {language === "en"
-                                  ? "HT'"
-                                  : "نهاية الشوط الأول"}
+                                  ? "FT"
+                                  : "نهاية الوقت الأصلي"}
                               </h1>
                               <div
                                 style={{
@@ -471,6 +657,197 @@ function SingleMatch() {
                             ) : (
                               ""
                             )}
+                          </div>
+                        ) : event.type === "firstExtraTime" ? (
+                          <div>
+                            <div
+                              style={{
+                                display: "flex",
+                                columnGap: "10%",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  width: "60px",
+                                  height: "2px",
+                                  backgroundColor: "red",
+                                }}
+                              ></div>
+                              <h1
+                                style={{
+                                  color: "red",
+                                  textAlign: "center",
+                                  fontSize: "clamp(15px , 4vw , 20px)",
+                                }}
+                              >
+                                {language === "en"
+                                  ? "First Extra Time"
+                                  : "نهاية الشوط الإضافي الأول"}
+                              </h1>
+                              <div
+                                style={{
+                                  width: "60px",
+                                  height: "2px",
+                                  backgroundColor: "red",
+                                }}
+                              ></div>
+                            </div>
+                            {user?.role === "admin" ||
+                            user?.userId === match.watcher._id ||
+                            user?._id === match.watcher._id ? (
+                              <div className={StyleSingleMatch.eventActions}>
+                                <button
+                                  type="button"
+                                  onClick={() => handleOpenDelete(event._id)}
+                                  className={StyleSingleMatch.delete}
+                                  // disabled={match.played}
+                                  disabled={match.reported}
+                                >
+                                  <img src={EventDelete} alt="" />
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleOpenEdit(event)}
+                                  // style={{ border: "none" }}
+                                  className={StyleSingleMatch.edit}
+                                  // disabled={match.played}
+                                  disabled={match.reported}
+                                >
+                                  <img src={EventEdit} alt="" />
+                                </button>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                        ) : event.type === "secondExtraTime" ? (
+                          <div>
+                            <div
+                              style={{
+                                display: "flex",
+                                columnGap: "10%",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  width: "60px",
+                                  height: "2px",
+                                  backgroundColor: "red",
+                                }}
+                              ></div>
+                              <h1
+                                style={{
+                                  color: "red",
+                                  textAlign: "center",
+                                  fontSize: "clamp(15px , 4vw , 20px)",
+                                }}
+                              >
+                                {language === "en"
+                                  ? "Second Extra Time"
+                                  : "نهاية الشوط الإضافي الثاني"}
+                              </h1>
+                              <div
+                                style={{
+                                  width: "60px",
+                                  height: "2px",
+                                  backgroundColor: "red",
+                                }}
+                              ></div>
+                            </div>
+                            {user?.role === "admin" ||
+                            user?.userId === match.watcher._id ||
+                            user?._id === match.watcher._id ? (
+                              <div className={StyleSingleMatch.eventActions}>
+                                <button
+                                  type="button"
+                                  onClick={() => handleOpenDelete(event._id)}
+                                  className={StyleSingleMatch.delete}
+                                  disabled={match.reported}
+                                >
+                                  <img src={EventDelete} alt="" />
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleOpenEdit(event)}
+                                  className={StyleSingleMatch.edit}
+                                  disabled={match.reported}
+                                >
+                                  <img src={EventEdit} alt="" />
+                                </button>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                        ) : event.type === "penalties" ? (
+                          <div>
+                            <div>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  columnGap: "10%",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    width: "60px",
+                                    height: "2px",
+                                    backgroundColor: "red",
+                                  }}
+                                ></div>
+                                <h1
+                                  style={{
+                                    color: "red",
+                                    textAlign: "center",
+                                    fontSize: "clamp(15px , 4vw , 20px)",
+                                  }}
+                                >
+                                  {language === "en"
+                                    ? "Penalties"
+                                    : "ضربات جزاء"}
+                                </h1>
+                                <div
+                                  style={{
+                                    width: "60px",
+                                    height: "2px",
+                                    backgroundColor: "red",
+                                  }}
+                                ></div>
+                              </div>
+                              {user?.role === "admin" ||
+                              user?.userId === match.watcher._id ||
+                              user?._id === match.watcher._id ? (
+                                <div className={StyleSingleMatch.eventActions}>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleOpenDelete(event._id)}
+                                    className={StyleSingleMatch.delete}
+                                    // disabled={match.played}
+                                    disabled={match.reported}
+                                  >
+                                    <img src={EventDelete} alt="" />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleOpenEdit(event)}
+                                    // style={{ border: "none" }}
+                                    className={StyleSingleMatch.edit}
+                                    // disabled={match.played}
+                                    disabled={match.reported}
+                                  >
+                                    <img src={EventEdit} alt="" />
+                                  </button>
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                            </div>
                           </div>
                         ) : (
                           <div
@@ -557,7 +934,21 @@ function SingleMatch() {
                               ""
                             )}
 
-                            <p>{event.minute}'</p>
+                            {event.penalty === "scored" ? (
+                              <img
+                                src={`${process.env.REACT_APP_IMAGE_PATH}/scored.png`}
+                                alt="scored"
+                                className={StyleSingleMatch.iconActions}
+                              />
+                            ) : event.penalty === "missed" ? (
+                              <img
+                                src={`${process.env.REACT_APP_IMAGE_PATH}/missed.png`}
+                                alt="missed"
+                                className={StyleSingleMatch.iconActions}
+                              />
+                            ) : (
+                              <p>{event.minute}</p>
+                            )}
                           </div>
                         )}
                       </>
@@ -590,7 +981,7 @@ function SingleMatch() {
                         style={{
                           color: "red",
                           textAlign: "center",
-                          fontSize: "clamp(15px , 4vw , 25px)",
+                          fontSize: "clamp(15px , 4vw , 20px)",
                         }}
                       >
                         {language === "en"
@@ -1136,14 +1527,18 @@ function SingleMatch() {
                 alt={match.team_a?.team.name}
                 className={StyleSingleMatch.cardImage}
               />
-              <h1>{match.team_a?.team.name}</h1>
+              <h1>
+                <span style={{ color: "grey", fontSize: "10px" }}>
+                  {language === "en" ? "(Home)" : "(المستضيف)"}
+                </span>{" "}
+                {match.team_a?.team.name}
+              </h1>
 
               <div className={StyleSingleMatch.containerActions}>
                 <button
                   onClick={() => handleEventClickTeamA("goal")}
-                  // className={StyleSingleMatch.singleAction}
                   className={`${StyleSingleMatch.singleAction} ${
-                    selectedEventType === "goal"
+                    selectedEventTypeA === "goal"
                       ? StyleSingleMatch.selected
                       : ""
                   }`}
@@ -1157,7 +1552,7 @@ function SingleMatch() {
                 <button
                   onClick={() => handleEventClickTeamA("red_card")}
                   className={`${StyleSingleMatch.singleAction} ${
-                    selectedEventType === "red_card"
+                    selectedEventTypeA === "red_card"
                       ? StyleSingleMatch.selected
                       : ""
                   }`}
@@ -1171,7 +1566,7 @@ function SingleMatch() {
                 <button
                   onClick={() => handleEventClickTeamA("yellow_card")}
                   className={`${StyleSingleMatch.singleAction} ${
-                    selectedEventType === "yellow_card"
+                    selectedEventTypeA === "yellow_card"
                       ? StyleSingleMatch.selected
                       : ""
                   }`}
@@ -1185,7 +1580,7 @@ function SingleMatch() {
                 <button
                   onClick={() => handleEventClickTeamA("substitution")}
                   className={`${StyleSingleMatch.singleAction} ${
-                    selectedEventType === "substitution"
+                    selectedEventTypeA === "substitution"
                       ? StyleSingleMatch.selected
                       : ""
                   }`}
@@ -1198,7 +1593,7 @@ function SingleMatch() {
                 </button>
               </div>
 
-              {selectedEventType && (
+              {selectedEventTypeA && (
                 <form
                   onSubmit={handleAddAction}
                   className={StyleSingleMatch.eventForm}
@@ -1216,7 +1611,7 @@ function SingleMatch() {
                       }
                     >
                       <option value="">
-                        {selectedEventType === "substitution"
+                        {selectedEventTypeA === "substitution"
                           ? language === "en"
                             ? "Select Player In"
                             : "اختر لاعب دخول"
@@ -1259,17 +1654,72 @@ function SingleMatch() {
                     </div>
                   )}
                   <div className={StyleSingleMatch.control}>
-                    {/* <label htmlFor="minute">Minute</label> */}
-                    <input
-                      id="minute"
-                      type="number"
-                      className={StyleSingleMatch.minute}
-                      value={formAction.minute}
-                      placeholder={language === "en" ? "Minute" : "الدقيقة"}
-                      onChange={(e) =>
-                        setFormAction({ ...formAction, minute: e.target.value })
-                      }
-                    />
+                    {match.isPenalties === true ? (
+                      <div className={StyleSingleMatch.penaltiesConatiner}>
+                        {/* <h1>Penaltiiies</h1> */}
+
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            padding: "5px",
+                            borderRadius: "10px",
+                          }}
+                          className={`${
+                            selectedPenaltyTypeA === "scored"
+                              ? StyleSingleMatch.selectedPenalty
+                              : ""
+                          }`}
+                        >
+                          <img
+                            src={`${process.env.REACT_APP_IMAGE_PATH}/scored.png`}
+                            alt="scored"
+                            className={StyleSingleMatch.iconActions}
+                            onClick={() =>
+                              handleEventClickTeamA("goal", "scored")
+                            }
+                          />
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            padding: "5px",
+                            borderRadius: "10px",
+                          }}
+                          className={`${
+                            selectedPenaltyTypeA === "missed"
+                              ? StyleSingleMatch.selectedPenalty
+                              : ""
+                          }`}
+                        >
+                          <img
+                            src={`${process.env.REACT_APP_IMAGE_PATH}/missed.png`}
+                            alt="missed"
+                            className={StyleSingleMatch.iconActions}
+                            onClick={() =>
+                              handleEventClickTeamA("goal", "missed")
+                            }
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <input
+                        id="minute"
+                        type="number"
+                        className={StyleSingleMatch.minute}
+                        value={formAction.minute}
+                        placeholder={language === "en" ? "Minute" : "الدقيقة"}
+                        onChange={(e) =>
+                          setFormAction({
+                            ...formAction,
+                            minute: e.target.value,
+                          })
+                        }
+                      />
+                    )}
                   </div>
                   <div className={StyleSingleMatch.addCancel}>
                     <button type="submit" className={StyleSingleMatch.addEvent}>
@@ -1286,10 +1736,17 @@ function SingleMatch() {
                 </form>
               )}
             </section>
-            <section className={StyleSingleMatch.result}>
-              <p>{match?.team_a?.score}</p>
-              <span>-</span>
-              <p>{match?.team_b?.score}</p>
+            <section className={StyleSingleMatch.results}>
+              <div className={StyleSingleMatch.result}>
+                <p>{match?.team_a?.score}</p>
+                <span>-</span>
+                <p>{match?.team_b?.score}</p>
+              </div>
+              <div className={StyleSingleMatch.resultPenalties}>
+                <p>{match?.team_a?.scorePenalties}</p>
+                <span>-</span>
+                <p>{match?.team_b?.scorePenalties}</p>
+              </div>
             </section>
             <section className={StyleSingleMatch.teamA}>
               <img
@@ -1297,7 +1754,217 @@ function SingleMatch() {
                 alt={match?.team_b?.team.name}
                 className={StyleSingleMatch.cardImage}
               />
-              <h1>{match?.team_b?.team.name}</h1>
+              <h1>
+                <span style={{ color: "grey", fontSize: "10px" }}>
+                  {language === "en" ? "(Guest)" : "(الضيف)"}
+                </span>{" "}
+                {match?.team_b?.team?.name}
+              </h1>
+
+              {/* Team B Actions  */}
+
+              <div className={StyleSingleMatch.containerActions}>
+                <button
+                  onClick={() => handleEventClickTeamB("goal")}
+                  className={`${StyleSingleMatch.singleAction} ${
+                    selectedEventTypeB === "goal"
+                      ? StyleSingleMatch.selected
+                      : ""
+                  }`}
+                >
+                  <img
+                    src={`${process.env.REACT_APP_IMAGE_PATH}/football.png`}
+                    alt="football"
+                    className={StyleSingleMatch.iconActions}
+                  />
+                </button>
+                <button
+                  onClick={() => handleEventClickTeamB("red_card")}
+                  className={`${StyleSingleMatch.singleAction} ${
+                    selectedEventTypeB === "red_card"
+                      ? StyleSingleMatch.selected
+                      : ""
+                  }`}
+                >
+                  <img
+                    src={`${process.env.REACT_APP_IMAGE_PATH}/red-card.png`}
+                    alt="red card"
+                    className={StyleSingleMatch.iconActions}
+                  />
+                </button>
+                <button
+                  onClick={() => handleEventClickTeamB("yellow_card")}
+                  className={`${StyleSingleMatch.singleAction} ${
+                    selectedEventTypeB === "yellow_card"
+                      ? StyleSingleMatch.selected
+                      : ""
+                  }`}
+                >
+                  <img
+                    src={`${process.env.REACT_APP_IMAGE_PATH}/yellow-card.png`}
+                    alt="yellow card"
+                    className={StyleSingleMatch.iconActions}
+                  />
+                </button>
+                <button
+                  onClick={() => handleEventClickTeamB("substitution")}
+                  className={`${StyleSingleMatch.singleAction} ${
+                    selectedEventTypeB === "substitution"
+                      ? StyleSingleMatch.selected
+                      : ""
+                  }`}
+                >
+                  <img
+                    src={`${process.env.REACT_APP_IMAGE_PATH}/substitution.png`}
+                    alt="substitution"
+                    className={StyleSingleMatch.iconActions}
+                  />
+                </button>
+              </div>
+
+              {selectedEventTypeB && (
+                <form
+                  onSubmit={handleAddAction}
+                  className={StyleSingleMatch.eventForm}
+                >
+                  <div className={StyleSingleMatch.control}>
+                    <select
+                      id="playerIn"
+                      value={formAction.playerIn}
+                      className={StyleSingleMatch.select}
+                      onChange={(e) =>
+                        setFormAction({
+                          ...formAction,
+                          playerIn: e.target.value,
+                        })
+                      }
+                    >
+                      <option value="">
+                        {selectedEventTypeB === "substitution"
+                          ? language === "en"
+                            ? "Select Player In"
+                            : "اختر لاعب دخول"
+                          : language === "en"
+                          ? "Select Player"
+                          : "اختر لاعب"}
+                      </option>
+                      {match.team_b.team.players.map((player) => (
+                        <option key={player._id} value={player._id}>
+                          {player.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {formAction.type === "substitution" && (
+                    <div className={StyleSingleMatch.control}>
+                      <select
+                        id="playerOut"
+                        name="playerOut"
+                        value={formAction.playerOut}
+                        className={StyleSingleMatch.select}
+                        onChange={(e) =>
+                          setFormAction({
+                            ...formAction,
+                            playerOut: e.target.value,
+                          })
+                        }
+                        required
+                        disabled={formAction.type === "HT"}
+                      >
+                        <option value="">
+                          {language === "en" ? "Select Player Out" : "حدّد"}
+                        </option>
+                        {match.team_b.team.players.map((player) => (
+                          <option key={player._id} value={player._id}>
+                            {player.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  <div className={StyleSingleMatch.control}>
+                    {match.isPenalties === true ? (
+                      <div className={StyleSingleMatch.penaltiesConatiner}>
+                        {/* <h1>Penaltiiies</h1> */}
+
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            padding: "5px",
+                            borderRadius: "10px",
+                          }}
+                          className={`${
+                            selectedPenaltyTypeB === "scored"
+                              ? StyleSingleMatch.selectedPenalty
+                              : ""
+                          }`}
+                        >
+                          <img
+                            src={`${process.env.REACT_APP_IMAGE_PATH}/scored.png`}
+                            alt="scored"
+                            className={StyleSingleMatch.iconActions}
+                            onClick={() =>
+                              handleEventClickTeamB("goal", "scored")
+                            }
+                          />
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            padding: "5px",
+                            borderRadius: "10px",
+                          }}
+                          className={`${
+                            selectedPenaltyTypeB === "missed"
+                              ? StyleSingleMatch.selectedPenalty
+                              : ""
+                          }`}
+                        >
+                          <img
+                            src={`${process.env.REACT_APP_IMAGE_PATH}/missed.png`}
+                            alt="missed"
+                            className={StyleSingleMatch.iconActions}
+                            onClick={() =>
+                              handleEventClickTeamB("goal", "missed")
+                            }
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <input
+                        id="minute"
+                        type="number"
+                        className={StyleSingleMatch.minute}
+                        value={formAction.minute}
+                        placeholder={language === "en" ? "Minute" : "الدقيقة"}
+                        onChange={(e) =>
+                          setFormAction({
+                            ...formAction,
+                            minute: e.target.value,
+                          })
+                        }
+                      />
+                    )}
+                  </div>
+                  <div className={StyleSingleMatch.addCancel}>
+                    <button type="submit" className={StyleSingleMatch.addEvent}>
+                      {language === "en" ? "Add" : "اضافة"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleCancel}
+                      className={StyleSingleMatch.cancelEvent}
+                    >
+                      {language === "en" ? "Cancel" : "إلغاء"}
+                    </button>
+                  </div>
+                </form>
+              )}
             </section>
           </article>
           <article className={StyleSingleMatch.live}>

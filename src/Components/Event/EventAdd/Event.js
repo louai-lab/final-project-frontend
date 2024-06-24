@@ -33,16 +33,6 @@ function Event({
         ...formData,
         [name]: value,
       });
-
-      if (name === "team") {
-        if (value === teamATeam._id) {
-          setPlayers(playersATeam);
-        } else if (value === teamBTeam._id) {
-          setPlayers(playersBTeam);
-        } else {
-          setPlayers([]);
-        }
-      }
     }
   };
 
@@ -50,10 +40,6 @@ function Event({
     e.preventDefault();
 
     const { type, team, playerIn, minute } = formData;
-    // if (!type || !team || !playerIn || !minute) {
-    //   setAllFieldsRequired(true);
-    //   return;
-    // }
     handleEventSubmit(formData);
   };
 
@@ -77,7 +63,7 @@ function Event({
             <option value="">
               {language === "en" ? "Select an option" : "حدّد"}
             </option>
-            <option value="goal">{language === "en" ? "Goal" : "هدف"}</option>
+            {/* <option value="goal">{language === "en" ? "Goal" : "هدف"}</option>
             <option value="yellow_card">
               {language === "en" ? "Yellow Cart" : "بطاقة صفراء"}
             </option>
@@ -86,13 +72,23 @@ function Event({
             </option>
             <option value="substitution">
               {language === "en" ? "Substitution" : "تبديل"}
-            </option>
+            </option> */}
             <option value="HT">
               {language === "en" ? "HT" : "نهاية الشوط الأول"}
             </option>
+            <option value="firstExtraTime">
+              {language === "en"
+                ? "First Extra Time"
+                : "نهاية الشوط الإضافي الأول"}
+            </option>
+            <option value="secondExtraTime">
+              {language === "en"
+                ? "Second Extra Time"
+                : "نهاية الشوط الإضافي الثاني"}
+            </option>
           </select>
         </div>
-        <div className={StyleEvent.control}>
+        {/* <div className={StyleEvent.control}>
           <label htmlFor="team">
             {language === "en" ? "Select Team" : "اختار الفريق"}
           </label>
@@ -110,8 +106,8 @@ function Event({
             <option value={teamATeam._id}>{teamATeam.name}</option>
             <option value={teamBTeam._id}>{teamBTeam.name}</option>
           </select>
-        </div>
-        <div className={StyleEvent.control}>
+        </div> */}
+        {/* <div className={StyleEvent.control}>
           {formData.type === "substitution" ? (
             <label htmlFor="playerIn">
               {language === "en" ? "Player In" : "البديل"}
@@ -138,8 +134,8 @@ function Event({
               </option>
             ))}
           </select>
-        </div>
-        {formData.type === "substitution" && (
+        </div> */}
+        {/* {formData.type === "substitution" && (
           <div className={StyleEvent.control}>
             <label htmlFor="playerOut">
               {language === "en" ? "Player Out" : "المستبدل"}
@@ -163,8 +159,8 @@ function Event({
               ))}
             </select>
           </div>
-        )}
-        <div className={StyleEvent.control}>
+        )} */}
+        {/* <div className={StyleEvent.control}>
           <label htmlFor="minute">
             {language === "en" ? "Minutes" : "الدقيقة"}
           </label>
@@ -177,10 +173,10 @@ function Event({
             onChange={handleInputChange}
             disabled={formData.type === "HT"}
           />
-        </div>
-        {allFieldsRequired && (
+        </div> */}
+        {/* {allFieldsRequired && (
           <p style={{ color: "red" }}>All fields are required!</p>
-        )}
+        )} */}
         <div className={StyleEvent.control}>
           <button
             type="button"

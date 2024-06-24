@@ -72,15 +72,38 @@
   text-align: center;
 }
 
+.results {
+  display: flex;
+  flex-direction: column;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.646);
+  padding: 10px 20px;
+}
+
 .result {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
-  column-gap: 5px;
+  font-size: clamp(25px, 4vw, 50px);
+}
+
+.resultPenalties {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: clamp(15px, 3vw, 30px);
+  color: rgb(184, 183, 183);
+}
+
+.resultHT {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  column-gap: 50px;
   width: fit-content;
-  height: 100px;
-  border-radius: 50%;
+  /* height: 100px; */
+  border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.646);
 }
 
@@ -276,16 +299,19 @@
   }
 }
 
+@media screen and (max-width: 500px) {
+  .results {
+    padding: 10px;
+  }
+}
+
 @media screen and (max-width: 350px) {
   .cardImage {
     width: 4rem;
     height: 4rem;
     object-fit: contain;
   }
-  .result {
-    height: 60px;
-    padding: 5px;
-  }
+
   .iconType {
     width: 18px;
     height: 18px;
@@ -351,7 +377,7 @@
 
 .flexStart {
   flex-direction: row-reverse;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -482,7 +508,6 @@
   object-fit: contain;
 }
 
-
 .containerActions {
   display: flex;
   flex-wrap: wrap;
@@ -490,7 +515,21 @@
 }
 
 .iconActions {
-  max-width: 30px;
+  max-width: 40px;
+}
+
+.iconActions:hover {
+  cursor: pointer;
+}
+
+.penaltiesConatiner {
+  display: flex;
+  column-gap: 10px;
+  margin-bottom: 10px;
+}
+
+.selectedPenalty {
+  background-color: rgba(65, 65, 65, 0.793);
 }
 
 .singleAction {
@@ -507,11 +546,13 @@
   cursor: pointer;
 }
 
-.selected{
-  background-color: rgba(65, 65, 65, 0.793);
+.selectedEvent {
+  background-color: rgba(95, 95, 95, 0.793);
 }
 
-
+.selected {
+  background-color: rgba(65, 65, 65, 0.793);
+}
 
 .select {
   width: 100%;
@@ -524,15 +565,15 @@
 }
 
 .select option {
-  background-color: #fff; 
-  color: #333; 
+  background-color: #fff;
+  color: #333;
   padding: 10px;
-  border: 1px solid #ccc; 
-  transition: background-color 0.3s ease; 
+  border: 1px solid #ccc;
+  transition: background-color 0.3s ease;
 }
 
 .select option:hover {
-  background-color: #f0f0f0; 
+  background-color: #f0f0f0;
   cursor: pointer;
 }
 
@@ -558,7 +599,7 @@
   text-transform: uppercase;
   /* font-size: 1.2em; */
   font-size: clamp(5px, 3vw, 15px);
-  font-weight:normal;
+  font-weight: normal;
   opacity: 1;
   transition: opacity 0.3s ease;
 }
@@ -569,7 +610,7 @@
 }
 
 .cancelEvent {
-  width:  fit-content;
+  width: fit-content;
   display: block;
   padding: 5px;
   border: none;
@@ -580,7 +621,7 @@
   text-transform: uppercase;
   /* font-size: 1.2em; */
   font-size: clamp(5px, 3vw, 15px);
-  font-weight:normal;
+  font-weight: normal;
   opacity: 1;
   transition: opacity 0.3s ease;
 }
@@ -590,18 +631,36 @@
   cursor: pointer;
 }
 
-.addCancel{
+.addCancel {
   display: flex;
   column-gap: 10px;
-  justify-content: center
+  justify-content: center;
 }
 
-.control{
+.control {
   display: flex;
   justify-content: center;
 }
 
+.whistle {
+  border: none;
+  border-radius: 10px;
+  padding: 5px;
+  background-color: var(--primary-clr);
+  color: white;
+  font-size: clamp(10px, 3rem, 18px);
+  transition: opacity 0.3s ease-in-out;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 5px;
+}
 
+.whistle:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
 
 @media screen and (max-width: 1050px) {
   .event {
@@ -620,7 +679,6 @@
     width: 99%;
   }
 
-
   .containerActions {
     display: flex;
     flex-wrap: wrap;
@@ -628,11 +686,11 @@
     justify-content: center;
     margin: 10px;
   }
-  
+
   .iconActions {
     max-width: 20px;
   }
-  
+
   .singleAction {
     border: none;
     display: flex;
@@ -642,8 +700,6 @@
     padding: 5px;
     border-radius: 10px;
   }
-
-
 }
 
 @media screen and (max-width: 550px) {
@@ -669,7 +725,7 @@
     outline: none;
     margin: 0.2em 0;
   }
-  
+
   /* .select option {
     background-color: #fff; 
     color: #333; 
@@ -687,8 +743,6 @@
     outline: none;
     margin: 1em 0;
   }
-
-
 }
 
 @media screen and (max-width: 450px) {

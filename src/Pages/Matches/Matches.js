@@ -31,7 +31,7 @@ function Matches() {
 
   const { language } = useLanguage();
 
-  console.log("matches re-rendered")
+  // console.log("matches re-rendered")
 
   useEffect(() => {
     getAllTeams();
