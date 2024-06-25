@@ -32,37 +32,7 @@ function EditPopUpTeams({ selectedRowData, handleCancelEdit, handleSave }) {
         [name]: type === "checkbox" ? checked : e.target.value,
       }));
     }
-  };
-
-  // const handleChange = (e) => {
-  //   const { name, type, checked } = e.target;
-
-  //   if (name === "playerIds") {
-  //     const selectedPlayerIds = Array.isArray(e.target.value)
-  //       ? e.target.value
-  //       : [e.target.value];
-
-  //     setFormData((prevData) => ({
-  //       ...prevData,
-  //       [name]: selectedPlayerIds,
-  //     }));
-  //   } else if (type === "file") {
-  //     const file = e.target.files[0];
-  //     if (file) {
-  //       setFormData((prevData) => ({
-  //         ...prevData,
-  //         image: file,
-  //       }));
-  //     }
-  //   } else {
-  //     setFormData((prevData) => ({
-  //       ...prevData,
-  //       [name]: type === "checkbox" ? checked : e.target.value,
-  //     }));
-  //   }
-  // };
-
- 
+  }; 
 
   const handleSaveClick = (e) => {
     e.preventDefault();

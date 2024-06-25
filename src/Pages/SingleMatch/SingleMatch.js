@@ -61,7 +61,6 @@ function SingleMatch() {
   const handleEventClickTeamA = (type, penalty = null) => {
     setSelectedEventTypeA(type);
     setSelectedPenaltyTypeA(penalty);
-    // console.log(penalty);
     setFormAction({
       ...formAction,
       type: type,
@@ -73,7 +72,6 @@ function SingleMatch() {
   const handleEventClickTeamB = (type, penalty = null) => {
     setSelectedEventTypeB(type);
     setSelectedPenaltyTypeB(penalty);
-    // console.log(penalty);
     setFormAction({
       ...formAction,
       type: type,
@@ -85,7 +83,6 @@ function SingleMatch() {
   const handleEventClick = (type) => {
     setSelectedEventType(type);
     setFormAction({ ...formAction, type: type });
-    // console.log(type)
   };
   const handleCancel = () => {
     setSelectedEventTypeA("");
@@ -192,14 +189,12 @@ function SingleMatch() {
 
       if (response) {
         console.log("created successfully");
-        // closePopUp();
 
         fetchUpdatedMatch(match._id);
       }
     } catch (error) {
       console.error("Error updating match details:", error);
     }
-    // console.log(formData);
   };
 
   // End PopUp Match
@@ -354,7 +349,6 @@ function SingleMatch() {
   const handleOpenEdit = (event) => {
     openPopUpEdit();
     setSelectedEvent(event);
-    // console.log(event)
   };
 
   const cancelEditEvent = () => {
@@ -865,7 +859,19 @@ function SingleMatch() {
                                   : ""
                               }`}
                             >
-                              {event.type === "goal" ? (
+                              {event.penalty === "scored" ? (
+                                <img
+                                  src={`${process.env.REACT_APP_IMAGE_PATH}/scored.png`}
+                                  alt="scored"
+                                  className={StyleSingleMatch.iconType}
+                                />
+                              ) : event.penalty === "missed" ? (
+                                <img
+                                  src={`${process.env.REACT_APP_IMAGE_PATH}/missed.png`}
+                                  alt="missed"
+                                  className={StyleSingleMatch.iconType}
+                                />
+                              ) : event.type === "goal" ? (
                                 <img
                                   src={`${process.env.REACT_APP_IMAGE_PATH}/football.png`}
                                   alt="goal"
@@ -890,20 +896,61 @@ function SingleMatch() {
                                   className={StyleSingleMatch.iconSubstitution}
                                 />
                               )}
-                              <div>
-                                {event.type === "substitution" ? (
+
+                              {event.type === "substitution" ? (
+                                <div className={StyleSingleMatch.substitution}>
                                   <div
-                                    className={StyleSingleMatch.substitution}
+                                    className={
+                                      event?.team?._id ===
+                                      match?.team_a?.team._id
+                                        ? StyleSingleMatch.singleEvent
+                                        : StyleSingleMatch.singleEventB
+                                    }
                                   >
+                                    <img
+                                      src={`${process.env.REACT_APP_IMAGE_PATH}/${event?.playerIn?.image}`}
+                                      alt={event?.playerIn?.name}
+                                      className={StyleSingleMatch.playerIdImage}
+                                    />
                                     <p>{event.playerIn.name}</p>
+                                  </div>
+                                  {/* <p className={StyleSingleMatch.out}>
+                                    {event.playerOut.name}
+                                  </p> */}
+                                  <div
+                                    className={
+                                      event?.team?._id ===
+                                      match?.team_a?.team._id
+                                        ? StyleSingleMatch.singleEvent
+                                        : StyleSingleMatch.singleEventB
+                                    }
+                                  >
+                                    <img
+                                      src={`${process.env.REACT_APP_IMAGE_PATH}/${event?.playerOut?.image}`}
+                                      alt={event?.playerOut?.name}
+                                      className={StyleSingleMatch.playerIdImage}
+                                    />
                                     <p className={StyleSingleMatch.out}>
-                                      {event.playerOut.name}
+                                      {event?.playerOut?.name}
                                     </p>
                                   </div>
-                                ) : (
+                                </div>
+                              ) : (
+                                <div
+                                  className={
+                                    event?.team?._id === match?.team_a?.team._id
+                                      ? StyleSingleMatch.singleEvent
+                                      : StyleSingleMatch.singleEventB
+                                  }
+                                >
+                                  <img
+                                    src={`${process.env.REACT_APP_IMAGE_PATH}/${event?.playerIn?.image}`}
+                                    alt={event?.playerIn?.name}
+                                    className={StyleSingleMatch.playerIdImage}
+                                  />
                                   <p>{event?.playerIn?.name}</p>
-                                )}
-                              </div>
+                                </div>
+                              )}
                             </div>
 
                             {user?.role === "admin" ||
@@ -934,20 +981,12 @@ function SingleMatch() {
                               ""
                             )}
 
-                            {event.penalty === "scored" ? (
-                              <img
-                                src={`${process.env.REACT_APP_IMAGE_PATH}/scored.png`}
-                                alt="scored"
-                                className={StyleSingleMatch.iconActions}
-                              />
-                            ) : event.penalty === "missed" ? (
-                              <img
-                                src={`${process.env.REACT_APP_IMAGE_PATH}/missed.png`}
-                                alt="missed"
-                                className={StyleSingleMatch.iconActions}
-                              />
+                            {/* <p>{event.minute}'</p> */}
+                            {event.penalty === "scored" ||
+                            event.penalty === "missed" ? (
+                              ""
                             ) : (
-                              <p>{event.minute}</p>
+                              <p>{event.minute}'</p>
                             )}
                           </div>
                         )}
@@ -1345,7 +1384,8 @@ function SingleMatch() {
           <div className={StyleSingleMatch.things}>
             <div className={StyleSingleMatch.thing}>
               <img src={Trophy} alt="" className={StyleSingleMatch.iconInfo} />
-              <p>{match.title}</p>
+              {/* <p>{match.title}</p> */}
+              <p>{match.title.name}</p>
             </div>
             <div className={StyleSingleMatch.thing}>
               <img src={Season} alt="" className={StyleSingleMatch.iconInfo} />

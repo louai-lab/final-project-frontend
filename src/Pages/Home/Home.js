@@ -86,7 +86,8 @@ function Home() {
                       >
                         <div key={match._id} className={StyleHome.fixture}>
                           <div className={StyleHome.info}>
-                            <p className={StyleHome.title}>{match.title}</p>
+                            {/* <p className={StyleHome.title}>{match.title}</p> */}
+                            <p className={StyleHome.title}>{match.title.name}</p>
                             <p className={StyleHome.time}>
                               {new Date(match.match_date).toLocaleDateString(
                                 "en-US",

@@ -2,9 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./DashSidebar.module.css";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
-import QueryStatsIcon from "@mui/icons-material/QueryStats";
-import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
-import GroupIcon from "@mui/icons-material/Group";
+// import QueryStatsIcon from "@mui/icons-material/QueryStats";
+// import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
+// import GroupIcon from "@mui/icons-material/Group";
 import { GiBabyfootPlayers } from "react-icons/gi";
 import { BsMicrosoftTeams } from "react-icons/bs";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -15,6 +15,7 @@ import { useUserStore } from "../../../Zustand/Store";
 import { FaUserFriends } from "react-icons/fa";
 import { MdOutlineQueryStats } from "react-icons/md";
 import { PiSoccerBallFill } from "react-icons/pi";
+import { TfiCup } from "react-icons/tfi";
 
 const DashSidebar = () => {
   const { logOut } = useUserStore();
@@ -61,6 +62,12 @@ const DashSidebar = () => {
       item: "Matches",
       link: "/dashboard/matches",
       icon: <PiSoccerBallFill />,
+    },
+    {
+      number: 6,
+      item: "Titles",
+      link: "/dashboard/titles",
+      icon: <TfiCup />,
     },
   ];
 

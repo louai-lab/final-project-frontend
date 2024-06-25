@@ -20,10 +20,6 @@ function DashPlayers() {
   const [selectedRowData, setSelectedRowData] = useState(null);
   const { players, getAllPlayers } = usePlayersStore();
 
-  // useEffect(() => {
-  //   getAllPlayers();
-  // }, []);
-
   const style = {
     position: "absolute",
     top: "50%",
@@ -101,10 +97,16 @@ function DashPlayers() {
   };
 
   const handleEditSave = async (id, formData) => {
+    console.log(formData);
     try {
       const response = await axiosInstance.patch(
         `/player/update/${id}`,
-        formData
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
 
       if (response) {

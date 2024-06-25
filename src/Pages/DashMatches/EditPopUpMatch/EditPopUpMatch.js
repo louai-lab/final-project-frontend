@@ -11,20 +11,25 @@ import {
 import Box from "@mui/material/Box";
 import { useTeamsStore } from "../../../Zustand/Store";
 import { useUsersStore } from "../../../Zustand/Store";
+import { useTitlesStore } from "../../../Zustand/Store";
 
 function EditPopUpMatch({ selectedRowData, handleCancelEdit, handleSave }) {
   const { teams } = useTeamsStore();
   const { referees } = useUsersStore();
   const { watchers } = useUsersStore();
   const { linesman } = useUsersStore();
+  const { titles } = useTitlesStore();
+
+  console.log(titles);
+
+  // console.log(selectedRowData);
+
   const combinedDateTime = new Date(selectedRowData.match_date);
   const [formData, setFormData] = useState({
-    title: selectedRowData.title,
+    title: selectedRowData.title._id,
     season: selectedRowData.season,
     pitch: selectedRowData.pitch,
     match_date: combinedDateTime.toISOString().split("T")[0],
-    // match_time: combinedDateTime.toISOString().split("T")[1].slice(0, 5),
-    // match_date: selectedRowData.match_date,
     match_time: selectedRowData.match_time,
     team_a: {
       team: selectedRowData.team_a.team._id,
@@ -125,13 +130,32 @@ function EditPopUpMatch({ selectedRowData, handleCancelEdit, handleSave }) {
           >
             <div className={StyleEditPopUp.inputsWrapper}>
               <FormControl className={StyleEditPopUp.formControl}>
+                <InputLabel htmlFor="title">Choose Title</InputLabel>
+                <Select
+                  label="Title"
+                  name="title"
+                  value={formData.title || ""}
+                  onChange={handleChange}
+                >
+                  {titles.map((item) => (
+                    <MenuItem
+                      key={item._id}
+                      value={item._id}
+                      style={{ display: "flex", gap: "20px" }}
+                    >
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              {/* <FormControl className={StyleEditPopUp.formControl}>
                 <TextField
                   label="Title"
                   name="title"
                   value={formData.title}
                   onChange={handleChange}
                 />
-              </FormControl>
+              </FormControl> */}
 
               <FormControl className={StyleEditPopUp.formControl}>
                 <TextField

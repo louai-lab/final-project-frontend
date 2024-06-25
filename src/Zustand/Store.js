@@ -250,3 +250,21 @@ export const useMatchesStore = create((set, get) => ({
     }
   },
 }));
+
+export const useTitlesStore = create((set) => ({
+  titles: [],
+  loading: true,
+  getAllTitles: async () => {
+    try {
+      set({ loading: true });
+      const response = await axiosInstance.get("/title");
+      if (response) {
+        // console.log(response.data);
+        set({ titles: response.data, loading: false });
+      }
+    } catch (error) {
+      console.error(error);
+      set({ loading: false });
+    }
+  },
+}));

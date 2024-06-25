@@ -37,7 +37,6 @@ function Matches() {
     getAllTeams();
     getAllMatches(selectedTeamId, selectedPageNumber);
     // console.log("matches useeffect")
-    
   }, [getAllTeams, getAllMatches, selectedTeamId, selectedPageNumber]);
 
   // useEffect(() => {
@@ -151,7 +150,8 @@ function Matches() {
                       height={60}
                       alt="Lebanese Football Association"
                     />
-                    <p>{LastTwoMatches[0]?.title}</p>
+                    {/* <p>{LastTwoMatches[0]?.title}</p> */}
+                    <p>{LastTwoMatches[0]?.title.name}</p>
                   </section>
                   <section className={StyleMatches.twoTeams}>
                     <img
@@ -294,7 +294,8 @@ function Matches() {
                                   </div>
 
                                   <section className={StyleMatches.cardTitle}>
-                                    {match.title}
+                                    {/* {match.title} */}
+                                    {match.title.name}
                                   </section>
 
                                   <section>

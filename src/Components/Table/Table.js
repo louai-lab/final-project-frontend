@@ -134,7 +134,14 @@ const Table = ({
       if (ForWhat === "users") {
         visibleFields = ["firstName", "lastName", "role", "email", "image"];
       } else if (ForWhat === "players") {
-        visibleFields = ["name", "position", "team"];
+        visibleFields = [
+          "name",
+          "team",
+          "idCard",
+          "image",
+          "dateOfBirth",
+          "motherName",
+        ];
       } else if (ForWhat === "teams") {
         visibleFields = ["name", "image", "players"];
       } else if (ForWhat === "matches") {
@@ -153,6 +160,8 @@ const Table = ({
           "detailsWatcher",
           "reported",
         ];
+      } else if (ForWhat === "titles") {
+        visibleFields = ["name", "image"];
       } else {
         visibleFields = Object.keys(data[0]);
       }
@@ -235,6 +244,10 @@ const Table = ({
           }
           if (field === "linesman_two") {
             return params.row.linesman_two?.firstName;
+          }
+
+          if (field === "title") {
+            return params.row.title?.name;
           }
 
           if (field === "detailsWatcher") {

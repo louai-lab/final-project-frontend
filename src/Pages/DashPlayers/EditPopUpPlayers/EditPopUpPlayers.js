@@ -15,12 +15,16 @@ function EditPopUpPlayers({ selectedRowData, handleCancelEdit, handleSave }) {
   const { teams } = useTeamsStore();
   const [formData, setFormData] = useState({
     name: selectedRowData.name,
-    position: selectedRowData.position,
+    // position: selectedRowData.position,
     team: selectedRowData.team ? selectedRowData.team._id : "",
+    idCard: selectedRowData.idCard,
+    image: selectedRowData.image,
+    dateOfBirth: selectedRowData.dateOfBirth,
+    motherName: selectedRowData.motherName,
   });
 
   const handleChange = (e) => {
-    const { name, type, checked } = e.target;
+    const { name, type, checked, idCard, dateOfBirth, motherName } = e.target;
     // Check if the input type is file for handling images
     if (type === "file") {
       const file = e.target.files[0];
@@ -90,16 +94,6 @@ function EditPopUpPlayers({ selectedRowData, handleCancelEdit, handleSave }) {
             </FormControl>
 
             <FormControl fullWidth>
-              <TextField
-                label="Position"
-                name="position"
-                value={formData.position}
-                onChange={handleChange}
-                required
-              />
-            </FormControl>
-
-            <FormControl fullWidth>
               <InputLabel htmlFor="team">Choose the team</InputLabel>
               <Select
                 label="Team"
@@ -131,6 +125,46 @@ function EditPopUpPlayers({ selectedRowData, handleCancelEdit, handleSave }) {
                   </MenuItem>
                 ))}
               </Select>
+            </FormControl>
+
+            <FormControl fullWidth>
+              <TextField
+                label="Id Card"
+                name="idCard"
+                value={formData.idCard}
+                onChange={handleChange}
+                required
+              />
+            </FormControl>
+
+            <FormControl fullWidth>
+              <TextField
+                label="Date Of Birth"
+                name="dateOfBirth"
+                value={formData.dateOfBirth}
+                onChange={handleChange}
+                required
+              />
+            </FormControl>
+
+            <FormControl fullWidth>
+              <TextField
+                label="Mother Name"
+                name="motherName"
+                value={formData.motherName}
+                onChange={handleChange}
+                required
+              />
+            </FormControl>
+
+            <FormControl fullWidth>
+              <input
+                className={StyleEditPopUp.input}
+                type="file"
+                name="image"
+                id="image"
+                onChange={handleChange}
+              />
             </FormControl>
 
             <button className={StyleEditPopUp.save} onClick={handleSaveClick}>
