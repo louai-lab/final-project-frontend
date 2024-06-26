@@ -1422,7 +1422,7 @@ function SingleMatch() {
                 alt=""
                 className={StyleSingleMatch.iconInfo}
               />{" "}
-              <p>{match.season}</p>
+              <p>{match.season.seasonName}</p>
             </div>{" "}
           </div>
         </div>
@@ -1574,206 +1574,218 @@ function SingleMatch() {
                 {match.team_a?.team.name}
               </h1>
 
-              <div className={StyleSingleMatch.containerActions}>
-                <button
-                  onClick={() => handleEventClickTeamA("goal")}
-                  className={`${StyleSingleMatch.singleAction} ${
-                    selectedEventTypeA === "goal"
-                      ? StyleSingleMatch.selected
-                      : ""
-                  }`}
-                >
-                  <img
-                    src={`${process.env.REACT_APP_IMAGE_PATH}/football.png`}
-                    alt="football"
-                    className={StyleSingleMatch.iconActions}
-                  />
-                </button>
-                <button
-                  onClick={() => handleEventClickTeamA("red_card")}
-                  className={`${StyleSingleMatch.singleAction} ${
-                    selectedEventTypeA === "red_card"
-                      ? StyleSingleMatch.selected
-                      : ""
-                  }`}
-                >
-                  <img
-                    src={`${process.env.REACT_APP_IMAGE_PATH}/red-card.png`}
-                    alt="red card"
-                    className={StyleSingleMatch.iconActions}
-                  />
-                </button>
-                <button
-                  onClick={() => handleEventClickTeamA("yellow_card")}
-                  className={`${StyleSingleMatch.singleAction} ${
-                    selectedEventTypeA === "yellow_card"
-                      ? StyleSingleMatch.selected
-                      : ""
-                  }`}
-                >
-                  <img
-                    src={`${process.env.REACT_APP_IMAGE_PATH}/yellow-card.png`}
-                    alt="yellow card"
-                    className={StyleSingleMatch.iconActions}
-                  />
-                </button>
-                <button
-                  onClick={() => handleEventClickTeamA("substitution")}
-                  className={`${StyleSingleMatch.singleAction} ${
-                    selectedEventTypeA === "substitution"
-                      ? StyleSingleMatch.selected
-                      : ""
-                  }`}
-                >
-                  <img
-                    src={`${process.env.REACT_APP_IMAGE_PATH}/substitution.png`}
-                    alt="substitution"
-                    className={StyleSingleMatch.iconActions}
-                  />
-                </button>
-              </div>
-
-              {selectedEventTypeA && (
-                <form
-                  onSubmit={handleAddAction}
-                  className={StyleSingleMatch.eventForm}
-                >
-                  <div className={StyleSingleMatch.control}>
-                    <select
-                      id="playerIn"
-                      value={formAction.playerIn}
-                      className={StyleSingleMatch.select}
-                      onChange={(e) =>
-                        setFormAction({
-                          ...formAction,
-                          playerIn: e.target.value,
-                        })
-                      }
+              {user?.role === "admin" ||
+              user?.userId === match.watcher._id ||
+              user?._id === match.watcher._id ? (
+                <>
+                  <div className={StyleSingleMatch.containerActions}>
+                    <button
+                      onClick={() => handleEventClickTeamA("goal")}
+                      className={`${StyleSingleMatch.singleAction} ${
+                        selectedEventTypeA === "goal"
+                          ? StyleSingleMatch.selected
+                          : ""
+                      }`}
                     >
-                      <option value="">
-                        {selectedEventTypeA === "substitution"
-                          ? language === "en"
-                            ? "Select Player In"
-                            : "اختر لاعب دخول"
-                          : language === "en"
-                          ? "Select Player"
-                          : "اختر لاعب"}
-                      </option>
-                      {match.team_a.team.players.map((player) => (
-                        <option key={player._id} value={player._id}>
-                          {player.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  {formAction.type === "substitution" && (
-                    <div className={StyleSingleMatch.control}>
-                      <select
-                        id="playerOut"
-                        name="playerOut"
-                        value={formAction.playerOut}
-                        className={StyleSingleMatch.select}
-                        onChange={(e) =>
-                          setFormAction({
-                            ...formAction,
-                            playerOut: e.target.value,
-                          })
-                        }
-                        required
-                        disabled={formAction.type === "HT"}
-                      >
-                        <option value="">
-                          {language === "en" ? "Select Player Out" : "حدّد"}
-                        </option>
-                        {match.team_a.team.players.map((player) => (
-                          <option key={player._id} value={player._id}>
-                            {player.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  )}
-                  <div className={StyleSingleMatch.control}>
-                    {match.isPenalties === true ? (
-                      <div className={StyleSingleMatch.penaltiesConatiner}>
-                        {/* <h1>Penaltiiies</h1> */}
-
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            padding: "5px",
-                            borderRadius: "10px",
-                          }}
-                          className={`${
-                            selectedPenaltyTypeA === "scored"
-                              ? StyleSingleMatch.selectedPenalty
-                              : ""
-                          }`}
-                        >
-                          <img
-                            src={`${process.env.REACT_APP_IMAGE_PATH}/scored.png`}
-                            alt="scored"
-                            className={StyleSingleMatch.iconActions}
-                            onClick={() =>
-                              handleEventClickTeamA("goal", "scored")
-                            }
-                          />
-                        </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            padding: "5px",
-                            borderRadius: "10px",
-                          }}
-                          className={`${
-                            selectedPenaltyTypeA === "missed"
-                              ? StyleSingleMatch.selectedPenalty
-                              : ""
-                          }`}
-                        >
-                          <img
-                            src={`${process.env.REACT_APP_IMAGE_PATH}/missed.png`}
-                            alt="missed"
-                            className={StyleSingleMatch.iconActions}
-                            onClick={() =>
-                              handleEventClickTeamA("goal", "missed")
-                            }
-                          />
-                        </div>
-                      </div>
-                    ) : (
-                      <input
-                        id="minute"
-                        type="number"
-                        className={StyleSingleMatch.minute}
-                        value={formAction.minute}
-                        placeholder={language === "en" ? "Minute" : "الدقيقة"}
-                        onChange={(e) =>
-                          setFormAction({
-                            ...formAction,
-                            minute: e.target.value,
-                          })
-                        }
+                      <img
+                        src={`${process.env.REACT_APP_IMAGE_PATH}/football.png`}
+                        alt="football"
+                        className={StyleSingleMatch.iconActions}
                       />
-                    )}
-                  </div>
-                  <div className={StyleSingleMatch.addCancel}>
-                    <button type="submit" className={StyleSingleMatch.addEvent}>
-                      {language === "en" ? "Add" : "اضافة"}
                     </button>
                     <button
-                      type="button"
-                      onClick={handleCancel}
-                      className={StyleSingleMatch.cancelEvent}
+                      onClick={() => handleEventClickTeamA("red_card")}
+                      className={`${StyleSingleMatch.singleAction} ${
+                        selectedEventTypeA === "red_card"
+                          ? StyleSingleMatch.selected
+                          : ""
+                      }`}
                     >
-                      {language === "en" ? "Cancel" : "إلغاء"}
+                      <img
+                        src={`${process.env.REACT_APP_IMAGE_PATH}/red-card.png`}
+                        alt="red card"
+                        className={StyleSingleMatch.iconActions}
+                      />
+                    </button>
+                    <button
+                      onClick={() => handleEventClickTeamA("yellow_card")}
+                      className={`${StyleSingleMatch.singleAction} ${
+                        selectedEventTypeA === "yellow_card"
+                          ? StyleSingleMatch.selected
+                          : ""
+                      }`}
+                    >
+                      <img
+                        src={`${process.env.REACT_APP_IMAGE_PATH}/yellow-card.png`}
+                        alt="yellow card"
+                        className={StyleSingleMatch.iconActions}
+                      />
+                    </button>
+                    <button
+                      onClick={() => handleEventClickTeamA("substitution")}
+                      className={`${StyleSingleMatch.singleAction} ${
+                        selectedEventTypeA === "substitution"
+                          ? StyleSingleMatch.selected
+                          : ""
+                      }`}
+                    >
+                      <img
+                        src={`${process.env.REACT_APP_IMAGE_PATH}/substitution.png`}
+                        alt="substitution"
+                        className={StyleSingleMatch.iconActions}
+                      />
                     </button>
                   </div>
-                </form>
+                  {selectedEventTypeA && (
+                    <form
+                      onSubmit={handleAddAction}
+                      className={StyleSingleMatch.eventForm}
+                    >
+                      <div className={StyleSingleMatch.control}>
+                        <select
+                          id="playerIn"
+                          value={formAction.playerIn}
+                          className={StyleSingleMatch.select}
+                          onChange={(e) =>
+                            setFormAction({
+                              ...formAction,
+                              playerIn: e.target.value,
+                            })
+                          }
+                        >
+                          <option value="">
+                            {selectedEventTypeA === "substitution"
+                              ? language === "en"
+                                ? "Select Player In"
+                                : "اختر لاعب دخول"
+                              : language === "en"
+                              ? "Select Player"
+                              : "اختر لاعب"}
+                          </option>
+                          {match.team_a.team.players.map((player) => (
+                            <option key={player._id} value={player._id}>
+                              {player.name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      {formAction.type === "substitution" && (
+                        <div className={StyleSingleMatch.control}>
+                          <select
+                            id="playerOut"
+                            name="playerOut"
+                            value={formAction.playerOut}
+                            className={StyleSingleMatch.select}
+                            onChange={(e) =>
+                              setFormAction({
+                                ...formAction,
+                                playerOut: e.target.value,
+                              })
+                            }
+                            required
+                            disabled={formAction.type === "HT"}
+                          >
+                            <option value="">
+                              {language === "en" ? "Select Player Out" : "حدّد"}
+                            </option>
+                            {match.team_a.team.players.map((player) => (
+                              <option key={player._id} value={player._id}>
+                                {player.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
+                      <div className={StyleSingleMatch.control}>
+                        {match.isPenalties === true ? (
+                          <div className={StyleSingleMatch.penaltiesConatiner}>
+                            {/* <h1>Penaltiiies</h1> */}
+
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                padding: "5px",
+                                borderRadius: "10px",
+                              }}
+                              className={`${
+                                selectedPenaltyTypeA === "scored"
+                                  ? StyleSingleMatch.selectedPenalty
+                                  : ""
+                              }`}
+                            >
+                              <img
+                                src={`${process.env.REACT_APP_IMAGE_PATH}/scored.png`}
+                                alt="scored"
+                                className={StyleSingleMatch.iconActions}
+                                onClick={() =>
+                                  handleEventClickTeamA("goal", "scored")
+                                }
+                              />
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                padding: "5px",
+                                borderRadius: "10px",
+                              }}
+                              className={`${
+                                selectedPenaltyTypeA === "missed"
+                                  ? StyleSingleMatch.selectedPenalty
+                                  : ""
+                              }`}
+                            >
+                              <img
+                                src={`${process.env.REACT_APP_IMAGE_PATH}/missed.png`}
+                                alt="missed"
+                                className={StyleSingleMatch.iconActions}
+                                onClick={() =>
+                                  handleEventClickTeamA("goal", "missed")
+                                }
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <input
+                            id="minute"
+                            type="number"
+                            className={StyleSingleMatch.minute}
+                            value={formAction.minute}
+                            placeholder={
+                              language === "en" ? "Minute" : "الدقيقة"
+                            }
+                            onChange={(e) =>
+                              setFormAction({
+                                ...formAction,
+                                minute: e.target.value,
+                              })
+                            }
+                          />
+                        )}
+                      </div>
+                      <div className={StyleSingleMatch.addCancel}>
+                        <button
+                          type="submit"
+                          className={StyleSingleMatch.addEvent}
+                        >
+                          {language === "en" ? "Add" : "اضافة"}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleCancel}
+                          className={StyleSingleMatch.cancelEvent}
+                        >
+                          {language === "en" ? "Cancel" : "إلغاء"}
+                        </button>
+                      </div>
+                    </form>
+                  )}
+                </>
+              ) : (
+                ""
               )}
             </section>
             <section className={StyleSingleMatch.results}>
@@ -1800,210 +1812,221 @@ function SingleMatch() {
                 </span>{" "}
                 {match?.team_b?.team?.name}
               </h1>
-
               {/* Team B Actions  */}
 
-              <div className={StyleSingleMatch.containerActions}>
-                <button
-                  onClick={() => handleEventClickTeamB("goal")}
-                  className={`${StyleSingleMatch.singleAction} ${
-                    selectedEventTypeB === "goal"
-                      ? StyleSingleMatch.selected
-                      : ""
-                  }`}
-                >
-                  <img
-                    src={`${process.env.REACT_APP_IMAGE_PATH}/football.png`}
-                    alt="football"
-                    className={StyleSingleMatch.iconActions}
-                  />
-                </button>
-                <button
-                  onClick={() => handleEventClickTeamB("red_card")}
-                  className={`${StyleSingleMatch.singleAction} ${
-                    selectedEventTypeB === "red_card"
-                      ? StyleSingleMatch.selected
-                      : ""
-                  }`}
-                >
-                  <img
-                    src={`${process.env.REACT_APP_IMAGE_PATH}/red-card.png`}
-                    alt="red card"
-                    className={StyleSingleMatch.iconActions}
-                  />
-                </button>
-                <button
-                  onClick={() => handleEventClickTeamB("yellow_card")}
-                  className={`${StyleSingleMatch.singleAction} ${
-                    selectedEventTypeB === "yellow_card"
-                      ? StyleSingleMatch.selected
-                      : ""
-                  }`}
-                >
-                  <img
-                    src={`${process.env.REACT_APP_IMAGE_PATH}/yellow-card.png`}
-                    alt="yellow card"
-                    className={StyleSingleMatch.iconActions}
-                  />
-                </button>
-                <button
-                  onClick={() => handleEventClickTeamB("substitution")}
-                  className={`${StyleSingleMatch.singleAction} ${
-                    selectedEventTypeB === "substitution"
-                      ? StyleSingleMatch.selected
-                      : ""
-                  }`}
-                >
-                  <img
-                    src={`${process.env.REACT_APP_IMAGE_PATH}/substitution.png`}
-                    alt="substitution"
-                    className={StyleSingleMatch.iconActions}
-                  />
-                </button>
-              </div>
-
-              {selectedEventTypeB && (
-                <form
-                  onSubmit={handleAddAction}
-                  className={StyleSingleMatch.eventForm}
-                >
-                  <div className={StyleSingleMatch.control}>
-                    <select
-                      id="playerIn"
-                      value={formAction.playerIn}
-                      className={StyleSingleMatch.select}
-                      onChange={(e) =>
-                        setFormAction({
-                          ...formAction,
-                          playerIn: e.target.value,
-                        })
-                      }
+              {user?.role === "admin" ||
+              user?.userId === match.watcher._id ||
+              user?._id === match.watcher._id ? (
+                <>
+                  <div className={StyleSingleMatch.containerActions}>
+                    <button
+                      onClick={() => handleEventClickTeamB("goal")}
+                      className={`${StyleSingleMatch.singleAction} ${
+                        selectedEventTypeB === "goal"
+                          ? StyleSingleMatch.selected
+                          : ""
+                      }`}
                     >
-                      <option value="">
-                        {selectedEventTypeB === "substitution"
-                          ? language === "en"
-                            ? "Select Player In"
-                            : "اختر لاعب دخول"
-                          : language === "en"
-                          ? "Select Player"
-                          : "اختر لاعب"}
-                      </option>
-                      {match.team_b.team.players.map((player) => (
-                        <option key={player._id} value={player._id}>
-                          {player.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  {formAction.type === "substitution" && (
-                    <div className={StyleSingleMatch.control}>
-                      <select
-                        id="playerOut"
-                        name="playerOut"
-                        value={formAction.playerOut}
-                        className={StyleSingleMatch.select}
-                        onChange={(e) =>
-                          setFormAction({
-                            ...formAction,
-                            playerOut: e.target.value,
-                          })
-                        }
-                        required
-                        disabled={formAction.type === "HT"}
-                      >
-                        <option value="">
-                          {language === "en" ? "Select Player Out" : "حدّد"}
-                        </option>
-                        {match.team_b.team.players.map((player) => (
-                          <option key={player._id} value={player._id}>
-                            {player.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  )}
-
-                  <div className={StyleSingleMatch.control}>
-                    {match.isPenalties === true ? (
-                      <div className={StyleSingleMatch.penaltiesConatiner}>
-                        {/* <h1>Penaltiiies</h1> */}
-
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            padding: "5px",
-                            borderRadius: "10px",
-                          }}
-                          className={`${
-                            selectedPenaltyTypeB === "scored"
-                              ? StyleSingleMatch.selectedPenalty
-                              : ""
-                          }`}
-                        >
-                          <img
-                            src={`${process.env.REACT_APP_IMAGE_PATH}/scored.png`}
-                            alt="scored"
-                            className={StyleSingleMatch.iconActions}
-                            onClick={() =>
-                              handleEventClickTeamB("goal", "scored")
-                            }
-                          />
-                        </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            padding: "5px",
-                            borderRadius: "10px",
-                          }}
-                          className={`${
-                            selectedPenaltyTypeB === "missed"
-                              ? StyleSingleMatch.selectedPenalty
-                              : ""
-                          }`}
-                        >
-                          <img
-                            src={`${process.env.REACT_APP_IMAGE_PATH}/missed.png`}
-                            alt="missed"
-                            className={StyleSingleMatch.iconActions}
-                            onClick={() =>
-                              handleEventClickTeamB("goal", "missed")
-                            }
-                          />
-                        </div>
-                      </div>
-                    ) : (
-                      <input
-                        id="minute"
-                        type="number"
-                        className={StyleSingleMatch.minute}
-                        value={formAction.minute}
-                        placeholder={language === "en" ? "Minute" : "الدقيقة"}
-                        onChange={(e) =>
-                          setFormAction({
-                            ...formAction,
-                            minute: e.target.value,
-                          })
-                        }
+                      <img
+                        src={`${process.env.REACT_APP_IMAGE_PATH}/football.png`}
+                        alt="football"
+                        className={StyleSingleMatch.iconActions}
                       />
-                    )}
-                  </div>
-                  <div className={StyleSingleMatch.addCancel}>
-                    <button type="submit" className={StyleSingleMatch.addEvent}>
-                      {language === "en" ? "Add" : "اضافة"}
                     </button>
                     <button
-                      type="button"
-                      onClick={handleCancel}
-                      className={StyleSingleMatch.cancelEvent}
+                      onClick={() => handleEventClickTeamB("red_card")}
+                      className={`${StyleSingleMatch.singleAction} ${
+                        selectedEventTypeB === "red_card"
+                          ? StyleSingleMatch.selected
+                          : ""
+                      }`}
                     >
-                      {language === "en" ? "Cancel" : "إلغاء"}
+                      <img
+                        src={`${process.env.REACT_APP_IMAGE_PATH}/red-card.png`}
+                        alt="red card"
+                        className={StyleSingleMatch.iconActions}
+                      />
+                    </button>
+                    <button
+                      onClick={() => handleEventClickTeamB("yellow_card")}
+                      className={`${StyleSingleMatch.singleAction} ${
+                        selectedEventTypeB === "yellow_card"
+                          ? StyleSingleMatch.selected
+                          : ""
+                      }`}
+                    >
+                      <img
+                        src={`${process.env.REACT_APP_IMAGE_PATH}/yellow-card.png`}
+                        alt="yellow card"
+                        className={StyleSingleMatch.iconActions}
+                      />
+                    </button>
+                    <button
+                      onClick={() => handleEventClickTeamB("substitution")}
+                      className={`${StyleSingleMatch.singleAction} ${
+                        selectedEventTypeB === "substitution"
+                          ? StyleSingleMatch.selected
+                          : ""
+                      }`}
+                    >
+                      <img
+                        src={`${process.env.REACT_APP_IMAGE_PATH}/substitution.png`}
+                        alt="substitution"
+                        className={StyleSingleMatch.iconActions}
+                      />
                     </button>
                   </div>
-                </form>
+                  {selectedEventTypeB && (
+                    <form
+                      onSubmit={handleAddAction}
+                      className={StyleSingleMatch.eventForm}
+                    >
+                      <div className={StyleSingleMatch.control}>
+                        <select
+                          id="playerIn"
+                          value={formAction.playerIn}
+                          className={StyleSingleMatch.select}
+                          onChange={(e) =>
+                            setFormAction({
+                              ...formAction,
+                              playerIn: e.target.value,
+                            })
+                          }
+                        >
+                          <option value="">
+                            {selectedEventTypeB === "substitution"
+                              ? language === "en"
+                                ? "Select Player In"
+                                : "اختر لاعب دخول"
+                              : language === "en"
+                              ? "Select Player"
+                              : "اختر لاعب"}
+                          </option>
+                          {match.team_b.team.players.map((player) => (
+                            <option key={player._id} value={player._id}>
+                              {player.name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      {formAction.type === "substitution" && (
+                        <div className={StyleSingleMatch.control}>
+                          <select
+                            id="playerOut"
+                            name="playerOut"
+                            value={formAction.playerOut}
+                            className={StyleSingleMatch.select}
+                            onChange={(e) =>
+                              setFormAction({
+                                ...formAction,
+                                playerOut: e.target.value,
+                              })
+                            }
+                            required
+                            disabled={formAction.type === "HT"}
+                          >
+                            <option value="">
+                              {language === "en" ? "Select Player Out" : "حدّد"}
+                            </option>
+                            {match.team_b.team.players.map((player) => (
+                              <option key={player._id} value={player._id}>
+                                {player.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
+
+                      <div className={StyleSingleMatch.control}>
+                        {match.isPenalties === true ? (
+                          <div className={StyleSingleMatch.penaltiesConatiner}>
+                            {/* <h1>Penaltiiies</h1> */}
+
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                padding: "5px",
+                                borderRadius: "10px",
+                              }}
+                              className={`${
+                                selectedPenaltyTypeB === "scored"
+                                  ? StyleSingleMatch.selectedPenalty
+                                  : ""
+                              }`}
+                            >
+                              <img
+                                src={`${process.env.REACT_APP_IMAGE_PATH}/scored.png`}
+                                alt="scored"
+                                className={StyleSingleMatch.iconActions}
+                                onClick={() =>
+                                  handleEventClickTeamB("goal", "scored")
+                                }
+                              />
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                padding: "5px",
+                                borderRadius: "10px",
+                              }}
+                              className={`${
+                                selectedPenaltyTypeB === "missed"
+                                  ? StyleSingleMatch.selectedPenalty
+                                  : ""
+                              }`}
+                            >
+                              <img
+                                src={`${process.env.REACT_APP_IMAGE_PATH}/missed.png`}
+                                alt="missed"
+                                className={StyleSingleMatch.iconActions}
+                                onClick={() =>
+                                  handleEventClickTeamB("goal", "missed")
+                                }
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <input
+                            id="minute"
+                            type="number"
+                            className={StyleSingleMatch.minute}
+                            value={formAction.minute}
+                            placeholder={
+                              language === "en" ? "Minute" : "الدقيقة"
+                            }
+                            onChange={(e) =>
+                              setFormAction({
+                                ...formAction,
+                                minute: e.target.value,
+                              })
+                            }
+                          />
+                        )}
+                      </div>
+                      <div className={StyleSingleMatch.addCancel}>
+                        <button
+                          type="submit"
+                          className={StyleSingleMatch.addEvent}
+                        >
+                          {language === "en" ? "Add" : "اضافة"}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleCancel}
+                          className={StyleSingleMatch.cancelEvent}
+                        >
+                          {language === "en" ? "Cancel" : "إلغاء"}
+                        </button>
+                      </div>
+                    </form>
+                  )}
+                </>
+              ) : (
+                ""
               )}
             </section>
           </article>

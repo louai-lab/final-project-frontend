@@ -199,13 +199,18 @@ export const useMatchesStore = create((set, get) => ({
     set({ selectedPageNumber: pageNumber });
     // console.log(pageNumber);
   },
+  selectedTitleId: null,
+  updateSelectedTitleId: (titleId) => {
+    set({ selectedTitleId: titleId });
+  },
+
   matches: [],
   loading: true,
   setMatches: (newState) => {
     set({ matches: newState });
   },
 
-  getAllMatches: async (teamId) => {
+  getAllMatches: async () => {
     try {
       set({ loading: true });
 
@@ -213,12 +218,18 @@ export const useMatchesStore = create((set, get) => ({
 
       const pageSize = 10;
 
-      const url = teamId
-        ? `/match?teamId=${teamId}&pageNumber=${pageNumber}&pageSize=${pageSize}`
-        : `/match?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+      const teamId = get().selectedTeamId || null;
+      const titleId = get().selectedTitleId || null;
+
+      const url =
+        `/match?pageNumber=${pageNumber}&pageSize=${pageSize}` +
+        (teamId ? `&teamId=${teamId}` : "") +
+        (titleId ? `&titleId=${titleId}` : "");
+
+      // console.log(url);
 
       const data = await queryClient.fetchQuery(
-        ["matches", teamId, pageNumber, pageSize],
+        ["matches", teamId, titleId, pageNumber, pageSize],
         async () => axiosInstance.get(url).then((res) => res.data)
       );
 
@@ -261,6 +272,24 @@ export const useTitlesStore = create((set) => ({
       if (response) {
         // console.log(response.data);
         set({ titles: response.data, loading: false });
+      }
+    } catch (error) {
+      console.error(error);
+      set({ loading: false });
+    }
+  },
+}));
+
+export const useSeasonsStore = create((set) => ({
+  seasons: [],
+  loading: true,
+  getAllSeasons: async () => {
+    try {
+      set({ loading: true });
+      const response = await axiosInstance.get("/season");
+
+      if (response) {
+        set({ seasons: response.data, loading: false });
       }
     } catch (error) {
       console.error(error);

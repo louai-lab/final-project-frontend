@@ -7,6 +7,7 @@ import { usePlayersStore } from "./Zustand/Store";
 import { useTeamsStore } from "./Zustand/Store";
 import { useMatchesStore } from "./Zustand/Store";
 import { useTitlesStore } from "./Zustand/Store";
+import { useSeasonsStore } from "./Zustand/Store";
 import FootballLoader from "./Pages/FootballLoader/FootballLoader.js";
 // import Matches from "./Pages/Matches/Matches.js";
 import { Helmet } from "react-helmet-async";
@@ -30,6 +31,7 @@ function App() {
   const { getAllMatches } = useMatchesStore();
   const { getLastTwoCreatedMatches } = useMatchesStore();
   const { getAllTitles } = useTitlesStore();
+  const { getAllSeasons } = useSeasonsStore();
 
   // console.log(user);
 
@@ -45,6 +47,7 @@ function App() {
     getAllMatches();
     getLastTwoCreatedMatches();
     getAllTitles();
+    getAllSeasons();
     // console.log("app useeffect")
   }, [
     getUser,
@@ -58,6 +61,7 @@ function App() {
     getAllMatches,
     getLastTwoCreatedMatches,
     getAllTitles,
+    getAllSeasons,
   ]);
 
   // console.log(user)

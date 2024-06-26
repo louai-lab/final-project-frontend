@@ -12,12 +12,16 @@ import {
 import Box from "@mui/material/Box";
 import { useTeamsStore } from "../../../Zustand/Store";
 import { useUsersStore } from "../../../Zustand/Store";
+import { useTitlesStore } from "../../../Zustand/Store";
+import { useSeasonsStore } from "../../../Zustand/Store";
 
 function AddPopUpMatch({ handleCancelAdd, handleFormSubmitMatch }) {
   const { teams } = useTeamsStore();
   const { referees } = useUsersStore();
   const { watchers } = useUsersStore();
   const { linesman } = useUsersStore();
+  const { titles } = useTitlesStore();
+  const { seasons } = useSeasonsStore();
   const [formData, setFormData] = useState({
     title: "",
     season: "",
@@ -123,23 +127,54 @@ function AddPopUpMatch({ handleCancelAdd, handleFormSubmitMatch }) {
             >
               <div className={StyleAddPopUp.inputsWrapper}>
                 <FormControl className={StyleAddPopUp.formControl}>
-                  <TextField
+                  <InputLabel htmlFor="team_a">Choose Title</InputLabel>
+                  <Select
                     label="Title"
                     name="title"
-                    value={formData.title}
+                    value={formData.title || ""}
                     onChange={handleChange}
                     required
-                  />
+                  >
+                    {titles.map((title) => (
+                      <MenuItem
+                        key={title._id}
+                        value={title._id}
+                        style={{ display: "flex", gap: "20px" }}
+                      >
+                        <img
+                          src={`${process.env.REACT_APP_IMAGE_PATH}/${title.image}`}
+                          alt={title.name}
+                          style={{
+                            width: "20px",
+                            height: "20px",
+                            marginLeft: "5px",
+                          }}
+                        />
+                        {title.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
                 </FormControl>
 
                 <FormControl className={StyleAddPopUp.formControl}>
-                  <TextField
+                  <InputLabel htmlFor="team_a">Choose Season</InputLabel>
+                  <Select
                     label="Season"
                     name="season"
-                    value={formData.season}
+                    value={formData.season || ""}
                     onChange={handleChange}
                     required
-                  />
+                  >
+                    {seasons.map((season) => (
+                      <MenuItem
+                        key={season._id}
+                        value={season._id}
+                        style={{ display: "flex", gap: "20px" }}
+                      >
+                        {season.seasonName}
+                      </MenuItem>
+                    ))}
+                  </Select>
                 </FormControl>
 
                 <FormControl className={StyleAddPopUp.formControl}>

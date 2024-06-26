@@ -7,7 +7,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import StyleTable from "./Table.module.css";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { useMatchesStore, usePlayersStore } from "../../Zustand/Store";
+import {
+  useMatchesStore,
+  usePlayersStore,
+  useTitlesStore,
+} from "../../Zustand/Store";
 import { useTeamsStore } from "../../Zustand/Store";
 import {
   FormControl,
@@ -16,7 +20,6 @@ import {
   MenuItem,
   Button,
 } from "@mui/material";
-import PlayerSearchInput from "../PlayerSearchInput/PlayerSearchInput";
 
 const Table = ({
   data,
@@ -35,7 +38,10 @@ const Table = ({
   const [currentPage, setCurrentPage] = useState(1);
   const { getAllMatches } = useMatchesStore();
   const { getAllPlayers, playersCount } = usePlayersStore();
+  const { titles } = useTitlesStore();
   const { selectedTeamId, updateSelectedTeamId } = useMatchesStore();
+  const { selectedTitleId, updateSelectedTitleId } = useMatchesStore();
+  const [selectedTitle, setSelectedTitle] = useState(null);
   const { getAllTeams } = useMatchesStore();
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [teamForPlayer, setTeamForPlayer] = useState(null);
@@ -64,6 +70,13 @@ const Table = ({
     setSelectedTeam(team);
   };
 
+  const handleSelectChangeTitle = (event) => {
+    const titleId = event.target.value;
+    updateSelectedTitleId(titleId);
+    const title = titles.find((title) => title._id === titleId);
+    setSelectedTitle(title);
+  };
+
   const handlePlayerNameChange = (event) => {
     const playerNamee = event.target.value;
     setPlayerName(playerNamee);
@@ -88,7 +101,7 @@ const Table = ({
       selectedTeamPlayer,
       selectedPageNumberPlayer
     );
-    getAllMatches(selectedTeamId, selectedPageNumber);
+    getAllMatches(selectedTeamId, selectedTitleId, selectedPageNumber);
     // console.log("tabel useeffect");
   }, [
     getAllPlayers,
@@ -97,6 +110,7 @@ const Table = ({
     selectedTeamPlayer,
     selectedPageNumberPlayer,
     selectedTeamId,
+    selectedTitleId,
     selectedPageNumber,
   ]);
 
@@ -162,6 +176,8 @@ const Table = ({
         ];
       } else if (ForWhat === "titles") {
         visibleFields = ["name", "image"];
+      } else if (ForWhat === "seasons") {
+        visibleFields = ["seasonName"];
       } else {
         visibleFields = Object.keys(data[0]);
       }
@@ -248,6 +264,10 @@ const Table = ({
 
           if (field === "title") {
             return params.row.title?.name;
+          }
+
+          if (field === "season") {
+            return params.row.season?.seasonName;
           }
 
           if (field === "detailsWatcher") {
@@ -449,6 +469,44 @@ const Table = ({
                                 style={{ width: "80px", height: "80px" }}
                               />{" "}
                               <span>{team.name}</span>
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+
+                      <FormControl
+                        variant="outlined"
+                        fullWidth
+                        sx={{ marginBottom: "10px", position: "sticky" }}
+                      >
+                        <InputLabel id="team-select-label">
+                          Select a title
+                        </InputLabel>
+                        <Select
+                          labelId="title-select-label"
+                          id="title-select"
+                          value={selectedTitle ? selectedTitle._id : ""}
+                          onChange={handleSelectChangeTitle}
+                          label="Select a title"
+                        >
+                          <MenuItem value="">
+                            <em>Select a title</em>
+                          </MenuItem>
+                          {titles.map((title) => (
+                            <MenuItem
+                              key={title._id}
+                              value={title._id}
+                              sx={{
+                                display: "flex",
+                                columnGap: "20px",
+                              }}
+                            >
+                              <img
+                                src={`${process.env.REACT_APP_IMAGE_PATH}/${title.image}`}
+                                alt="Icon"
+                                style={{ width: "80px", height: "80px" }}
+                              />{" "}
+                              <span>{title.name}</span>
                             </MenuItem>
                           ))}
                         </Select>

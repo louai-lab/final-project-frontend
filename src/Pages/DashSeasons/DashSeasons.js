@@ -1,25 +1,21 @@
 import React, { useState } from "react";
-import StyleDashMatches from "./DashMatches.module.css";
+import StyleDashSeasons from "./DashSeasons.module.css";
+import { useSeasonsStore } from "../../Zustand/Store";
 import Table from "../../Components/Table/Table";
-import { useMatchesStore } from "../../Zustand/Store";
-import { useTeamsStore } from "../../Zustand/Store.js";
-import { useUsersStore } from "../../Zustand/Store";
-import AddPopUpMatch from "./AddPopUpMatches/AddPopUpMatch";
+import AddPopUpSeason from "./AddPopUpSeason/AddPopUpSeason";
 import axiosInstance from "../../Utils/AxiosInstance";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Typography from "@mui/material/Typography";
-import Backdrop from "@mui/material/Backdrop";
-import { Button } from "@mui/material";
-import EditPopUpMatch from "./EditPopUpMatch/EditPopUpMatch.js";
+import EditPopUpSeason from "./EditPopUpSeason/EditPopUpSeason";
+import { Backdrop, Box, Button, Fade, Modal, Typography } from "@mui/material";
 
-function DashMatches() {
-  const { matches } = useMatchesStore();
+function DashSeasons() {
+  const { seasons } = useSeasonsStore();
+  const [formError, setFormError] = useState(false);
+  const [formErrorUpdate, setFormErrorUpdate] = useState(false);
+  const [selectedRowData, setSelectedRowData] = useState(null);
+
   const [isAddPopUp, setIsAddPopUp] = useState(false);
   const [isEditPopUp, setIsEditPopUp] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedRowData, setSelectedRowData] = useState(null);
 
   const style = {
     position: "absolute",
@@ -33,28 +29,75 @@ function DashMatches() {
     p: 4,
   };
 
-  const handleOpenPopUp = () => {
-    setIsAddPopUp(true);
-  };
-
   const handleCancelAdd = () => {
     setIsAddPopUp(false);
   };
 
-  const handleFormSubmitMatch = async (formData) => {
+  const handleFormSubmitSeason = async (formData) => {
+    // console.log(formData);
+
     try {
-      const response = await axiosInstance.post("/match/add", formData);
+      const response = await axiosInstance.post("/season/add", formData);
+
       if (response) {
-        useMatchesStore.setState((state) => ({
-          matches: [response.data, ...state.matches],
+        useSeasonsStore.setState((state) => ({
+          seasons: [response.data, ...state.seasons],
         }));
-        console.log("Match created successfully:");
+        console.log("Seasons created successfully:");
       }
       setIsAddPopUp(false);
     } catch (error) {
-      console.log("Error creating match:", error);
+      if (error.response && error.response.data && error.response.data.error) {
+        setFormError(error.response.data.error);
+      } else {
+        console.error("Error creating season:", error);
+        setFormError("An unexpected error occurred. Please try again.");
+      }
     }
-    // console.log(formData)
+  };
+
+  const handleEditOpen = (selectedRowData) => {
+    setIsEditPopUp(true);
+    // console.log(selectedRowData);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditPopUp(false);
+  };
+
+  const handleEditSave = async (id, formData) => {
+    // console.log(formData);
+    // console.log(id);
+
+    try {
+      const response = await axiosInstance.patch(
+        `/season/update/${id}`,
+        formData
+      );
+
+      if (response) {
+        console.log("Season updated successfully:");
+        useSeasonsStore.setState((state) => {
+          const updatedSeason = state.seasons.map((season) => {
+            if (season._id === id) {
+              return response.data;
+            }
+            return season;
+          });
+          return {
+            seasons: updatedSeason,
+          };
+        });
+      }
+      setIsEditPopUp(false);
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.error) {
+        setFormErrorUpdate(error.response.data.error);
+      } else {
+        console.error("Error creating season:", error);
+        setFormErrorUpdate("An unexpected error occurred. Please try again.");
+      }
+    }
   };
 
   const handleOpen = () => {
@@ -67,82 +110,17 @@ function DashMatches() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await axiosInstance.delete(`match/delete/${id}`);
+      const response = await axiosInstance.delete(`/season/delete/${id}`);
+
       if (response) {
-        console.log("Match deleted successfully:");
-        useMatchesStore.setState((state) => ({
-          matches: state.matches.filter((match) => match._id !== id),
+        console.log("Season deleted successfully:");
+        useSeasonsStore.setState((state) => ({
+          seasons: state.seasons.filter((season) => season._id !== id),
         }));
       }
       setIsOpen(false);
     } catch (error) {
-      console.log("Error deleting match:", error);
-    }
-  };
-
-  const handleEditOpen = () => {
-    setIsEditPopUp(true);
-  };
-
-  const handleCancelEdit = () => {
-    setIsEditPopUp(false);
-  };
-
-  const handleEditSave = async (id, formData) => {
-    try {
-      const response = await axiosInstance.patch(
-        `/match/update/${id}`,
-        formData
-      );
-      if (response) {
-        console.log("Match updated successfully:");
-
-        useMatchesStore.setState((state) => {
-          const updatedMatches = state.matches.map((match) => {
-            if (match._id === id) {
-              return response.data;
-            }
-            return match;
-          });
-
-          return {
-            matches: updatedMatches,
-          };
-        });
-
-        if (response.data.team) {
-          useTeamsStore.setState((state) => {
-            const updatedTeams = state.teams.map((team) => {
-              if (team._id === response.data.team._id) {
-                return response.data.team;
-              }
-              return team;
-            });
-
-            return {
-              teams: updatedTeams,
-            };
-          });
-        }
-
-        if (response.data.user) {
-          useUsersStore.setState((state) => {
-            const updatedUsers = state.users.map((user) => {
-              if (user._id === response.data.user._id) {
-                return response.data.user;
-              }
-              return user;
-            });
-
-            return {
-              users: updatedUsers,
-            };
-          });
-        }
-      }
-      setIsEditPopUp(false);
-    } catch (error) {
-      console.log("Error updating match:", error);
+      console.log("Error deleting title:", error);
     }
   };
 
@@ -150,9 +128,10 @@ function DashMatches() {
     <>
       {isAddPopUp && (
         <>
-          <AddPopUpMatch
+          <AddPopUpSeason
             handleCancelAdd={handleCancelAdd}
-            handleFormSubmitMatch={handleFormSubmitMatch}
+            handleFormSubmitSeason={handleFormSubmitSeason}
+            formError={formError}
           />
           <div
             style={{
@@ -162,11 +141,35 @@ function DashMatches() {
               width: "100%",
               height: "100%",
               // backgroundColor: "rgba(0, 0, 0, 0.5)",
-              // backgroundColor: "rgba(0, 0, 0, 0.8)",
               backgroundColor: "rgba(0, 0, 0, 0.2)",
               zIndex: 1002,
             }}
             onClick={() => setIsAddPopUp(false)}
+          ></div>
+        </>
+      )}
+      {isEditPopUp && (
+        <>
+          <EditPopUpSeason
+            selectedRowData={selectedRowData}
+            handleCancelEdit={handleCancelEdit}
+            handleSave={(formData) =>
+              handleEditSave(selectedRowData._id, formData)
+            }
+            formErrorUpdate={formErrorUpdate}
+          />
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              // backgroundColor: "rgba(0, 0, 0, 0.5)",
+              backgroundColor: "rgba(0, 0, 0, 0.2)",
+              zIndex: 1002,
+            }}
+            onClick={() => setIsEditPopUp(false)}
           ></div>
         </>
       )}
@@ -191,7 +194,7 @@ function DashMatches() {
                 variant="h6"
                 component="h2"
               >
-                Are you sure to Delete this Match?
+                Are you sure to Delete this Title?
               </Typography>
               <div
                 style={{
@@ -240,39 +243,17 @@ function DashMatches() {
           </Fade>
         </Modal>
       )}
-      {isEditPopUp && (
-        <>
-          <EditPopUpMatch
-            selectedRowData={selectedRowData}
-            handleCancelEdit={handleCancelEdit}
-            handleSave={(formData) =>
-              handleEditSave(selectedRowData._id, formData)
-            }
-          />
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              // backgroundColor: "rgba(0, 0, 0, 0.5)",
-              // backgroundColor: "rgba(0, 0, 0, 0.8)",
-              backgroundColor: "rgba(0, 0, 0, 0.2)",
-              zIndex: 1002,
-            }}
-            onClick={() => setIsEditPopUp(false)}
-          ></div>
-        </>
-      )}
-      <div className={StyleDashMatches.container}>
-        <button className={StyleDashMatches.add} onClick={handleOpenPopUp}>
-          Add Match
+      <div className={StyleDashSeasons.container}>
+        <button
+          className={StyleDashSeasons.add}
+          onClick={() => setIsAddPopUp(true)}
+        >
+          Add Season
         </button>
         <Table
-          data={matches}
+          data={seasons}
           isEdit={true}
-          ForWhat="matches"
+          ForWhat="seasons"
           handleEditOpen={handleEditOpen}
           handleOpenDelete={handleOpen}
           setSelectedRowData={setSelectedRowData}
@@ -282,4 +263,4 @@ function DashMatches() {
   );
 }
 
-export default DashMatches;
+export default DashSeasons;

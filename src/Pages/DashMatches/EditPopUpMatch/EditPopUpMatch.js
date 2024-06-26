@@ -12,6 +12,7 @@ import Box from "@mui/material/Box";
 import { useTeamsStore } from "../../../Zustand/Store";
 import { useUsersStore } from "../../../Zustand/Store";
 import { useTitlesStore } from "../../../Zustand/Store";
+import { useSeasonsStore } from "../../../Zustand/Store";
 
 function EditPopUpMatch({ selectedRowData, handleCancelEdit, handleSave }) {
   const { teams } = useTeamsStore();
@@ -19,15 +20,16 @@ function EditPopUpMatch({ selectedRowData, handleCancelEdit, handleSave }) {
   const { watchers } = useUsersStore();
   const { linesman } = useUsersStore();
   const { titles } = useTitlesStore();
+  const { seasons } = useSeasonsStore();
 
-  console.log(titles);
+  // console.log(titles);
 
   // console.log(selectedRowData);
 
   const combinedDateTime = new Date(selectedRowData.match_date);
   const [formData, setFormData] = useState({
     title: selectedRowData.title._id,
-    season: selectedRowData.season,
+    season: selectedRowData.season._id,
     pitch: selectedRowData.pitch,
     match_date: combinedDateTime.toISOString().split("T")[0],
     match_time: selectedRowData.match_time,
@@ -148,23 +150,35 @@ function EditPopUpMatch({ selectedRowData, handleCancelEdit, handleSave }) {
                   ))}
                 </Select>
               </FormControl>
-              {/* <FormControl className={StyleEditPopUp.formControl}>
-                <TextField
-                  label="Title"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleChange}
-                />
-              </FormControl> */}
 
               <FormControl className={StyleEditPopUp.formControl}>
+                <InputLabel htmlFor="season">Choose Season</InputLabel>
+                <Select
+                  label="Season"
+                  name="season"
+                  value={formData.season || ""}
+                  onChange={handleChange}
+                >
+                  {seasons.map((item) => (
+                    <MenuItem
+                      key={item._id}
+                      value={item._id}
+                      style={{ display: "flex", gap: "20px" }}
+                    >
+                      {item.seasonName}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              {/* <FormControl className={StyleEditPopUp.formControl}>
                 <TextField
                   label="Season"
                   name="season"
                   value={formData.season}
                   onChange={handleChange}
                 />
-              </FormControl>
+              </FormControl> */}
 
               <FormControl className={StyleEditPopUp.formControl}>
                 <TextField

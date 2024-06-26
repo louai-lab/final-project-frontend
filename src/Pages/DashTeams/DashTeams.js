@@ -130,7 +130,7 @@ function DashTeams() {
       }
       setIsEditPopUp(false);
     } catch (error) {
-      console.log("Error updating player:", error);
+      console.log("Error updating team:", error);
     }
   };
 
@@ -150,7 +150,8 @@ function DashTeams() {
               width: "100%",
               height: "100%",
               // backgroundColor: "rgba(0, 0, 0, 0.5)",
-              backgroundColor: "rgba(0, 0, 0, 0.8)",
+              // backgroundColor: "rgba(0, 0, 0, 0.8)",
+              backgroundColor: "rgba(0, 0, 0, 0.2)",
               zIndex: 1002,
             }}
             onClick={() => setIsAddPopUp(false)}
@@ -174,7 +175,8 @@ function DashTeams() {
               width: "100%",
               height: "100%",
               // backgroundColor: "rgba(0, 0, 0, 0.5)",
-              backgroundColor: "rgba(0, 0, 0, 0.8)",
+              // backgroundColor: "rgba(0, 0, 0, 0.8)",
+              backgroundColor: "rgba(0, 0, 0, 0.2)",
               zIndex: 1002,
             }}
             onClick={() => setIsEditPopUp(false)}

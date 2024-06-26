@@ -90,11 +90,15 @@ function DashUsers() {
 
       formData.id = id;
 
-      const response = await axiosInstance.patch(`/user/updateNoCheck`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axiosInstance.patch(
+        `/user/updateNoCheck`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       if (response) {
         console.log("User updated successfully:");
 
@@ -156,7 +160,9 @@ function DashUsers() {
               width: "100%",
               height: "100%",
               // backgroundColor: "rgba(0, 0, 0, 0.5)",
-              backgroundColor: "rgba(0, 0, 0, 0.8)",
+              // backgroundColor: "rgba(0, 0, 0, 0.8)",
+              backgroundColor: "rgba(0, 0, 0, 0.2)",
+
               zIndex: 1002,
             }}
             onClick={() => setIsAddPopUp(false)}
@@ -180,7 +186,9 @@ function DashUsers() {
               width: "100%",
               height: "100%",
               // backgroundColor: "rgba(0, 0, 0, 0.5)",
-              backgroundColor: "rgba(0, 0, 0, 0.8)",
+              // backgroundColor: "rgba(0, 0, 0, 0.8)",
+              backgroundColor: "rgba(0, 0, 0, 0.2)",
+
               zIndex: 1002,
             }}
             onClick={() => setIsEditPopUp(false)}

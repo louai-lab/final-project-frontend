@@ -18,7 +18,7 @@ function Filter({ handleCloseFilter, handleApply }) {
     handleApply(teamId);
   };
 
-  //   console.log(teams);
+    // console.log(teams);
   return (
     <main className={StyleFilter.popUpFilter}>
       <div
