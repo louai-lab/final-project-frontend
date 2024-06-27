@@ -1414,7 +1414,7 @@ function SingleMatch() {
             </div>
             <div className={StyleSingleMatch.thing}>
               <img src={Stadium} alt="" className={StyleSingleMatch.iconInfo} />
-              <p>{match.pitch}</p>
+              <p>{match?.pitch?.name}</p>
             </div>
             <div className={StyleSingleMatch.thing}>
               <img
@@ -1422,7 +1422,7 @@ function SingleMatch() {
                 alt=""
                 className={StyleSingleMatch.iconInfo}
               />{" "}
-              <p>{match.season.seasonName}</p>
+              <p>{match?.season?.seasonName}</p>
             </div>{" "}
           </div>
         </div>

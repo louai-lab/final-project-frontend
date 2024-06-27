@@ -17,16 +17,18 @@ function Home() {
   const { language } = useLanguage();
   const navigate = useNavigate();
   const { user, getUser } = useUserStore();
-  const { loading, LastTwoMatches, getLastTwoCreatedMatches } =
-    useMatchesStore();
+  // const { loading, LastTwoMatches, getLastTwoCreatedMatches } =
+  //   useMatchesStore();
+
+  const { loading, matches, getAllMatches } = useMatchesStore();
 
   // console.log(LastTwoMatches);
   // console.log(user);
 
   useEffect(() => {
-    getLastTwoCreatedMatches();
+    getAllMatches();
     // console.log("hi")
-  }, [getLastTwoCreatedMatches]);
+  }, [getAllMatches]);
 
   const handleMatchClick = (match) => {
     if (match && match._id) {
@@ -75,75 +77,153 @@ function Home() {
                 </p>
                 <h1>{language === "en" ? "Fixtures" : "تجهيزات"}</h1>
                 <div className={StyleHome.fixtureContainer}>
-                  {Array.isArray(LastTwoMatches) &&
-                  LastTwoMatches.length > 0 ? (
-                    LastTwoMatches.map((match, index) => (
-                      <button
-                        type="button"
-                        key={match._id}
-                        onClick={() => handleMatchClick(match)}
-                        style={{ all: "unset" }}
-                      >
-                        <div key={match._id} className={StyleHome.fixture}>
-                          <div className={StyleHome.info}>
-                            {/* <p className={StyleHome.title}>{match.title}</p> */}
-                            <p className={StyleHome.title}>{match.title.name}</p>
-                            <p className={StyleHome.time}>
-                              {new Date(match.match_date).toLocaleDateString(
-                                "en-US",
-                                {
+                  {Array.isArray(matches) && matches.length > 0 ? (
+                    <>
+                      {matches[0] && (
+                        <button
+                          type="button"
+                          key={matches[0]._id}
+                          onClick={() => handleMatchClick(matches[0])}
+                          style={{ all: "unset" }}
+                        >
+                          <div
+                            key={matches[0]._id}
+                            className={StyleHome.fixture}
+                          >
+                            <div className={StyleHome.info}>
+                              <p className={StyleHome.title}>
+                                {matches[0].title.name}
+                              </p>
+                              <p className={StyleHome.time}>
+                                {new Date(
+                                  matches[0].match_date
+                                ).toLocaleDateString("en-US", {
                                   timeZone: "UTC",
                                   year: "numeric",
                                   month: "numeric",
                                   day: "numeric",
-                                }
-                              )}
-                              {" / "}
-                              {new Date(
-                                `2000-01-01T${match.match_time}:00Z`
-                              ).toLocaleTimeString("en-US", {
-                                timeZone: "UTC",
-                                hour: "numeric",
-                                minute: "numeric",
-                                hour12: true,
-                              })}
-                            </p>
-                            <p className={StyleHome.stadium}>{match.pitch}</p>
-                          </div>
-                          <div className={StyleHome.teams}>
-                            <div className={StyleHome.oneTeam}>
-                              <img
-                                src={`${process.env.REACT_APP_IMAGE_PATH}/${match.team_a?.team.image}`}
-                                alt={match.team_a?.team.name}
-                                style={{
-                                  width: "70px",
-                                  height: "70px",
-                                  objectFit: "contain",
-                                }}
-                              />
-                              <p className={StyleHome.teamName}>
-                                {match.team_a?.team.name}
+                                })}
+                                {" / "}
+                                {new Date(
+                                  `2000-01-01T${matches[0].match_time}:00Z`
+                                ).toLocaleTimeString("en-US", {
+                                  timeZone: "UTC",
+                                  hour: "numeric",
+                                  minute: "numeric",
+                                  hour12: true,
+                                })}
+                              </p>
+                              <p className={StyleHome.stadium}>
+                                {matches[0]?.pitch?.name}
                               </p>
                             </div>
-                            <p style={{ fontWeight: "bold" }}>VS</p>
-                            <div className={StyleHome.oneTeam}>
-                              <img
-                                src={`${process.env.REACT_APP_IMAGE_PATH}/${match.team_b?.team.image}`}
-                                alt={match.team_b?.team.name}
-                                style={{
-                                  width: "70px",
-                                  height: "70px",
-                                  objectFit: "contain",
-                                }}
-                              />
-                              <p className={StyleHome.teamName}>
-                                {match.team_b?.team.name}
-                              </p>
+                            <div className={StyleHome.teams}>
+                              <div className={StyleHome.oneTeam}>
+                                <img
+                                  src={`${process.env.REACT_APP_IMAGE_PATH}/${matches[0].team_a?.team.image}`}
+                                  alt={matches[0].team_a?.team.name}
+                                  style={{
+                                    width: "70px",
+                                    height: "70px",
+                                    objectFit: "contain",
+                                  }}
+                                />
+                                <p className={StyleHome.teamName}>
+                                  {matches[0].team_a?.team.name}
+                                </p>
+                              </div>
+                              <p style={{ fontWeight: "bold" }}>VS</p>
+                              <div className={StyleHome.oneTeam}>
+                                <img
+                                  src={`${process.env.REACT_APP_IMAGE_PATH}/${matches[0].team_b?.team.image}`}
+                                  alt={matches[0].team_b?.team.name}
+                                  style={{
+                                    width: "70px",
+                                    height: "70px",
+                                    objectFit: "contain",
+                                  }}
+                                />
+                                <p className={StyleHome.teamName}>
+                                  {matches[0].team_b?.team.name}
+                                </p>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </button>
-                    ))
+                        </button>
+                      )}
+                      {matches[1] && (
+                        <button
+                          type="button"
+                          key={matches[1]._id}
+                          onClick={() => handleMatchClick(matches[1])}
+                          style={{ all: "unset" }}
+                        >
+                          <div
+                            key={matches[1]._id}
+                            className={StyleHome.fixture}
+                          >
+                            <div className={StyleHome.info}>
+                              <p className={StyleHome.title}>
+                                {matches[1].title.name}
+                              </p>
+                              <p className={StyleHome.time}>
+                                {new Date(
+                                  matches[1].match_date
+                                ).toLocaleDateString("en-US", {
+                                  timeZone: "UTC",
+                                  year: "numeric",
+                                  month: "numeric",
+                                  day: "numeric",
+                                })}
+                                {" / "}
+                                {new Date(
+                                  `2000-01-01T${matches[1].match_time}:00Z`
+                                ).toLocaleTimeString("en-US", {
+                                  timeZone: "UTC",
+                                  hour: "numeric",
+                                  minute: "numeric",
+                                  hour12: true,
+                                })}
+                              </p>
+                              <p className={StyleHome.stadium}>
+                                {matches[1]?.pitch?.name}
+                              </p>
+                            </div>
+                            <div className={StyleHome.teams}>
+                              <div className={StyleHome.oneTeam}>
+                                <img
+                                  src={`${process.env.REACT_APP_IMAGE_PATH}/${matches[1].team_a?.team.image}`}
+                                  alt={matches[1].team_a?.team.name}
+                                  style={{
+                                    width: "70px",
+                                    height: "70px",
+                                    objectFit: "contain",
+                                  }}
+                                />
+                                <p className={StyleHome.teamName}>
+                                  {matches[1].team_a?.team.name}
+                                </p>
+                              </div>
+                              <p style={{ fontWeight: "bold" }}>VS</p>
+                              <div className={StyleHome.oneTeam}>
+                                <img
+                                  src={`${process.env.REACT_APP_IMAGE_PATH}/${matches[1].team_b?.team.image}`}
+                                  alt={matches[1].team_b?.team.name}
+                                  style={{
+                                    width: "70px",
+                                    height: "70px",
+                                    objectFit: "contain",
+                                  }}
+                                />
+                                <p className={StyleHome.teamName}>
+                                  {matches[1].team_b?.team.name}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </button>
+                      )}
+                    </>
                   ) : (
                     <p>No matches found</p>
                   )}

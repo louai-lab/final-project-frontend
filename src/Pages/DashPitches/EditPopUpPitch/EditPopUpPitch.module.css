@@ -6,6 +6,8 @@
     width: 400px;
     height: fit-content;
     max-height: 800px;
+    /* border: none; */
+    /* border: 1px solid black; */
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.939);
     color: black;
@@ -15,7 +17,25 @@
     justify-content: center;
     align-items: center;
     padding: 2rem;
-    transition: transform 0.3s ease-in-out;
+  }
+  
+  .save {
+    background-color: var(--primary-clr);
+    /* transition: background-color 0.3s ease, color 0.3s ease; */
+    text-transform: none;
+    color: white;
+    padding: 11px;
+    border-radius: 20px;
+    border: none;
+    font-weight: bold;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+  
+  .save:hover {
+    /* background-color: var(--third-clr); */
+    opacity: 0.7;
+    cursor: pointer;
   }
   
   .cancel {
@@ -35,6 +55,14 @@
     /* background-color: var(--primary-clr);
     color: white; */
     opacity: 0.7;
+    cursor: pointer;
+  }
+  
+  .eyeIcon {
+    position: absolute;
+    top: 55%;
+    right: 10px;
+    transform: translateY(-50%);
     cursor: pointer;
   }
   

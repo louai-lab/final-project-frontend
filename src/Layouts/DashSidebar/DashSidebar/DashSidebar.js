@@ -14,6 +14,7 @@ import { MdOutlineQueryStats } from "react-icons/md";
 import { PiSoccerBallFill } from "react-icons/pi";
 import { MdEmojiEvents } from "react-icons/md";
 import { RiCalendarEventFill } from "react-icons/ri";
+import { MdOutlineStadium } from "react-icons/md";
 
 const DashSidebar = () => {
   const { logOut } = useUserStore();
@@ -72,6 +73,12 @@ const DashSidebar = () => {
       item: "Seasons",
       link: "/dashboard/seasons",
       icon: <RiCalendarEventFill />,
+    },
+    {
+      number: 8,
+      item: "Pitches",
+      link: "/dashboard/pitches",
+      icon: <MdOutlineStadium />,
     },
   ];
 

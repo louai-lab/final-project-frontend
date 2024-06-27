@@ -203,6 +203,14 @@ export const useMatchesStore = create((set, get) => ({
   updateSelectedTitleId: (titleId) => {
     set({ selectedTitleId: titleId });
   },
+  selectedSeasonId: null,
+  updateSelectedSeasonId: (seasonId) => {
+    set({ selectedSeasonId: seasonId });
+  },
+  selectedPitchId: null,
+  updateSelectedPitchId: (pitchId) => {
+    set({ selectedPitchId: pitchId });
+  },
 
   matches: [],
   loading: true,
@@ -220,11 +228,15 @@ export const useMatchesStore = create((set, get) => ({
 
       const teamId = get().selectedTeamId || null;
       const titleId = get().selectedTitleId || null;
+      const seasonId = get().selectedSeasonId || null;
+      const pitchId = get().selectedPitchId || null;
 
       const url =
         `/match?pageNumber=${pageNumber}&pageSize=${pageSize}` +
         (teamId ? `&teamId=${teamId}` : "") +
-        (titleId ? `&titleId=${titleId}` : "");
+        (titleId ? `&titleId=${titleId}` : "") +
+        (seasonId ? `&seasonId=${seasonId}` : "") +
+        (pitchId ? `&pitchId=${pitchId}` : "");
 
       // console.log(url);
 
@@ -240,24 +252,6 @@ export const useMatchesStore = create((set, get) => ({
     } catch (error) {
       console.error(error);
       set({ loading: false });
-    }
-  },
-
-  LastTwoMatches: {},
-  getLastTwoCreatedMatches: async () => {
-    try {
-      set({ loading: true });
-      const response = await axiosInstance.get(
-        "/match/getLastTwoCreatedMatches"
-      );
-      if (response.data.length > 0) {
-        set({ LastTwoMatches: response.data, loading: false });
-      } else {
-        // console.log("No Matches Found");
-        set({ LastTwoMatches: {}, loading: false });
-      }
-    } catch (error) {
-      set({ LastTwoMatches: {}, loading: false });
     }
   },
 }));
@@ -290,6 +284,24 @@ export const useSeasonsStore = create((set) => ({
 
       if (response) {
         set({ seasons: response.data, loading: false });
+      }
+    } catch (error) {
+      console.error(error);
+      set({ loading: false });
+    }
+  },
+}));
+
+export const usePitchesStore = create((set) => ({
+  pitches: [],
+  loading: true,
+  getAllPitches: async () => {
+    try {
+      set({ loading: true });
+      const response = await axiosInstance.get("/pitch");
+
+      if (response) {
+        set({ pitches: response.data, loading: false });
       }
     } catch (error) {
       console.error(error);

@@ -15,7 +15,7 @@ function EditPopUpPlayers({ selectedRowData, handleCancelEdit, handleSave }) {
   const { teams } = useTeamsStore();
   const [formData, setFormData] = useState({
     name: selectedRowData.name,
-    // position: selectedRowData.position,
+    tShirtNumber: selectedRowData.tShirtNumber,
     team: selectedRowData.team ? selectedRowData.team._id : "",
     idCard: selectedRowData.idCard,
     image: selectedRowData.image,
@@ -90,6 +90,15 @@ function EditPopUpPlayers({ selectedRowData, handleCancelEdit, handleSave }) {
                 value={formData.name}
                 onChange={handleChange}
                 required
+              />
+            </FormControl>
+
+            <FormControl fullWidth>
+              <TextField
+                label="T-Shirt Number"
+                name="tShirtNumber"
+                value={formData.tShirtNumber}
+                onChange={handleChange}
               />
             </FormControl>
 

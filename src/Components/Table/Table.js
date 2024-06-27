@@ -11,6 +11,8 @@ import {
   useMatchesStore,
   usePlayersStore,
   useTitlesStore,
+  useSeasonsStore,
+  usePitchesStore,
 } from "../../Zustand/Store";
 import { useTeamsStore } from "../../Zustand/Store";
 import {
@@ -39,9 +41,18 @@ const Table = ({
   const { getAllMatches } = useMatchesStore();
   const { getAllPlayers, playersCount } = usePlayersStore();
   const { titles } = useTitlesStore();
+  const { seasons } = useSeasonsStore();
+  const { pitches } = usePitchesStore();
   const { selectedTeamId, updateSelectedTeamId } = useMatchesStore();
   const { selectedTitleId, updateSelectedTitleId } = useMatchesStore();
   const [selectedTitle, setSelectedTitle] = useState(null);
+
+  const { selectedSeasonId, updateSelectedSeasonId } = useMatchesStore();
+  const [selectedSeason, setSelectedSeason] = useState(null);
+
+  const { selectedPitchId, updateSelectedPitchId } = useMatchesStore();
+  const [selectedPitch, setSelectedPitch] = useState(null);
+
   const { getAllTeams } = useMatchesStore();
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [teamForPlayer, setTeamForPlayer] = useState(null);
@@ -77,6 +88,20 @@ const Table = ({
     setSelectedTitle(title);
   };
 
+  const handleSelectChangeSeason = (event) => {
+    const seasonId = event.target.value;
+    updateSelectedSeasonId(seasonId);
+    const season = seasons.find((season) => season._id === seasonId);
+    setSelectedSeason(season);
+  };
+
+  const handleSelectChangePitch = (event) => {
+    const pitchId = event.target.value;
+    updateSelectedPitchId(pitchId);
+    const pitch = pitches.find((pitch) => pitch._id === pitchId);
+    setSelectedPitch(pitch);
+  };
+
   const handlePlayerNameChange = (event) => {
     const playerNamee = event.target.value;
     setPlayerName(playerNamee);
@@ -101,7 +126,13 @@ const Table = ({
       selectedTeamPlayer,
       selectedPageNumberPlayer
     );
-    getAllMatches(selectedTeamId, selectedTitleId, selectedPageNumber);
+    getAllMatches(
+      selectedTeamId,
+      selectedTitleId,
+      selectedSeasonId,
+      selectedPitchId,
+      selectedPageNumber
+    );
     // console.log("tabel useeffect");
   }, [
     getAllPlayers,
@@ -111,6 +142,8 @@ const Table = ({
     selectedPageNumberPlayer,
     selectedTeamId,
     selectedTitleId,
+    selectedSeasonId,
+    selectedPitchId,
     selectedPageNumber,
   ]);
 
@@ -150,6 +183,7 @@ const Table = ({
       } else if (ForWhat === "players") {
         visibleFields = [
           "name",
+          "tShirtNumber",
           "team",
           "idCard",
           "image",
@@ -178,6 +212,8 @@ const Table = ({
         visibleFields = ["name", "image"];
       } else if (ForWhat === "seasons") {
         visibleFields = ["seasonName"];
+      } else if (ForWhat === "pitches") {
+        visibleFields = ["name", "location", "image"];
       } else {
         visibleFields = Object.keys(data[0]);
       }
@@ -268,6 +304,10 @@ const Table = ({
 
           if (field === "season") {
             return params.row.season?.seasonName;
+          }
+
+          if (field === "pitch") {
+            return params.row.pitch?.name;
           }
 
           if (field === "detailsWatcher") {
@@ -442,7 +482,7 @@ const Table = ({
                         sx={{ marginBottom: "10px", position: "sticky" }}
                       >
                         <InputLabel id="team-select-label">
-                          Select a team
+                          Select team
                         </InputLabel>
                         <Select
                           labelId="team-select-label"
@@ -480,7 +520,7 @@ const Table = ({
                         sx={{ marginBottom: "10px", position: "sticky" }}
                       >
                         <InputLabel id="team-select-label">
-                          Select a title
+                          Select title
                         </InputLabel>
                         <Select
                           labelId="title-select-label"
@@ -490,7 +530,7 @@ const Table = ({
                           label="Select a title"
                         >
                           <MenuItem value="">
-                            <em>Select a title</em>
+                            <em>Select title</em>
                           </MenuItem>
                           {titles.map((title) => (
                             <MenuItem
@@ -507,6 +547,72 @@ const Table = ({
                                 style={{ width: "80px", height: "80px" }}
                               />{" "}
                               <span>{title.name}</span>
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+
+                      <FormControl
+                        variant="outlined"
+                        fullWidth
+                        sx={{ marginBottom: "10px", position: "sticky" }}
+                      >
+                        <InputLabel id="season-select-label">
+                          Select season
+                        </InputLabel>
+                        <Select
+                          labelId="season-select-label"
+                          id="season-select"
+                          value={selectedSeason ? selectedSeason._id : ""}
+                          onChange={handleSelectChangeSeason}
+                          label="Select season"
+                        >
+                          <MenuItem value="">
+                            <em>Select season</em>
+                          </MenuItem>
+                          {seasons.map((season) => (
+                            <MenuItem
+                              key={season._id}
+                              value={season._id}
+                              sx={{
+                                display: "flex",
+                                columnGap: "20px",
+                              }}
+                            >
+                              <span>{season.seasonName}</span>
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+
+                      <FormControl
+                        variant="outlined"
+                        fullWidth
+                        sx={{ marginBottom: "10px", position: "sticky" }}
+                      >
+                        <InputLabel id="pitch-select-label">
+                          Select pitch
+                        </InputLabel>
+                        <Select
+                          labelId="pitch-select-label"
+                          id="pitch-select"
+                          value={selectedPitch ? selectedPitch._id : ""}
+                          onChange={handleSelectChangePitch}
+                          label="Select pitch"
+                        >
+                          <MenuItem value="">
+                            <em>Select pitch</em>
+                          </MenuItem>
+                          {pitches.map((pitch) => (
+                            <MenuItem
+                              key={pitch._id}
+                              value={pitch._id}
+                              sx={{
+                                display: "flex",
+                                columnGap: "20px",
+                              }}
+                            >
+                              <span>{pitch.name}</span>
                             </MenuItem>
                           ))}
                         </Select>

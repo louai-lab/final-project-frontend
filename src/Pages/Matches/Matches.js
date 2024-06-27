@@ -20,10 +20,9 @@ const LazyImage = lazy(() => import("../../Utils/LazyImage"));
 function Matches() {
   const navigate = useNavigate();
   // const { user } = useUserStore();
-  const { LastTwoMatches } = useMatchesStore();
   const { getAllTeams } = useTeamsStore();
   const { getAllMatches } = useMatchesStore();
-  const { getLastTwoCreatedMatches } = useMatchesStore();
+  // const { getLastTwoCreatedMatches } = useMatchesStore();
   const [popUpFilter, setPopUpFilter] = useState(false);
   const { selectedTeamId, updateSelectedTeamId } = useMatchesStore();
   const { selectedPageNumber, updateSelectedPageNumber } = useMatchesStore();
@@ -35,10 +34,6 @@ function Matches() {
     getAllTeams();
     getAllMatches(selectedTeamId, selectedPageNumber);
   }, [getAllTeams, getAllMatches, selectedTeamId, selectedPageNumber]);
-
-  useEffect(() => {
-    getLastTwoCreatedMatches();
-  }, [getLastTwoCreatedMatches]);
 
   const { loading, matches, matchCount } = useMatchesStore();
 
@@ -133,7 +128,7 @@ function Matches() {
 
           <main className={StyleMatches.matchesContainer}>
             <article className={StyleMatches.matchesHeroSection}>
-              {LastTwoMatches.length > 0 ? (
+              {matches.length > 0 ? (
                 <div className={StyleMatches.bchh}>
                   <section className={StyleMatches.lastMatch}>
                     <img
@@ -142,30 +137,29 @@ function Matches() {
                       height={60}
                       alt="Lebanese Football Association"
                     />
-                    {/* <p>{LastTwoMatches[0]?.title}</p> */}
-                    <p>{LastTwoMatches[0]?.title.name}</p>
+                    <p>{matches[0]?.title?.name}</p>
                   </section>
                   <section className={StyleMatches.twoTeams}>
                     <img
-                      src={`${process.env.REACT_APP_IMAGE_PATH}/${LastTwoMatches[0]?.team_a?.team.image}`}
-                      alt={LastTwoMatches[0]?.team_a?.team.name}
+                      src={`${process.env.REACT_APP_IMAGE_PATH}/${matches[0]?.team_a?.team.image}`}
+                      alt={matches[0]?.team_a?.team.name}
                       className={StyleMatches.teamsImage}
                     />
                     <div className={StyleMatches.teamsName}>
-                      <p>{LastTwoMatches[0]?.team_a?.team.name}</p>
+                      <p>{matches[0]?.team_a?.team.name}</p>
                       <span className={StyleMatches.vs}>VS</span>
-                      <p>{LastTwoMatches[0]?.team_b?.team.name}</p>
+                      <p>{matches[0]?.team_b?.team.name}</p>
                     </div>
 
                     <img
-                      src={`${process.env.REACT_APP_IMAGE_PATH}/${LastTwoMatches[0]?.team_b?.team.image}`}
-                      alt={LastTwoMatches[0]?.team_b?.team.name}
+                      src={`${process.env.REACT_APP_IMAGE_PATH}/${matches[0]?.team_b?.team.image}`}
+                      alt={matches[0]?.team_b?.team.name}
                       className={StyleMatches.teamsImage}
                     />
                   </section>
                   <section className={StyleMatches.stadium}>
                     <StadiumIcon />
-                    <p>{LastTwoMatches[0]?.pitch}</p>
+                    <p>{matches[0]?.pitch?.name}</p>
                   </section>
                 </div>
               ) : (
