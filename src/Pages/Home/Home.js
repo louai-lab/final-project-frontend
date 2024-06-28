@@ -17,17 +17,13 @@ function Home() {
   const { language } = useLanguage();
   const navigate = useNavigate();
   const { user, getUser } = useUserStore();
-  // const { loading, LastTwoMatches, getLastTwoCreatedMatches } =
-  //   useMatchesStore();
 
   const { loading, matches, getAllMatches } = useMatchesStore();
 
-  // console.log(LastTwoMatches);
   // console.log(user);
 
   useEffect(() => {
     getAllMatches();
-    // console.log("hi")
   }, [getAllMatches]);
 
   const handleMatchClick = (match) => {

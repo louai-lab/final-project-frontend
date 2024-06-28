@@ -14,6 +14,7 @@ import { useTeamsStore } from "../../../Zustand/Store";
 import { useUsersStore } from "../../../Zustand/Store";
 import { useTitlesStore } from "../../../Zustand/Store";
 import { useSeasonsStore } from "../../../Zustand/Store";
+import { usePitchesStore } from "../../../Zustand/Store";
 
 function AddPopUpMatch({ handleCancelAdd, handleFormSubmitMatch }) {
   const { teams } = useTeamsStore();
@@ -22,6 +23,7 @@ function AddPopUpMatch({ handleCancelAdd, handleFormSubmitMatch }) {
   const { linesman } = useUsersStore();
   const { titles } = useTitlesStore();
   const { seasons } = useSeasonsStore();
+  const { pitches } = usePitchesStore();
   const [formData, setFormData] = useState({
     title: "",
     season: "",
@@ -177,7 +179,7 @@ function AddPopUpMatch({ handleCancelAdd, handleFormSubmitMatch }) {
                   </Select>
                 </FormControl>
 
-                <FormControl className={StyleAddPopUp.formControl}>
+                {/* <FormControl className={StyleAddPopUp.formControl}>
                   <TextField
                     label="Pitch"
                     name="pitch"
@@ -185,6 +187,27 @@ function AddPopUpMatch({ handleCancelAdd, handleFormSubmitMatch }) {
                     onChange={handleChange}
                     required
                   />
+                </FormControl> */}
+
+                <FormControl className={StyleAddPopUp.formControl}>
+                  <InputLabel htmlFor="team_a">Choose Pitch</InputLabel>
+                  <Select
+                    label="Pitch"
+                    name="pitch"
+                    value={formData.pitch || ""}
+                    onChange={handleChange}
+                    required
+                  >
+                    {pitches.map((pitch) => (
+                      <MenuItem
+                        key={pitch._id}
+                        value={pitch._id}
+                        style={{ display: "flex", gap: "20px" }}
+                      >
+                        {pitch.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
                 </FormControl>
 
                 <FormControl className={StyleAddPopUp.formControl}>

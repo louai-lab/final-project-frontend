@@ -8,12 +8,12 @@ import StadiumIcon from "@mui/icons-material/Stadium";
 import { Reveal } from "../../Frammotion/RevealAnimation";
 import FootballLoader from "../FootballLoader/FootballLoader";
 import { useNavigate } from "react-router-dom";
-import iconFilter from "../../Assets/icons/ion--filter (1).svg";
 import Filter from "../../Components/Filter/Filter";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { Helmet } from "react-helmet-async";
 import { useLanguage } from "../../Utils/LanguageContext";
+import { IoFilterOutline } from "react-icons/io5";
 
 const LazyImage = lazy(() => import("../../Utils/LazyImage"));
 
@@ -22,7 +22,6 @@ function Matches() {
   // const { user } = useUserStore();
   const { getAllTeams } = useTeamsStore();
   const { getAllMatches } = useMatchesStore();
-  // const { getLastTwoCreatedMatches } = useMatchesStore();
   const [popUpFilter, setPopUpFilter] = useState(false);
   const { selectedTeamId, updateSelectedTeamId } = useMatchesStore();
   const { selectedPageNumber, updateSelectedPageNumber } = useMatchesStore();
@@ -185,7 +184,8 @@ function Matches() {
                 className={`${StyleMatches.Filter} ${StyleMatches.CancelTransition}`}
               >
                 <p>{language === "en" ? "Filter" : "بحث"}</p>
-                <img src={iconFilter} alt="Filter Icon" />
+                {/* <img src={iconFilter} alt="Filter Icon" /> */}
+                <IoFilterOutline />
               </button>
             </article>
 

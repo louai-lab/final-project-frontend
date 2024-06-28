@@ -139,6 +139,16 @@
   /* background-color: red; */
 }
 
+.location {
+  all: unset;
+  transition: opacity 0.3s ease;
+}
+
+.location:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
 .out {
   color: grey;
 }
@@ -150,7 +160,7 @@
   column-gap: 5px;
 }
 
-.singleEventB{
+.singleEventB {
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
@@ -284,6 +294,76 @@
 .back:hover {
   cursor: pointer;
   opacity: 0.7;
+}
+
+.lineContainer {
+  font-size: clamp(15px, 3vw, 25px);
+  display: flex;
+  column-gap: 20px;
+  justify-content: center;
+  /* align-items: center; */
+  padding: 20px 0px;
+}
+
+.players {
+  display: flex;
+}
+
+.starterTeamA {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  /* height: fit-content; */
+  border: 1px rgb(187, 187, 187) solid;
+}
+
+.playersContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.imageDiv {
+  background-color: var(--primary-clr);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  object-fit: cover;
+  padding: 20px 0px;
+}
+
+.imageDivPlayer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.starterImage {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.starters {
+  color: white;
+  background-color: #d85257;
+  text-align: center;
+  padding: 20px 0px;
+}
+
+.singlePlayer {
+  display: flex;
+  column-gap: 10px;
+  /* justify-content: center; */
+  align-items: center;
+  margin-top: 5px;
+  /* background-color: blue; */
+}
+
+.nameNumber {
+  display: flex;
+  column-gap: 20px;
+  justify-content: space-between;
+  align-items: center;
 }
 
 @media screen and (max-width: 1000px) {

@@ -16,14 +16,14 @@ import { useTeamsStore } from "../../Zustand/Store";
 import Flag from "../../Assets/icons/flag.png";
 import Signal from "../../Assets/icons/signal.png";
 import Arrow from "../../Assets/icons/arrow (1).png";
-import Trophy from "../../Assets/icons/trophy.png";
-import Clock from "../../Assets/icons/clock.png";
-import Calendar from "../../Assets/icons/calendar.png";
-import Stadium from "../../Assets/icons/stadium.png";
 import EndMatch from "../../Components/Event/EndMatch/EndMatch";
 import { useLanguage } from "../../Utils/LanguageContext";
-import Season from "../../Assets/icons/ic--baseline-update.svg";
 import whistle from "../../Assets/icons/mdi--whistle.svg";
+import { MdUpdate } from "react-icons/md";
+import { MdOutlineStadium } from "react-icons/md";
+import { RiCalendarEventFill } from "react-icons/ri";
+import { IoTimeOutline } from "react-icons/io5";
+import { LuTrophy } from "react-icons/lu";
 
 function SingleMatch() {
   const { user } = useUserStore();
@@ -387,14 +387,6 @@ function SingleMatch() {
                 user?.userId === match.watcher._id ||
                 user?._id === match.watcher._id ? (
                   <>
-                    {/* <button
-                      className={StyleSingleMatch.open}
-                      onClick={openPopUp}
-                      // disabled={match.played}
-                      disabled={match.reported}
-                    >
-                      +
-                    </button> */}
                     <div
                       style={{
                         display: "flex",
@@ -490,8 +482,8 @@ function SingleMatch() {
                           onClick={handleAddAction}
                           className={StyleSingleMatch.whistle}
                         >
-                          <img src={whistle} alt="whistle" />
                           Whistle
+                          <img src={whistle} alt="whistle" />
                         </button>
                       )}
                     </div>
@@ -1078,7 +1070,100 @@ function SingleMatch() {
       id: "line-ups",
       content: (
         <div className={StyleSingleMatch.lineContainer}>
-          <h1>In Progress ...</h1>
+          <div className={StyleSingleMatch.starterTeamA}>
+            <div className={StyleSingleMatch.imageDiv}>
+              <img
+                src={`${process.env.REACT_APP_IMAGE_PATH}/${match?.team_a?.team?.image}`}
+                alt={match?.team_a?.team?.name}
+                className={StyleSingleMatch.starterImage}
+              />
+            </div>
+            <p className={StyleSingleMatch.starters}>STARTERS</p>
+            <div className={StyleSingleMatch.playersContainer}>
+              {match?.team_a?.team?.players.map((player) => (
+                <div className={StyleSingleMatch.singlePlayer}>
+                  <div key={player?._id} className={StyleSingleMatch.imageDivPlayer}>
+                    {!player.image ? (
+                      <img
+                        src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
+                        alt={player?.name}
+                        style={{
+                          width: "60px",
+                          height: "60px",
+                          objectFit: "cover",
+                          borderRadius: "50%",
+                        }}
+                      />
+                    ) : (
+                      <img
+                        src={`${process.env.REACT_APP_IMAGE_PATH}/${player?.image}`}
+                        alt={player?.name}
+                        style={{
+                          width: "60px",
+                          height: "60px",
+                          objectFit: "cover",
+                          borderRadius: "50%",
+                        }}
+                      />
+                    )}
+                  </div>
+
+                  <div className={StyleSingleMatch.nameNumber}>
+                    <p>{player?.tShirtNumber}</p>
+                    <p>{player?.name}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* <h1>In Progress</h1> */}
+          <div className={StyleSingleMatch.starterTeamA}>
+            <div className={StyleSingleMatch.imageDiv}>
+              <img
+                src={`${process.env.REACT_APP_IMAGE_PATH}/${match?.team_a?.team?.image}`}
+                alt={match?.team_a?.team?.name}
+                className={StyleSingleMatch.starterImage}
+              />
+            </div>
+            <p className={StyleSingleMatch.starters}>STARTERS</p>
+            <div className={StyleSingleMatch.playersContainer}>
+              {match?.team_a?.team?.players.map((player) => (
+                <div className={StyleSingleMatch.singlePlayer}>
+                  <div key={player?._id} className={StyleSingleMatch.imageDivPlayer}>
+                    {!player.image ? (
+                      <img
+                        src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
+                        alt={player?.name}
+                        style={{
+                          width: "60px",
+                          height: "60px",
+                          objectFit: "cover",
+                          borderRadius: "50%",
+                        }}
+                      />
+                    ) : (
+                      <img
+                        src={`${process.env.REACT_APP_IMAGE_PATH}/${player?.image}`}
+                        alt={player?.name}
+                        style={{
+                          width: "60px",
+                          height: "60px",
+                          objectFit: "cover",
+                          borderRadius: "50%",
+                        }}
+                      />
+                    )}
+                  </div>
+
+                  <div className={StyleSingleMatch.nameNumber}>
+                    <p>{player?.tShirtNumber}</p>
+                    <p>{player?.name}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       ),
     },
@@ -1383,12 +1468,11 @@ function SingleMatch() {
           </div>
           <div className={StyleSingleMatch.things}>
             <div className={StyleSingleMatch.thing}>
-              <img src={Trophy} alt="" className={StyleSingleMatch.iconInfo} />
-              {/* <p>{match.title}</p> */}
+              <LuTrophy className={StyleSingleMatch.iconInfo} />
               <p>{match.title.name}</p>
             </div>
             <div className={StyleSingleMatch.thing}>
-              <img src={Season} alt="" className={StyleSingleMatch.iconInfo} />
+              <MdUpdate className={StyleSingleMatch.iconInfo} />
               <p>
                 {" "}
                 {new Date(match.match_date).toLocaleDateString("en-US", {
@@ -1400,7 +1484,7 @@ function SingleMatch() {
               </p>
             </div>
             <div className={StyleSingleMatch.thing}>
-              <img src={Clock} alt="" className={StyleSingleMatch.iconInfo} />
+              <IoTimeOutline className={StyleSingleMatch.iconInfo} />
               <p>
                 {new Date(
                   `2000-01-01T${match.match_time}:00Z`
@@ -1413,15 +1497,18 @@ function SingleMatch() {
               </p>
             </div>
             <div className={StyleSingleMatch.thing}>
-              <img src={Stadium} alt="" className={StyleSingleMatch.iconInfo} />
-              <p>{match?.pitch?.name}</p>
+              <MdOutlineStadium className={StyleSingleMatch.iconInfo} />
+              <p>
+                <a
+                  href={`${match?.pitch?.location}`}
+                  className={StyleSingleMatch.location}
+                >
+                  {match?.pitch?.name}
+                </a>
+              </p>
             </div>
             <div className={StyleSingleMatch.thing}>
-              <img
-                src={Calendar}
-                alt=""
-                className={StyleSingleMatch.iconInfo}
-              />{" "}
+              <RiCalendarEventFill className={StyleSingleMatch.iconInfo} />
               <p>{match?.season?.seasonName}</p>
             </div>{" "}
           </div>

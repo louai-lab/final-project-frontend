@@ -42,17 +42,13 @@ function DashPlayers() {
 
   const handleFormSubmitPlayer = async (formData) => {
     try {
-      const formDataObject = new FormData();
-
       // console.log(formData);
 
-      for (const key in formData) {
-        if (formData.hasOwnProperty(key)) {
-          formDataObject.append(key, formData[key]);
-        }
-      }
-
-      const response = await axiosInstance.post("/player/add", formData);
+      const response = await axiosInstance.post("/player/add", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       if (response) {
         usePlayersStore.setState((state) => ({
           players: [response.data, ...state.players],
@@ -97,7 +93,7 @@ function DashPlayers() {
   };
 
   const handleEditSave = async (id, formData) => {
-    console.log(formData);
+    // console.log(formData);
     try {
       const response = await axiosInstance.patch(
         `/player/update/${id}`,

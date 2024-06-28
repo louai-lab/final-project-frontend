@@ -17,8 +17,12 @@ function AddPopUp({ handleCancelAdd, handleFormSubmitPlayer }) {
   const { teams } = useTeamsStore();
   const [formData, setFormData] = useState({
     name: "",
-    position: "",
+    tShirtNumber: "",
     team: "",
+    idCard: "",
+    dateOfBirth: "",
+    image: "",
+    motherName: "",
   });
 
   const handleChange = (e) => {
@@ -93,9 +97,19 @@ function AddPopUp({ handleCancelAdd, handleFormSubmitPlayer }) {
 
               <FormControl fullWidth>
                 <TextField
-                  label="Position"
-                  name="position"
-                  value={formData.position}
+                  label="T-Shirt Number"
+                  name="tShirtNumber"
+                  value={formData.tShirtNumber}
+                  onChange={handleChange}
+                  required
+                />
+              </FormControl>
+
+              <FormControl fullWidth>
+                <TextField
+                  label="Id Card"
+                  name="idCard"
+                  value={formData.idCard}
                   onChange={handleChange}
                   required
                 />
@@ -129,6 +143,36 @@ function AddPopUp({ handleCancelAdd, handleFormSubmitPlayer }) {
                     </MenuItem>
                   ))}
                 </Select>
+              </FormControl>
+
+              <FormControl fullWidth>
+                <TextField
+                  label="Date Of Birth"
+                  name="dateOfBirth"
+                  value={formData.dateOfBirth}
+                  onChange={handleChange}
+                  placeholder="DD/MM/YYYY"
+                  required
+                />
+              </FormControl>
+
+              <FormControl fullWidth>
+                <TextField
+                  label="Mother Name"
+                  name="motherName"
+                  value={formData.motherName}
+                  onChange={handleChange}
+                  required
+                />
+              </FormControl>
+
+              <FormControl fullWidth>
+                <input
+                  type="file"
+                  name="image"
+                  id="image"
+                  onChange={handleChange}
+                />
               </FormControl>
 
               <Button

@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-// import Button from "../../Components/Button/Button";
 import StyleNotFound from "./NotFound.module.css";
 import notFound from "../../Assets/icons/_c656405a-58fc-4cf1-ae16-650624075164.jpeg";
 

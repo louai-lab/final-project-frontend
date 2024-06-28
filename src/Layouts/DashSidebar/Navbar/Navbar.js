@@ -4,10 +4,10 @@ import Styles from "./Navbar.module.css";
 import { useEffect, useState } from "react";
 import logo from "../../../Assets/icons/Lebanese_Football_Association_(LFA)_logo.svg";
 import { useUserStore } from "../../../Zustand/Store";
-import Logout from "../../../Assets/icons/material-symbols--logout (2).svg";
-import Login from "../../../Assets/icons/material-symbols--login.svg";
 import { useLanguage } from "../../../Utils/LanguageContext";
-import { Style } from "@mui/icons-material";
+// import { Style } from "@mui/icons-material";
+import { MdLogin } from "react-icons/md";
+import { MdLogout } from "react-icons/md";
 
 function Navbar() {
   const { language, toggleLanguage } = useLanguage();
@@ -136,11 +136,11 @@ function Navbar() {
                     className={Styles.logOut}
                     onClick={handleLogOut}
                   >
-                    {language === "en" ? "LogOut" : "تسجيل خروج"}
+                    <p> {language === "en" ? "LogOut" : "تسجيل خروج"}</p>
                     {"  "}
-                    <span>
-                      <img src={Logout} alt="logout" />
-                    </span>
+
+                    {/* <img src={Logout} alt="logout" /> */}
+                    <MdLogout />
                   </button>
                 </NavLink>
               </li>
@@ -177,55 +177,15 @@ function Navbar() {
                   className={Styles.logIn}
                   onClick={handleToLoginPage}
                 >
-                  {language === "en" ? "Log In" : "تسجيل دخول"}
+                  <p>{language === "en" ? "Log In" : "تسجيل دخول"}</p>
                   {"  "}
-                  <span>
-                    <img src={Login} alt="login" />
-                  </span>
+
+                  {/* <img src={Login} alt="login" /> */}
+                  <MdLogin />
                 </button>
               </NavLink>
             </li>
           )}
-
-          {/* <li>
-            <NavLink
-              onClick={() => setCollapsed(false)}
-              className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? Styles.active : ""
-              }
-            >
-              <button
-                type="button"
-                className={Styles.logOut}
-                onClick={handleLogOut}
-              >
-                {language === "en" ? "LogOut" : "تسجيل خروج"}
-                {"  "}
-                <span>
-                  <img src={Logout} alt="" />
-                </span>
-              </button>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/profile"
-              className={({ isActive, isPending }) =>
-                isPending
-                  ? "pending"
-                  : isActive
-                  ? `${Styles.active} ${Styles.circle}`
-                  : ""
-              }
-            >
-              <div className={Styles.circle}>
-                <img
-                  src={`${process.env.REACT_APP_IMAGE_PATH}/${user?.image}`}
-                  alt="Profile"
-                />
-              </div>
-            </NavLink>
-          </li> */}
         </ul>
         <ul
           className={`${toggleClasses} ${language === "ar" ? Styles.rtl : ""}`}
@@ -288,7 +248,8 @@ function Navbar() {
                 onClick={handleLogOut}
               >
                 <p>{language === "en" ? "LogOut" : "تسجيل خروج"}</p>
-                <img src={Logout} alt="logout" />
+                {/* <img src={Logout} alt="logout" /> */}
+                <MdLogout />
               </button>
             </>
           ) : (
@@ -298,7 +259,8 @@ function Navbar() {
               onClick={handleToLoginPage}
             >
               <p>{language === "en" ? "Log In" : "تسجيل دخول"}</p>
-              <img src={Login} alt="login" />
+              {/* <img src={Login} alt="login" /> */}
+              <MdLogin />
             </button>
           )}
         </ul>
