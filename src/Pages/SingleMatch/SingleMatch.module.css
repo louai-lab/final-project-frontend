@@ -751,13 +751,14 @@
   padding: 5px;
   background-color: var(--primary-clr);
   color: white;
-  font-size: clamp(10px, 3rem, 18px);
+  font-size: clamp(8px, 2rem, 16px);
   transition: opacity 0.3s ease-in-out;
   font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;
   column-gap: 5px;
+  margin: 0px 20px;
 }
 
 .whistle:hover {
@@ -771,15 +772,31 @@
   padding: 5px;
   background-color: #d85257;
   color: white;
-  font-size: clamp(10px, 3rem, 18px);
+  font-size: clamp(8px, 2rem, 16px);
   transition: opacity 0.3s ease-in-out;
   font-weight: bold;
+  margin: 0px 20px;
 }
 
 .cancelWhistle:hover {
   opacity: 0.8;
   cursor: pointer;
 }
+
+/* .transition {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  position: absolute;
+  margin-top: 60px;
+  background-color: #ccc;
+  padding: 20px;
+}
+
+.show {
+  opacity: 1;
+  transform: translateY(0);
+} */
 
 @media screen and (max-width: 1050px) {
   .event {
@@ -818,6 +835,7 @@
     background-color: rgba(255, 255, 255, 0.284);
     padding: 5px;
     border-radius: 10px;
+    width: 40px;
   }
 }
 

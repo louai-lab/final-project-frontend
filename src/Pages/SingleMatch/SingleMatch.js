@@ -387,6 +387,14 @@ function SingleMatch() {
                 user?.userId === match.watcher._id ||
                 user?._id === match.watcher._id ? (
                   <>
+                    {/* <div
+                      style={{
+                        position: "absolute",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                      onClick={() => handleEventClick("")}
+                    ></div> */}
                     <div
                       style={{
                         display: "flex",
@@ -394,7 +402,7 @@ function SingleMatch() {
                         rowGap: "10px",
                       }}
                     >
-                      <h1>Try smth</h1>
+                      {/* <h1>Try smth</h1> */}
                       <div
                         style={{
                           display: "flex",
@@ -475,6 +483,11 @@ function SingleMatch() {
                       </div>
 
                       {selectedEventType && (
+                        // <div
+                        //   className={`${StyleSingleMatch.transition} ${
+                        //     selectedEventType ? StyleSingleMatch.show : ""
+                        //   }`}
+                        // >
                         <>
                           <button
                             onClick={handleAddAction}
@@ -490,6 +503,7 @@ function SingleMatch() {
                             Cancel
                           </button>
                         </>
+                        // </div>
                       )}
                     </div>
                   </>
