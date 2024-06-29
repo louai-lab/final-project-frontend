@@ -765,6 +765,22 @@
   cursor: pointer;
 }
 
+.cancelWhistle {
+  border: none;
+  border-radius: 10px;
+  padding: 5px;
+  background-color: #d85257;
+  color: white;
+  font-size: clamp(10px, 3rem, 18px);
+  transition: opacity 0.3s ease-in-out;
+  font-weight: bold;
+}
+
+.cancelWhistle:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 1050px) {
   .event {
     width: 80%;

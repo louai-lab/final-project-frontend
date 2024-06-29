@@ -437,7 +437,6 @@ function SingleMatch() {
                               ? StyleSingleMatch.selectedEvent
                               : ""
                           }`}
-                          // className={StyleSingleMatch.singleAction}
                         >
                           <img
                             src={`${process.env.REACT_APP_IMAGE_PATH}/firstExtraTime.png`}
@@ -452,7 +451,6 @@ function SingleMatch() {
                               ? StyleSingleMatch.selectedEvent
                               : ""
                           }`}
-                          // className={StyleSingleMatch.singleAction}
                         >
                           <img
                             src={`${process.env.REACT_APP_IMAGE_PATH}/secondExtraTime.png`}
@@ -467,7 +465,6 @@ function SingleMatch() {
                               ? StyleSingleMatch.selectedEvent
                               : ""
                           }`}
-                          // className={StyleSingleMatch.singleAction}
                         >
                           <img
                             src={`${process.env.REACT_APP_IMAGE_PATH}/penalties.png`}
@@ -478,13 +475,21 @@ function SingleMatch() {
                       </div>
 
                       {selectedEventType && (
-                        <button
-                          onClick={handleAddAction}
-                          className={StyleSingleMatch.whistle}
-                        >
-                          Whistle
-                          <img src={whistle} alt="whistle" />
-                        </button>
+                        <>
+                          <button
+                            onClick={handleAddAction}
+                            className={StyleSingleMatch.whistle}
+                          >
+                            Whistle
+                            <img src={whistle} alt="whistle" />
+                          </button>
+                          <button
+                            onClick={() => handleEventClick("")}
+                            className={StyleSingleMatch.cancelWhistle}
+                          >
+                            Cancel
+                          </button>
+                        </>
                       )}
                     </div>
                   </>
@@ -1082,7 +1087,10 @@ function SingleMatch() {
             <div className={StyleSingleMatch.playersContainer}>
               {match?.team_a?.team?.players.map((player) => (
                 <div className={StyleSingleMatch.singlePlayer}>
-                  <div key={player?._id} className={StyleSingleMatch.imageDivPlayer}>
+                  <div
+                    key={player?._id}
+                    className={StyleSingleMatch.imageDivPlayer}
+                  >
                     {!player.image ? (
                       <img
                         src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
@@ -1130,7 +1138,10 @@ function SingleMatch() {
             <div className={StyleSingleMatch.playersContainer}>
               {match?.team_a?.team?.players.map((player) => (
                 <div className={StyleSingleMatch.singlePlayer}>
-                  <div key={player?._id} className={StyleSingleMatch.imageDivPlayer}>
+                  <div
+                    key={player?._id}
+                    className={StyleSingleMatch.imageDivPlayer}
+                  >
                     {!player.image ? (
                       <img
                         src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
@@ -1469,7 +1480,7 @@ function SingleMatch() {
           <div className={StyleSingleMatch.things}>
             <div className={StyleSingleMatch.thing}>
               <LuTrophy className={StyleSingleMatch.iconInfo} />
-              <p>{match.title.name}</p>
+              <p>{match?.title?.name}</p>
             </div>
             <div className={StyleSingleMatch.thing}>
               <MdUpdate className={StyleSingleMatch.iconInfo} />
