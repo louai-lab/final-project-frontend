@@ -10,6 +10,7 @@ import { useLanguage } from "../../Utils/LanguageContext";
 import { useUserStore } from "../../Zustand/Store";
 import { Helmet } from "react-helmet-async";
 import { lazy, Suspense } from "react";
+import { Skeleton } from "@mui/material";
 
 const LazyImage = lazy(() => import("../../Utils/LazyImage"));
 
@@ -221,7 +222,20 @@ function Home() {
                       )}
                     </>
                   ) : (
-                    <p>No matches found</p>
+                    // <p>No matches found</p>
+                    <div style={{ display: "flex", columnGap: "10px" }}>
+                      <Skeleton
+                        variant="rectangular"
+                        width={300}
+                        height={280}
+                        // style={{ backgroundColor: "grey" }}
+                      />
+                      <Skeleton
+                        variant="rectangular"
+                        width={210}
+                        height={118}
+                      />
+                    </div>
                   )}
                 </div>
               </div>

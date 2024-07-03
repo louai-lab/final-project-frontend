@@ -24,6 +24,16 @@ import { MdOutlineStadium } from "react-icons/md";
 import { RiCalendarEventFill } from "react-icons/ri";
 import { IoTimeOutline } from "react-icons/io5";
 import { LuTrophy } from "react-icons/lu";
+import Button from "@mui/material/Button";
+import SendIcon from "@mui/icons-material/Send";
+import EditIcon from "@mui/icons-material/Edit";
+import { Fab } from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import { CheckBox } from "@mui/icons-material";
 
 function SingleMatch() {
   const { user } = useUserStore();
@@ -65,7 +75,7 @@ function SingleMatch() {
       ...formAction,
       type: type,
       penalty: penalty,
-      team: match.team_a?.team._id,
+      team: match?.team_a?.team._id,
     });
   };
 
@@ -76,7 +86,7 @@ function SingleMatch() {
       ...formAction,
       type: type,
       penalty: penalty,
-      team: match.team_b?.team._id,
+      team: match?.team_b?.team._id,
     });
   };
 
@@ -111,7 +121,7 @@ function SingleMatch() {
         handleCancel();
         console.log(response.data);
 
-        fetchUpdatedMatch(match._id);
+        fetchUpdatedMatch(match?._id);
       }
     } catch (error) {
       console.error("Error updating match details:", error);
@@ -166,15 +176,15 @@ function SingleMatch() {
   };
 
   useEffect(() => {
-    fetchUpdatedMatch(match._id);
-  }, [match._id]);
+    fetchUpdatedMatch(match?._id);
+  }, [match?._id]);
 
   useEffect(() => {
-    if (match && match.watcher_report) {
-      setWatcherReport(match.watcher_report);
+    if (match && match?.watcher_report) {
+      setWatcherReport(match?.watcher_report);
     }
-    if (match && match.referee_report) {
-      setRefereeReport(match.referee_report);
+    if (match && match?.referee_report) {
+      setRefereeReport(match?.referee_report);
     }
   }, [match]);
 
@@ -190,7 +200,7 @@ function SingleMatch() {
       if (response) {
         console.log("created successfully");
 
-        fetchUpdatedMatch(match._id);
+        fetchUpdatedMatch(match?._id);
       }
     } catch (error) {
       console.error("Error updating match details:", error);
@@ -226,7 +236,7 @@ function SingleMatch() {
         console.log(response.data);
         closePopUpEnd();
       }
-      fetchUpdatedMatch(match._id);
+      fetchUpdatedMatch(match?._id);
     } catch (error) {
       console.log(error);
     }
@@ -243,7 +253,7 @@ function SingleMatch() {
       if (response) {
         setActionWatcher("");
       }
-      fetchUpdatedMatch(match._id);
+      fetchUpdatedMatch(match?._id);
     } catch (error) {
       console.log(error);
     }
@@ -259,14 +269,17 @@ function SingleMatch() {
 
   const handleUpdateRefereeReport = async () => {
     try {
-      const response = await axiosInstance.patch(`/match/update/${match._id}`, {
-        referee_report: refereeReport,
-      });
+      const response = await axiosInstance.patch(
+        `/match/update/${match?._id}`,
+        {
+          referee_report: refereeReport,
+        }
+      );
 
       if (response) {
         setActionReferee("");
       }
-      fetchUpdatedMatch(match._id);
+      fetchUpdatedMatch(match?._id);
     } catch (error) {
       console.log(error);
     }
@@ -326,7 +339,7 @@ function SingleMatch() {
 
       if (response) {
         console.log("Deleted successfully");
-        fetchUpdatedMatch(match._id);
+        fetchUpdatedMatch(match?._id);
         cancelDeleteEvent();
       }
     } catch (error) {
@@ -358,12 +371,12 @@ function SingleMatch() {
   const handleEditEvent = async (formData) => {
     try {
       const response = await axiosInstance.patch(
-        `/matchdetails/updateObject/${match.detailsWatcher._id}/${selectedEvent._id}`,
+        `/matchdetails/updateObject/${match?.detailsWatcher._id}/${selectedEvent._id}`,
         formData
       );
       if (response) {
         console.log("Updated Successfully");
-        fetchUpdatedMatch(match._id);
+        fetchUpdatedMatch(match?._id);
         cancelEditEvent();
       }
     } catch (error) {
@@ -371,6 +384,289 @@ function SingleMatch() {
     }
   };
   ////////////
+
+  // Team A STARTERS
+  const [selectedPlayersTeamA, setSelectedPlayersTeamA] = useState([]);
+  const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+  const checkedIcon = <CheckBoxIcon fontSize="small" />;
+  const handleIsOptionEqualToValueA = (option, value) =>
+    option._id === value._id;
+  const handleAddStartersA = async () => {
+    if (selectedPlayersTeamA.length === 0) {
+      return;
+    }
+    const addStartersTeamA = selectedPlayersTeamA.map((player) => player._id);
+    const data = {
+      addStartersTeamA: addStartersTeamA,
+    };
+    try {
+      const response = await axiosInstance.patch(
+        `/match/update/${match?._id}`,
+        data
+      );
+      if (response) {
+        console.log("Players added to Starters Team A successfully");
+        setSelectedPlayersTeamA([]);
+        fetchUpdatedMatch(match?._id);
+      }
+    } catch (error) {
+      console.error("Error updating object:", error);
+    }
+  };
+  const [unSelectedPlayersTeamA, setUnSelectedPlayersTeamA] = useState([]);
+  const handleCheckboxChangeA = (event, playerId) => {
+    if (event.target.checked) {
+      setUnSelectedPlayersTeamA((prevSelected) => [...prevSelected, playerId]);
+    } else {
+      setUnSelectedPlayersTeamA((prevSelected) =>
+        prevSelected.filter((id) => id !== playerId)
+      );
+    }
+  };
+  const handleRemoveStartersA = async () => {
+    if (unSelectedPlayersTeamA.length === 0) {
+      return;
+    }
+    const removeStartersTeamA = unSelectedPlayersTeamA;
+    const data = {
+      removeStartersTeamA: removeStartersTeamA,
+    };
+    try {
+      const response = await axiosInstance.patch(
+        `/match/update/${match?._id}`,
+        data
+      );
+      if (response) {
+        console.log("Players removed from Starters Team A successfully");
+        setUnSelectedPlayersTeamA([]);
+        fetchUpdatedMatch(match?._id);
+      }
+    } catch (error) {
+      console.error("Error updating object:", error);
+    }
+  };
+
+  // Team A SUBSTITUTES
+  const [selectedPlayersSubstitutesTeamA, setSelectedPlayersSubstitutesTeamA] =
+    useState([]);
+
+  const handleIsOptionEqualToValueASubstitutes = (option, value) =>
+    option._id === value._id;
+
+  const handleAddSubstitutesA = async () => {
+    if (selectedPlayersSubstitutesTeamA.length === 0) {
+      return;
+    }
+    const addSubstitutesTeamA = selectedPlayersSubstitutesTeamA.map(
+      (player) => player._id
+    );
+
+    const data = {
+      addSubstitutesTeamA: addSubstitutesTeamA,
+    };
+
+    try {
+      const response = await axiosInstance.patch(
+        `/match/update/${match?._id}`,
+        data
+      );
+
+      if (response) {
+        console.log("Players added to Substitutes Team A successfully");
+        setSelectedPlayersSubstitutesTeamA([]);
+        fetchUpdatedMatch(match?._id);
+      }
+    } catch (error) {
+      console.error("Error updating object:", error);
+    }
+  };
+
+  const [
+    unSelectedPlayersSubstitutesTeamA,
+    setUnSelectedPlayersSubstitutesTeamA,
+  ] = useState([]);
+
+  const handleCheckboxChangeASubstitutes = (event, playerId) => {
+    if (event.target.checked) {
+      setUnSelectedPlayersSubstitutesTeamA((prevSelected) => [
+        ...prevSelected,
+        playerId,
+      ]);
+    } else {
+      setUnSelectedPlayersSubstitutesTeamA((prevSelected) =>
+        prevSelected.filter((id) => id !== playerId)
+      );
+    }
+  };
+
+  const handleRemoveSubstitutesA = async () => {
+    if (unSelectedPlayersSubstitutesTeamA.length === 0) {
+      return;
+    }
+
+    const removeSubstitutesTeamA = unSelectedPlayersSubstitutesTeamA;
+
+    const data = {
+      removeSubstitutesTeamA: removeSubstitutesTeamA,
+    };
+
+    try {
+      const response = await axiosInstance.patch(
+        `/match/update/${match?._id}`,
+        data
+      );
+
+      if (response) {
+        console.log("Players removed from Substitutes Team A successfully");
+        setUnSelectedPlayersSubstitutesTeamA([]);
+        fetchUpdatedMatch(match?._id);
+      }
+    } catch (error) {
+      console.error("Error updating object:", error);
+    }
+  };
+
+   ////////////
+
+  // Team B STARTERS
+  const [selectedPlayersTeamB, setSelectedPlayersTeamB] = useState([]);
+
+  const handleIsOptionEqualToValueB = (option, value) =>
+    option._id === value._id;
+  const handleAddStartersB = async () => {
+    if (selectedPlayersTeamB.length === 0) {
+      return;
+    }
+    const addStartersTeamB = selectedPlayersTeamB.map((player) => player._id);
+    const data = {
+      addStartersTeamB: addStartersTeamB,
+    };
+    try {
+      const response = await axiosInstance.patch(
+        `/match/update/${match?._id}`,
+        data
+      );
+      if (response) {
+        console.log("Players added to Starters Team B successfully");
+        setSelectedPlayersTeamB([]);
+        fetchUpdatedMatch(match?._id);
+      }
+    } catch (error) {
+      console.error("Error updating object:", error);
+    }
+  };
+  const [unSelectedPlayersTeamB, setUnSelectedPlayersTeamB] = useState([]);
+  const handleCheckboxChangeB = (event, playerId) => {
+    if (event.target.checked) {
+      setUnSelectedPlayersTeamB((prevSelected) => [...prevSelected, playerId]);
+    } else {
+      setUnSelectedPlayersTeamB((prevSelected) =>
+        prevSelected.filter((id) => id !== playerId)
+      );
+    }
+  };
+  const handleRemoveStartersB = async () => {
+    if (unSelectedPlayersTeamB.length === 0) {
+      return;
+    }
+    const removeStartersTeamB = unSelectedPlayersTeamB;
+    const data = {
+      removeStartersTeamB: removeStartersTeamB,
+    };
+    try {
+      const response = await axiosInstance.patch(
+        `/match/update/${match?._id}`,
+        data
+      );
+      if (response) {
+        console.log("Players removed from Starters Team B successfully");
+        setUnSelectedPlayersTeamB([]);
+        fetchUpdatedMatch(match?._id);
+      }
+    } catch (error) {
+      console.error("Error updating object:", error);
+    }
+  };
+
+  // Team B SUBSTITUTES
+  const [selectedPlayersSubstitutesTeamB, setSelectedPlayersSubstitutesTeamB] =
+    useState([]);
+
+  const handleIsOptionEqualToValueBSubstitutes = (option, value) =>
+    option._id === value._id;
+
+  const handleAddSubstitutesB = async () => {
+    if (selectedPlayersSubstitutesTeamB.length === 0) {
+      return;
+    }
+    const addSubstitutesTeamB = selectedPlayersSubstitutesTeamB.map(
+      (player) => player._id
+    );
+
+    const data = {
+      addSubstitutesTeamB: addSubstitutesTeamB,
+    };
+
+    try {
+      const response = await axiosInstance.patch(
+        `/match/update/${match?._id}`,
+        data
+      );
+
+      if (response) {
+        console.log("Players added to Substitutes Team B successfully");
+        setSelectedPlayersSubstitutesTeamB([]);
+        fetchUpdatedMatch(match?._id);
+      }
+    } catch (error) {
+      console.error("Error updating object:", error);
+    }
+  };
+
+  const [
+    unSelectedPlayersSubstitutesTeamB,
+    setUnSelectedPlayersSubstitutesTeamB,
+  ] = useState([]);
+
+  const handleCheckboxChangeBSubstitutes = (event, playerId) => {
+    if (event.target.checked) {
+      setUnSelectedPlayersSubstitutesTeamB((prevSelected) => [
+        ...prevSelected,
+        playerId,
+      ]);
+    } else {
+      setUnSelectedPlayersSubstitutesTeamB((prevSelected) =>
+        prevSelected.filter((id) => id !== playerId)
+      );
+    }
+  };
+
+  const handleRemoveSubstitutesB = async () => {
+    if (unSelectedPlayersSubstitutesTeamB.length === 0) {
+      return;
+    }
+
+    const removeSubstitutesTeamB = unSelectedPlayersSubstitutesTeamB;
+
+    const data = {
+      removeSubstitutesTeamB: removeSubstitutesTeamB,
+    };
+
+    try {
+      const response = await axiosInstance.patch(
+        `/match/update/${match?._id}`,
+        data
+      );
+
+      if (response) {
+        console.log("Players removed from Substitutes Team B successfully");
+        setUnSelectedPlayersSubstitutesTeamB([]);
+        fetchUpdatedMatch(match?._id);
+      }
+    } catch (error) {
+      console.error("Error updating object:", error);
+    }
+  };
 
   const TAB_DATA = [
     {
@@ -384,8 +680,8 @@ function SingleMatch() {
             <Reveal>
               <div className={StyleSingleMatch.liveContainer}>
                 {user?.role === "admin" ||
-                user?.userId === match.watcher._id ||
-                user?._id === match.watcher._id ? (
+                user?.userId === match?.watcher._id ||
+                user?._id === match?.watcher._id ? (
                   <>
                     {/* <div
                       style={{
@@ -572,15 +868,15 @@ function SingleMatch() {
                             </section>
 
                             {user?.role === "admin" ||
-                            user?.userId === match.watcher._id ||
-                            user?._id === match.watcher._id ? (
+                            user?.userId === match?.watcher?._id ||
+                            user?._id === match?.watcher?._id ? (
                               <div className={StyleSingleMatch.eventActions}>
                                 <button
                                   type="button"
                                   onClick={() => handleOpenDelete(event._id)}
                                   className={StyleSingleMatch.delete}
                                   // disabled={match.played}
-                                  disabled={match.reported}
+                                  disabled={match?.reported}
                                 >
                                   <img src={EventDelete} alt="" />
                                 </button>
@@ -590,7 +886,7 @@ function SingleMatch() {
                                   // style={{ border: "none" }}
                                   className={StyleSingleMatch.edit}
                                   // disabled={match.played}
-                                  disabled={match.reported}
+                                  disabled={match?.reported}
                                 >
                                   <img src={EventEdit} alt="" />
                                 </button>
@@ -636,15 +932,15 @@ function SingleMatch() {
                               ></div>
                             </div>
                             {user?.role === "admin" ||
-                            user?.userId === match.watcher._id ||
-                            user?._id === match.watcher._id ? (
+                            user?.userId === match?.watcher?._id ||
+                            user?._id === match?.watcher?._id ? (
                               <div className={StyleSingleMatch.eventActions}>
                                 <button
                                   type="button"
                                   onClick={() => handleOpenDelete(event._id)}
                                   className={StyleSingleMatch.delete}
                                   // disabled={match.played}
-                                  disabled={match.reported}
+                                  disabled={match?.reported}
                                 >
                                   <img src={EventDelete} alt="" />
                                 </button>
@@ -654,7 +950,7 @@ function SingleMatch() {
                                   // style={{ border: "none" }}
                                   className={StyleSingleMatch.edit}
                                   // disabled={match.played}
-                                  disabled={match.reported}
+                                  disabled={match?.reported}
                                 >
                                   <img src={EventEdit} alt="" />
                                 </button>
@@ -700,15 +996,15 @@ function SingleMatch() {
                               ></div>
                             </div>
                             {user?.role === "admin" ||
-                            user?.userId === match.watcher._id ||
-                            user?._id === match.watcher._id ? (
+                            user?.userId === match?.watcher?._id ||
+                            user?._id === match?.watcher?._id ? (
                               <div className={StyleSingleMatch.eventActions}>
                                 <button
                                   type="button"
                                   onClick={() => handleOpenDelete(event._id)}
                                   className={StyleSingleMatch.delete}
                                   // disabled={match.played}
-                                  disabled={match.reported}
+                                  disabled={match?.reported}
                                 >
                                   <img src={EventDelete} alt="" />
                                 </button>
@@ -718,7 +1014,7 @@ function SingleMatch() {
                                   // style={{ border: "none" }}
                                   className={StyleSingleMatch.edit}
                                   // disabled={match.played}
-                                  disabled={match.reported}
+                                  disabled={match?.reported}
                                 >
                                   <img src={EventEdit} alt="" />
                                 </button>
@@ -764,14 +1060,14 @@ function SingleMatch() {
                               ></div>
                             </div>
                             {user?.role === "admin" ||
-                            user?.userId === match.watcher._id ||
-                            user?._id === match.watcher._id ? (
+                            user?.userId === match?.watcher?._id ||
+                            user?._id === match?.watcher?._id ? (
                               <div className={StyleSingleMatch.eventActions}>
                                 <button
                                   type="button"
                                   onClick={() => handleOpenDelete(event._id)}
                                   className={StyleSingleMatch.delete}
-                                  disabled={match.reported}
+                                  disabled={match?.reported}
                                 >
                                   <img src={EventDelete} alt="" />
                                 </button>
@@ -779,7 +1075,7 @@ function SingleMatch() {
                                   type="button"
                                   onClick={() => handleOpenEdit(event)}
                                   className={StyleSingleMatch.edit}
-                                  disabled={match.reported}
+                                  disabled={match?.reported}
                                 >
                                   <img src={EventEdit} alt="" />
                                 </button>
@@ -826,15 +1122,15 @@ function SingleMatch() {
                                 ></div>
                               </div>
                               {user?.role === "admin" ||
-                              user?.userId === match.watcher._id ||
-                              user?._id === match.watcher._id ? (
+                              user?.userId === match?.watcher?._id ||
+                              user?._id === match?.watcher?._id ? (
                                 <div className={StyleSingleMatch.eventActions}>
                                   <button
                                     type="button"
                                     onClick={() => handleOpenDelete(event._id)}
                                     className={StyleSingleMatch.delete}
                                     // disabled={match.played}
-                                    disabled={match.reported}
+                                    disabled={match?.reported}
                                   >
                                     <img src={EventDelete} alt="" />
                                   </button>
@@ -844,7 +1140,7 @@ function SingleMatch() {
                                     // style={{ border: "none" }}
                                     className={StyleSingleMatch.edit}
                                     // disabled={match.played}
-                                    disabled={match.reported}
+                                    disabled={match?.reported}
                                   >
                                     <img src={EventEdit} alt="" />
                                   </button>
@@ -858,14 +1154,14 @@ function SingleMatch() {
                           <div
                             key={event._id}
                             className={`${StyleSingleMatch.event} ${
-                              event?.team?._id === match?.team_b?.team._id
+                              event?.team?._id === match?.team_b?.team?._id
                                 ? StyleSingleMatch.flexStart
                                 : StyleSingleMatch.flexEnd
                             }`}
                           >
                             <div
                               className={`${StyleSingleMatch.type} ${
-                                event?.team?._id === match?.team_b.team._id
+                                event?.team?._id === match?.team_b?.team?._id
                                   ? StyleSingleMatch.rowDirection
                                   : ""
                               }`}
@@ -913,7 +1209,7 @@ function SingleMatch() {
                                   <div
                                     className={
                                       event?.team?._id ===
-                                      match?.team_a?.team._id
+                                      match?.team_a?.team?._id
                                         ? StyleSingleMatch.singleEvent
                                         : StyleSingleMatch.singleEventB
                                     }
@@ -931,7 +1227,7 @@ function SingleMatch() {
                                   <div
                                     className={
                                       event?.team?._id ===
-                                      match?.team_a?.team._id
+                                      match?.team_a?.team?._id
                                         ? StyleSingleMatch.singleEvent
                                         : StyleSingleMatch.singleEventB
                                     }
@@ -949,7 +1245,8 @@ function SingleMatch() {
                               ) : (
                                 <div
                                   className={
-                                    event?.team?._id === match?.team_a?.team._id
+                                    event?.team?._id ===
+                                    match?.team_a?.team?._id
                                       ? StyleSingleMatch.singleEvent
                                       : StyleSingleMatch.singleEventB
                                   }
@@ -965,15 +1262,15 @@ function SingleMatch() {
                             </div>
 
                             {user?.role === "admin" ||
-                            user?.userId === match.watcher._id ||
-                            user?._id === match.watcher._id ? (
+                            user?.userId === match?.watcher?._id ||
+                            user?._id === match?.watcher?._id ? (
                               <div className={StyleSingleMatch.eventActions}>
                                 <button
                                   type="button"
                                   onClick={() => handleOpenDelete(event._id)}
                                   className={StyleSingleMatch.delete}
                                   // disabled={match.played}
-                                  disabled={match.reported}
+                                  disabled={match?.reported}
                                 >
                                   <img src={EventDelete} alt="" />
                                 </button>
@@ -983,7 +1280,7 @@ function SingleMatch() {
                                   // style={{ border: "none" }}
                                   className={StyleSingleMatch.edit}
                                   // disabled={match.played}
-                                  disabled={match.reported}
+                                  disabled={match?.reported}
                                 >
                                   <img src={EventEdit} alt="" />
                                 </button>
@@ -1009,7 +1306,7 @@ function SingleMatch() {
                 )}
 
                 <div>
-                  {match.played === true ? (
+                  {match?.played === true ? (
                     <div
                       style={{
                         display: "flex",
@@ -1052,8 +1349,8 @@ function SingleMatch() {
                 </div>
 
                 {user?.role === "admin" ||
-                user?.userId === match.watcher._id ||
-                user?._id === match.watcher._id ? (
+                user?.userId === match?.watcher?._id ||
+                user?._id === match?.watcher?._id ? (
                   <div
                     style={{
                       display: "flex",
@@ -1070,7 +1367,7 @@ function SingleMatch() {
                       onClick={handleOpenEndMatch}
                       className={StyleSingleMatch.endMatch}
                       // disabled={match.played}
-                      disabled={match.reported}
+                      disabled={match?.reported}
                     >
                       End Match
                     </button>
@@ -1089,104 +1386,573 @@ function SingleMatch() {
       id: "line-ups",
       content: (
         <div className={StyleSingleMatch.lineContainer}>
-          <div className={StyleSingleMatch.starterTeamA}>
-            <div className={StyleSingleMatch.imageDiv}>
-              <img
-                src={`${process.env.REACT_APP_IMAGE_PATH}/${match?.team_a?.team?.image}`}
-                alt={match?.team_a?.team?.name}
-                className={StyleSingleMatch.starterImage}
-              />
-            </div>
-            <p className={StyleSingleMatch.starters}>STARTERS</p>
-            <div className={StyleSingleMatch.playersContainer}>
-              {match?.team_a?.team?.players.map((player) => (
-                <div className={StyleSingleMatch.singlePlayer}>
-                  <div
-                    key={player?._id}
-                    className={StyleSingleMatch.imageDivPlayer}
-                  >
-                    {!player.image ? (
-                      <img
-                        src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
-                        alt={player?.name}
-                        style={{
-                          width: "60px",
-                          height: "60px",
-                          objectFit: "cover",
-                          borderRadius: "50%",
-                        }}
-                      />
+          {/* Team A */}
+          {/* <h1>messi</h1> */}
+          <div className={StyleSingleMatch.containerTeamA}>
+            <div className={StyleSingleMatch.starterTeamA}>
+              <div className={StyleSingleMatch.imageDiv}>
+                <img
+                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match?.team_a?.team?.image}`}
+                  alt={match?.team_a?.team?.name}
+                  className={StyleSingleMatch.starterImage}
+                />
+              </div>
+              <p className={StyleSingleMatch.starters}>
+                {language === "en" ? "STARTERS" : "التشكيلة الأساسية"}
+              </p>
+              <div className={StyleSingleMatch.playersContainer}>
+                {match?.startersTeamA?.map((player) => (
+                  <div className={StyleSingleMatch.singlePlayer}>
+                    <div
+                      key={player?._id}
+                      className={StyleSingleMatch.imageDivPlayer}
+                    >
+                      {user?.role === "admin" ||
+                      user?.userId === match.watcher._id ||
+                      user?._id === match.watcher._id ? (
+                        <Checkbox
+                          checked={unSelectedPlayersTeamA.includes(player._id)}
+                          onChange={(event) =>
+                            handleCheckboxChangeA(event, player._id)
+                          }
+                          inputProps={{ "aria-label": player.name }}
+                        />
+                      ) : (
+                        ""
+                      )}
+
+                      {!player.image ? (
+                        <img
+                          src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
+                          alt={player?.name}
+                          className={StyleSingleMatch.customImagePlayer}
+                        />
+                      ) : (
+                        <img
+                          src={`${process.env.REACT_APP_IMAGE_PATH}/${player?.image}`}
+                          alt={player?.name}
+                          className={StyleSingleMatch.customImagePlayer}
+                        />
+                      )}
+                    </div>
+
+                    <div className={StyleSingleMatch.nameNumber}>
+                      <p>{player?.tShirtNumber}</p>
+                      <p>{player?.name}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div>
+                {user?.role === "admin" ||
+                user?.userId === match.watcher._id ||
+                user?._id === match.watcher._id ? (
+                  <div style={{ margin: "10px 3px" }}>
+                    {unSelectedPlayersTeamA.length > 0 ? (
+                      <button
+                        onClick={handleRemoveStartersA}
+                        type="button"
+                        className={StyleSingleMatch.addEvent}
+                      >
+                        {language === "en" ? "Remove" : "حذف"}
+                      </button>
                     ) : (
-                      <img
-                        src={`${process.env.REACT_APP_IMAGE_PATH}/${player?.image}`}
-                        alt={player?.name}
-                        style={{
-                          width: "60px",
-                          height: "60px",
-                          objectFit: "cover",
-                          borderRadius: "50%",
-                        }}
-                      />
+                      <>
+                        <Autocomplete
+                          multiple
+                          id="checkboxes-tags-demo"
+                          options={match?.team_a?.team?.players || []}
+                          disableCloseOnSelect
+                          getOptionLabel={(option) => option.name}
+                          isOptionEqualToValue={handleIsOptionEqualToValueA}
+                          value={selectedPlayersTeamA}
+                          renderOption={(props, option, { selected }) => {
+                            return (
+                              <li {...props}>
+                                <Checkbox
+                                  icon={icon}
+                                  checkedIcon={checkedIcon}
+                                  style={{ marginRight: 1 }}
+                                  checked={selected}
+                                />
+
+                                {!option?.image ? (
+                                  <img
+                                    src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
+                                    alt={option?.name}
+                                    className={
+                                      StyleSingleMatch.customImagePlayer
+                                    }
+                                  />
+                                ) : (
+                                  <img
+                                    src={`${process.env.REACT_APP_IMAGE_PATH}/${option?.image}`}
+                                    alt={option?.name}
+                                    className={
+                                      StyleSingleMatch.customImagePlayer
+                                    }
+                                  />
+                                )}
+
+                                {option?.name}
+                              </li>
+                            );
+                          }}
+                          // style={{ width: 400 }}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Starters Players"
+                              placeholder="Starters"
+                            />
+                          )}
+                          onChange={(event, value) =>
+                            setSelectedPlayersTeamA(value)
+                          }
+                        />
+                        <button
+                          onClick={handleAddStartersA}
+                          type="button"
+                          className={StyleSingleMatch.addEvent}
+                        >
+                          {language === "en" ? "Add" : "اضافة"}
+                        </button>
+                      </>
                     )}
                   </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
 
-                  <div className={StyleSingleMatch.nameNumber}>
-                    <p>{player?.tShirtNumber}</p>
-                    <p>{player?.name}</p>
+            {/* Team A substitutes */}
+            <div className={StyleSingleMatch.starterTeamA}>
+              <div className={StyleSingleMatch.imageDiv}>
+                <img
+                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match?.team_a?.team?.image}`}
+                  alt={match?.team_a?.team?.name}
+                  className={StyleSingleMatch.starterImage}
+                />
+              </div>
+              <p className={StyleSingleMatch.starters}>
+                {language === "en" ? "SUBSTITUTES" : "دكة البدلاء"}
+              </p>
+              <div className={StyleSingleMatch.playersContainer}>
+                {match?.substitutesTeamA?.map((player) => (
+                  <div className={StyleSingleMatch.singlePlayer}>
+                    <div
+                      key={player?._id}
+                      className={StyleSingleMatch.imageDivPlayer}
+                    >
+                      {user?.role === "admin" ||
+                      user?.userId === match.watcher._id ||
+                      user?._id === match.watcher._id ? (
+                        <Checkbox
+                          checked={unSelectedPlayersSubstitutesTeamA.includes(
+                            player._id
+                          )}
+                          onChange={(event) =>
+                            handleCheckboxChangeASubstitutes(event, player._id)
+                          }
+                          inputProps={{ "aria-label": player.name }}
+                        />
+                      ) : (
+                        ""
+                      )}
+
+                      {!player.image ? (
+                        <img
+                          src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
+                          alt={player?.name}
+                          className={StyleSingleMatch.customImagePlayer}
+                        />
+                      ) : (
+                        <img
+                          src={`${process.env.REACT_APP_IMAGE_PATH}/${player?.image}`}
+                          alt={player?.name}
+                          className={StyleSingleMatch.customImagePlayer}
+                        />
+                      )}
+                    </div>
+
+                    <div className={StyleSingleMatch.nameNumber}>
+                      <p>{player?.tShirtNumber}</p>
+                      <p>{player?.name}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+              <div>
+                {user?.role === "admin" ||
+                user?.userId === match.watcher._id ||
+                user?._id === match.watcher._id ? (
+                  <div style={{ margin: "10px 3px" }}>
+                    {unSelectedPlayersSubstitutesTeamA.length > 0 ? (
+                      <button
+                        onClick={handleRemoveSubstitutesA}
+                        type="button"
+                        className={StyleSingleMatch.addEvent}
+                      >
+                        {language === "en" ? "Remove" : "حذف"}
+                      </button>
+                    ) : (
+                      <>
+                        <Autocomplete
+                          multiple
+                          id="checkboxes-tags-demo"
+                          options={match?.team_a?.team?.players || []}
+                          disableCloseOnSelect
+                          getOptionLabel={(option) => option.name}
+                          isOptionEqualToValue={
+                            handleIsOptionEqualToValueASubstitutes
+                          }
+                          value={selectedPlayersSubstitutesTeamA}
+                          renderOption={(props, option, { selected }) => {
+                            return (
+                              <li {...props}>
+                                <Checkbox
+                                  icon={icon}
+                                  checkedIcon={checkedIcon}
+                                  style={{ marginRight: 1 }}
+                                  checked={selected}
+                                />
+
+                                {!option?.image ? (
+                                  <img
+                                    src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
+                                    alt={option?.name}
+                                    className={
+                                      StyleSingleMatch.customImagePlayer
+                                    }
+                                  />
+                                ) : (
+                                  <img
+                                    src={`${process.env.REACT_APP_IMAGE_PATH}/${option?.image}`}
+                                    alt={option?.name}
+                                    className={
+                                      StyleSingleMatch.customImagePlayer
+                                    }
+                                  />
+                                )}
+
+                                {option?.name}
+                              </li>
+                            );
+                          }}
+                          // style={{ width: 400 }}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Substitutes Players"
+                              placeholder="Substitutes"
+                            />
+                          )}
+                          onChange={(event, value) =>
+                            setSelectedPlayersSubstitutesTeamA(value)
+                          }
+                        />
+                        <button
+                          onClick={handleAddSubstitutesA}
+                          type="button"
+                          className={StyleSingleMatch.addEvent}
+                        >
+                          {language === "en" ? "Add" : "اضافة"}
+                        </button>
+                      </>
+                    )}
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
           </div>
 
-          {/* <h1>In Progress</h1> */}
-          <div className={StyleSingleMatch.starterTeamA}>
-            <div className={StyleSingleMatch.imageDiv}>
-              <img
-                src={`${process.env.REACT_APP_IMAGE_PATH}/${match?.team_a?.team?.image}`}
-                alt={match?.team_a?.team?.name}
-                className={StyleSingleMatch.starterImage}
-              />
-            </div>
-            <p className={StyleSingleMatch.starters}>STARTERS</p>
-            <div className={StyleSingleMatch.playersContainer}>
-              {match?.team_a?.team?.players.map((player) => (
-                <div className={StyleSingleMatch.singlePlayer}>
-                  <div
-                    key={player?._id}
-                    className={StyleSingleMatch.imageDivPlayer}
-                  >
-                    {!player.image ? (
-                      <img
-                        src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
-                        alt={player?.name}
-                        style={{
-                          width: "60px",
-                          height: "60px",
-                          objectFit: "cover",
-                          borderRadius: "50%",
-                        }}
-                      />
+          {/* Team B */}
+          {/* <h1>ramos</h1> */}
+          <div className={StyleSingleMatch.containerTeamA}>
+            <div className={StyleSingleMatch.starterTeamA}>
+              <div className={StyleSingleMatch.imageDiv}>
+                <img
+                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match?.team_b?.team?.image}`}
+                  alt={match?.team_b?.team?.name}
+                  className={StyleSingleMatch.starterImage}
+                />
+              </div>
+              <p className={StyleSingleMatch.starters}>
+                {language === "en" ? "STARTERS" : "التشكيلة الأساسية"}
+              </p>
+              <div className={StyleSingleMatch.playersContainer}>
+                {match?.startersTeamB?.map((player) => (
+                  <div className={StyleSingleMatch.singlePlayer}>
+                    <div
+                      key={player?._id}
+                      className={StyleSingleMatch.imageDivPlayer}
+                    >
+                      {user?.role === "admin" ||
+                      user?.userId === match.watcher._id ||
+                      user?._id === match.watcher._id ? (
+                        <Checkbox
+                          checked={unSelectedPlayersTeamB.includes(player._id)}
+                          onChange={(event) =>
+                            handleCheckboxChangeB(event, player._id)
+                          }
+                          inputProps={{ "aria-label": player.name }}
+                        />
+                      ) : (
+                        ""
+                      )}
+
+                      {!player.image ? (
+                        <img
+                          src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
+                          alt={player?.name}
+                          className={StyleSingleMatch.customImagePlayer}
+                        />
+                      ) : (
+                        <img
+                          src={`${process.env.REACT_APP_IMAGE_PATH}/${player?.image}`}
+                          alt={player?.name}
+                          className={StyleSingleMatch.customImagePlayer}
+                        />
+                      )}
+                    </div>
+
+                    <div className={StyleSingleMatch.nameNumber}>
+                      <p>{player?.tShirtNumber}</p>
+                      <p>{player?.name}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div>
+                {user?.role === "admin" ||
+                user?.userId === match.watcher._id ||
+                user?._id === match.watcher._id ? (
+                  <div style={{ margin: "10px 3px" }}>
+                    {/* <h1>ronaldo</h1> */}
+
+                    {unSelectedPlayersTeamB.length > 0 ? (
+                      <button
+                        onClick={handleRemoveStartersB}
+                        type="button"
+                        className={StyleSingleMatch.addEvent}
+                      >
+                        {language === "en" ? "Remove" : "حذف"}
+                      </button>
                     ) : (
-                      <img
-                        src={`${process.env.REACT_APP_IMAGE_PATH}/${player?.image}`}
-                        alt={player?.name}
-                        style={{
-                          width: "60px",
-                          height: "60px",
-                          objectFit: "cover",
-                          borderRadius: "50%",
-                        }}
-                      />
+                      <>
+                        <Autocomplete
+                          multiple
+                          id="checkboxes-tags-demo"
+                          options={match?.team_b?.team?.players || []}
+                          disableCloseOnSelect
+                          getOptionLabel={(option) => option.name}
+                          isOptionEqualToValue={handleIsOptionEqualToValueB}
+                          value={selectedPlayersTeamB}
+                          renderOption={(props, option, { selected }) => {
+                            return (
+                              <li {...props}>
+                                <Checkbox
+                                  icon={icon}
+                                  checkedIcon={checkedIcon}
+                                  style={{ marginRight: 1 }}
+                                  checked={selected}
+                                />
+
+                                {!option?.image ? (
+                                  <img
+                                    src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
+                                    alt={option?.name}
+                                    className={
+                                      StyleSingleMatch.customImagePlayer
+                                    }
+                                  />
+                                ) : (
+                                  <img
+                                    src={`${process.env.REACT_APP_IMAGE_PATH}/${option?.image}`}
+                                    alt={option?.name}
+                                    className={
+                                      StyleSingleMatch.customImagePlayer
+                                    }
+                                  />
+                                )}
+
+                                {option?.name}
+                              </li>
+                            );
+                          }}
+                          // style={{ width: 400 }}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Starters Players"
+                              placeholder="Starters"
+                            />
+                          )}
+                          onChange={(event, value) =>
+                            setSelectedPlayersTeamB(value)
+                          }
+                        />
+                        <button
+                          onClick={handleAddStartersB}
+                          type="button"
+                          className={StyleSingleMatch.addEvent}
+                        >
+                          {language === "en" ? "Add" : "اضافة"}
+                        </button>
+                      </>
                     )}
                   </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
 
-                  <div className={StyleSingleMatch.nameNumber}>
-                    <p>{player?.tShirtNumber}</p>
-                    <p>{player?.name}</p>
+            {/* Team B substitutes */}
+            <div className={StyleSingleMatch.starterTeamA}>
+              <div className={StyleSingleMatch.imageDiv}>
+                <img
+                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match?.team_b?.team?.image}`}
+                  alt={match?.team_b?.team?.name}
+                  className={StyleSingleMatch.starterImage}
+                />
+              </div>
+              <p className={StyleSingleMatch.starters}>
+                {language === "en" ? "SUBSTITUTES" : "دكة البدلاء"}
+              </p>
+              <div className={StyleSingleMatch.playersContainer}>
+                {match?.substitutesTeamB?.map((player) => (
+                  <div className={StyleSingleMatch.singlePlayer}>
+                    <div
+                      key={player?._id}
+                      className={StyleSingleMatch.imageDivPlayer}
+                    >
+                      {user?.role === "admin" ||
+                      user?.userId === match.watcher._id ||
+                      user?._id === match.watcher._id ? (
+                        <Checkbox
+                          checked={unSelectedPlayersSubstitutesTeamB.includes(
+                            player._id
+                          )}
+                          onChange={(event) =>
+                            handleCheckboxChangeBSubstitutes(event, player._id)
+                          }
+                          inputProps={{ "aria-label": player.name }}
+                        />
+                      ) : (
+                        ""
+                      )}
+
+                      {!player.image ? (
+                        <img
+                          src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
+                          alt={player?.name}
+                          className={StyleSingleMatch.customImagePlayer}
+                        />
+                      ) : (
+                        <img
+                          src={`${process.env.REACT_APP_IMAGE_PATH}/${player?.image}`}
+                          alt={player?.name}
+                          className={StyleSingleMatch.customImagePlayer}
+                        />
+                      )}
+                    </div>
+
+                    <div className={StyleSingleMatch.nameNumber}>
+                      <p>{player?.tShirtNumber}</p>
+                      <p>{player?.name}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+              <div>
+                {user?.role === "admin" ||
+                user?.userId === match.watcher._id ||
+                user?._id === match.watcher._id ? (
+                  <div style={{ margin: "10px 3px" }}>
+                    {/* <h1>ronaldo</h1> */}
+
+                    {unSelectedPlayersSubstitutesTeamB.length > 0 ? (
+                      <button
+                        onClick={handleRemoveSubstitutesB}
+                        type="button"
+                        className={StyleSingleMatch.addEvent}
+                      >
+                        {language === "en" ? "Remove" : "حذف"}
+                      </button>
+                    ) : (
+                      <>
+                        <Autocomplete
+                          multiple
+                          id="checkboxes-tags-demo"
+                          options={match?.team_b?.team?.players || []}
+                          disableCloseOnSelect
+                          getOptionLabel={(option) => option.name}
+                          isOptionEqualToValue={
+                            handleIsOptionEqualToValueBSubstitutes
+                          }
+                          value={selectedPlayersSubstitutesTeamB}
+                          renderOption={(props, option, { selected }) => {
+                            return (
+                              <li {...props}>
+                                <Checkbox
+                                  icon={icon}
+                                  checkedIcon={checkedIcon}
+                                  style={{ marginRight: 1 }}
+                                  checked={selected}
+                                />
+
+                                {!option?.image ? (
+                                  <img
+                                    src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
+                                    alt={option?.name}
+                                    className={
+                                      StyleSingleMatch.customImagePlayer
+                                    }
+                                  />
+                                ) : (
+                                  <img
+                                    src={`${process.env.REACT_APP_IMAGE_PATH}/${option?.image}`}
+                                    alt={option?.name}
+                                    className={
+                                      StyleSingleMatch.customImagePlayer
+                                    }
+                                  />
+                                )}
+
+                                {option?.name}
+                              </li>
+                            );
+                          }}
+                          // style={{ width: 400 }}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Substitutes Players"
+                              placeholder="Substitutes"
+                            />
+                          )}
+                          onChange={(event, value) =>
+                            setSelectedPlayersSubstitutesTeamB(value)
+                          }
+                        />
+                        <button
+                          onClick={handleAddSubstitutesB}
+                          type="button"
+                          className={StyleSingleMatch.addEvent}
+                        >
+                          {language === "en" ? "Add" : "اضافة"}
+                        </button>
+                      </>
+                    )}
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -1247,21 +2013,20 @@ function SingleMatch() {
                       actionWatcher === "Edit" ? (
                         ""
                       ) : (
-                        <div className={StyleSingleMatch.containerOption}>
-                          <div className={StyleSingleMatch.customSelect}>
-                            <select value="" onChange={handleActionChange}>
-                              <option value="" disabled hidden></option>
-                              <option
-                                value="Edit"
-                                className={StyleSingleMatch.customOption}
-                              >
-                                {language === "en"
-                                  ? "Edit Report"
-                                  : "تعديل التقرير"}
-                              </option>
-                            </select>
-                          </div>
-                        </div>
+                        <Fab
+                          onClick={() =>
+                            handleActionChange({ target: { value: "Edit" } })
+                          }
+                          aria-label="edit"
+                          className={StyleSingleMatch.fabGradient}
+                          style={{
+                            color: "white",
+                            width: "40px",
+                            height: "40px",
+                          }}
+                        >
+                          <EditIcon />
+                        </Fab>
                       )
                     ) : (
                       ""
@@ -1287,20 +2052,27 @@ function SingleMatch() {
                     >
                       {actionWatcher === "Edit" ? (
                         <>
-                          <button
+                          <Button
                             type="button"
-                            className={StyleSingleMatch.back}
                             onClick={handleBackWatcher}
+                            className={StyleSingleMatch.back}
+                            variant="outlined"
+                            style={{
+                              color: "var(--primary-clr)",
+                              border: "1px solid var(--primary-clr)",
+                            }}
                           >
                             {language === "en" ? "Back" : "العودة"}
-                          </button>
-                          <button
+                          </Button>
+                          <Button
                             type="button"
-                            className={StyleSingleMatch.post}
                             onClick={handleUpdateWatcherReport}
+                            className={StyleSingleMatch.post}
+                            variant="contained"
+                            endIcon={<SendIcon />}
                           >
-                            {language === "en" ? "Save" : "حفظ"}
-                          </button>
+                            {language === "en" ? "Send" : "أرسل"}
+                          </Button>
                         </>
                       ) : (
                         ""
@@ -1362,24 +2134,22 @@ function SingleMatch() {
                       actionReferee === "Edit" ? (
                         ""
                       ) : (
-                        <div className={StyleSingleMatch.containerOption}>
-                          <div className={StyleSingleMatch.customSelect}>
-                            <select
-                              value=""
-                              onChange={handleActionChangeReferee}
-                            >
-                              <option value="" disabled hidden></option>
-                              <option
-                                value="Edit"
-                                className={StyleSingleMatch.customOption}
-                              >
-                                {language === "en"
-                                  ? "Edit Report"
-                                  : "تعديل التقرير"}
-                              </option>
-                            </select>
-                          </div>
-                        </div>
+                        <Fab
+                          onClick={() =>
+                            handleActionChangeReferee({
+                              target: { value: "Edit" },
+                            })
+                          }
+                          aria-label="edit"
+                          className={StyleSingleMatch.fabGradient}
+                          style={{
+                            color: "white",
+                            width: "40px",
+                            height: "40px",
+                          }}
+                        >
+                          <EditIcon />
+                        </Fab>
                       )
                     ) : (
                       ""
@@ -1403,7 +2173,7 @@ function SingleMatch() {
                   >
                     {actionReferee === "Edit" ? (
                       <>
-                        <button
+                        {/* <button
                           type="button"
                           className={StyleSingleMatch.back}
                           onClick={handleBackReferee}
@@ -1416,7 +2186,28 @@ function SingleMatch() {
                           className={StyleSingleMatch.post}
                         >
                           {language === "en" ? "Save" : "حفظ"}
-                        </button>
+                        </button> */}
+                        <Button
+                          type="button"
+                          onClick={handleBackReferee}
+                          className={StyleSingleMatch.back}
+                          variant="outlined"
+                          style={{
+                            color: "var(--primary-clr)",
+                            border: "1px solid var(--primary-clr)",
+                          }}
+                        >
+                          {language === "en" ? "Back" : "العودة"}
+                        </Button>
+                        <Button
+                          type="button"
+                          onClick={handleUpdateRefereeReport}
+                          className={StyleSingleMatch.post}
+                          variant="contained"
+                          endIcon={<SendIcon />}
+                        >
+                          {language === "en" ? "Send" : "أرسل"}
+                        </Button>
                       </>
                     ) : (
                       ""
