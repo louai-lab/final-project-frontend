@@ -120,6 +120,7 @@
 
 .fixture:hover {
   transform: scale(1.05);
+  cursor: pointer;
 }
 
 .info {
@@ -284,11 +285,10 @@
   /* height: 300px; */
 }
 
-.trackHome h1{
+.trackHome h1 {
   width: fit-content;
   text-align: center;
   font-size: clamp(16px, 8vw, 35px);
-
 }
 
 .track {
