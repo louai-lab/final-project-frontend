@@ -191,7 +191,7 @@ const Table = ({
           "motherName",
         ];
       } else if (ForWhat === "teams") {
-        visibleFields = ["name", "image", "players"];
+        visibleFields = ["name", "image", "players", "administrators"];
       } else if (ForWhat === "matches") {
         visibleFields = [
           "title",
@@ -214,6 +214,8 @@ const Table = ({
         visibleFields = ["seasonName"];
       } else if (ForWhat === "pitches") {
         visibleFields = ["name", "location", "image"];
+      } else if (ForWhat === "administrators") {
+        visibleFields = ["name", "characteristic", "team", "image"];
       } else {
         visibleFields = Object.keys(data[0]);
       }
@@ -265,6 +267,19 @@ const Table = ({
                 <ul style={{ listStyleType: "none", paddingLeft: 0 }}>
                   {params.row.players.map((player) => (
                     <li key={player._id}>{player.name}</li>
+                  ))}
+                </ul>
+              </div>
+            );
+          }
+
+          if (field === "administrators" && params.row.administrators) {
+            return (
+              <div className={StyleTable.scroll}>
+                <strong>Administrators:</strong>
+                <ul style={{ listStyleType: "none", paddingLeft: 0 }}>
+                  {params.row.administrators.map((administrator) => (
+                    <li key={administrator._id}>{administrator.name}</li>
                   ))}
                 </ul>
               </div>

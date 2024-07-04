@@ -18,6 +18,7 @@ import DashMatches from "../Pages/DashMatches/DashMatches.js";
 import DashTitles from "../Pages/DashTitles/DashTitles.js";
 import DashSeasons from "../Pages/DashSeasons/DashSeasons.js";
 import DashPitches from "../Pages/DashPitches/DashPitches.js";
+import DashAdministrator from "../Pages/DashAdministrator/DashAdministrator.js";
 
 function AppRoutes() {
   const { user } = useUserStore();
@@ -67,6 +68,11 @@ function AppRoutes() {
         <Route path="/dashboard/titles" exact element={<DashTitles />} />
         <Route path="/dashboard/seasons" exact element={<DashSeasons />} />
         <Route path="/dashboard/pitches" exact element={<DashPitches />} />
+        <Route
+          path="/dashboard/administrators"
+          exact
+          element={<DashAdministrator />}
+        />
       </Route>
       <Route path="/*" exact element={<NotFound />} />
       <Route path="/dashboard/*" exact element={<NotFound />} />

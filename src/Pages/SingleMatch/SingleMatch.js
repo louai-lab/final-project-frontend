@@ -59,6 +59,9 @@ function SingleMatch() {
   const [selectedPenaltyTypeA, setSelectedPenaltyTypeA] = useState("");
   const [selectedPenaltyTypeB, setSelectedPenaltyTypeB] = useState("");
 
+  const location = useLocation();
+  const [match, setMatch] = useState(location.state?.match || {});
+
   const [formAction, setFormAction] = useState({
     type: "",
     team: "",
@@ -107,18 +110,39 @@ function SingleMatch() {
     });
   };
 
+  // console.log(user.role);
+
+  let detailIdWatcher = match?.detailsWatcher?._id;
+  let detailIdReferee = match?.detailsReferee?._id;
+
   const handleAddAction = async (e) => {
     e.preventDefault();
-    console.log(formAction);
+    // console.log(formAction);
+
+    const { role } = user;
+
+    let detailId;
+
+    if (role === "watcher") {
+      detailId = detailIdWatcher;
+    } else if (role === "referee") {
+      detailId = detailIdReferee;
+    } else {
+      // console.error("Invalid user role:", role);
+      return;
+    }
+
     try {
       const response = await axiosInstance.patch(
-        `/matchdetails/addObject/${detailIdWatcher}`,
+        `/matchdetails/addObject/${detailId}`,
         formAction
       );
 
       if (response) {
         console.log("created successfully");
         handleCancel();
+        setSelectedEventType("");
+
         console.log(response.data);
 
         fetchUpdatedMatch(match?._id);
@@ -139,19 +163,16 @@ function SingleMatch() {
     });
   };
 
-  const location = useLocation();
-  const [match, setMatch] = useState(location.state?.match || {});
-
   // console.log(match);
 
-  const cancelEvent = () => {
-    closePopUp();
-  };
+  // const cancelEvent = () => {
+  //   closePopUp();
+  // };
 
-  const openPopUp = () => {
-    setIsOpenPopUpEvent(true);
-    document.body.style.overflow = "hidden";
-  };
+  // const openPopUp = () => {
+  //   setIsOpenPopUpEvent(true);
+  //   document.body.style.overflow = "hidden";
+  // };
 
   const closePopUp = () => {
     setIsOpenPopUpEvent(false);
@@ -188,24 +209,22 @@ function SingleMatch() {
     }
   }, [match]);
 
-  let detailIdWatcher = match?.detailsWatcher?._id;
+  // const handleEventSubmit = async (formData) => {
+  //   try {
+  //     const response = await axiosInstance.patch(
+  //       `/matchdetails/addObject/${detailIdWatcher}`,
+  //       formData
+  //     );
 
-  const handleEventSubmit = async (formData) => {
-    try {
-      const response = await axiosInstance.patch(
-        `/matchdetails/addObject/${detailIdWatcher}`,
-        formData
-      );
+  //     if (response) {
+  //       console.log("created successfully");
 
-      if (response) {
-        console.log("created successfully");
-
-        fetchUpdatedMatch(match?._id);
-      }
-    } catch (error) {
-      console.error("Error updating match details:", error);
-    }
-  };
+  //       fetchUpdatedMatch(match?._id);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error updating match details:", error);
+  //   }
+  // };
 
   // End PopUp Match
   const openPopUpEnd = () => {
@@ -242,7 +261,8 @@ function SingleMatch() {
     }
   };
 
-  const events = match?.detailsWatcher?.details;
+  const eventsWatcher = match?.detailsWatcher?.details;
+  const eventsReferee = match?.detailsReferee?.details;
 
   const handleUpdateWatcherReport = async () => {
     try {
@@ -526,7 +546,7 @@ function SingleMatch() {
     }
   };
 
-   ////////////
+  ////////////
 
   // Team B STARTERS
   const [selectedPlayersTeamB, setSelectedPlayersTeamB] = useState([]);
@@ -668,6 +688,168 @@ function SingleMatch() {
     }
   };
 
+  // Administrators Team A
+  const [selectedAdministratorsTeamA, setSelectedAdministratorsTeamA] =
+    useState([]);
+
+  const [unSelectedAdministratorsTeamA, setUnSelectedAdministratorsTeamA] =
+    useState([]);
+
+  const handleIsOptionEqualToValueAAdministrators = (option, value) =>
+    option._id === value._id;
+
+  const handleAddAdministratorsA = async () => {
+    // console.log(selectedAdministratorsTeamA);
+    if (selectedAdministratorsTeamA.length === 0) {
+      return;
+    }
+    const addAdministratorsTeamA = selectedAdministratorsTeamA.map(
+      (administrator) => administrator._id
+    );
+
+    const data = {
+      addAdministratorsTeamA: addAdministratorsTeamA,
+    };
+
+    try {
+      const response = await axiosInstance.patch(
+        `/match/update/${match?._id}`,
+        data
+      );
+
+      if (response) {
+        console.log("Administrators added to Team A successfully");
+        setSelectedAdministratorsTeamA([]);
+        fetchUpdatedMatch(match?._id);
+      }
+    } catch (error) {
+      console.error("Error updating object:", error);
+    }
+  };
+
+  const handleCheckboxChangeAdministratorsA = (event, administratorId) => {
+    if (event.target.checked) {
+      setUnSelectedAdministratorsTeamA((prevSelected) => [
+        ...prevSelected,
+        administratorId,
+      ]);
+    } else {
+      setUnSelectedAdministratorsTeamA((prevSelected) =>
+        prevSelected.filter((id) => id !== administratorId)
+      );
+    }
+  };
+
+  const handleRemoveAdministratorsA = async () => {
+    // console.log(unSelectedAdministratorsTeamA);
+
+    if (unSelectedAdministratorsTeamA.length === 0) {
+      return;
+    }
+
+    const removeAdministratorsTeamA = unSelectedAdministratorsTeamA;
+
+    const data = {
+      removeAdministratorsTeamA: removeAdministratorsTeamA,
+    };
+
+    try {
+      const response = await axiosInstance.patch(
+        `/match/update/${match?._id}`,
+        data
+      );
+
+      if (response) {
+        console.log("Administrators removed from Team A successfully");
+        setUnSelectedAdministratorsTeamA([]);
+        fetchUpdatedMatch(match?._id);
+      }
+    } catch (error) {
+      console.error("Error updating object:", error);
+    }
+  };
+
+  // Administrators Team B
+  const [selectedAdministratorsTeamB, setSelectedAdministratorsTeamB] =
+    useState([]);
+
+  const [unSelectedAdministratorsTeamB, setUnSelectedAdministratorsTeamB] =
+    useState([]);
+
+  const handleIsOptionEqualToValueBAdministrators = (option, value) =>
+    option._id === value._id;
+
+  const handleAddAdministratorsB = async () => {
+    // console.log(selectedAdministratorsTeamA);
+    if (selectedAdministratorsTeamB.length === 0) {
+      return;
+    }
+    const addAdministratorsTeamB = selectedAdministratorsTeamB.map(
+      (administrator) => administrator._id
+    );
+
+    const data = {
+      addAdministratorsTeamB: addAdministratorsTeamB,
+    };
+
+    try {
+      const response = await axiosInstance.patch(
+        `/match/update/${match?._id}`,
+        data
+      );
+
+      if (response) {
+        console.log("Administrators added to Team B successfully");
+        setSelectedAdministratorsTeamB([]);
+        fetchUpdatedMatch(match?._id);
+      }
+    } catch (error) {
+      console.error("Error updating object:", error);
+    }
+  };
+
+  const handleCheckboxChangeAdministratorsB = (event, administratorId) => {
+    if (event.target.checked) {
+      setUnSelectedAdministratorsTeamB((prevSelected) => [
+        ...prevSelected,
+        administratorId,
+      ]);
+    } else {
+      setUnSelectedAdministratorsTeamB((prevSelected) =>
+        prevSelected.filter((id) => id !== administratorId)
+      );
+    }
+  };
+
+  const handleRemoveAdministratorsB = async () => {
+    // console.log(unSelectedAdministratorsTeamA);
+
+    if (unSelectedAdministratorsTeamB.length === 0) {
+      return;
+    }
+
+    const removeAdministratorsTeamB = unSelectedAdministratorsTeamB;
+
+    const data = {
+      removeAdministratorsTeamB: removeAdministratorsTeamB,
+    };
+
+    try {
+      const response = await axiosInstance.patch(
+        `/match/update/${match?._id}`,
+        data
+      );
+
+      if (response) {
+        console.log("Administrators removed from Team B successfully");
+        setUnSelectedAdministratorsTeamB([]);
+        fetchUpdatedMatch(match?._id);
+      }
+    } catch (error) {
+      console.error("Error updating object:", error);
+    }
+  };
+
   const TAB_DATA = [
     {
       title: "Live",
@@ -680,17 +862,11 @@ function SingleMatch() {
             <Reveal>
               <div className={StyleSingleMatch.liveContainer}>
                 {user?.role === "admin" ||
-                user?.userId === match?.watcher._id ||
-                user?._id === match?.watcher._id ? (
+                user?.userId === match?.watcher?._id ||
+                user?.userId === match?.referee?._id ||
+                user?._id === match?.watcher?._id ||
+                user?._id === match?.referee?._id ? (
                   <>
-                    {/* <div
-                      style={{
-                        position: "absolute",
-                        width: "100%",
-                        height: "100%",
-                      }}
-                      onClick={() => handleEventClick("")}
-                    ></div> */}
                     <div
                       style={{
                         display: "flex",
@@ -698,7 +874,6 @@ function SingleMatch() {
                         rowGap: "10px",
                       }}
                     >
-                      {/* <h1>Try smth</h1> */}
                       <div
                         style={{
                           display: "flex",
@@ -779,11 +954,6 @@ function SingleMatch() {
                       </div>
 
                       {selectedEventType && (
-                        // <div
-                        //   className={`${StyleSingleMatch.transition} ${
-                        //     selectedEventType ? StyleSingleMatch.show : ""
-                        //   }`}
-                        // >
                         <>
                           <button
                             onClick={handleAddAction}
@@ -807,503 +977,1100 @@ function SingleMatch() {
                   ""
                 )}
 
-                {events?.length > 0 ? (
-                  <>
-                    <div
-                      style={{
-                        display: "flex",
-                        columnGap: "10%",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        marginTop: "20px",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: "60px",
-                          height: "2px",
-                          backgroundColor: "green",
-                        }}
-                      ></div>
-                      <h1
-                        style={{
-                          color: "green",
-                          textAlign: "center",
-                          fontSize: "clamp(15px , 4vw , 25px)",
-                        }}
-                      >
-                        {language === "en" ? "Match begins!" : "بداية المباراة"}
-                      </h1>
-                      <div
-                        style={{
-                          width: "60px",
-                          height: "2px",
-                          backgroundColor: "green",
-                        }}
-                      ></div>
-                    </div>
-
-                    {events.map((event) => (
+                <div className={StyleSingleMatch.containerEvents}>
+                  <div className={StyleSingleMatch.bothEvents}>
+                    <h1>Events Watcher</h1>
+                    {eventsWatcher?.length > 0 ? (
                       <>
-                        {event.type === "HT" ? (
-                          <div>
-                            <section className={StyleSingleMatch.resultHT}>
-                              <p style={{ color: "white" }}>
-                                {match?.team_a?.scoreHT}
-                              </p>
-
-                              <h1
-                                style={{
-                                  color: "red",
-                                  textAlign: "center",
-                                  fontSize: "clamp(15px , 4vw , 20px)",
-                                }}
-                              >
-                                {language === "en" ? "HT" : "نهاية الشوط الأول"}
-                              </h1>
-                              <p style={{ color: "white" }}>
-                                {match?.team_b?.scoreHT}
-                              </p>
-                            </section>
-
-                            {user?.role === "admin" ||
-                            user?.userId === match?.watcher?._id ||
-                            user?._id === match?.watcher?._id ? (
-                              <div className={StyleSingleMatch.eventActions}>
-                                <button
-                                  type="button"
-                                  onClick={() => handleOpenDelete(event._id)}
-                                  className={StyleSingleMatch.delete}
-                                  // disabled={match.played}
-                                  disabled={match?.reported}
-                                >
-                                  <img src={EventDelete} alt="" />
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => handleOpenEdit(event)}
-                                  // style={{ border: "none" }}
-                                  className={StyleSingleMatch.edit}
-                                  // disabled={match.played}
-                                  disabled={match?.reported}
-                                >
-                                  <img src={EventEdit} alt="" />
-                                </button>
-                              </div>
-                            ) : (
-                              ""
-                            )}
-                          </div>
-                        ) : event.type === "full_time" ? (
-                          <div>
-                            <div
-                              style={{
-                                display: "flex",
-                                columnGap: "10%",
-                                justifyContent: "center",
-                                alignItems: "center",
-                              }}
-                            >
-                              <div
-                                style={{
-                                  width: "60px",
-                                  height: "2px",
-                                  backgroundColor: "red",
-                                }}
-                              ></div>
-                              <h1
-                                style={{
-                                  color: "red",
-                                  textAlign: "center",
-                                  fontSize: "clamp(15px , 4vw , 20px)",
-                                }}
-                              >
-                                {language === "en"
-                                  ? "FT"
-                                  : "نهاية الوقت الأصلي"}
-                              </h1>
-                              <div
-                                style={{
-                                  width: "60px",
-                                  height: "2px",
-                                  backgroundColor: "red",
-                                }}
-                              ></div>
-                            </div>
-                            {user?.role === "admin" ||
-                            user?.userId === match?.watcher?._id ||
-                            user?._id === match?.watcher?._id ? (
-                              <div className={StyleSingleMatch.eventActions}>
-                                <button
-                                  type="button"
-                                  onClick={() => handleOpenDelete(event._id)}
-                                  className={StyleSingleMatch.delete}
-                                  // disabled={match.played}
-                                  disabled={match?.reported}
-                                >
-                                  <img src={EventDelete} alt="" />
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => handleOpenEdit(event)}
-                                  // style={{ border: "none" }}
-                                  className={StyleSingleMatch.edit}
-                                  // disabled={match.played}
-                                  disabled={match?.reported}
-                                >
-                                  <img src={EventEdit} alt="" />
-                                </button>
-                              </div>
-                            ) : (
-                              ""
-                            )}
-                          </div>
-                        ) : event.type === "firstExtraTime" ? (
-                          <div>
-                            <div
-                              style={{
-                                display: "flex",
-                                columnGap: "10%",
-                                justifyContent: "center",
-                                alignItems: "center",
-                              }}
-                            >
-                              <div
-                                style={{
-                                  width: "60px",
-                                  height: "2px",
-                                  backgroundColor: "red",
-                                }}
-                              ></div>
-                              <h1
-                                style={{
-                                  color: "red",
-                                  textAlign: "center",
-                                  fontSize: "clamp(15px , 4vw , 20px)",
-                                }}
-                              >
-                                {language === "en"
-                                  ? "First Extra Time"
-                                  : "نهاية الشوط الإضافي الأول"}
-                              </h1>
-                              <div
-                                style={{
-                                  width: "60px",
-                                  height: "2px",
-                                  backgroundColor: "red",
-                                }}
-                              ></div>
-                            </div>
-                            {user?.role === "admin" ||
-                            user?.userId === match?.watcher?._id ||
-                            user?._id === match?.watcher?._id ? (
-                              <div className={StyleSingleMatch.eventActions}>
-                                <button
-                                  type="button"
-                                  onClick={() => handleOpenDelete(event._id)}
-                                  className={StyleSingleMatch.delete}
-                                  // disabled={match.played}
-                                  disabled={match?.reported}
-                                >
-                                  <img src={EventDelete} alt="" />
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => handleOpenEdit(event)}
-                                  // style={{ border: "none" }}
-                                  className={StyleSingleMatch.edit}
-                                  // disabled={match.played}
-                                  disabled={match?.reported}
-                                >
-                                  <img src={EventEdit} alt="" />
-                                </button>
-                              </div>
-                            ) : (
-                              ""
-                            )}
-                          </div>
-                        ) : event.type === "secondExtraTime" ? (
-                          <div>
-                            <div
-                              style={{
-                                display: "flex",
-                                columnGap: "10%",
-                                justifyContent: "center",
-                                alignItems: "center",
-                              }}
-                            >
-                              <div
-                                style={{
-                                  width: "60px",
-                                  height: "2px",
-                                  backgroundColor: "red",
-                                }}
-                              ></div>
-                              <h1
-                                style={{
-                                  color: "red",
-                                  textAlign: "center",
-                                  fontSize: "clamp(15px , 4vw , 20px)",
-                                }}
-                              >
-                                {language === "en"
-                                  ? "Second Extra Time"
-                                  : "نهاية الشوط الإضافي الثاني"}
-                              </h1>
-                              <div
-                                style={{
-                                  width: "60px",
-                                  height: "2px",
-                                  backgroundColor: "red",
-                                }}
-                              ></div>
-                            </div>
-                            {user?.role === "admin" ||
-                            user?.userId === match?.watcher?._id ||
-                            user?._id === match?.watcher?._id ? (
-                              <div className={StyleSingleMatch.eventActions}>
-                                <button
-                                  type="button"
-                                  onClick={() => handleOpenDelete(event._id)}
-                                  className={StyleSingleMatch.delete}
-                                  disabled={match?.reported}
-                                >
-                                  <img src={EventDelete} alt="" />
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => handleOpenEdit(event)}
-                                  className={StyleSingleMatch.edit}
-                                  disabled={match?.reported}
-                                >
-                                  <img src={EventEdit} alt="" />
-                                </button>
-                              </div>
-                            ) : (
-                              ""
-                            )}
-                          </div>
-                        ) : event.type === "penalties" ? (
-                          <div>
-                            <div>
-                              <div
-                                style={{
-                                  display: "flex",
-                                  columnGap: "10%",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <div
-                                  style={{
-                                    width: "60px",
-                                    height: "2px",
-                                    backgroundColor: "red",
-                                  }}
-                                ></div>
-                                <h1
-                                  style={{
-                                    color: "red",
-                                    textAlign: "center",
-                                    fontSize: "clamp(15px , 4vw , 20px)",
-                                  }}
-                                >
-                                  {language === "en"
-                                    ? "Penalties"
-                                    : "ضربات جزاء"}
-                                </h1>
-                                <div
-                                  style={{
-                                    width: "60px",
-                                    height: "2px",
-                                    backgroundColor: "red",
-                                  }}
-                                ></div>
-                              </div>
-                              {user?.role === "admin" ||
-                              user?.userId === match?.watcher?._id ||
-                              user?._id === match?.watcher?._id ? (
-                                <div className={StyleSingleMatch.eventActions}>
-                                  <button
-                                    type="button"
-                                    onClick={() => handleOpenDelete(event._id)}
-                                    className={StyleSingleMatch.delete}
-                                    // disabled={match.played}
-                                    disabled={match?.reported}
-                                  >
-                                    <img src={EventDelete} alt="" />
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={() => handleOpenEdit(event)}
-                                    // style={{ border: "none" }}
-                                    className={StyleSingleMatch.edit}
-                                    // disabled={match.played}
-                                    disabled={match?.reported}
-                                  >
-                                    <img src={EventEdit} alt="" />
-                                  </button>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          </div>
-                        ) : (
+                        <div
+                          style={{
+                            display: "flex",
+                            columnGap: "10%",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            marginTop: "20px",
+                            marginBottom: "20px",
+                          }}
+                        >
                           <div
-                            key={event._id}
-                            className={`${StyleSingleMatch.event} ${
-                              event?.team?._id === match?.team_b?.team?._id
-                                ? StyleSingleMatch.flexStart
-                                : StyleSingleMatch.flexEnd
-                            }`}
+                            style={{
+                              width: "60px",
+                              height: "2px",
+                              backgroundColor: "green",
+                            }}
+                          ></div>
+                          <h1
+                            style={{
+                              color: "green",
+                              textAlign: "center",
+                              fontSize: "clamp(15px , 4vw , 25px)",
+                            }}
+                          >
+                            {language === "en"
+                              ? "Match begins!"
+                              : "بداية المباراة"}
+                          </h1>
+                          <div
+                            style={{
+                              width: "60px",
+                              height: "2px",
+                              backgroundColor: "green",
+                            }}
+                          ></div>
+                        </div>
+
+                        {eventsWatcher.map((event) => (
+                          <>
+                            {event.type === "HT" ? (
+                              <div>
+                                <section className={StyleSingleMatch.resultHT}>
+                                  <p style={{ color: "white" }}>
+                                    {match?.team_a?.scoreHTWatcher}
+                                  </p>
+
+                                  <h1
+                                    style={{
+                                      color: "red",
+                                      textAlign: "center",
+                                      fontSize: "clamp(15px , 4vw , 20px)",
+                                    }}
+                                  >
+                                    {language === "en"
+                                      ? "HT"
+                                      : "نهاية الشوط الأول"}
+                                  </h1>
+                                  <p style={{ color: "white" }}>
+                                    {match?.team_b?.scoreHTWatcher}
+                                  </p>
+                                </section>
+
+                                {user?.role === "admin" ||
+                                user?.userId === match?.watcher?._id ||
+                                user?._id === match?.watcher?._id ? (
+                                  <div
+                                    className={StyleSingleMatch.eventActions}
+                                  >
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        handleOpenDelete(event._id)
+                                      }
+                                      className={StyleSingleMatch.delete}
+                                      // disabled={match.played}
+                                      disabled={match?.reported}
+                                    >
+                                      <img src={EventDelete} alt="" />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleOpenEdit(event)}
+                                      // style={{ border: "none" }}
+                                      className={StyleSingleMatch.edit}
+                                      // disabled={match.played}
+                                      disabled={match?.reported}
+                                    >
+                                      <img src={EventEdit} alt="" />
+                                    </button>
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                              </div>
+                            ) : event.type === "full_time" ? (
+                              <div>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    columnGap: "10%",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      width: "60px",
+                                      height: "2px",
+                                      backgroundColor: "red",
+                                    }}
+                                  ></div>
+                                  <h1
+                                    style={{
+                                      color: "red",
+                                      textAlign: "center",
+                                      fontSize: "clamp(15px , 4vw , 20px)",
+                                    }}
+                                  >
+                                    {language === "en"
+                                      ? "FT"
+                                      : "نهاية الوقت الأصلي"}
+                                  </h1>
+                                  <div
+                                    style={{
+                                      width: "60px",
+                                      height: "2px",
+                                      backgroundColor: "red",
+                                    }}
+                                  ></div>
+                                </div>
+                                {user?.role === "admin" ||
+                                user?.userId === match?.watcher?._id ||
+                                user?._id === match?.watcher?._id ? (
+                                  <div
+                                    className={StyleSingleMatch.eventActions}
+                                  >
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        handleOpenDelete(event._id)
+                                      }
+                                      className={StyleSingleMatch.delete}
+                                      // disabled={match.played}
+                                      disabled={match?.reported}
+                                    >
+                                      <img src={EventDelete} alt="" />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleOpenEdit(event)}
+                                      // style={{ border: "none" }}
+                                      className={StyleSingleMatch.edit}
+                                      // disabled={match.played}
+                                      disabled={match?.reported}
+                                    >
+                                      <img src={EventEdit} alt="" />
+                                    </button>
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                              </div>
+                            ) : event.type === "firstExtraTime" ? (
+                              <div>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    columnGap: "10%",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      width: "60px",
+                                      height: "2px",
+                                      backgroundColor: "red",
+                                    }}
+                                  ></div>
+                                  <h1
+                                    style={{
+                                      color: "red",
+                                      textAlign: "center",
+                                      fontSize: "clamp(15px , 4vw , 20px)",
+                                    }}
+                                  >
+                                    {language === "en"
+                                      ? "First Extra Time"
+                                      : "نهاية الشوط الإضافي الأول"}
+                                  </h1>
+                                  <div
+                                    style={{
+                                      width: "60px",
+                                      height: "2px",
+                                      backgroundColor: "red",
+                                    }}
+                                  ></div>
+                                </div>
+                                {user?.role === "admin" ||
+                                user?.userId === match?.watcher?._id ||
+                                user?._id === match?.watcher?._id ? (
+                                  <div
+                                    className={StyleSingleMatch.eventActions}
+                                  >
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        handleOpenDelete(event._id)
+                                      }
+                                      className={StyleSingleMatch.delete}
+                                      // disabled={match.played}
+                                      disabled={match?.reported}
+                                    >
+                                      <img src={EventDelete} alt="" />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleOpenEdit(event)}
+                                      // style={{ border: "none" }}
+                                      className={StyleSingleMatch.edit}
+                                      // disabled={match.played}
+                                      disabled={match?.reported}
+                                    >
+                                      <img src={EventEdit} alt="" />
+                                    </button>
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                              </div>
+                            ) : event.type === "secondExtraTime" ? (
+                              <div>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    columnGap: "10%",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      width: "60px",
+                                      height: "2px",
+                                      backgroundColor: "red",
+                                    }}
+                                  ></div>
+                                  <h1
+                                    style={{
+                                      color: "red",
+                                      textAlign: "center",
+                                      fontSize: "clamp(15px , 4vw , 20px)",
+                                    }}
+                                  >
+                                    {language === "en"
+                                      ? "Second Extra Time"
+                                      : "نهاية الشوط الإضافي الثاني"}
+                                  </h1>
+                                  <div
+                                    style={{
+                                      width: "60px",
+                                      height: "2px",
+                                      backgroundColor: "red",
+                                    }}
+                                  ></div>
+                                </div>
+                                {user?.role === "admin" ||
+                                user?.userId === match?.watcher?._id ||
+                                user?._id === match?.watcher?._id ? (
+                                  <div
+                                    className={StyleSingleMatch.eventActions}
+                                  >
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        handleOpenDelete(event._id)
+                                      }
+                                      className={StyleSingleMatch.delete}
+                                      disabled={match?.reported}
+                                    >
+                                      <img src={EventDelete} alt="" />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleOpenEdit(event)}
+                                      className={StyleSingleMatch.edit}
+                                      disabled={match?.reported}
+                                    >
+                                      <img src={EventEdit} alt="" />
+                                    </button>
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                              </div>
+                            ) : event.type === "penalties" ? (
+                              <div>
+                                <div>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      columnGap: "10%",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        width: "60px",
+                                        height: "2px",
+                                        backgroundColor: "red",
+                                      }}
+                                    ></div>
+                                    <h1
+                                      style={{
+                                        color: "red",
+                                        textAlign: "center",
+                                        fontSize: "clamp(15px , 4vw , 20px)",
+                                      }}
+                                    >
+                                      {language === "en"
+                                        ? "Penalties"
+                                        : "ضربات جزاء"}
+                                    </h1>
+                                    <div
+                                      style={{
+                                        width: "60px",
+                                        height: "2px",
+                                        backgroundColor: "red",
+                                      }}
+                                    ></div>
+                                  </div>
+                                  {user?.role === "admin" ||
+                                  user?.userId === match?.watcher?._id ||
+                                  user?._id === match?.watcher?._id ? (
+                                    <div
+                                      className={StyleSingleMatch.eventActions}
+                                    >
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          handleOpenDelete(event._id)
+                                        }
+                                        className={StyleSingleMatch.delete}
+                                        // disabled={match.played}
+                                        disabled={match?.reported}
+                                      >
+                                        <img src={EventDelete} alt="" />
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleOpenEdit(event)}
+                                        // style={{ border: "none" }}
+                                        className={StyleSingleMatch.edit}
+                                        // disabled={match.played}
+                                        disabled={match?.reported}
+                                      >
+                                        <img src={EventEdit} alt="" />
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                </div>
+                              </div>
+                            ) : (
+                              <div
+                                key={event._id}
+                                className={`${StyleSingleMatch.event} ${
+                                  event?.team?._id === match?.team_b?.team?._id
+                                    ? StyleSingleMatch.flexStart
+                                    : StyleSingleMatch.flexEnd
+                                }`}
+                              >
+                                <div
+                                  className={`${StyleSingleMatch.type} ${
+                                    event?.team?._id ===
+                                    match?.team_b?.team?._id
+                                      ? StyleSingleMatch.rowDirection
+                                      : ""
+                                  }`}
+                                >
+                                  {event.penalty === "scored" ? (
+                                    <img
+                                      src={`${process.env.REACT_APP_IMAGE_PATH}/scored.png`}
+                                      alt="scored"
+                                      className={StyleSingleMatch.iconType}
+                                    />
+                                  ) : event.penalty === "missed" ? (
+                                    <img
+                                      src={`${process.env.REACT_APP_IMAGE_PATH}/missed.png`}
+                                      alt="missed"
+                                      className={StyleSingleMatch.iconType}
+                                    />
+                                  ) : event.type === "goal" ? (
+                                    <img
+                                      src={`${process.env.REACT_APP_IMAGE_PATH}/football.png`}
+                                      alt="goal"
+                                      className={StyleSingleMatch.iconType}
+                                    />
+                                  ) : event.type === "yellow_card" ? (
+                                    <img
+                                      src={`${process.env.REACT_APP_IMAGE_PATH}/yellow-card.png`}
+                                      alt="yellow-card"
+                                      className={StyleSingleMatch.iconType}
+                                    />
+                                  ) : event.type === "red_card" ? (
+                                    <img
+                                      src={`${process.env.REACT_APP_IMAGE_PATH}/red-card.png`}
+                                      alt="red-card"
+                                      className={StyleSingleMatch.iconType}
+                                    />
+                                  ) : (
+                                    <img
+                                      src={`${process.env.REACT_APP_IMAGE_PATH}/substitution.png`}
+                                      alt="substitution"
+                                      className={
+                                        StyleSingleMatch.iconSubstitution
+                                      }
+                                    />
+                                  )}
+
+                                  {event.type === "substitution" ? (
+                                    <div
+                                      className={StyleSingleMatch.substitution}
+                                    >
+                                      <div
+                                        className={
+                                          event?.team?._id ===
+                                          match?.team_a?.team?._id
+                                            ? StyleSingleMatch.singleEvent
+                                            : StyleSingleMatch.singleEventB
+                                        }
+                                      >
+                                        <img
+                                          src={`${process.env.REACT_APP_IMAGE_PATH}/${event?.playerIn?.image}`}
+                                          alt={event?.playerIn?.name}
+                                          className={
+                                            StyleSingleMatch.playerIdImage
+                                          }
+                                        />
+                                        <p className={StyleSingleMatch.scorePlayer}>{event?.playerIn?.name}</p>
+                                      </div>
+                                      {/* <p className={StyleSingleMatch.out}>
+                                  {event.playerOut.name}
+                                </p> */}
+                                      <div
+                                        className={
+                                          event?.team?._id ===
+                                          match?.team_a?.team?._id
+                                            ? StyleSingleMatch.singleEvent
+                                            : StyleSingleMatch.singleEventB
+                                        }
+                                      >
+                                        <img
+                                          src={`${process.env.REACT_APP_IMAGE_PATH}/${event?.playerOut?.image}`}
+                                          alt={event?.playerOut?.name}
+                                          className={
+                                            StyleSingleMatch.playerIdImage
+                                          }
+                                        />
+                                        <p className={StyleSingleMatch.out}>
+                                          {event?.playerOut?.name}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <div
+                                      className={
+                                        event?.team?._id ===
+                                        match?.team_a?.team?._id
+                                          ? StyleSingleMatch.singleEvent
+                                          : StyleSingleMatch.singleEventB
+                                      }
+                                    >
+                                      <img
+                                        src={`${process.env.REACT_APP_IMAGE_PATH}/${event?.playerIn?.image}`}
+                                        alt={event?.playerIn?.name}
+                                        className={
+                                          StyleSingleMatch.playerIdImage
+                                        }
+                                      />
+                                      <p className={StyleSingleMatch.scorePlayer}>{event?.playerIn?.name}</p>
+                                    </div>
+                                  )}
+                                </div>
+
+                                {user?.role === "admin" ||
+                                user?.userId === match?.watcher?._id ||
+                                user?._id === match?.watcher?._id ? (
+                                  <div
+                                    className={StyleSingleMatch.eventActions}
+                                  >
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        handleOpenDelete(event._id)
+                                      }
+                                      className={StyleSingleMatch.delete}
+                                      // disabled={match.played}
+                                      disabled={match?.reported}
+                                    >
+                                      <img src={EventDelete} alt="" />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleOpenEdit(event)}
+                                      // style={{ border: "none" }}
+                                      className={StyleSingleMatch.edit}
+                                      // disabled={match.played}
+                                      disabled={match?.reported}
+                                    >
+                                      <img src={EventEdit} alt="" />
+                                    </button>
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+
+                                {/* <p>{event.minute}'</p> */}
+                                {event.penalty === "scored" ||
+                                event.penalty === "missed" ? (
+                                  ""
+                                ) : (
+                                  <p>{event.minute}'</p>
+                                )}
+                              </div>
+                            )}
+                          </>
+                        ))}
+                      </>
+                    ) : (
+                      "No Event Yet!"
+                    )}
+                  </div>
+
+                  {user?.role === "admin" ||
+                  user?.userId === match?.referee._id ||
+                  user?._id === match?.referee._id ? (
+                    <div className={StyleSingleMatch.bothEvents}>
+                      <h1>Events Referee</h1>
+                      {eventsReferee?.length > 0 ? (
+                        <>
+                          <div
+                            style={{
+                              display: "flex",
+                              columnGap: "10%",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              marginTop: "20px",
+                              marginBottom: "20px",
+                            }}
                           >
                             <div
-                              className={`${StyleSingleMatch.type} ${
-                                event?.team?._id === match?.team_b?.team?._id
-                                  ? StyleSingleMatch.rowDirection
-                                  : ""
-                              }`}
+                              style={{
+                                width: "60px",
+                                height: "2px",
+                                backgroundColor: "green",
+                              }}
+                            ></div>
+                            <h1
+                              style={{
+                                color: "green",
+                                textAlign: "center",
+                                fontSize: "clamp(15px , 4vw , 25px)",
+                              }}
                             >
-                              {event.penalty === "scored" ? (
-                                <img
-                                  src={`${process.env.REACT_APP_IMAGE_PATH}/scored.png`}
-                                  alt="scored"
-                                  className={StyleSingleMatch.iconType}
-                                />
-                              ) : event.penalty === "missed" ? (
-                                <img
-                                  src={`${process.env.REACT_APP_IMAGE_PATH}/missed.png`}
-                                  alt="missed"
-                                  className={StyleSingleMatch.iconType}
-                                />
-                              ) : event.type === "goal" ? (
-                                <img
-                                  src={`${process.env.REACT_APP_IMAGE_PATH}/football.png`}
-                                  alt="goal"
-                                  className={StyleSingleMatch.iconType}
-                                />
-                              ) : event.type === "yellow_card" ? (
-                                <img
-                                  src={`${process.env.REACT_APP_IMAGE_PATH}/yellow-card.png`}
-                                  alt="yellow-card"
-                                  className={StyleSingleMatch.iconType}
-                                />
-                              ) : event.type === "red_card" ? (
-                                <img
-                                  src={`${process.env.REACT_APP_IMAGE_PATH}/red-card.png`}
-                                  alt="red-card"
-                                  className={StyleSingleMatch.iconType}
-                                />
-                              ) : (
-                                <img
-                                  src={`${process.env.REACT_APP_IMAGE_PATH}/substitution.png`}
-                                  alt="substitution"
-                                  className={StyleSingleMatch.iconSubstitution}
-                                />
-                              )}
+                              {language === "en"
+                                ? "Match begins!"
+                                : "بداية المباراة"}
+                            </h1>
+                            <div
+                              style={{
+                                width: "60px",
+                                height: "2px",
+                                backgroundColor: "green",
+                              }}
+                            ></div>
+                          </div>
 
-                              {event.type === "substitution" ? (
-                                <div className={StyleSingleMatch.substitution}>
-                                  <div
-                                    className={
-                                      event?.team?._id ===
-                                      match?.team_a?.team?._id
-                                        ? StyleSingleMatch.singleEvent
-                                        : StyleSingleMatch.singleEventB
-                                    }
+                          {eventsReferee.map((event) => (
+                            <>
+                              {event.type === "HT" ? (
+                                <div>
+                                  <section
+                                    className={StyleSingleMatch.resultHT}
                                   >
-                                    <img
-                                      src={`${process.env.REACT_APP_IMAGE_PATH}/${event?.playerIn?.image}`}
-                                      alt={event?.playerIn?.name}
-                                      className={StyleSingleMatch.playerIdImage}
-                                    />
-                                    <p>{event.playerIn.name}</p>
-                                  </div>
-                                  {/* <p className={StyleSingleMatch.out}>
-                                    {event.playerOut.name}
-                                  </p> */}
-                                  <div
-                                    className={
-                                      event?.team?._id ===
-                                      match?.team_a?.team?._id
-                                        ? StyleSingleMatch.singleEvent
-                                        : StyleSingleMatch.singleEventB
-                                    }
-                                  >
-                                    <img
-                                      src={`${process.env.REACT_APP_IMAGE_PATH}/${event?.playerOut?.image}`}
-                                      alt={event?.playerOut?.name}
-                                      className={StyleSingleMatch.playerIdImage}
-                                    />
-                                    <p className={StyleSingleMatch.out}>
-                                      {event?.playerOut?.name}
+                                    <p style={{ color: "white" }}>
+                                      {match?.team_a?.scoreHTWatcher}
                                     </p>
+
+                                    <h1
+                                      style={{
+                                        color: "red",
+                                        textAlign: "center",
+                                        fontSize: "clamp(15px , 4vw , 20px)",
+                                      }}
+                                    >
+                                      {language === "en"
+                                        ? "HT"
+                                        : "نهاية الشوط الأول"}
+                                    </h1>
+                                    <p style={{ color: "white" }}>
+                                      {match?.team_b?.scoreHTWatcher}
+                                    </p>
+                                  </section>
+
+                                  {user?.role === "admin" ||
+                                  user?.userId === match?.referee?._id ||
+                                  user?._id === match?.referee?._id ? (
+                                    <div
+                                      className={StyleSingleMatch.eventActions}
+                                    >
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          handleOpenDelete(event._id)
+                                        }
+                                        className={StyleSingleMatch.delete}
+                                        // disabled={match.played}
+                                        disabled={match?.reported}
+                                      >
+                                        <img src={EventDelete} alt="" />
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleOpenEdit(event)}
+                                        // style={{ border: "none" }}
+                                        className={StyleSingleMatch.edit}
+                                        // disabled={match.played}
+                                        disabled={match?.reported}
+                                      >
+                                        <img src={EventEdit} alt="" />
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                </div>
+                              ) : event.type === "full_time" ? (
+                                <div>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      columnGap: "10%",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        width: "60px",
+                                        height: "2px",
+                                        backgroundColor: "red",
+                                      }}
+                                    ></div>
+                                    <h1
+                                      style={{
+                                        color: "red",
+                                        textAlign: "center",
+                                        fontSize: "clamp(15px , 4vw , 20px)",
+                                      }}
+                                    >
+                                      {language === "en"
+                                        ? "FT"
+                                        : "نهاية الوقت الأصلي"}
+                                    </h1>
+                                    <div
+                                      style={{
+                                        width: "60px",
+                                        height: "2px",
+                                        backgroundColor: "red",
+                                      }}
+                                    ></div>
+                                  </div>
+                                  {user?.role === "admin" ||
+                                  user?.userId === match?.referee?._id ||
+                                  user?._id === match?.referee?._id ? (
+                                    <div
+                                      className={StyleSingleMatch.eventActions}
+                                    >
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          handleOpenDelete(event._id)
+                                        }
+                                        className={StyleSingleMatch.delete}
+                                        // disabled={match.played}
+                                        disabled={match?.reported}
+                                      >
+                                        <img src={EventDelete} alt="" />
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleOpenEdit(event)}
+                                        // style={{ border: "none" }}
+                                        className={StyleSingleMatch.edit}
+                                        // disabled={match.played}
+                                        disabled={match?.reported}
+                                      >
+                                        <img src={EventEdit} alt="" />
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                </div>
+                              ) : event.type === "firstExtraTime" ? (
+                                <div>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      columnGap: "10%",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        width: "60px",
+                                        height: "2px",
+                                        backgroundColor: "red",
+                                      }}
+                                    ></div>
+                                    <h1
+                                      style={{
+                                        color: "red",
+                                        textAlign: "center",
+                                        fontSize: "clamp(15px , 4vw , 20px)",
+                                      }}
+                                    >
+                                      {language === "en"
+                                        ? "First Extra Time"
+                                        : "نهاية الشوط الإضافي الأول"}
+                                    </h1>
+                                    <div
+                                      style={{
+                                        width: "60px",
+                                        height: "2px",
+                                        backgroundColor: "red",
+                                      }}
+                                    ></div>
+                                  </div>
+                                  {user?.role === "admin" ||
+                                  user?.userId === match?.referee?._id ||
+                                  user?._id === match?.referee?._id ? (
+                                    <div
+                                      className={StyleSingleMatch.eventActions}
+                                    >
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          handleOpenDelete(event._id)
+                                        }
+                                        className={StyleSingleMatch.delete}
+                                        // disabled={match.played}
+                                        disabled={match?.reported}
+                                      >
+                                        <img src={EventDelete} alt="" />
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleOpenEdit(event)}
+                                        // style={{ border: "none" }}
+                                        className={StyleSingleMatch.edit}
+                                        // disabled={match.played}
+                                        disabled={match?.reported}
+                                      >
+                                        <img src={EventEdit} alt="" />
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                </div>
+                              ) : event.type === "secondExtraTime" ? (
+                                <div>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      columnGap: "10%",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        width: "60px",
+                                        height: "2px",
+                                        backgroundColor: "red",
+                                      }}
+                                    ></div>
+                                    <h1
+                                      style={{
+                                        color: "red",
+                                        textAlign: "center",
+                                        fontSize: "clamp(15px , 4vw , 20px)",
+                                      }}
+                                    >
+                                      {language === "en"
+                                        ? "Second Extra Time"
+                                        : "نهاية الشوط الإضافي الثاني"}
+                                    </h1>
+                                    <div
+                                      style={{
+                                        width: "60px",
+                                        height: "2px",
+                                        backgroundColor: "red",
+                                      }}
+                                    ></div>
+                                  </div>
+                                  {user?.role === "admin" ||
+                                  user?.userId === match?.referee?._id ||
+                                  user?._id === match?.referee?._id ? (
+                                    <div
+                                      className={StyleSingleMatch.eventActions}
+                                    >
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          handleOpenDelete(event._id)
+                                        }
+                                        className={StyleSingleMatch.delete}
+                                        disabled={match?.reported}
+                                      >
+                                        <img src={EventDelete} alt="" />
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleOpenEdit(event)}
+                                        className={StyleSingleMatch.edit}
+                                        disabled={match?.reported}
+                                      >
+                                        <img src={EventEdit} alt="" />
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                </div>
+                              ) : event.type === "penalties" ? (
+                                <div>
+                                  <div>
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        columnGap: "10%",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      <div
+                                        style={{
+                                          width: "60px",
+                                          height: "2px",
+                                          backgroundColor: "red",
+                                        }}
+                                      ></div>
+                                      <h1
+                                        style={{
+                                          color: "red",
+                                          textAlign: "center",
+                                          fontSize: "clamp(15px , 4vw , 20px)",
+                                        }}
+                                      >
+                                        {language === "en"
+                                          ? "Penalties"
+                                          : "ضربات جزاء"}
+                                      </h1>
+                                      <div
+                                        style={{
+                                          width: "60px",
+                                          height: "2px",
+                                          backgroundColor: "red",
+                                        }}
+                                      ></div>
+                                    </div>
+                                    {user?.role === "admin" ||
+                                    user?.userId === match?.referee?._id ||
+                                    user?._id === match?.referee?._id ? (
+                                      <div
+                                        className={
+                                          StyleSingleMatch.eventActions
+                                        }
+                                      >
+                                        <button
+                                          type="button"
+                                          onClick={() =>
+                                            handleOpenDelete(event._id)
+                                          }
+                                          className={StyleSingleMatch.delete}
+                                          // disabled={match.played}
+                                          disabled={match?.reported}
+                                        >
+                                          <img src={EventDelete} alt="" />
+                                        </button>
+                                        <button
+                                          type="button"
+                                          onClick={() => handleOpenEdit(event)}
+                                          // style={{ border: "none" }}
+                                          className={StyleSingleMatch.edit}
+                                          // disabled={match.played}
+                                          disabled={match?.reported}
+                                        >
+                                          <img src={EventEdit} alt="" />
+                                        </button>
+                                      </div>
+                                    ) : (
+                                      ""
+                                    )}
                                   </div>
                                 </div>
                               ) : (
                                 <div
-                                  className={
+                                  key={event._id}
+                                  className={`${StyleSingleMatch.event} ${
                                     event?.team?._id ===
-                                    match?.team_a?.team?._id
-                                      ? StyleSingleMatch.singleEvent
-                                      : StyleSingleMatch.singleEventB
-                                  }
+                                    match?.team_b?.team?._id
+                                      ? StyleSingleMatch.flexStart
+                                      : StyleSingleMatch.flexEnd
+                                  }`}
                                 >
-                                  <img
-                                    src={`${process.env.REACT_APP_IMAGE_PATH}/${event?.playerIn?.image}`}
-                                    alt={event?.playerIn?.name}
-                                    className={StyleSingleMatch.playerIdImage}
-                                  />
-                                  <p>{event?.playerIn?.name}</p>
+                                  <div
+                                    className={`${StyleSingleMatch.type} ${
+                                      event?.team?._id ===
+                                      match?.team_b?.team?._id
+                                        ? StyleSingleMatch.rowDirection
+                                        : ""
+                                    }`}
+                                  >
+                                    {event.penalty === "scored" ? (
+                                      <img
+                                        src={`${process.env.REACT_APP_IMAGE_PATH}/scored.png`}
+                                        alt="scored"
+                                        className={StyleSingleMatch.iconType}
+                                      />
+                                    ) : event.penalty === "missed" ? (
+                                      <img
+                                        src={`${process.env.REACT_APP_IMAGE_PATH}/missed.png`}
+                                        alt="missed"
+                                        className={StyleSingleMatch.iconType}
+                                      />
+                                    ) : event.type === "goal" ? (
+                                      <img
+                                        src={`${process.env.REACT_APP_IMAGE_PATH}/football.png`}
+                                        alt="goal"
+                                        className={StyleSingleMatch.iconType}
+                                      />
+                                    ) : event.type === "yellow_card" ? (
+                                      <img
+                                        src={`${process.env.REACT_APP_IMAGE_PATH}/yellow-card.png`}
+                                        alt="yellow-card"
+                                        className={StyleSingleMatch.iconType}
+                                      />
+                                    ) : event.type === "red_card" ? (
+                                      <img
+                                        src={`${process.env.REACT_APP_IMAGE_PATH}/red-card.png`}
+                                        alt="red-card"
+                                        className={StyleSingleMatch.iconType}
+                                      />
+                                    ) : (
+                                      <img
+                                        src={`${process.env.REACT_APP_IMAGE_PATH}/substitution.png`}
+                                        alt="substitution"
+                                        className={
+                                          StyleSingleMatch.iconSubstitution
+                                        }
+                                      />
+                                    )}
+
+                                    {event.type === "substitution" ? (
+                                      <div
+                                        className={
+                                          StyleSingleMatch.substitution
+                                        }
+                                      >
+                                        <div
+                                          className={
+                                            event?.team?._id ===
+                                            match?.team_a?.team?._id
+                                              ? StyleSingleMatch.singleEvent
+                                              : StyleSingleMatch.singleEventB
+                                          }
+                                        >
+                                          <img
+                                            src={`${process.env.REACT_APP_IMAGE_PATH}/${event?.playerIn?.image}`}
+                                            alt={event?.playerIn?.name}
+                                            className={
+                                              StyleSingleMatch.playerIdImage
+                                            }
+                                          />
+                                          <p className={StyleSingleMatch.scorePlayer}>{event?.playerIn?.name}</p>
+                                        </div>
+                                        {/* <p className={StyleSingleMatch.out}>
+                                  {event.playerOut.name}
+                                </p> */}
+                                        <div
+                                          className={
+                                            event?.team?._id ===
+                                            match?.team_a?.team?._id
+                                              ? StyleSingleMatch.singleEvent
+                                              : StyleSingleMatch.singleEventB
+                                          }
+                                        >
+                                          <img
+                                            src={`${process.env.REACT_APP_IMAGE_PATH}/${event?.playerOut?.image}`}
+                                            alt={event?.playerOut?.name}
+                                            className={
+                                              StyleSingleMatch.playerIdImage
+                                            }
+                                          />
+                                          <p className={StyleSingleMatch.out}>
+                                            {event?.playerOut?.name}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    ) : (
+                                      <div
+                                        className={
+                                          event?.team?._id ===
+                                          match?.team_a?.team?._id
+                                            ? StyleSingleMatch.singleEvent
+                                            : StyleSingleMatch.singleEventB
+                                        }
+                                      >
+                                        <img
+                                          src={`${process.env.REACT_APP_IMAGE_PATH}/${event?.playerIn?.image}`}
+                                          alt={event?.playerIn?.name}
+                                          className={
+                                            StyleSingleMatch.playerIdImage
+                                          }
+                                        />
+                                        <p className={StyleSingleMatch.scorePlayer}>{event?.playerIn?.name}</p>
+                                      </div>
+                                    )}
+                                  </div>
+
+                                  {user?.role === "admin" ||
+                                  user?.userId === match?.referee?._id ||
+                                  user?._id === match?.referee?._id ? (
+                                    <div
+                                      className={StyleSingleMatch.eventActions}
+                                    >
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          handleOpenDelete(event._id)
+                                        }
+                                        className={StyleSingleMatch.delete}
+                                        // disabled={match.played}
+                                        disabled={match?.reported}
+                                      >
+                                        <img src={EventDelete} alt="" />
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleOpenEdit(event)}
+                                        // style={{ border: "none" }}
+                                        className={StyleSingleMatch.edit}
+                                        // disabled={match.played}
+                                        disabled={match?.reported}
+                                      >
+                                        <img src={EventEdit} alt="" />
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+
+                                  {/* <p>{event.minute}'</p> */}
+                                  {event.penalty === "scored" ||
+                                  event.penalty === "missed" ? (
+                                    ""
+                                  ) : (
+                                    <p>{event.minute}'</p>
+                                  )}
                                 </div>
                               )}
-                            </div>
-
-                            {user?.role === "admin" ||
-                            user?.userId === match?.watcher?._id ||
-                            user?._id === match?.watcher?._id ? (
-                              <div className={StyleSingleMatch.eventActions}>
-                                <button
-                                  type="button"
-                                  onClick={() => handleOpenDelete(event._id)}
-                                  className={StyleSingleMatch.delete}
-                                  // disabled={match.played}
-                                  disabled={match?.reported}
-                                >
-                                  <img src={EventDelete} alt="" />
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => handleOpenEdit(event)}
-                                  // style={{ border: "none" }}
-                                  className={StyleSingleMatch.edit}
-                                  // disabled={match.played}
-                                  disabled={match?.reported}
-                                >
-                                  <img src={EventEdit} alt="" />
-                                </button>
-                              </div>
-                            ) : (
-                              ""
-                            )}
-
-                            {/* <p>{event.minute}'</p> */}
-                            {event.penalty === "scored" ||
-                            event.penalty === "missed" ? (
-                              ""
-                            ) : (
-                              <p>{event.minute}'</p>
-                            )}
-                          </div>
-                        )}
-                      </>
-                    ))}
-                  </>
-                ) : (
-                  "No Event Yet!"
-                )}
+                            </>
+                          ))}
+                        </>
+                      ) : (
+                        "No Event Yet!"
+                      )}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
 
                 <div>
                   {match?.played === true ? (
@@ -2173,20 +2940,6 @@ function SingleMatch() {
                   >
                     {actionReferee === "Edit" ? (
                       <>
-                        {/* <button
-                          type="button"
-                          className={StyleSingleMatch.back}
-                          onClick={handleBackReferee}
-                        >
-                          {language === "en" ? "Back" : "العودة"}
-                        </button>
-                        <button
-                          type="button"
-                          onClick={handleUpdateRefereeReport}
-                          className={StyleSingleMatch.post}
-                        >
-                          {language === "en" ? "Save" : "حفظ"}
-                        </button> */}
                         <Button
                           type="button"
                           onClick={handleBackReferee}
@@ -2217,6 +2970,312 @@ function SingleMatch() {
               </>
             ) : null}
           </>
+        </div>
+      ),
+    },
+    {
+      title: "administrator",
+      id: "administrator",
+      content: (
+        <div className={StyleSingleMatch.administratorContainer}>
+          {/* Administrators Team A */}
+          <div className={StyleSingleMatch.containerTeamA}>
+            <div className={StyleSingleMatch.starterTeamA}>
+              <div className={StyleSingleMatch.imageDiv}>
+                <img
+                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match?.team_a?.team?.image}`}
+                  alt={match?.team_a?.team?.name}
+                  className={StyleSingleMatch.starterImage}
+                />
+              </div>
+              <p className={StyleSingleMatch.starters}>
+                {language === "en" ? "ADMINISTRATORS" : "الإداريين"}
+              </p>
+              <div className={StyleSingleMatch.playersContainer}>
+                {match?.administratorsTeamA?.map((administrator) => (
+                  <div className={StyleSingleMatch.singlePlayer}>
+                    <div
+                      key={administrator?._id}
+                      className={StyleSingleMatch.imageDivPlayer}
+                    >
+                      {user?.role === "admin" ||
+                      user?.userId === match.watcher._id ||
+                      user?._id === match.watcher._id ? (
+                        <Checkbox
+                          checked={unSelectedAdministratorsTeamA.includes(
+                            administrator._id
+                          )}
+                          onChange={(event) =>
+                            handleCheckboxChangeAdministratorsA(
+                              event,
+                              administrator._id
+                            )
+                          }
+                          inputProps={{ "aria-label": administrator.name }}
+                        />
+                      ) : (
+                        ""
+                      )}
+
+                      {!administrator.image ? (
+                        <img
+                          src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
+                          alt={administrator?.name}
+                          className={StyleSingleMatch.customImagePlayer}
+                        />
+                      ) : (
+                        <img
+                          src={`${process.env.REACT_APP_IMAGE_PATH}/${administrator?.image}`}
+                          alt={administrator?.name}
+                          className={StyleSingleMatch.customImagePlayer}
+                        />
+                      )}
+                    </div>
+
+                    <div className={StyleSingleMatch.characteristic}>
+                      <p>
+                        {administrator?.name} ({administrator?.characteristic})
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div>
+                {/* <h1>Griz</h1> */}
+                {user?.role === "admin" ||
+                user?.userId === match.watcher._id ||
+                user?._id === match.watcher._id ? (
+                  <div style={{ margin: "10px 3px" }}>
+                    {unSelectedAdministratorsTeamA.length > 0 ? (
+                      <button
+                        onClick={handleRemoveAdministratorsA}
+                        type="button"
+                        className={StyleSingleMatch.addEvent}
+                      >
+                        {language === "en" ? "Remove" : "حذف"}
+                      </button>
+                    ) : (
+                      <>
+                        <Autocomplete
+                          multiple
+                          id="checkboxes-tags-demo"
+                          options={match?.team_a?.team?.administrators || []}
+                          disableCloseOnSelect
+                          getOptionLabel={(option) => option.name}
+                          isOptionEqualToValue={
+                            handleIsOptionEqualToValueAAdministrators
+                          }
+                          value={selectedAdministratorsTeamA}
+                          renderOption={(props, option, { selected }) => {
+                            return (
+                              <li {...props}>
+                                <Checkbox
+                                  icon={icon}
+                                  checkedIcon={checkedIcon}
+                                  style={{ marginRight: 1 }}
+                                  checked={selected}
+                                />
+
+                                {!option?.image ? (
+                                  <img
+                                    src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
+                                    alt={option?.name}
+                                    className={
+                                      StyleSingleMatch.customImagePlayer
+                                    }
+                                  />
+                                ) : (
+                                  <img
+                                    src={`${process.env.REACT_APP_IMAGE_PATH}/${option?.image}`}
+                                    alt={option?.name}
+                                    className={
+                                      StyleSingleMatch.customImagePlayer
+                                    }
+                                  />
+                                )}
+
+                                {option?.name}
+                              </li>
+                            );
+                          }}
+                          // style={{ width: 400 }}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Administrators"
+                              placeholder="Administrators"
+                            />
+                          )}
+                          onChange={(event, value) =>
+                            setSelectedAdministratorsTeamA(value)
+                          }
+                        />
+                        <button
+                          onClick={handleAddAdministratorsA}
+                          type="button"
+                          className={StyleSingleMatch.addEvent}
+                        >
+                          {language === "en" ? "Add" : "اضافة"}
+                        </button>
+                      </>
+                    )}
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Administrators Team B */}
+
+          <div className={StyleSingleMatch.containerTeamA}>
+            <div className={StyleSingleMatch.starterTeamA}>
+              <div className={StyleSingleMatch.imageDiv}>
+                <img
+                  src={`${process.env.REACT_APP_IMAGE_PATH}/${match?.team_b?.team?.image}`}
+                  alt={match?.team_b?.team?.name}
+                  className={StyleSingleMatch.starterImage}
+                />
+              </div>
+              <p className={StyleSingleMatch.starters}>
+                {language === "en" ? "ADMINISTRATORS" : "الإداريين"}
+              </p>
+              <div className={StyleSingleMatch.playersContainer}>
+                {match?.administratorsTeamB?.map((administrator) => (
+                  <div className={StyleSingleMatch.singlePlayer}>
+                    <div
+                      key={administrator?._id}
+                      className={StyleSingleMatch.imageDivPlayer}
+                    >
+                      {user?.role === "admin" ||
+                      user?.userId === match.watcher._id ||
+                      user?._id === match.watcher._id ? (
+                        <Checkbox
+                          checked={unSelectedAdministratorsTeamB.includes(
+                            administrator._id
+                          )}
+                          onChange={(event) =>
+                            handleCheckboxChangeAdministratorsB(
+                              event,
+                              administrator._id
+                            )
+                          }
+                          inputProps={{ "aria-label": administrator.name }}
+                        />
+                      ) : (
+                        ""
+                      )}
+
+                      {!administrator.image ? (
+                        <img
+                          src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
+                          alt={administrator?.name}
+                          className={StyleSingleMatch.customImagePlayer}
+                        />
+                      ) : (
+                        <img
+                          src={`${process.env.REACT_APP_IMAGE_PATH}/${administrator?.image}`}
+                          alt={administrator?.name}
+                          className={StyleSingleMatch.customImagePlayer}
+                        />
+                      )}
+                    </div>
+
+                    <div className={StyleSingleMatch.characteristic}>
+                      <p>
+                        {administrator?.name} ({administrator?.characteristic})
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div>
+                {/* <h1>Griz</h1> */}
+                {user?.role === "admin" ||
+                user?.userId === match.watcher._id ||
+                user?._id === match.watcher._id ? (
+                  <div style={{ margin: "10px 3px" }}>
+                    {unSelectedAdministratorsTeamB.length > 0 ? (
+                      <button
+                        onClick={handleRemoveAdministratorsB}
+                        type="button"
+                        className={StyleSingleMatch.addEvent}
+                      >
+                        {language === "en" ? "Remove" : "حذف"}
+                      </button>
+                    ) : (
+                      <>
+                        <Autocomplete
+                          multiple
+                          id="checkboxes-tags-demo"
+                          options={match?.team_b?.team?.administrators || []}
+                          disableCloseOnSelect
+                          getOptionLabel={(option) => option.name}
+                          isOptionEqualToValue={
+                            handleIsOptionEqualToValueBAdministrators
+                          }
+                          value={selectedAdministratorsTeamB}
+                          renderOption={(props, option, { selected }) => {
+                            return (
+                              <li {...props}>
+                                <Checkbox
+                                  icon={icon}
+                                  checkedIcon={checkedIcon}
+                                  style={{ marginRight: 1 }}
+                                  checked={selected}
+                                />
+
+                                {!option?.image ? (
+                                  <img
+                                    src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
+                                    alt={option?.name}
+                                    className={
+                                      StyleSingleMatch.customImagePlayer
+                                    }
+                                  />
+                                ) : (
+                                  <img
+                                    src={`${process.env.REACT_APP_IMAGE_PATH}/${option?.image}`}
+                                    alt={option?.name}
+                                    className={
+                                      StyleSingleMatch.customImagePlayer
+                                    }
+                                  />
+                                )}
+
+                                {option?.name}
+                              </li>
+                            );
+                          }}
+                          // style={{ width: 400 }}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Administrators"
+                              placeholder="Administrators"
+                            />
+                          )}
+                          onChange={(event, value) =>
+                            setSelectedAdministratorsTeamB(value)
+                          }
+                        />
+                        <button
+                          onClick={handleAddAdministratorsB}
+                          type="button"
+                          className={StyleSingleMatch.addEvent}
+                        >
+                          {language === "en" ? "Add" : "اضافة"}
+                        </button>
+                      </>
+                    )}
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       ),
     },
@@ -2364,40 +3423,6 @@ function SingleMatch() {
           ></div>
         </>
       )}
-      {isOpenPopUpEvent && (
-        <>
-          <div
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100vh",
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
-              zIndex: 1002,
-            }}
-            onClick={closePopUp}
-          ></div>
-
-          <Event
-            cancelEvent={cancelEvent}
-            teamATeam={match.team_a.team}
-            teamBTeam={match.team_b.team}
-            playersATeam={match.team_a.team.players}
-            playersBTeam={match.team_b.team.players}
-            handleEventSubmit={handleEventSubmit}
-          />
-          <div
-            style={{
-              position: "fixed",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              zIndex: 1003,
-            }}
-          ></div>
-        </>
-      )}
       {isOpenPopUpDelete && (
         <>
           <div
@@ -2478,8 +3503,10 @@ function SingleMatch() {
               </h1>
 
               {user?.role === "admin" ||
-              user?.userId === match.watcher._id ||
-              user?._id === match.watcher._id ? (
+              user?.userId === match?.watcher?._id ||
+              user?.userId === match?.referee?._id ||
+              user?._id === match?.watcher?._id ||
+              user?._id === match?.referee?._id ? (
                 <>
                   <div className={StyleSingleMatch.containerActions}>
                     <button
@@ -2691,17 +3718,41 @@ function SingleMatch() {
                 ""
               )}
             </section>
-            <section className={StyleSingleMatch.results}>
-              <div className={StyleSingleMatch.result}>
-                <p>{match?.team_a?.score}</p>
-                <span>-</span>
-                <p>{match?.team_b?.score}</p>
-              </div>
-              <div className={StyleSingleMatch.resultPenalties}>
-                <p>{match?.team_a?.scorePenalties}</p>
-                <span>-</span>
-                <p>{match?.team_b?.scorePenalties}</p>
-              </div>
+            <section className={StyleSingleMatch.containerScores}>
+              {/* Result Watcher */}
+
+              <section className={StyleSingleMatch.results}>
+                <div className={StyleSingleMatch.result}>
+                  <p>{match?.team_a?.scoreWatcher}</p>
+                  <span>-</span>
+                  <p>{match?.team_b?.scoreWatcher}</p>
+                </div>
+                <div className={StyleSingleMatch.resultPenalties}>
+                  <p>{match?.team_a?.scorePenaltiesWatcher}</p>
+                  <span>-</span>
+                  <p>{match?.team_b?.scorePenaltiesWatcher}</p>
+                </div>
+              </section>
+
+              {/* Result Referee */}
+              {user?.role === "admin" ||
+              user?.userId === match?.referee?._id ||
+              user?._id === match?.referee?._id ? (
+                <section className={StyleSingleMatch.results}>
+                  <div className={StyleSingleMatch.result}>
+                    <p>{match?.team_a?.scoreReferee}</p>
+                    <span>-</span>
+                    <p>{match?.team_b?.scoreReferee}</p>
+                  </div>
+                  <div className={StyleSingleMatch.resultPenalties}>
+                    <p>{match?.team_a?.scorePenaltiesReferee}</p>
+                    <span>-</span>
+                    <p>{match?.team_b?.scorePenaltiesReferee}</p>
+                  </div>
+                </section>
+              ) : (
+                ""
+              )}
             </section>
             <section className={StyleSingleMatch.teamA}>
               <img
@@ -2718,8 +3769,10 @@ function SingleMatch() {
               {/* Team B Actions  */}
 
               {user?.role === "admin" ||
-              user?.userId === match.watcher._id ||
-              user?._id === match.watcher._id ? (
+              user?.userId === match?.watcher?._id ||
+              user?.userId === match?.referee?._id ||
+              user?._id === match?.watcher?._id ||
+              user?._id === match?.referee?._id ? (
                 <>
                   <div className={StyleSingleMatch.containerActions}>
                     <button
@@ -2954,6 +4007,14 @@ function SingleMatch() {
                     active={tab === "reports"}
                   >
                     {language === "en" ? "REPORTS" : "التقارير"}
+                  </TabButton>
+                )}
+                {user && (
+                  <TabButton
+                    selectTab={() => handleTabChange("administrator")}
+                    active={tab === "administrator"}
+                  >
+                    {language === "en" ? "ADMINISTRATOR" : "الإداريين"}
                   </TabButton>
                 )}
                 <TabButton

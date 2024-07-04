@@ -1,24 +1,18 @@
-import React, { useEffect, useState } from "react";
-import AddPopUpPlayer from "./AddPopUpPlayer/AddPopUpPlayer.js";
-import StyleDashPlayers from "./DashPlayers.module.css";
-import { usePlayersStore } from "../../Zustand/Store.js";
-import Table from "../../Components/Table/Table.js";
-import axiosInstance from "../../Utils/AxiosInstance.js";
-import { useTeamsStore } from "../../Zustand/Store.js";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Typography from "@mui/material/Typography";
-import Backdrop from "@mui/material/Backdrop";
-import { Button } from "@mui/material";
-import EditPopUpPlayers from "./EditPopUpPlayers/EditPopUpPlayers.js";
+import React, { useState } from "react";
+import StyleDashAdministrators from "./DashAdministrator.module.css";
+import { useAdministratorsStore, useTeamsStore } from "../../Zustand/Store";
+import Table from "../../Components/Table/Table";
+import AddPopUpAdministrator from "./AddPopUpAdministrator/AddPopUpAdministrator";
+import axiosInstance from "../../Utils/AxiosInstance";
+import EditPopUpAdministrator from "./EditPopUpAdministrator/EditPopUpAdministrator";
+import { Backdrop, Box, Button, Fade, Modal, Typography } from "@mui/material";
 
-function DashPlayers() {
+function DashAdministrator() {
   const [isAddPopUp, setIsAddPopUp] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
   const [isEditPopUp, setIsEditPopUp] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState(null);
-  const { players, getAllPlayers } = usePlayersStore();
+  const { administrators } = useAdministratorsStore();
 
   const style = {
     position: "absolute",
@@ -44,43 +38,24 @@ function DashPlayers() {
     try {
       // console.log(formData);
 
-      const response = await axiosInstance.post("/player/add", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axiosInstance.post(
+        "/administrator/add",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       if (response) {
-        usePlayersStore.setState((state) => ({
-          players: [response.data, ...state.players],
+        useAdministratorsStore.setState((state) => ({
+          administrators: [response.data, ...state.administrators],
         }));
-        console.log("Player created successfully:");
+        console.log("Administrators created successfully:");
       }
       setIsAddPopUp(false);
     } catch (error) {
-      console.log("Error creating player:", error);
-    }
-  };
-
-  const handleOpen = () => {
-    setIsOpen(true);
-  };
-
-  const handleClose = () => {
-    setIsOpen(false);
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      const response = await axiosInstance.delete(`/player/delete/${id}`);
-      if (response) {
-        console.log("Player deleted successfully:");
-        usePlayersStore.setState((state) => ({
-          players: state.players.filter((player) => player._id !== id),
-        }));
-      }
-      setIsOpen(false);
-    } catch (error) {
-      console.log("Error deleting player:", error);
+      console.log("Error creating administrators:", error);
     }
   };
 
@@ -93,10 +68,9 @@ function DashPlayers() {
   };
 
   const handleEditSave = async (id, formData) => {
-    // console.log(formData);
     try {
       const response = await axiosInstance.patch(
-        `/player/update/${id}`,
+        `/administrator/update/${id}`,
         formData,
         {
           headers: {
@@ -106,17 +80,19 @@ function DashPlayers() {
       );
 
       if (response) {
-        console.log("Player updated successfully:");
-        usePlayersStore.setState((state) => {
-          const updatedPlayers = state.players.map((player) => {
-            if (player._id === id) {
-              return response.data;
+        console.log("Administrator updated successfully:");
+        useAdministratorsStore.setState((state) => {
+          const updatedAdministrators = state.administrators.map(
+            (administrator) => {
+              if (administrator._id === id) {
+                return response.data;
+              }
+              return administrator;
             }
-            return player;
-          });
+          );
 
           return {
-            players: updatedPlayers,
+            administrators: updatedAdministrators,
           };
         });
 
@@ -134,21 +110,55 @@ function DashPlayers() {
             };
           });
         } else {
-          console.log("Player has no team");
+          console.log("Administrator has no team");
         }
       }
 
       setIsEditPopUp(false);
     } catch (error) {
-      console.log("Error updating player:", error);
+      console.log("Error updating administrator:", error);
+    }
+  };
+
+  const handleOpen = () => {
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await axiosInstance.delete(`/administrator/delete/${id}`);
+      if (response) {
+        console.log("Administrator deleted successfully:");
+        useAdministratorsStore.setState((state) => ({
+            administrators: state.administrators.filter((administrator) => administrator._id !== id),
+        }));
+      }
+      setIsOpen(false);
+    } catch (error) {
+      console.log("Error deleting administrators:", error);
     }
   };
 
   return (
     <>
+      {isEditPopUp && (
+        <>
+          <EditPopUpAdministrator
+            selectedRowData={selectedRowData}
+            handleCancelEdit={handleCancelEdit}
+            handleSave={(formData) =>
+              handleEditSave(selectedRowData._id, formData)
+            }
+          />
+        </>
+      )}
       {isAddPopUp && (
         <>
-          <AddPopUpPlayer
+          <AddPopUpAdministrator
             handleCancelAdd={handleCancelAdd}
             handleFormSubmitPlayer={handleFormSubmitPlayer}
           />
@@ -159,38 +169,10 @@ function DashPlayers() {
               left: 0,
               width: "100%",
               height: "100%",
-              // backgroundColor: "rgba(0, 0, 0, 0.5)",
-              // backgroundColor: "rgba(0, 0, 0, 0.8)",
               backgroundColor: "rgba(0, 0, 0, 0.2)",
               zIndex: 1002,
             }}
             onClick={() => setIsAddPopUp(false)}
-          ></div>
-        </>
-      )}
-      {isEditPopUp && (
-        <>
-          <EditPopUpPlayers
-            selectedRowData={selectedRowData}
-            handleCancelEdit={handleCancelEdit}
-            handleSave={(formData) =>
-              handleEditSave(selectedRowData._id, formData)
-            }
-          />
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              // backgroundColor: "rgba(0, 0, 0, 0.5)",
-              // backgroundColor: "rgba(0, 0, 0, 0.8)",
-              backgroundColor: "rgba(0, 0, 0, 0.2)",
-
-              zIndex: 1002,
-            }}
-            onClick={() => setIsEditPopUp(false)}
           ></div>
         </>
       )}
@@ -215,7 +197,7 @@ function DashPlayers() {
                 variant="h6"
                 component="h2"
               >
-                Are you sure to Delete this Player?
+                Are you sure to Delete this Administrator?
               </Typography>
               <div
                 style={{
@@ -264,14 +246,17 @@ function DashPlayers() {
           </Fade>
         </Modal>
       )}
-      <div className={StyleDashPlayers.container}>
-        <button className={StyleDashPlayers.add} onClick={handleOpenPopUp}>
-          Add Player
+      <div className={StyleDashAdministrators.container}>
+        <button
+          className={StyleDashAdministrators.add}
+          onClick={handleOpenPopUp}
+        >
+          Add Administrator
         </button>
         <Table
-          data={players}
+          data={administrators}
           isEdit={true}
-          ForWhat="players"
+          ForWhat="administrators"
           handleEditOpen={handleEditOpen}
           handleOpenDelete={handleOpen}
           setSelectedRowData={setSelectedRowData}
@@ -281,4 +266,4 @@ function DashPlayers() {
   );
 }
 
-export default DashPlayers;
+export default DashAdministrator;

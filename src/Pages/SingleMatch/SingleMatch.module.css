@@ -47,9 +47,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  column-gap: 15px;
+  column-gap: 20px;
   height: 80px;
-  /* margin: 0 auto; */
   color: black;
 }
 
@@ -70,6 +69,11 @@
 .teamA > h1 {
   font-size: clamp(8px, 4vw, 30px);
   text-align: center;
+}
+
+.containerScores {
+  display: flex;
+  column-gap: 5px;
 }
 
 .results {
@@ -104,19 +108,16 @@
   width: fit-content;
   /* height: 100px; */
   border-radius: 10px;
-  background-color: rgba(0, 0, 0, 0.646);
+  background-color: rgba(77, 57, 57, 0.646);
+  margin: 0 auto;
 }
 
 .liveContainer {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  /* padding: 20px auto; */
-  /* justify-content: center; */
-  align-items: center;
+  row-gap: 20px;
   font-size: clamp(12px, 3vw, 30px);
   background-color: rgba(240, 233, 233, 0.893);
-  padding: 20px;
 }
 
 .iconType {
@@ -151,6 +152,11 @@
 
 .out {
   color: grey;
+  font-size: clamp(10px, 2vw, 18px);
+}
+
+.scorePlayer {
+  font-size: clamp(10px, 2vw, 18px);
 }
 
 .singleEvent {
@@ -176,6 +182,11 @@
 }
 
 .lineContainer {
+  width: 100%;
+  background-color: rgb(244, 244, 244);
+}
+
+.administratorContainer {
   width: 100%;
   background-color: rgb(244, 244, 244);
 }
@@ -316,6 +327,14 @@
   padding: 20px 5px;
 }
 
+.administratorContainer {
+  font-size: clamp(12px, 3vw, 22px);
+  display: flex;
+  column-gap: 20px;
+  justify-content: center;
+  padding: 20px 5px;
+}
+
 .containerTeamA {
   display: flex;
   flex-direction: column;
@@ -395,6 +414,14 @@
   align-items: center;
 }
 
+.characteristic {
+  display: flex;
+  column-gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  font-size: clamp(10px, 3vw, 25px);
+}
+
 @media screen and (max-width: 1000px) {
   .cardImage {
     width: 10rem;
@@ -444,6 +471,10 @@
     column-gap: 5px;
   }
 
+  .administratorContainer {
+    column-gap: 5px;
+  }
+
   .customImagePlayer {
     width: 30px;
     height: 30px;
@@ -454,18 +485,27 @@
   .singlePlayer {
     height: 40px;
   }
+
+  .tabContainer {
+    /* display: flex; */
+    justify-content: space-between;
+    padding: 0px 3px;
+    column-gap: 5px;
+    height: 60px;
+    color: black;
+  }
+
+  .iconType {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+  }
 }
 
 @media screen and (max-width: 350px) {
   .cardImage {
     width: 4rem;
     height: 4rem;
-    object-fit: contain;
-  }
-
-  .iconType {
-    width: 18px;
-    height: 18px;
     object-fit: contain;
   }
   .liveContainer {
@@ -479,7 +519,7 @@
   justify-content: space-between;
   align-items: center;
   /* background-color: red; */
-  width: 45rem;
+  /* width: 45rem; */
   height: fit-content;
   padding: 5px;
 }
@@ -836,15 +876,15 @@
   transform: translateY(0);
 } */
 
-@media screen and (max-width: 1050px) {
+/* @media screen and (max-width: 1050px) {
   .event {
     width: 80%;
   }
-}
+} */
 
 @media screen and (max-width: 800px) {
   .event {
-    width: 90%;
+    width: 100%;
   }
 }
 
@@ -884,11 +924,11 @@
   .event {
     column-gap: 8%;
   }
-  .type {
+  /* .type {
     width: 12rem;
-  }
+  } */
   .event > p {
-    width: 12rem;
+    width: 8rem;
   }
 
   .select {
@@ -1004,4 +1044,35 @@
 .endMatch:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.containerEvents {
+  display: flex;
+  justify-content: center;
+  column-gap: 10px;
+}
+
+.bothEvents {
+  width: fit-content;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(176, 176, 176, 0.347);
+  background-color: rgba(255, 255, 255, 0.748);
+}
+
+@media screen and (max-width: 600px) {
+  .bothEvents {
+    width: 95%;
+    padding: 5px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .containerEvents {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    justify-content: center;
+    align-items: center;
+  }
 }

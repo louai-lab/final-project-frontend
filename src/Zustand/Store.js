@@ -309,3 +309,21 @@ export const usePitchesStore = create((set) => ({
     }
   },
 }));
+
+export const useAdministratorsStore = create((set) => ({
+  administrators: [],
+  loading: true,
+  getAllAdministrators: async () => {
+    try {
+      set({ loading: true });
+      const response = await axiosInstance.get("/administrator");
+
+      if (response) {
+        set({ administrators: response.data, loading: false });
+      }
+    } catch (error) {
+      console.error(error);
+      set({ loading: false });
+    }
+  },
+}));

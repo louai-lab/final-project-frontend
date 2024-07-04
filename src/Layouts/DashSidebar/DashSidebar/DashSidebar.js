@@ -15,6 +15,7 @@ import { PiSoccerBallFill } from "react-icons/pi";
 import { MdEmojiEvents } from "react-icons/md";
 import { RiCalendarEventFill } from "react-icons/ri";
 import { MdOutlineStadium } from "react-icons/md";
+import { GrUserManager } from "react-icons/gr";
 
 const DashSidebar = () => {
   const { logOut } = useUserStore();
@@ -79,6 +80,12 @@ const DashSidebar = () => {
       item: "Pitches",
       link: "/dashboard/pitches",
       icon: <MdOutlineStadium />,
+    },
+    {
+      number: 9,
+      item: "Administrators",
+      link: "/dashboard/administrators",
+      icon: <GrUserManager />,
     },
   ];
 

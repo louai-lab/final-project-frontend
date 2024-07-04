@@ -1,18 +1,20 @@
-.tab{
-    color: black;
-    padding: 7px;
-    border: none;
-    background-color: transparent;
-    font-size: clamp(15px, 4vw, 20px);
+.tab {
+  color: black;
+  /* padding: 7px; */
+  border: none;
+  background-color: transparent;
+  font-size: clamp(8px, 3vw, 18px);
 }
 
-.tab:hover{
-    cursor: pointer;
+.tab:hover {
+  cursor: pointer;
 }
 
-.activeTab{
-    /* color: red; */
-    border-bottom: 5px solid black;
-    font-weight: bold;
+.activeTab {
+  /* border-bottom: 5px solid black;
+    font-weight: bold; */
 
+  border-bottom: 3px solid var(--primary-clr);
+  color: var(--primary-clr);
+  font-weight: bold;
 }
