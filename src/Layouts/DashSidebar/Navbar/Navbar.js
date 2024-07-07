@@ -28,7 +28,8 @@ function Navbar() {
 
   const toggleClasses = [
     Styles.linksWrapperMobile,
-    collapesed ? Styles.activeNav : "",
+    // collapesed ? Styles.activeNav : "",
+    collapesed ? (user ? Styles.activeNav : Styles.activeNavU) : ""
   ].join(" ");
   const bar1 = [Styles.line1, collapesed ? Styles.a : ""].join(" ");
   const bar2 = [Styles.line2, collapesed ? Styles.a : ""].join(" ");

@@ -118,6 +118,7 @@
   row-gap: 20px;
   font-size: clamp(12px, 3vw, 30px);
   background-color: rgba(240, 233, 233, 0.893);
+  padding: 20px 0px;
 }
 
 .iconType {
@@ -405,6 +406,7 @@
   height: 60px;
   object-fit: cover;
   border-radius: 50%;
+  margin-right: 2px;
 }
 
 .nameNumber {
@@ -699,11 +701,16 @@
 
 .iconActions {
   max-width: 40px;
+  transition: opacity 0.3s ease;
 }
 
 .iconActions:hover {
-  cursor: pointer;
+  opacity: 0.7;
 }
+
+/* .iconActions:disabled {
+  cursor: not-allowed;
+} */
 
 .penaltiesConatiner {
   display: flex;
@@ -727,6 +734,10 @@
 
 .singleAction:hover {
   cursor: pointer;
+}
+
+.singleAction:disabled {
+  cursor: not-allowed;
 }
 
 .selectedEvent {
@@ -791,6 +802,10 @@
   cursor: pointer;
 }
 
+.addEvent:disabled {
+  cursor: not-allowed;
+}
+
 .cancelEvent {
   width: fit-content;
   display: block;
@@ -837,11 +852,17 @@
   align-items: center;
   column-gap: 5px;
   margin: 0px 20px;
+  min-width: 100px;
+  margin: 0 auto;
 }
 
 .whistle:hover {
   opacity: 0.8;
   cursor: pointer;
+}
+
+.whistle:disabled {
+  cursor: not-allowed;
 }
 
 .cancelWhistle {
@@ -854,11 +875,28 @@
   transition: opacity 0.3s ease-in-out;
   font-weight: bold;
   margin: 0px 20px;
+  /* width: fit-content; */
+  min-width: 100px;
+  margin: 0 auto;
 }
 
 .cancelWhistle:hover {
   opacity: 0.8;
   cursor: pointer;
+}
+
+.cancelWhistle:disabled {
+  cursor: not-allowed;
+}
+
+.titleEvent {
+  font-family: var(--font-family);
+  margin: 0 auto;
+  text-align: center;
+  /* background-color: blue; */
+  background-color: rgba(167, 197, 217, 0.8);
+  padding: 10px;
+  border-radius: 10px;
 }
 
 /* .transition {
@@ -910,7 +948,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.284);
+    /* background-color: rgba(255, 255, 255, 0.284); */
     padding: 5px;
     border-radius: 10px;
     width: 40px;

@@ -209,23 +209,6 @@ function SingleMatch() {
     }
   }, [match]);
 
-  // const handleEventSubmit = async (formData) => {
-  //   try {
-  //     const response = await axiosInstance.patch(
-  //       `/matchdetails/addObject/${detailIdWatcher}`,
-  //       formData
-  //     );
-
-  //     if (response) {
-  //       console.log("created successfully");
-
-  //       fetchUpdatedMatch(match?._id);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error updating match details:", error);
-  //   }
-  // };
-
   // End PopUp Match
   const openPopUpEnd = () => {
     setOpenEndMatch(true);
@@ -245,16 +228,21 @@ function SingleMatch() {
     closePopUpEnd();
   };
 
-  const handleEndMatch = async () => {
+  const handleEndMatch = async (e) => {
+    e.preventDefault();
+
     try {
       const response = await axiosInstance.patch(`/match/update/${match._id}`, {
-        played: true,
+        ...(user.role === "watcher" && { playedWatcher: true }),
+        ...(user.role === "referee" && { playedReferee: true }),
       });
+
       if (response) {
         console.log("Updated successfully");
         console.log(response.data);
         closePopUpEnd();
       }
+
       fetchUpdatedMatch(match?._id);
     } catch (error) {
       console.log(error);
@@ -352,9 +340,22 @@ function SingleMatch() {
   const handleDeleteEvent = async (e) => {
     e.preventDefault();
 
+    const { role } = user;
+
+    let detailId;
+
+    if (role === "watcher") {
+      detailId = detailIdWatcher;
+    } else if (role === "referee") {
+      detailId = detailIdReferee;
+    } else {
+      // console.error("Invalid user role:", role);
+      return;
+    }
+
     try {
       const response = await axiosInstance.patch(
-        `/matchdetails/deleteObject/${match.detailsWatcher._id}/${selectedEvent}`
+        `/matchdetails/deleteObject/${detailId}/${selectedEvent}`
       );
 
       if (response) {
@@ -882,6 +883,7 @@ function SingleMatch() {
                         }}
                       >
                         <button
+                          disabled={match?.reported}
                           onClick={() => handleEventClick("HT")}
                           className={`${StyleSingleMatch.singleAction} ${
                             selectedEventType === "HT"
@@ -896,6 +898,7 @@ function SingleMatch() {
                           />
                         </button>
                         <button
+                          disabled={match?.reported}
                           onClick={() => handleEventClick("full_time")}
                           className={`${StyleSingleMatch.singleAction} ${
                             selectedEventType === "full_time"
@@ -910,6 +913,7 @@ function SingleMatch() {
                           />
                         </button>
                         <button
+                          disabled={match?.reported}
                           onClick={() => handleEventClick("firstExtraTime")}
                           className={`${StyleSingleMatch.singleAction} ${
                             selectedEventType === "firstExtraTime"
@@ -924,6 +928,7 @@ function SingleMatch() {
                           />
                         </button>
                         <button
+                          disabled={match?.reported}
                           onClick={() => handleEventClick("secondExtraTime")}
                           className={`${StyleSingleMatch.singleAction} ${
                             selectedEventType === "secondExtraTime"
@@ -938,6 +943,7 @@ function SingleMatch() {
                           />
                         </button>
                         <button
+                          disabled={match?.reported}
                           onClick={() => handleEventClick("penalties")}
                           className={`${StyleSingleMatch.singleAction} ${
                             selectedEventType === "penalties"
@@ -956,6 +962,7 @@ function SingleMatch() {
                       {selectedEventType && (
                         <>
                           <button
+                            disabled={match?.reported}
                             onClick={handleAddAction}
                             className={StyleSingleMatch.whistle}
                           >
@@ -979,7 +986,15 @@ function SingleMatch() {
 
                 <div className={StyleSingleMatch.containerEvents}>
                   <div className={StyleSingleMatch.bothEvents}>
-                    <h1>Events Watcher</h1>
+                    {user?.role === "admin" ||
+                    user?.userId === match?.referee._id ||
+                    user?._id === match?.referee._id ? (
+                      <p className={StyleSingleMatch.titleEvent}>
+                        {language === "en" ? "Watcher Events" : "أحداث المراقب"}
+                      </p>
+                    ) : (
+                      ""
+                    )}
                     {eventsWatcher?.length > 0 ? (
                       <>
                         <div
@@ -1056,7 +1071,6 @@ function SingleMatch() {
                                         handleOpenDelete(event._id)
                                       }
                                       className={StyleSingleMatch.delete}
-                                      // disabled={match.played}
                                       disabled={match?.reported}
                                     >
                                       <img src={EventDelete} alt="" />
@@ -1066,7 +1080,6 @@ function SingleMatch() {
                                       onClick={() => handleOpenEdit(event)}
                                       // style={{ border: "none" }}
                                       className={StyleSingleMatch.edit}
-                                      // disabled={match.played}
                                       disabled={match?.reported}
                                     >
                                       <img src={EventEdit} alt="" />
@@ -1124,7 +1137,6 @@ function SingleMatch() {
                                         handleOpenDelete(event._id)
                                       }
                                       className={StyleSingleMatch.delete}
-                                      // disabled={match.played}
                                       disabled={match?.reported}
                                     >
                                       <img src={EventDelete} alt="" />
@@ -1134,7 +1146,6 @@ function SingleMatch() {
                                       onClick={() => handleOpenEdit(event)}
                                       // style={{ border: "none" }}
                                       className={StyleSingleMatch.edit}
-                                      // disabled={match.played}
                                       disabled={match?.reported}
                                     >
                                       <img src={EventEdit} alt="" />
@@ -1192,7 +1203,6 @@ function SingleMatch() {
                                         handleOpenDelete(event._id)
                                       }
                                       className={StyleSingleMatch.delete}
-                                      // disabled={match.played}
                                       disabled={match?.reported}
                                     >
                                       <img src={EventDelete} alt="" />
@@ -1202,7 +1212,6 @@ function SingleMatch() {
                                       onClick={() => handleOpenEdit(event)}
                                       // style={{ border: "none" }}
                                       className={StyleSingleMatch.edit}
-                                      // disabled={match.played}
                                       disabled={match?.reported}
                                     >
                                       <img src={EventEdit} alt="" />
@@ -1326,7 +1335,6 @@ function SingleMatch() {
                                           handleOpenDelete(event._id)
                                         }
                                         className={StyleSingleMatch.delete}
-                                        // disabled={match.played}
                                         disabled={match?.reported}
                                       >
                                         <img src={EventDelete} alt="" />
@@ -1336,7 +1344,6 @@ function SingleMatch() {
                                         onClick={() => handleOpenEdit(event)}
                                         // style={{ border: "none" }}
                                         className={StyleSingleMatch.edit}
-                                        // disabled={match.played}
                                         disabled={match?.reported}
                                       >
                                         <img src={EventEdit} alt="" />
@@ -1423,11 +1430,14 @@ function SingleMatch() {
                                             StyleSingleMatch.playerIdImage
                                           }
                                         />
-                                        <p className={StyleSingleMatch.scorePlayer}>{event?.playerIn?.name}</p>
+                                        <p
+                                          className={
+                                            StyleSingleMatch.scorePlayer
+                                          }
+                                        >
+                                          {event?.playerIn?.name}
+                                        </p>
                                       </div>
-                                      {/* <p className={StyleSingleMatch.out}>
-                                  {event.playerOut.name}
-                                </p> */}
                                       <div
                                         className={
                                           event?.team?._id ===
@@ -1464,7 +1474,11 @@ function SingleMatch() {
                                           StyleSingleMatch.playerIdImage
                                         }
                                       />
-                                      <p className={StyleSingleMatch.scorePlayer}>{event?.playerIn?.name}</p>
+                                      <p
+                                        className={StyleSingleMatch.scorePlayer}
+                                      >
+                                        {event?.playerIn?.name}
+                                      </p>
                                     </div>
                                   )}
                                 </div>
@@ -1481,7 +1495,6 @@ function SingleMatch() {
                                         handleOpenDelete(event._id)
                                       }
                                       className={StyleSingleMatch.delete}
-                                      // disabled={match.played}
                                       disabled={match?.reported}
                                     >
                                       <img src={EventDelete} alt="" />
@@ -1491,7 +1504,6 @@ function SingleMatch() {
                                       onClick={() => handleOpenEdit(event)}
                                       // style={{ border: "none" }}
                                       className={StyleSingleMatch.edit}
-                                      // disabled={match.played}
                                       disabled={match?.reported}
                                     >
                                       <img src={EventEdit} alt="" />
@@ -1516,13 +1528,63 @@ function SingleMatch() {
                     ) : (
                       "No Event Yet!"
                     )}
+
+                    <div>
+                      {match?.playedWatcher === true ? (
+                        <div
+                          style={{
+                            display: "flex",
+                            columnGap: "10%",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            marginTop: "20px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              width: "60px",
+                              height: "2px",
+                              backgroundColor: "red",
+                            }}
+                          ></div>
+                          <h1
+                            style={{
+                              color: "red",
+                              textAlign: "center",
+                              fontSize: "clamp(15px , 4vw , 20px)",
+                            }}
+                          >
+                            {language === "en"
+                              ? "Match is over!"
+                              : "نهاية المباراة"}
+                          </h1>
+                          <div
+                            style={{
+                              width: "60px",
+                              height: "2px",
+                              backgroundColor: "red",
+                            }}
+                          ></div>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </div>
                   </div>
 
                   {user?.role === "admin" ||
                   user?.userId === match?.referee._id ||
                   user?._id === match?.referee._id ? (
                     <div className={StyleSingleMatch.bothEvents}>
-                      <h1>Events Referee</h1>
+                      {user?.role === "admin" ||
+                      user?.userId === match?.referee?._id ||
+                      user?._id === match?.referee?._id ? (
+                        <p className={StyleSingleMatch.titleEvent}>
+                          {language === "en" ? "Referee Events" : "أحداث الحكم"}
+                        </p>
+                      ) : (
+                        ""
+                      )}
                       {eventsReferee?.length > 0 ? (
                         <>
                           <div
@@ -1601,7 +1663,6 @@ function SingleMatch() {
                                           handleOpenDelete(event._id)
                                         }
                                         className={StyleSingleMatch.delete}
-                                        // disabled={match.played}
                                         disabled={match?.reported}
                                       >
                                         <img src={EventDelete} alt="" />
@@ -1611,7 +1672,6 @@ function SingleMatch() {
                                         onClick={() => handleOpenEdit(event)}
                                         // style={{ border: "none" }}
                                         className={StyleSingleMatch.edit}
-                                        // disabled={match.played}
                                         disabled={match?.reported}
                                       >
                                         <img src={EventEdit} alt="" />
@@ -1669,7 +1729,6 @@ function SingleMatch() {
                                           handleOpenDelete(event._id)
                                         }
                                         className={StyleSingleMatch.delete}
-                                        // disabled={match.played}
                                         disabled={match?.reported}
                                       >
                                         <img src={EventDelete} alt="" />
@@ -1679,7 +1738,6 @@ function SingleMatch() {
                                         onClick={() => handleOpenEdit(event)}
                                         // style={{ border: "none" }}
                                         className={StyleSingleMatch.edit}
-                                        // disabled={match.played}
                                         disabled={match?.reported}
                                       >
                                         <img src={EventEdit} alt="" />
@@ -1737,7 +1795,6 @@ function SingleMatch() {
                                           handleOpenDelete(event._id)
                                         }
                                         className={StyleSingleMatch.delete}
-                                        // disabled={match.played}
                                         disabled={match?.reported}
                                       >
                                         <img src={EventDelete} alt="" />
@@ -1747,7 +1804,6 @@ function SingleMatch() {
                                         onClick={() => handleOpenEdit(event)}
                                         // style={{ border: "none" }}
                                         className={StyleSingleMatch.edit}
-                                        // disabled={match.played}
                                         disabled={match?.reported}
                                       >
                                         <img src={EventEdit} alt="" />
@@ -1873,7 +1929,6 @@ function SingleMatch() {
                                             handleOpenDelete(event._id)
                                           }
                                           className={StyleSingleMatch.delete}
-                                          // disabled={match.played}
                                           disabled={match?.reported}
                                         >
                                           <img src={EventDelete} alt="" />
@@ -1883,7 +1938,6 @@ function SingleMatch() {
                                           onClick={() => handleOpenEdit(event)}
                                           // style={{ border: "none" }}
                                           className={StyleSingleMatch.edit}
-                                          // disabled={match.played}
                                           disabled={match?.reported}
                                         >
                                           <img src={EventEdit} alt="" />
@@ -1973,11 +2027,15 @@ function SingleMatch() {
                                               StyleSingleMatch.playerIdImage
                                             }
                                           />
-                                          <p className={StyleSingleMatch.scorePlayer}>{event?.playerIn?.name}</p>
+                                          <p
+                                            className={
+                                              StyleSingleMatch.scorePlayer
+                                            }
+                                          >
+                                            {event?.playerIn?.name}
+                                          </p>
                                         </div>
-                                        {/* <p className={StyleSingleMatch.out}>
-                                  {event.playerOut.name}
-                                </p> */}
+
                                         <div
                                           className={
                                             event?.team?._id ===
@@ -2014,7 +2072,13 @@ function SingleMatch() {
                                             StyleSingleMatch.playerIdImage
                                           }
                                         />
-                                        <p className={StyleSingleMatch.scorePlayer}>{event?.playerIn?.name}</p>
+                                        <p
+                                          className={
+                                            StyleSingleMatch.scorePlayer
+                                          }
+                                        >
+                                          {event?.playerIn?.name}
+                                        </p>
                                       </div>
                                     )}
                                   </div>
@@ -2031,7 +2095,6 @@ function SingleMatch() {
                                           handleOpenDelete(event._id)
                                         }
                                         className={StyleSingleMatch.delete}
-                                        // disabled={match.played}
                                         disabled={match?.reported}
                                       >
                                         <img src={EventDelete} alt="" />
@@ -2041,7 +2104,6 @@ function SingleMatch() {
                                         onClick={() => handleOpenEdit(event)}
                                         // style={{ border: "none" }}
                                         className={StyleSingleMatch.edit}
-                                        // disabled={match.played}
                                         disabled={match?.reported}
                                       >
                                         <img src={EventEdit} alt="" />
@@ -2066,13 +2128,55 @@ function SingleMatch() {
                       ) : (
                         "No Event Yet!"
                       )}
+
+                      <div>
+                        {match?.playedReferee === true ? (
+                          <div
+                            style={{
+                              display: "flex",
+                              columnGap: "10%",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              marginTop: "20px",
+                            }}
+                          >
+                            <div
+                              style={{
+                                width: "60px",
+                                height: "2px",
+                                backgroundColor: "red",
+                              }}
+                            ></div>
+                            <h1
+                              style={{
+                                color: "red",
+                                textAlign: "center",
+                                fontSize: "clamp(15px , 4vw , 20px)",
+                              }}
+                            >
+                              {language === "en"
+                                ? "Match is over!"
+                                : "نهاية المباراة"}
+                            </h1>
+                            <div
+                              style={{
+                                width: "60px",
+                                height: "2px",
+                                backgroundColor: "red",
+                              }}
+                            ></div>
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                      </div>
                     </div>
                   ) : (
                     ""
                   )}
                 </div>
 
-                <div>
+                {/* <div>
                   {match?.played === true ? (
                     <div
                       style={{
@@ -2113,18 +2217,20 @@ function SingleMatch() {
                   ) : (
                     ""
                   )}
-                </div>
+                </div> */}
 
                 {user?.role === "admin" ||
                 user?.userId === match?.watcher?._id ||
-                user?._id === match?.watcher?._id ? (
+                user?.userId === match?.referee?._id ||
+                user?._id === match?.watcher?._id ||
+                user?._id === match?.referee?._id ? (
                   <div
                     style={{
                       display: "flex",
                       flexDirection: "column",
                       // columnGap: "20px",
                       rowGap: "20px",
-                      marginTop: "20px",
+                      // marginTop: "20px",
                       justifyContent: "center",
                       alignItems: "center",
                     }}
@@ -2133,7 +2239,6 @@ function SingleMatch() {
                       type="button"
                       onClick={handleOpenEndMatch}
                       className={StyleSingleMatch.endMatch}
-                      // disabled={match.played}
                       disabled={match?.reported}
                     >
                       End Match
@@ -2217,6 +2322,7 @@ function SingleMatch() {
                   <div style={{ margin: "10px 3px" }}>
                     {unSelectedPlayersTeamA.length > 0 ? (
                       <button
+                        disabled={match?.reported}
                         onClick={handleRemoveStartersA}
                         type="button"
                         className={StyleSingleMatch.addEvent}
@@ -2242,7 +2348,6 @@ function SingleMatch() {
                                   style={{ marginRight: 1 }}
                                   checked={selected}
                                 />
-
                                 {!option?.image ? (
                                   <img
                                     src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
@@ -2260,8 +2365,7 @@ function SingleMatch() {
                                     }
                                   />
                                 )}
-
-                                {option?.name}
+                                {option?.name} {option?.tShirtNumber}
                               </li>
                             );
                           }}
@@ -2278,6 +2382,7 @@ function SingleMatch() {
                           }
                         />
                         <button
+                          disabled={match?.reported}
                           onClick={handleAddStartersA}
                           type="button"
                           className={StyleSingleMatch.addEvent}
@@ -2357,6 +2462,7 @@ function SingleMatch() {
                   <div style={{ margin: "10px 3px" }}>
                     {unSelectedPlayersSubstitutesTeamA.length > 0 ? (
                       <button
+                        disabled={match?.reported}
                         onClick={handleRemoveSubstitutesA}
                         type="button"
                         className={StyleSingleMatch.addEvent}
@@ -2403,7 +2509,7 @@ function SingleMatch() {
                                   />
                                 )}
 
-                                {option?.name}
+                                {option?.name} {option?.tShirtNumber}
                               </li>
                             );
                           }}
@@ -2420,6 +2526,7 @@ function SingleMatch() {
                           }
                         />
                         <button
+                          disabled={match?.reported}
                           onClick={handleAddSubstitutesA}
                           type="button"
                           className={StyleSingleMatch.addEvent}
@@ -2502,6 +2609,7 @@ function SingleMatch() {
 
                     {unSelectedPlayersTeamB.length > 0 ? (
                       <button
+                        disabled={match?.reported}
                         onClick={handleRemoveStartersB}
                         type="button"
                         className={StyleSingleMatch.addEvent}
@@ -2546,7 +2654,7 @@ function SingleMatch() {
                                   />
                                 )}
 
-                                {option?.name}
+                                {option?.name} {option?.tShirtNumber}
                               </li>
                             );
                           }}
@@ -2563,6 +2671,7 @@ function SingleMatch() {
                           }
                         />
                         <button
+                          disabled={match?.reported}
                           onClick={handleAddStartersB}
                           type="button"
                           className={StyleSingleMatch.addEvent}
@@ -2644,6 +2753,7 @@ function SingleMatch() {
 
                     {unSelectedPlayersSubstitutesTeamB.length > 0 ? (
                       <button
+                        disabled={match?.reported}
                         onClick={handleRemoveSubstitutesB}
                         type="button"
                         className={StyleSingleMatch.addEvent}
@@ -2690,7 +2800,7 @@ function SingleMatch() {
                                   />
                                 )}
 
-                                {option?.name}
+                                {option?.name} {option?.tShirtNumber}
                               </li>
                             );
                           }}
@@ -2707,6 +2817,7 @@ function SingleMatch() {
                           }
                         />
                         <button
+                          disabled={match?.reported}
                           onClick={handleAddSubstitutesB}
                           type="button"
                           className={StyleSingleMatch.addEvent}
@@ -2820,6 +2931,7 @@ function SingleMatch() {
                       {actionWatcher === "Edit" ? (
                         <>
                           <Button
+                            disabled={match?.reported}
                             type="button"
                             onClick={handleBackWatcher}
                             className={StyleSingleMatch.back}
@@ -2832,6 +2944,7 @@ function SingleMatch() {
                             {language === "en" ? "Back" : "العودة"}
                           </Button>
                           <Button
+                            disabled={match?.reported}
                             type="button"
                             onClick={handleUpdateWatcherReport}
                             className={StyleSingleMatch.post}
@@ -2941,6 +3054,7 @@ function SingleMatch() {
                     {actionReferee === "Edit" ? (
                       <>
                         <Button
+                          disabled={match?.reported}
                           type="button"
                           onClick={handleBackReferee}
                           className={StyleSingleMatch.back}
@@ -2953,6 +3067,7 @@ function SingleMatch() {
                           {language === "en" ? "Back" : "العودة"}
                         </Button>
                         <Button
+                          disabled={match?.reported}
                           type="button"
                           onClick={handleUpdateRefereeReport}
                           className={StyleSingleMatch.post}
@@ -3048,6 +3163,7 @@ function SingleMatch() {
                   <div style={{ margin: "10px 3px" }}>
                     {unSelectedAdministratorsTeamA.length > 0 ? (
                       <button
+                        disabled={match?.reported}
                         onClick={handleRemoveAdministratorsA}
                         type="button"
                         className={StyleSingleMatch.addEvent}
@@ -3094,7 +3210,7 @@ function SingleMatch() {
                                   />
                                 )}
 
-                                {option?.name}
+                                {option?.name} {option?.tShirtNumber}
                               </li>
                             );
                           }}
@@ -3111,6 +3227,7 @@ function SingleMatch() {
                           }
                         />
                         <button
+                          disabled={match?.reported}
                           onClick={handleAddAdministratorsA}
                           type="button"
                           className={StyleSingleMatch.addEvent}
@@ -3198,6 +3315,7 @@ function SingleMatch() {
                   <div style={{ margin: "10px 3px" }}>
                     {unSelectedAdministratorsTeamB.length > 0 ? (
                       <button
+                        disabled={match?.reported}
                         onClick={handleRemoveAdministratorsB}
                         type="button"
                         className={StyleSingleMatch.addEvent}
@@ -3244,7 +3362,7 @@ function SingleMatch() {
                                   />
                                 )}
 
-                                {option?.name}
+                                {option?.name} {option?.tShirtNumber}
                               </li>
                             );
                           }}
@@ -3261,6 +3379,7 @@ function SingleMatch() {
                           }
                         />
                         <button
+                          disabled={match?.reported}
                           onClick={handleAddAdministratorsB}
                           type="button"
                           className={StyleSingleMatch.addEvent}
@@ -3510,6 +3629,7 @@ function SingleMatch() {
                 <>
                   <div className={StyleSingleMatch.containerActions}>
                     <button
+                      disabled={match?.reported}
                       onClick={() => handleEventClickTeamA("goal")}
                       className={`${StyleSingleMatch.singleAction} ${
                         selectedEventTypeA === "goal"
@@ -3524,6 +3644,7 @@ function SingleMatch() {
                       />
                     </button>
                     <button
+                      disabled={match?.reported}
                       onClick={() => handleEventClickTeamA("red_card")}
                       className={`${StyleSingleMatch.singleAction} ${
                         selectedEventTypeA === "red_card"
@@ -3538,6 +3659,7 @@ function SingleMatch() {
                       />
                     </button>
                     <button
+                      disabled={match?.reported}
                       onClick={() => handleEventClickTeamA("yellow_card")}
                       className={`${StyleSingleMatch.singleAction} ${
                         selectedEventTypeA === "yellow_card"
@@ -3552,6 +3674,7 @@ function SingleMatch() {
                       />
                     </button>
                     <button
+                      disabled={match?.reported}
                       onClick={() => handleEventClickTeamA("substitution")}
                       className={`${StyleSingleMatch.singleAction} ${
                         selectedEventTypeA === "substitution"
@@ -3698,12 +3821,14 @@ function SingleMatch() {
                       </div>
                       <div className={StyleSingleMatch.addCancel}>
                         <button
+                          disabled={match?.reported}
                           type="submit"
                           className={StyleSingleMatch.addEvent}
                         >
                           {language === "en" ? "Add" : "اضافة"}
                         </button>
                         <button
+                          disabled={match?.reported}
                           type="button"
                           onClick={handleCancel}
                           className={StyleSingleMatch.cancelEvent}
@@ -3762,7 +3887,7 @@ function SingleMatch() {
               />
               <h1>
                 <span style={{ color: "grey", fontSize: "10px" }}>
-                  {language === "en" ? "(Guest)" : "(الضيف)"}
+                  {language === "en" ? "(Away)" : "(الضيف)"}
                 </span>{" "}
                 {match?.team_b?.team?.name}
               </h1>
@@ -3776,6 +3901,7 @@ function SingleMatch() {
                 <>
                   <div className={StyleSingleMatch.containerActions}>
                     <button
+                      disabled={match?.reported}
                       onClick={() => handleEventClickTeamB("goal")}
                       className={`${StyleSingleMatch.singleAction} ${
                         selectedEventTypeB === "goal"
@@ -3790,6 +3916,7 @@ function SingleMatch() {
                       />
                     </button>
                     <button
+                      disabled={match?.reported}
                       onClick={() => handleEventClickTeamB("red_card")}
                       className={`${StyleSingleMatch.singleAction} ${
                         selectedEventTypeB === "red_card"
@@ -3804,6 +3931,7 @@ function SingleMatch() {
                       />
                     </button>
                     <button
+                      disabled={match?.reported}
                       onClick={() => handleEventClickTeamB("yellow_card")}
                       className={`${StyleSingleMatch.singleAction} ${
                         selectedEventTypeB === "yellow_card"
@@ -3818,6 +3946,7 @@ function SingleMatch() {
                       />
                     </button>
                     <button
+                      disabled={match?.reported}
                       onClick={() => handleEventClickTeamB("substitution")}
                       className={`${StyleSingleMatch.singleAction} ${
                         selectedEventTypeB === "substitution"
@@ -3965,12 +4094,14 @@ function SingleMatch() {
                       </div>
                       <div className={StyleSingleMatch.addCancel}>
                         <button
+                          disabled={match?.reported}
                           type="submit"
                           className={StyleSingleMatch.addEvent}
                         >
                           {language === "en" ? "Add" : "اضافة"}
                         </button>
                         <button
+                          disabled={match?.reported}
                           type="button"
                           onClick={handleCancel}
                           className={StyleSingleMatch.cancelEvent}
