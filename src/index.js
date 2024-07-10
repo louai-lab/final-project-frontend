@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { LanguageProvider } from "./Utils/LanguageContext";
+import { SocketProvider } from "./Utils/SocketProvider";
 
 const queryClient = new QueryClient();
 
@@ -15,23 +16,25 @@ root.render(
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <LanguageProvider>
-          <App />
+          <SocketProvider>
+            <App />
+          </SocketProvider>
         </LanguageProvider>
       </QueryClientProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
 
-// if ('serviceWorker' in navigator) {
-//   window.addEventListener('load', function() {
-//     navigator.serviceWorker.register('/Service-Worker.js').then(function(registration) {
-//       console.log('ServiceWorker registration successful with scope: ', registration.scope);
-//     }, function(err) {
-//       console.error('ServiceWorker registration failed: ', err);
-//     });
-//   });
-// }
-
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("./service-worker.js")
+    .then(function (registration) {
+      console.log("Service Worker registered with scope:", registration.scope);
+    })
+    .catch(function (error) {
+      console.log("Service Worker registration failed:", error);
+    });
+}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

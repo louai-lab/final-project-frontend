@@ -9,6 +9,10 @@ import { useMatchesStore, useUserStore } from "../../Zustand/Store";
 import { Reveal } from "../../Frammotion/RevealAnimation";
 import { Helmet } from "react-helmet-async";
 
+import io from "socket.io-client";
+
+const socket = io(process.env.REACT_APP_BACKEND);
+
 function Login() {
   const navigate = useNavigate();
   const [passwordValid, setPasswordValid] = useState(true);
@@ -47,7 +51,8 @@ function Login() {
         setPasswordValid(true);
         setUser(response.data);
 
-        // console.log(response.data);
+        // socket.emit("associateSocket", response.data._id);
+
         return navigate("/", { replace: true });
       }
     } catch (error) {

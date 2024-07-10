@@ -1,5 +1,5 @@
 import React, { useEffect, useTransition, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import StyleSingleMatch from "./SingleMatch.module.css";
 import TabButton from "../../Components/TabButton/TabButton";
 import Event from "../../Components/Event/EventAdd/Event";
@@ -33,7 +33,11 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import { CheckBox } from "@mui/icons-material";
+import { Skeleton } from "@mui/material";
+
+// import io from "socket.io-client";
+
+// const socket = io(process.env.REACT_APP_BACKEND);
 
 function SingleMatch() {
   const { user } = useUserStore();
@@ -60,7 +64,9 @@ function SingleMatch() {
   const [selectedPenaltyTypeB, setSelectedPenaltyTypeB] = useState("");
 
   const location = useLocation();
-  const [match, setMatch] = useState(location.state?.match || {});
+  // const [match, setMatch] = useState(location.state?.match || {});
+  const [match, setMatch] = useState(location.state?.match || null);
+  const { id } = useParams();
 
   const [formAction, setFormAction] = useState({
     type: "",
@@ -69,6 +75,7 @@ function SingleMatch() {
     playerOut: "",
     minute: "",
     penalty: "",
+    match: `${match?._id}`,
   });
 
   const handleEventClickTeamA = (type, penalty = null) => {
@@ -117,33 +124,36 @@ function SingleMatch() {
 
   const handleAddAction = async (e) => {
     e.preventDefault();
-    // console.log(formAction);
 
     const { role } = user;
 
     let detailId;
+    let route;
 
     if (role === "watcher") {
       detailId = detailIdWatcher;
+      route = "addObjectWatcher";
     } else if (role === "referee") {
       detailId = detailIdReferee;
+      route = "addObjectReferee";
     } else {
-      // console.error("Invalid user role:", role);
       return;
     }
 
     try {
       const response = await axiosInstance.patch(
-        `/matchdetails/addObject/${detailId}`,
+        `/matchdetails/${route}/${detailId}`,
         formAction
       );
+
+      // console.log(formAction);
 
       if (response) {
         console.log("created successfully");
         handleCancel();
         setSelectedEventType("");
 
-        console.log(response.data);
+        // console.log(response.data);
 
         fetchUpdatedMatch(match?._id);
       }
@@ -165,20 +175,6 @@ function SingleMatch() {
 
   // console.log(match);
 
-  // const cancelEvent = () => {
-  //   closePopUp();
-  // };
-
-  // const openPopUp = () => {
-  //   setIsOpenPopUpEvent(true);
-  //   document.body.style.overflow = "hidden";
-  // };
-
-  const closePopUp = () => {
-    setIsOpenPopUpEvent(false);
-    document.body.style.overflow = "auto";
-  };
-
   const fetchUpdatedMatch = async (matchId) => {
     try {
       setLoading(true);
@@ -196,9 +192,19 @@ function SingleMatch() {
     }
   };
 
+  // useEffect(() => {
+  //   fetchUpdatedMatch(match?._id);
+  // }, [match?._id]);
+
   useEffect(() => {
-    fetchUpdatedMatch(match?._id);
-  }, [match?._id]);
+    if (match) {
+      fetchUpdatedMatch(match?._id);
+    } else if (id) {
+      fetchUpdatedMatch(id);
+    } else {
+      console.error("No match state or id available.");
+    }
+  }, [match?._id, id]);
 
   useEffect(() => {
     if (match && match?.watcher_report) {
@@ -390,9 +396,21 @@ function SingleMatch() {
   };
 
   const handleEditEvent = async (formData) => {
+    const { role } = user;
+
+    let detailId;
+
+    if (role === "watcher") {
+      detailId = match?.detailsWatcher?._id;
+    } else if (role === "referee") {
+      detailId = match?.detailsReferee?._id;
+    } else {
+      return;
+    }
+
     try {
       const response = await axiosInstance.patch(
-        `/matchdetails/updateObject/${match?.detailsWatcher._id}/${selectedEvent._id}`,
+        `/matchdetails/updateObject/${detailId}/${selectedEvent._id}`,
         formData
       );
       if (response) {
@@ -987,8 +1005,8 @@ function SingleMatch() {
                 <div className={StyleSingleMatch.containerEvents}>
                   <div className={StyleSingleMatch.bothEvents}>
                     {user?.role === "admin" ||
-                    user?.userId === match?.referee._id ||
-                    user?._id === match?.referee._id ? (
+                    user?.userId === match?.referee?._id ||
+                    user?._id === match?.referee?._id ? (
                       <p className={StyleSingleMatch.titleEvent}>
                         {language === "en" ? "Watcher Events" : "أحداث المراقب"}
                       </p>
@@ -1573,8 +1591,8 @@ function SingleMatch() {
                   </div>
 
                   {user?.role === "admin" ||
-                  user?.userId === match?.referee._id ||
-                  user?._id === match?.referee._id ? (
+                  user?.userId === match?.referee?._id ||
+                  user?._id === match?.referee?._id ? (
                     <div className={StyleSingleMatch.bothEvents}>
                       {user?.role === "admin" ||
                       user?.userId === match?.referee?._id ||
@@ -2317,8 +2335,8 @@ function SingleMatch() {
               </div>
               <div>
                 {user?.role === "admin" ||
-                user?.userId === match.watcher._id ||
-                user?._id === match.watcher._id ? (
+                user?.userId === match?.watcher?._id ||
+                user?._id === match?.watcher?._id ? (
                   <div style={{ margin: "10px 3px" }}>
                     {unSelectedPlayersTeamA.length > 0 ? (
                       <button
@@ -2457,8 +2475,8 @@ function SingleMatch() {
               </div>
               <div>
                 {user?.role === "admin" ||
-                user?.userId === match.watcher._id ||
-                user?._id === match.watcher._id ? (
+                user?.userId === match?.watcher?._id ||
+                user?._id === match?.watcher?._id ? (
                   <div style={{ margin: "10px 3px" }}>
                     {unSelectedPlayersSubstitutesTeamA.length > 0 ? (
                       <button
@@ -2490,7 +2508,6 @@ function SingleMatch() {
                                   style={{ marginRight: 1 }}
                                   checked={selected}
                                 />
-
                                 {!option?.image ? (
                                   <img
                                     src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
@@ -2508,7 +2525,6 @@ function SingleMatch() {
                                     }
                                   />
                                 )}
-
                                 {option?.name} {option?.tShirtNumber}
                               </li>
                             );
@@ -2602,8 +2618,8 @@ function SingleMatch() {
               </div>
               <div>
                 {user?.role === "admin" ||
-                user?.userId === match.watcher._id ||
-                user?._id === match.watcher._id ? (
+                user?.userId === match?.watcher?._id ||
+                user?._id === match?.watcher?._id ? (
                   <div style={{ margin: "10px 3px" }}>
                     {/* <h1>ronaldo</h1> */}
 
@@ -2635,7 +2651,6 @@ function SingleMatch() {
                                   style={{ marginRight: 1 }}
                                   checked={selected}
                                 />
-
                                 {!option?.image ? (
                                   <img
                                     src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
@@ -2653,7 +2668,6 @@ function SingleMatch() {
                                     }
                                   />
                                 )}
-
                                 {option?.name} {option?.tShirtNumber}
                               </li>
                             );
@@ -2746,8 +2760,8 @@ function SingleMatch() {
               </div>
               <div>
                 {user?.role === "admin" ||
-                user?.userId === match.watcher._id ||
-                user?._id === match.watcher._id ? (
+                user?.userId === match?.watcher?._id ||
+                user?._id === match?.watcher?._id ? (
                   <div style={{ margin: "10px 3px" }}>
                     {/* <h1>ronaldo</h1> */}
 
@@ -2781,7 +2795,6 @@ function SingleMatch() {
                                   style={{ marginRight: 1 }}
                                   checked={selected}
                                 />
-
                                 {!option?.image ? (
                                   <img
                                     src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
@@ -2799,7 +2812,6 @@ function SingleMatch() {
                                     }
                                   />
                                 )}
-
                                 {option?.name} {option?.tShirtNumber}
                               </li>
                             );
@@ -2843,8 +2855,8 @@ function SingleMatch() {
         <div className={StyleSingleMatch.reportsContainer}>
           <>
             {user?.role === "admin" ||
-            user?.userId === match.watcher._id ||
-            user?._id === match.watcher._id ? (
+            user?.userId === match?.watcher?._id ||
+            user?._id === match?.watcher?._id ? (
               <>
                 <div
                   className={`${StyleSingleMatch.singleReport} ${
@@ -2878,7 +2890,7 @@ function SingleMatch() {
                           : `تقرير المراقب ${match?.watcher?.firstName}`}
                       </p>
                     </div>
-                    {match.reported === true ? (
+                    {match?.reported === true ? (
                       <p className={StyleSingleMatch.reported}>
                         {language === "en"
                           ? "Not Allowed To Update this Report anymore!"
@@ -2887,7 +2899,7 @@ function SingleMatch() {
                     ) : (
                       ""
                     )}
-                    {match.reported !== true ? (
+                    {match?.reported !== true ? (
                       actionWatcher === "Edit" ? (
                         ""
                       ) : (
@@ -2966,8 +2978,8 @@ function SingleMatch() {
 
           <>
             {user?.role === "admin" ||
-            user?.userId === match.referee._id ||
-            user?._id === match.referee._id ? (
+            user?.userId === match?.referee?._id ||
+            user?._id === match?.referee?._id ? (
               <>
                 <div
                   className={`${StyleSingleMatch.singleReport} ${
@@ -3001,7 +3013,7 @@ function SingleMatch() {
                           : `تقرير الحكم ${match?.referee?.firstName}`}
                       </p>
                     </div>
-                    {match.reported === true ? (
+                    {match?.reported === true ? (
                       <p className={StyleSingleMatch.reported}>
                         {language === "en"
                           ? "Not Allowed To Update this Report anymore!"
@@ -3010,7 +3022,7 @@ function SingleMatch() {
                     ) : (
                       ""
                     )}
-                    {match.reported !== true ? (
+                    {match?.reported !== true ? (
                       actionReferee === "Edit" ? (
                         ""
                       ) : (
@@ -3158,8 +3170,8 @@ function SingleMatch() {
               <div>
                 {/* <h1>Griz</h1> */}
                 {user?.role === "admin" ||
-                user?.userId === match.watcher._id ||
-                user?._id === match.watcher._id ? (
+                user?.userId === match?.watcher?._id ||
+                user?._id === match?.watcher?._id ? (
                   <div style={{ margin: "10px 3px" }}>
                     {unSelectedAdministratorsTeamA.length > 0 ? (
                       <button
@@ -3191,7 +3203,6 @@ function SingleMatch() {
                                   style={{ marginRight: 1 }}
                                   checked={selected}
                                 />
-
                                 {!option?.image ? (
                                   <img
                                     src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
@@ -3209,7 +3220,6 @@ function SingleMatch() {
                                     }
                                   />
                                 )}
-
                                 {option?.name} {option?.tShirtNumber}
                               </li>
                             );
@@ -3310,8 +3320,8 @@ function SingleMatch() {
               <div>
                 {/* <h1>Griz</h1> */}
                 {user?.role === "admin" ||
-                user?.userId === match.watcher._id ||
-                user?._id === match.watcher._id ? (
+                user?.userId === match?.watcher?._id ||
+                user?._id === match?.watcher?._id ? (
                   <div style={{ margin: "10px 3px" }}>
                     {unSelectedAdministratorsTeamB.length > 0 ? (
                       <button
@@ -3343,7 +3353,6 @@ function SingleMatch() {
                                   style={{ marginRight: 1 }}
                                   checked={selected}
                                 />
-
                                 {!option?.image ? (
                                   <img
                                     src={`${process.env.REACT_APP_IMAGE_PATH}/default.jpeg`}
@@ -3361,7 +3370,6 @@ function SingleMatch() {
                                     }
                                   />
                                 )}
-
                                 {option?.name} {option?.tShirtNumber}
                               </li>
                             );
@@ -3469,7 +3477,7 @@ function SingleMatch() {
               <MdUpdate className={StyleSingleMatch.iconInfo} />
               <p>
                 {" "}
-                {new Date(match.match_date).toLocaleDateString("en-US", {
+                {new Date(match?.match_date).toLocaleDateString("en-US", {
                   timeZone: "UTC",
                   year: "numeric",
                   month: "numeric",
@@ -3481,7 +3489,7 @@ function SingleMatch() {
               <IoTimeOutline className={StyleSingleMatch.iconInfo} />
               <p>
                 {new Date(
-                  `2000-01-01T${match.match_time}:00Z`
+                  `2000-01-01T${match?.match_time}:00Z`
                 ).toLocaleTimeString("en-US", {
                   timeZone: "UTC",
                   hour: "numeric",
@@ -3610,15 +3618,15 @@ function SingleMatch() {
           <article className={StyleSingleMatch.matchHeroSection}>
             <section className={StyleSingleMatch.teamA}>
               <img
-                src={`${process.env.REACT_APP_IMAGE_PATH}/${match.team_a?.team.image}`}
-                alt={match.team_a?.team.name}
+                src={`${process.env.REACT_APP_IMAGE_PATH}/${match?.team_a?.team?.image}`}
+                alt={match?.team_a?.team?.name}
                 className={StyleSingleMatch.cardImage}
               />
               <h1>
                 <span style={{ color: "grey", fontSize: "10px" }}>
                   {language === "en" ? "(Home)" : "(المستضيف)"}
                 </span>{" "}
-                {match.team_a?.team.name}
+                {match?.team_a?.team?.name}
               </h1>
 
               {user?.role === "admin" ||
@@ -3846,18 +3854,22 @@ function SingleMatch() {
             <section className={StyleSingleMatch.containerScores}>
               {/* Result Watcher */}
 
-              <section className={StyleSingleMatch.results}>
-                <div className={StyleSingleMatch.result}>
-                  <p>{match?.team_a?.scoreWatcher}</p>
-                  <span>-</span>
-                  <p>{match?.team_b?.scoreWatcher}</p>
-                </div>
-                <div className={StyleSingleMatch.resultPenalties}>
-                  <p>{match?.team_a?.scorePenaltiesWatcher}</p>
-                  <span>-</span>
-                  <p>{match?.team_b?.scorePenaltiesWatcher}</p>
-                </div>
-              </section>
+              {loading || !match ? (
+                <Skeleton variant="circular" width={80} height={80} />
+              ) : (
+                <section className={StyleSingleMatch.results}>
+                  <div className={StyleSingleMatch.result}>
+                    <p>{match?.team_a?.scoreWatcher}</p>
+                    <span>-</span>
+                    <p>{match?.team_b?.scoreWatcher}</p>
+                  </div>
+                  <div className={StyleSingleMatch.resultPenalties}>
+                    <p>{match?.team_a?.scorePenaltiesWatcher}</p>
+                    <span>-</span>
+                    <p>{match?.team_b?.scorePenaltiesWatcher}</p>
+                  </div>
+                </section>
+              )}
 
               {/* Result Referee */}
               {user?.role === "admin" ||
@@ -3881,8 +3893,8 @@ function SingleMatch() {
             </section>
             <section className={StyleSingleMatch.teamA}>
               <img
-                src={`${process.env.REACT_APP_IMAGE_PATH}/${match.team_b?.team.image}`}
-                alt={match?.team_b?.team.name}
+                src={`${process.env.REACT_APP_IMAGE_PATH}/${match?.team_b?.team?.image}`}
+                alt={match?.team_b?.team?.name}
                 className={StyleSingleMatch.cardImage}
               />
               <h1>

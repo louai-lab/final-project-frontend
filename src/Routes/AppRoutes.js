@@ -45,6 +45,7 @@ function AppRoutes() {
         <Route path="/home" element={<Home />} />
         <Route path="/matches" element={<Matches />} />
         <Route path="/match" element={<SingleMatch />} />
+        <Route path="/match/:id" element={<SingleMatch />} />
         <Route path="/profile" element={<Profile />} />
       </Route>
 
