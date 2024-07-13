@@ -30,10 +30,29 @@ if ("serviceWorker" in navigator) {
     .register("./service-worker.js")
     .then(function (registration) {
       console.log("Service Worker registered with scope:", registration.scope);
+      requestNotificationPermission();
     })
     .catch(function (error) {
       console.log("Service Worker registration failed:", error);
     });
+}
+
+function requestNotificationPermission() {
+  if ("Notification" in window) {
+    Notification.requestPermission()
+      .then(function (permission) {
+        if (permission === "granted") {
+          console.log("Notification permission granted.");
+        } else {
+          console.log("Notification permission denied.");
+        }
+      })
+      .catch(function (error) {
+        console.error("Error requesting notification permission:", error);
+      });
+  } else {
+    console.log("Notifications API not supported in this browser.");
+  }
 }
 
 // If you want to start measuring performance in your app, pass a function
