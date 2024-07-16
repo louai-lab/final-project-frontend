@@ -267,7 +267,7 @@ function DashUsers() {
       )}
       <div className={StyleDashUsers.container}>
         <button className={StyleDashUsers.add} onClick={handleOpenPopUp}>
-          Add User
+          Add User +
         </button>
         <Table
           data={dataWithIds}

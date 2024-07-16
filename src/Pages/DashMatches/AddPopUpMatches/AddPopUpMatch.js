@@ -104,6 +104,7 @@ function AddPopUpMatch({ handleCancelAdd, handleFormSubmitMatch }) {
             style={{
               marginBottom: "1.5rem",
               fontSize: "clamp(10px , 4rem , 25px)",
+              color: "var(--primary-clr)",
             }}
           >
             Add Match

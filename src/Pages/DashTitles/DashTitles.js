@@ -240,7 +240,7 @@ function DashTitles() {
           className={StyleDashTitles.add}
           onClick={() => setIsAddPopUp(true)}
         >
-          Add Title
+          Add Title +
         </button>
         <Table
           data={titles}

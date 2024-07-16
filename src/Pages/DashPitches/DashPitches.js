@@ -241,7 +241,7 @@ function DashPitches() {
           className={StyleDashPitches.add}
           onClick={() => setIsAddPopUp(true)}
         >
-          Add Pitch
+          Add Pitch +
         </button>
         <Table
           data={pitches}

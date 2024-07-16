@@ -71,6 +71,7 @@ function AddPopUp({ handleCancelAdd, handleFormSubmitPlayer }) {
             style={{
               //   width: "100%",
               marginBottom: "1.5rem",
+              color:"var(--primary-clr)"
             }}
           >
             Add Player
@@ -185,7 +186,7 @@ function AddPopUp({ handleCancelAdd, handleFormSubmitPlayer }) {
                   transition: "opacity 0.3s ease",
                   textTransform: "none",
                   fontWeight: "bold",
-                  borderRadius: "20px",
+                  borderRadius: "10px",
                   "&:hover": {
                     bgcolor: "var(--primary-clr)",
                     opacity: "0.7",

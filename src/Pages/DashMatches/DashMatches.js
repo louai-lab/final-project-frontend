@@ -265,7 +265,7 @@ function DashMatches() {
       )}
       <div className={StyleDashMatches.container}>
         <button className={StyleDashMatches.add} onClick={handleOpenPopUp}>
-          Add Match
+          Add Match +
         </button>
         <Table
           data={matches}

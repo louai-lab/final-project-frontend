@@ -74,6 +74,7 @@ function AddPopUp({ handleCancelAdd, handleFormSubmit }) {
           style={{
             //   width: "100%",
             marginBottom: "1.5rem",
+            color: "var(--primary-clr)",
           }}
         >
           Add User
@@ -192,7 +193,7 @@ function AddPopUp({ handleCancelAdd, handleFormSubmit }) {
                 transition: "opacity 0.3s ease",
                 textTransform: "none",
                 fontWeight: "bold",
-                borderRadius: "20px",
+                borderRadius: "10px",
                 "&:hover": {
                   bgcolor: "var(--primary-clr)",
                   // color: "white",

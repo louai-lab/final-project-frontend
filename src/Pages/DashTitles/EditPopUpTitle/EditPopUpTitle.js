@@ -53,9 +53,10 @@ function EditPopUpTitle({ handleCancelEdit, selectedRowData, handleSave }) {
           style={{
             //   width: "100%",
             marginBottom: "1.5rem",
+            color: "var(--primary-clr)",
           }}
         >
-          Edit Team
+          Edit Title
         </h1>
         <form
           //   onSubmit={handleSubmit}

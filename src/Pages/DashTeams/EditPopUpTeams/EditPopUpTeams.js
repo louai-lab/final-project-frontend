@@ -32,7 +32,7 @@ function EditPopUpTeams({ selectedRowData, handleCancelEdit, handleSave }) {
         [name]: type === "checkbox" ? checked : e.target.value,
       }));
     }
-  }; 
+  };
 
   const handleSaveClick = (e) => {
     e.preventDefault();
@@ -61,6 +61,7 @@ function EditPopUpTeams({ selectedRowData, handleCancelEdit, handleSave }) {
           style={{
             //   width: "100%",
             marginBottom: "1.5rem",
+            color: "var(--primary-clr)",
           }}
         >
           Edit Team

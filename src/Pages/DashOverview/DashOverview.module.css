@@ -1,0 +1,13 @@
+.container {
+  margin-left: 80px;
+  margin-top: 20px;
+}
+
+.dashCardContainer {
+  /* width: 90%; */
+  margin-top: 40px;
+  display:flex;
+  flex-wrap: wrap;
+  column-gap: 10px;
+  row-gap: 10px;
+}

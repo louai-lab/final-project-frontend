@@ -19,6 +19,7 @@ import DashTitles from "../Pages/DashTitles/DashTitles.js";
 import DashSeasons from "../Pages/DashSeasons/DashSeasons.js";
 import DashPitches from "../Pages/DashPitches/DashPitches.js";
 import DashAdministrator from "../Pages/DashAdministrator/DashAdministrator.js";
+import DashOverview from "../Pages/DashOverview/DashOverview.js";
 
 function AppRoutes() {
   const { user } = useUserStore();
@@ -55,9 +56,9 @@ function AppRoutes() {
           user && user.role === "admin" ? (
             <ProtectedRoute isAllowed={true}>
               <DashOutlet />
+              <DashOverview />
             </ProtectedRoute>
           ) : (
-            // <Navigate to="/notfound" />
             <Navigate to="/" />
           )
         }

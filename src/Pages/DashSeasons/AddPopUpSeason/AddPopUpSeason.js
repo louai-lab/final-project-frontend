@@ -57,6 +57,7 @@ function AddPopUpSeason({
           style={{
             //   width: "100%",
             marginBottom: "1.5rem",
+            color: "var(--primary-clr)",
           }}
         >
           Add Season
@@ -92,7 +93,7 @@ function AddPopUpSeason({
                 transition: "opacity 0.3s ease",
                 textTransform: "none",
                 fontWeight: "bold",
-                borderRadius: "20px",
+                borderRadius: "10px",
                 "&:hover": {
                   bgcolor: "var(--primary-clr)",
                   color: "white",

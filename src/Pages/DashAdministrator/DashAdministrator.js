@@ -130,11 +130,15 @@ function DashAdministrator() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await axiosInstance.delete(`/administrator/delete/${id}`);
+      const response = await axiosInstance.delete(
+        `/administrator/delete/${id}`
+      );
       if (response) {
         console.log("Administrator deleted successfully:");
         useAdministratorsStore.setState((state) => ({
-            administrators: state.administrators.filter((administrator) => administrator._id !== id),
+          administrators: state.administrators.filter(
+            (administrator) => administrator._id !== id
+          ),
         }));
       }
       setIsOpen(false);
@@ -154,6 +158,18 @@ function DashAdministrator() {
               handleEditSave(selectedRowData._id, formData)
             }
           />
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0, 0, 0, 0.2)",
+              zIndex: 1002,
+            }}
+            onClick={() => setIsEditPopUp(false)}
+          ></div>
         </>
       )}
       {isAddPopUp && (
@@ -251,7 +267,7 @@ function DashAdministrator() {
           className={StyleDashAdministrators.add}
           onClick={handleOpenPopUp}
         >
-          Add Administrator
+          Add Administrator +
         </button>
         <Table
           data={administrators}

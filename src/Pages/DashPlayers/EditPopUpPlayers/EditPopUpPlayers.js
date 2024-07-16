@@ -69,6 +69,7 @@ function EditPopUpPlayers({ selectedRowData, handleCancelEdit, handleSave }) {
           style={{
             //   width: "100%",
             marginBottom: "1.5rem",
+            color: "var(--primary-clr)",
           }}
         >
           Edit Player

@@ -46,7 +46,11 @@ export const useUsersStore = create((set) => ({
       const response = await axiosInstance.get("/user");
       if (response) {
         // console.log(response.data);
-        set({ users: response.data, loading: false });
+        set({
+          users: response.data.users,
+          userCount: response.data.userCount,
+          loading: false,
+        });
       }
     } catch (error) {
       console.error(error);
@@ -143,8 +147,14 @@ export const usePlayersStore = create((set, get) => ({
       );
 
       const playersCount = data.playersCount;
+      const totalPlayersCount = data.totalPlayersCount;
 
-      set({ players: data.players, playersCount, loading: false });
+      set({
+        players: data.players,
+        playersCount,
+        totalPlayersCount,
+        loading: false,
+      });
 
       // console.log(data.players)
     } catch (error) {
@@ -177,8 +187,12 @@ export const useTeamsStore = create((set) => ({
       set({ loading: true });
       const response = await axiosInstance.get("/team");
       if (response) {
-        // console.log(response.data);
-        set({ teams: response.data, loading: false });
+        // console.log(response.data.teams[1].playerCount);
+        set({
+          teams: response.data.teams,
+          teamCount: response.data.teamCount,
+          loading: false,
+        });
       }
     } catch (error) {
       console.error(error);
@@ -247,8 +261,14 @@ export const useMatchesStore = create((set, get) => ({
 
       // const matchCount = data.length;
       const matchCount = data.matchCount;
+      // const totalMatchsCount = data.totalMatchsCount;
 
-      set({ matches: data.matches, matchCount, loading: false });
+      set({
+        matches: data.matches,
+        matchCount,
+        // totalMatchsCount,
+        loading: false,
+      });
     } catch (error) {
       console.error(error);
       set({ loading: false });
@@ -265,7 +285,11 @@ export const useTitlesStore = create((set) => ({
       const response = await axiosInstance.get("/title");
       if (response) {
         // console.log(response.data);
-        set({ titles: response.data, loading: false });
+        set({
+          titles: response.data.titles,
+          titleCount: response.data.titleCount,
+          loading: false,
+        });
       }
     } catch (error) {
       console.error(error);
@@ -301,7 +325,11 @@ export const usePitchesStore = create((set) => ({
       const response = await axiosInstance.get("/pitch");
 
       if (response) {
-        set({ pitches: response.data, loading: false });
+        set({
+          pitches: response.data.pitches,
+          pitchCount: response.data.pitchCount,
+          loading: false,
+        });
       }
     } catch (error) {
       console.error(error);
@@ -319,7 +347,11 @@ export const useAdministratorsStore = create((set) => ({
       const response = await axiosInstance.get("/administrator");
 
       if (response) {
-        set({ administrators: response.data, loading: false });
+        set({
+          administrators: response.data.administrators,
+          administratorsCount: response.data.administratorsCount,
+          loading: false,
+        });
       }
     } catch (error) {
       console.error(error);

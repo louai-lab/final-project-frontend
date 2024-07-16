@@ -248,7 +248,7 @@ function DashSeasons() {
           className={StyleDashSeasons.add}
           onClick={() => setIsAddPopUp(true)}
         >
-          Add Season
+          Add Season +
         </button>
         <Table
           data={seasons}

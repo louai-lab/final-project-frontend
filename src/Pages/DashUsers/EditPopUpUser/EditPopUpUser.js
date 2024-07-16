@@ -76,6 +76,7 @@ function EditPopUpUser({ selectedRowData, handleCancelEdit, handleSave }) {
           style={{
             //   width: "100%",
             marginBottom: "1.5rem",
+            color: "var(--primary-clr)",
           }}
         >
           Edit User
@@ -187,7 +188,11 @@ function EditPopUpUser({ selectedRowData, handleCancelEdit, handleSave }) {
             <button className={StyleEditPopUp.save} onClick={handleSaveClick}>
               Save
             </button>
-            <button className={StyleEditPopUp.cancel} type="button" onClick={handleCancelEdit}>
+            <button
+              className={StyleEditPopUp.cancel}
+              type="button"
+              onClick={handleCancelEdit}
+            >
               Cancel
             </button>
           </Stack>
