@@ -15,6 +15,7 @@ import { MdOutlineStadium } from "react-icons/md";
 import { useAdministratorsStore } from "../../Zustand/Store";
 import { GrUserManager } from "react-icons/gr";
 import PieColor from "../../Components/PieColor/PieColor";
+import BarColor from "../../Components/BarColor/BarColor";
 
 function DashOverview() {
   const { userCount } = useUsersStore();
@@ -65,6 +66,8 @@ function DashOverview() {
           icon={GrUserManager}
         />
       </div>
+
+      <BarColor />
 
       <PieColor />
     </div>

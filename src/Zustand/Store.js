@@ -64,7 +64,11 @@ export const useUsersStore = create((set) => ({
       const response = await axiosInstance.get("/user/referees");
       if (response) {
         // console.log(response.data)
-        set({ referees: response.data, loading: false });
+        set({
+          referees: response.data.referees,
+          refereeCount: response.data.refereeCount,
+          loading: false,
+        });
       }
     } catch (error) {
       console.error(error);
@@ -78,7 +82,11 @@ export const useUsersStore = create((set) => ({
       const response = await axiosInstance.get("/user/watchers");
       if (response) {
         // console.log(response.data);
-        set({ watchers: response.data, loading: false });
+        set({
+          watchers: response.data.watchers,
+          watcherCount: response.data.watcherCount,
+          loading: false,
+        });
       }
     } catch (error) {
       console.error(error);
@@ -92,7 +100,11 @@ export const useUsersStore = create((set) => ({
       const response = await axiosInstance.get("/user/linesman");
       if (response) {
         // console.log(response.data);
-        set({ linesman: response.data, loading: false });
+        set({
+          linesman: response.data.linesman,
+          linesManCount: response.data.linesManCount,
+          loading: false,
+        });
       }
     } catch (error) {
       console.error(error);

@@ -1,30 +1,33 @@
 import * as React from "react";
-import { PieChart } from "@mui/x-charts/PieChart";
 import StylePieCard from "./PieColor.module.css";
 import { Typography } from "@mui/material";
-import { useTeamsStore } from "../../Zustand/Store";
+import { useUsersStore } from "../../Zustand/Store";
+import { PieChart } from "@mui/x-charts";
+// import { useUsersStore } from "../../Zustand/Store";
 
 export default function PieColor() {
-  const { teams } = useTeamsStore();
-  //   console.log(teams);
+  const { watcherCount, refereeCount, linesManCount } = useUsersStore();
+
   return (
     <div className={StylePieCard.borderPie}>
       <Typography style={{ color: "var(--primary-clr)" }}>
-        Player per Team
+        For referee and watcher later
       </Typography>
-      <PieChart
-        series={[
-          {
-            data: teams?.map((team) => ({
-              id: team?._id,
-              value: team?.playerCount,
-              label: team?.name,
-            })),
-          },
-        ]}
-        width={500}
-        height={300}
-      />
+      <div className={StylePieCard.chart}>
+        <PieChart
+          series={[
+            {
+              data: [
+                { id: 0, value: watcherCount, label: "Watcher" },
+                { id: 1, value: refereeCount, label: "Referee" },
+                { id: 2, value: linesManCount, label: "Lines Man" },
+              ],
+            },
+          ]}
+          width={600}
+          height={400}
+        />
+      </div>
     </div>
   );
 }
