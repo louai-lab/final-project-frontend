@@ -9,11 +9,7 @@ function EditPopUpTeams({ selectedRowData, handleCancelEdit, handleSave }) {
   const [formData, setFormData] = useState({
     name: selectedRowData.name,
     image: selectedRowData.image,
-    // playerIds: selectedRowData.players,
   });
-  // const { playersNoTeam } = usePlayersStore();
-
-  // console.log(playersNoTeam)
 
   // console.log(formData.playerIds);
   const handleChange = (e) => {
@@ -67,7 +63,6 @@ function EditPopUpTeams({ selectedRowData, handleCancelEdit, handleSave }) {
           Edit Team
         </h1>
         <form
-          //   onSubmit={handleSubmit}
           style={{
             display: "flex",
             flexDirection: "column",
@@ -95,39 +90,6 @@ function EditPopUpTeams({ selectedRowData, handleCancelEdit, handleSave }) {
                 onChange={handleChange}
               />
             </FormControl>
-
-            {/* <FormControl fullWidth>
-              <InputLabel htmlFor="playerIds">Choose Players</InputLabel>
-              <Select
-                label="Players"
-                name="playerIds"
-                multiple
-                value={formData.playerIds}
-                onChange={handleChange}
-                renderValue={(selected) => (
-                  <div style={{ display: "flex", flexWrap: "wrap" }}>
-                    {formData.playerIds.map((player) => (
-                      <Chip
-                        key={player._id}
-                        label={player.name}
-                        style={{ margin: 2 }}
-                        onDelete={() => handleRemovePlayer(player._id)} // Use onDelete to trigger handleRemovePlayer
-                      />
-                    ))}
-                  </div>
-                )}
-              >
-                {playersNoTeam.map((player) => (
-                  <MenuItem
-                    key={player._id}
-                    value={player._id}
-                    selected={formData.playerIds.includes(player._id)}
-                  >
-                    {player.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl> */}
 
             <button className={StyleEditPopUp.save} onClick={handleSaveClick}>
               Save

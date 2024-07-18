@@ -20,6 +20,7 @@ import DashSeasons from "../Pages/DashSeasons/DashSeasons.js";
 import DashPitches from "../Pages/DashPitches/DashPitches.js";
 import DashAdministrator from "../Pages/DashAdministrator/DashAdministrator.js";
 import DashOverview from "../Pages/DashOverview/DashOverview.js";
+import DashAboutUs from "../Pages/DashAboutUs/DashAboutUs.js";
 
 function AppRoutes() {
   const { user } = useUserStore();
@@ -56,13 +57,13 @@ function AppRoutes() {
           user && user.role === "admin" ? (
             <ProtectedRoute isAllowed={true}>
               <DashOutlet />
-              <DashOverview />
             </ProtectedRoute>
           ) : (
             <Navigate to="/" />
           )
         }
       >
+        <Route path="/dashboard/overview" exact element={<DashOverview />} />
         <Route path="/dashboard/users" exact element={<DashUsers />} />
         <Route path="/dashboard/players" exact element={<DashPlayers />} />
         <Route path="/dashboard/teams" exact element={<DashTeams />} />
@@ -70,6 +71,8 @@ function AppRoutes() {
         <Route path="/dashboard/titles" exact element={<DashTitles />} />
         <Route path="/dashboard/seasons" exact element={<DashSeasons />} />
         <Route path="/dashboard/pitches" exact element={<DashPitches />} />
+        <Route path="/dashboard/aboutus" exact element={<DashAboutUs />} />
+
         <Route
           path="/dashboard/administrators"
           exact

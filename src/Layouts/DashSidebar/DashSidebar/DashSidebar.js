@@ -36,7 +36,7 @@ const DashSidebar = () => {
     {
       number: 1,
       item: "Overview",
-      link: "/dashboard",
+      link: "/dashboard/overview",
       icon: <MdOutlineQueryStats />,
     },
     {
@@ -85,6 +85,12 @@ const DashSidebar = () => {
       number: 9,
       item: "Administrators",
       link: "/dashboard/administrators",
+      icon: <GrUserManager />,
+    },
+    {
+      number: 10,
+      item: "About Us",
+      link: "/dashboard/aboutus",
       icon: <GrUserManager />,
     },
   ];

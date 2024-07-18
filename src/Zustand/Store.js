@@ -350,6 +350,27 @@ export const usePitchesStore = create((set) => ({
   },
 }));
 
+export const useAboutUsStore = create((set) => ({
+  aboutUs: {},
+  loading: true,
+  getAboutUs: async () => {
+    try {
+      set({ loading: true });
+
+      const response = await axiosInstance.get(
+        "/aboutus/66994047991cae7b56ec1c8b"
+      );
+
+      if (response) {
+        set({ aboutUs: response.data, loading: false });
+      }
+    } catch (error) {
+      console.error(error);
+      set({ loading: false });
+    }
+  },
+}));
+
 export const useAdministratorsStore = create((set) => ({
   administrators: [],
   loading: true,

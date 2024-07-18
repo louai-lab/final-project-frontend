@@ -5,20 +5,33 @@ import { NavLink } from "react-router-dom";
 import Facebook from "../../Assets/icons/devicon--facebook.svg";
 import Instagram from "../../Assets/icons/skill-icons--instagram.svg";
 import { useLanguage } from "../../Utils/LanguageContext";
+import { useAboutUsStore } from "../../Zustand/Store";
+import { Skeleton } from "@mui/material";
 
 const LazyImage = lazy(() => import("../../Utils/LazyImage"));
 
 function Footer() {
   const { language } = useLanguage();
 
+  const { loading, aboutUs } = useAboutUsStore();
+
   return (
     <div className={StyleFooter.footer}>
       <div className={StyleFooter.footerContainer}>
         <div className={StyleFooter.descriptionFooter}>
           {/* <img src={logo} alt="" className={StyleFooter.logoFooter} /> */}
-          <Suspense fallback={<div>Loading...</div>}>
+          {/* <Suspense fallback={<div>Loading...</div>}>
             <LazyImage src={logo} alt="" className={StyleFooter.logoFooter} />
-          </Suspense>
+          </Suspense> */}
+          {loading ? (
+            <Skeleton variant="rectangular" width={100} height={80} />
+          ) : (
+            <img
+              src={`${process.env.REACT_APP_IMAGE_PATH}/${aboutUs?.image}`}
+              alt={aboutUs?.name}
+              className={StyleFooter.logoFooter}
+            />
+          )}
           <p className={language === "ar" ? StyleFooter.rtl : ""}>
             {language === "en"
               ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed doeiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi utaliquip ex ea commodo consequat."
@@ -50,14 +63,14 @@ function Footer() {
               language === "ar" ? StyleFooter.rtl : ""
             }`}
           >
-            louaibaghdadi27@gmail.com
+            {aboutUs?.email}
           </p>
           <p
             className={`${StyleFooter.red} ${
               language === "ar" ? StyleFooter.rtl : ""
             }`}
           >
-            +961 70 178056
+            {aboutUs?.phone}
           </p>
         </div>
 
@@ -103,11 +116,13 @@ function Footer() {
             }`}
           >
             <Suspense fallback={<div>Loading...</div>}>
-              <LazyImage
-                src={Facebook}
-                alt="facebook icon"
-                className={StyleFooter.iconFacebook}
-              />
+              <a href={aboutUs?.facebook}>
+                <LazyImage
+                  src={Facebook}
+                  alt="facebook icon"
+                  className={StyleFooter.iconFacebook}
+                />
+              </a>
             </Suspense>
             <Suspense fallback={<div>Loading...</div>}>
               <LazyImage

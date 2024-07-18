@@ -7,11 +7,17 @@ import { useUserStore } from "../../../Zustand/Store";
 import { useLanguage } from "../../../Utils/LanguageContext";
 import { MdLogin } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
+import { useAboutUsStore } from "../../../Zustand/Store";
+import { Skeleton } from "@mui/material";
 
 function Navbar() {
   const { language, toggleLanguage } = useLanguage();
-  const { user, loading, logOut } = useUserStore();
+  const { user, logOut } = useUserStore();
   const navigate = useNavigate();
+
+  const { loading, aboutUs } = useAboutUsStore();
+
+  // console.log(aboutUs);
 
   const [collapesed, setCollapsed] = useState(false);
 
@@ -29,7 +35,7 @@ function Navbar() {
   const toggleClasses = [
     Styles.linksWrapperMobile,
     // collapesed ? Styles.activeNav : "",
-    collapesed ? (user ? Styles.activeNav : Styles.activeNavU) : ""
+    collapesed ? (user ? Styles.activeNav : Styles.activeNavU) : "",
   ].join(" ");
   const bar1 = [Styles.line1, collapesed ? Styles.a : ""].join(" ");
   const bar2 = [Styles.line2, collapesed ? Styles.a : ""].join(" ");
@@ -64,12 +70,16 @@ function Navbar() {
           to="/"
           aria-label="Go to homepage"
         >
-          <img
-            src={logo}
-            width={100}
-            height={80}
-            alt="Lebanese Football Association"
-          />
+          {loading ? (
+            <Skeleton variant="rectangular" width={100} height={80} />
+          ) : (
+            <img
+              src={`${process.env.REACT_APP_IMAGE_PATH}/${aboutUs?.image}`}
+              alt={aboutUs?.name}
+              width={100}
+              height={80}
+            />
+          )}
         </NavLink>
         <select
           id="languageSelect"
@@ -110,7 +120,7 @@ function Navbar() {
           {user && user?.role === "admin" ? (
             <li className={language === "ar" ? Styles.rtl : ""}>
               <NavLink
-                to="/dashboard"
+                to="/dashboard/overview"
                 className={({ isActive, isPending }) =>
                   isPending ? "pending" : isActive ? Styles.active : ""
                 }
@@ -216,7 +226,7 @@ function Navbar() {
           {user?.role === "admin" ? (
             <li>
               <NavLink
-                to="/dashboard"
+                to="/dashboard/overview"
                 onClick={() => setCollapsed(false)}
                 className={({ isActive, isPending }) =>
                   isPending ? "pending" : isActive ? Styles.active : ""

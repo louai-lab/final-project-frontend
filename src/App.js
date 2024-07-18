@@ -10,6 +10,7 @@ import { useTitlesStore } from "./Zustand/Store";
 import { useSeasonsStore } from "./Zustand/Store";
 import { usePitchesStore } from "./Zustand/Store";
 import { useAdministratorsStore } from "./Zustand/Store";
+import { useAboutUsStore } from "./Zustand/Store";
 import FootballLoader from "./Pages/FootballLoader/FootballLoader.js";
 import { Helmet } from "react-helmet-async";
 import { HelmetProvider } from "react-helmet-async";
@@ -34,6 +35,7 @@ function App() {
   const { getAllSeasons } = useSeasonsStore();
   const { getAllPitches } = usePitchesStore();
   const { getAllAdministrators } = useAdministratorsStore();
+  const { getAboutUs } = useAboutUsStore();
 
   // console.log(user);
 
@@ -51,6 +53,7 @@ function App() {
     getAllSeasons();
     getAllPitches();
     getAllAdministrators();
+    getAboutUs();
   }, [
     getUser,
     getAllUsers,
@@ -65,6 +68,7 @@ function App() {
     getAllSeasons,
     getAllPitches,
     getAllAdministrators,
+    getAboutUs,
   ]);
 
   // console.log(user)
@@ -76,13 +80,13 @@ function App() {
     </div>
   ) : (
     <div className="App">
-        <HelmetProvider>
-          <Helmet>
-            <link rel="shortcut icon" href={FavIcon} type="image/x-icon" />
-            <title>Lebanese Football Association in The North</title>
-          </Helmet>
-          <AppRoutes />
-        </HelmetProvider>
+      <HelmetProvider>
+        <Helmet>
+          <link rel="shortcut icon" href={FavIcon} type="image/x-icon" />
+          <title>Lebanese Football Association in The North</title>
+        </Helmet>
+        <AppRoutes />
+      </HelmetProvider>
     </div>
   );
 }
