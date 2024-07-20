@@ -99,7 +99,7 @@ const DashSidebar = () => {
     e.preventDefault();
 
     await logOut();
-    navigate("/login");
+    navigate("/");
   };
 
   return (

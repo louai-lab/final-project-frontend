@@ -13,6 +13,7 @@ import { useTeamsStore } from "../../../Zustand/Store";
 import { useUsersStore } from "../../../Zustand/Store";
 import { useTitlesStore } from "../../../Zustand/Store";
 import { useSeasonsStore } from "../../../Zustand/Store";
+import { usePitchesStore } from "../../../Zustand/Store";
 
 function EditPopUpMatch({ selectedRowData, handleCancelEdit, handleSave }) {
   const { teams } = useTeamsStore();
@@ -21,6 +22,7 @@ function EditPopUpMatch({ selectedRowData, handleCancelEdit, handleSave }) {
   const { linesman } = useUsersStore();
   const { titles } = useTitlesStore();
   const { seasons } = useSeasonsStore();
+  const { pitches } = usePitchesStore();
 
   // console.log(titles);
 
@@ -30,7 +32,7 @@ function EditPopUpMatch({ selectedRowData, handleCancelEdit, handleSave }) {
   const [formData, setFormData] = useState({
     title: selectedRowData.title._id,
     season: selectedRowData.season._id,
-    pitch: selectedRowData.pitch,
+    pitch: selectedRowData.pitch._id,
     match_date: combinedDateTime.toISOString().split("T")[0],
     match_time: selectedRowData.match_time,
     team_a: {
@@ -172,22 +174,24 @@ function EditPopUpMatch({ selectedRowData, handleCancelEdit, handleSave }) {
                 </Select>
               </FormControl>
 
-              {/* <FormControl className={StyleEditPopUp.formControl}>
-                <TextField
-                  label="Season"
-                  name="season"
-                  value={formData.season}
-                  onChange={handleChange}
-                />
-              </FormControl> */}
-
               <FormControl className={StyleEditPopUp.formControl}>
-                <TextField
+                <InputLabel htmlFor="season">Choose Pitch</InputLabel>
+                <Select
                   label="Pitch"
                   name="pitch"
-                  value={formData.pitch}
+                  value={formData.pitch || ""}
                   onChange={handleChange}
-                />
+                >
+                  {pitches.map((pitch) => (
+                    <MenuItem
+                      key={pitch._id}
+                      value={pitch._id}
+                      style={{ display: "flex", gap: "20px" }}
+                    >
+                      {pitch.name}
+                    </MenuItem>
+                  ))}
+                </Select>
               </FormControl>
 
               <FormControl className={StyleEditPopUp.formControl}>
@@ -298,7 +302,7 @@ function EditPopUpMatch({ selectedRowData, handleCancelEdit, handleSave }) {
                   value={formData.linesman_one || ""}
                   onChange={handleChange}
                 >
-                  {linesman.map((man) => (
+                  {linesman?.map((man) => (
                     <MenuItem
                       key={man._id}
                       value={man._id}
@@ -320,7 +324,7 @@ function EditPopUpMatch({ selectedRowData, handleCancelEdit, handleSave }) {
                   value={formData.linesman_two || ""}
                   onChange={handleChange}
                 >
-                  {linesman.map((man) => (
+                  {linesman?.map((man) => (
                     <MenuItem
                       key={man._id}
                       value={man._id}

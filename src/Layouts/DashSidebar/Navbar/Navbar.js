@@ -46,7 +46,7 @@ function Navbar() {
 
     await logOut();
     // console.log(user)
-    navigate("/login");
+    navigate("/");
   };
 
   const handleToLoginPage = async (e) => {

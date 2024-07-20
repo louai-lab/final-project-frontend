@@ -22,6 +22,7 @@ import {
   MenuItem,
   Button,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Table = ({
   data,
@@ -61,6 +62,8 @@ const Table = ({
   const { selectedTeamPlayer, updateSelectedTeamPlayer } = usePlayersStore();
   const { selectedPageNumberPlayer, updateSelectedPageNumberPlayer } =
     usePlayersStore();
+
+  const navigate = useNavigate();
 
   const handlePageChange = (event, value) => {
     updateSelectedPageNumber(value);
@@ -171,6 +174,16 @@ const Table = ({
     setSelectedRowData(row);
   };
 
+  const handleMatchClick = (match) => {
+    // console.log(match);
+
+    if (match && match._id) {
+      navigate("/match", { state: { match } });
+    } else {
+      console.error("Match object is undefined or missing properties.");
+    }
+  };
+
   let visibleFields;
   useEffect(() => {
     try {
@@ -207,6 +220,8 @@ const Table = ({
           "linesman_two",
           "detailsWatcher",
           "reported",
+          "isPenalties",
+          "ToMatch",
         ];
       } else if (ForWhat === "titles") {
         visibleFields = ["name", "image"];
@@ -293,6 +308,24 @@ const Table = ({
 
           if (field === "reported") {
             return params.row.reported === true ? "Not Allowed" : "Allowed";
+          }
+
+          if (field === "ToMatch") {
+            return (
+              <button
+                className={StyleTable.show}
+                type="button"
+                onClick={() => handleMatchClick(params.row)}
+              >
+                To Match
+              </button>
+            );
+          }
+
+          if (field === "isPenalties") {
+            return params.row.isPenalties === true
+              ? "Penalties"
+              : "No Penalties";
           }
 
           if (field === "team_b") {
@@ -783,8 +816,8 @@ const Table = ({
             },
             "& .MuiDataGrid-columnHeaders , & .MuiDataGrid-toolbarContainer , & .MuiDataGrid-footerContainer":
               {
-                height: "120px !important",
-                maxHeight: "120px !important",
+                // height: "120px !important",
+                // maxHeight: "120px !important",
                 fontSize: "1.2rem",
                 mb: screenWidth < 500 ? "1rem" : "0",
                 border: "1px solid grey",

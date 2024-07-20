@@ -101,7 +101,7 @@ export const useUsersStore = create((set) => ({
       if (response) {
         // console.log(response.data);
         set({
-          linesman: response.data.linesman,
+          linesman: response.data.linesMan,
           linesManCount: response.data.linesManCount,
           loading: false,
         });
