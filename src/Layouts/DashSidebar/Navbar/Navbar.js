@@ -1,8 +1,7 @@
-import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Styles from "./Navbar.module.css";
 import { useEffect, useState } from "react";
-import logo from "../../../Assets/icons/Lebanese_Football_Association_(LFA)_logo.svg";
+// import logo from "../../../Assets/icons/Lebanese_Football_Association_(LFA)_logo.svg";
 import { useUserStore } from "../../../Zustand/Store";
 import { useLanguage } from "../../../Utils/LanguageContext";
 import { MdLogin } from "react-icons/md";
@@ -146,7 +145,7 @@ function Navbar() {
                     className={Styles.logOut}
                     onClick={handleLogOut}
                   >
-                    <p> {language === "en" ? "LogOut" : "تسجيل خروج"}</p>
+                    {language === "en" ? "LogOut" : "تسجيل خروج"}
                     {"  "}
 
                     {/* <img src={Logout} alt="logout" /> */}
@@ -187,7 +186,7 @@ function Navbar() {
                   className={Styles.logIn}
                   onClick={handleToLoginPage}
                 >
-                  <p>{language === "en" ? "Log In" : "تسجيل دخول"}</p>
+                  {language === "en" ? "Log In" : "تسجيل دخول"}
                   {"  "}
 
                   {/* <img src={Login} alt="login" /> */}

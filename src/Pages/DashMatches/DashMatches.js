@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import StyleDashMatches from "./DashMatches.module.css";
 import Table from "../../Components/Table/Table";
 import { useMatchesStore } from "../../Zustand/Store";
@@ -42,6 +42,7 @@ function DashMatches() {
   };
 
   const handleFormSubmitMatch = async (formData) => {
+    console.log("Form data:", formData);
     try {
       const response = await axiosInstance.post("/match/add", formData);
       if (response) {

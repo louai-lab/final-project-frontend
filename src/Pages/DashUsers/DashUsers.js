@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import Table from "../../Components/Table/Table";
 import StyleDashUsers from "./DashUsers.module.css";
 import { useUsersStore } from "../../Zustand/Store";
@@ -18,8 +18,12 @@ function DashUsers() {
   // const [isDeletePopUp, setIsDeletePopUp] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const { users } = useUsersStore();
+  const { users, getAllUsers } = useUsersStore();
   const dataWithIds = users.map((row, index) => ({ ...row, id: index + 1 }));
+
+  useEffect(() => {
+    getAllUsers();
+  }, [getAllUsers]);
 
   const style = {
     position: "absolute",

@@ -1,8 +1,7 @@
-import React, { useEffect, useTransition, useState } from "react";
+import { useEffect, useTransition, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import StyleSingleMatch from "./SingleMatch.module.css";
 import TabButton from "../../Components/TabButton/TabButton";
-import Event from "../../Components/Event/EventAdd/Event";
 import axiosInstance from "../../Utils/AxiosInstance";
 import FootballLoader from "../FootballLoader/FootballLoader";
 import { Reveal } from "../../Frammotion/RevealAnimation";
@@ -34,6 +33,8 @@ import Autocomplete from "@mui/material/Autocomplete";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { Skeleton } from "@mui/material";
+
+import Select from "react-select";
 
 // import io from "socket.io-client";
 

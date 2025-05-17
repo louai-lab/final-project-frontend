@@ -88,9 +88,9 @@ function Home() {
                             className={StyleHome.fixture}
                           >
                             <div className={StyleHome.info}>
-                              <p className={StyleHome.title}>
+                              <span className={StyleHome.title}>
                                 {matches[0].title.name}
-                              </p>
+                              </span>
                               <p className={StyleHome.time}>
                                 {new Date(
                                   matches[0].match_date
@@ -160,9 +160,9 @@ function Home() {
                             className={StyleHome.fixture}
                           >
                             <div className={StyleHome.info}>
-                              <p className={StyleHome.title}>
+                              <span className={StyleHome.title}>
                                 {matches[1].title.name}
-                              </p>
+                              </span>
                               <p className={StyleHome.time}>
                                 {new Date(
                                   matches[1].match_date

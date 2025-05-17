@@ -5,7 +5,7 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useMatchesStore, useUserStore } from "../../Zustand/Store";
+import { useUserStore } from "../../Zustand/Store";
 import { Reveal } from "../../Frammotion/RevealAnimation";
 import { Helmet } from "react-helmet-async";
 

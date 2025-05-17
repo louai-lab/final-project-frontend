@@ -1,46 +1,29 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import Table from "../../Components/Table/Table";
-import { useTeamsStore } from "../../Zustand/Store";
+import { usePlayersStore, useTeamsStore } from "../../Zustand/Store";
 import StyleDashTeams from "./DashTeams.module.css";
-import AddPopUpTeam from "./AddPopUpTeam/AddPopUpTeam";
 import axiosInstance from "../../Utils/AxiosInstance";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Typography from "@mui/material/Typography";
-import Backdrop from "@mui/material/Backdrop";
-import { Button } from "@mui/material";
-import EditPopUpTeams from "./EditPopUpTeams/EditPopUpTeams";
+import DeleteModal from "../../Components/DeleteModal/DeleteModal";
+import AddModal from "../../Components/AddModal/AddModal";
+import EditModal from "../../Components/EditModal/EditModal";
 
 function DashTeams() {
-  const [isAddPopUp, setIsAddPopUp] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [isEditPopUp, setIsEditPopUp] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState(null);
-  const { teams } = useTeamsStore();
+  const { teams, getAllTeams } = useTeamsStore();
+  const { playersNoTeam, getAllPlayersNoTeam } = usePlayersStore();
+
+  useEffect(() => {
+    getAllTeams();
+    getAllPlayersNoTeam();
+  }, [getAllTeams, getAllPlayersNoTeam]);
+
   // console.log(teams)
 
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "none",
-    boxShadow: 24,
-    p: 4,
-  };
-
-  const handleOpenPopUp = () => {
-    setIsAddPopUp(true);
-  };
-
-  const handleCancelAdd = () => {
-    setIsAddPopUp(false);
-  };
-
-  const handleFormSubmitTeam = async (formData) => {
+  const handleAddTeam = async (formData) => {
+    console.log("formData", formData);
     try {
       const playerIds = formData.playersIds.map((player) => player._id);
 
@@ -66,47 +49,34 @@ function DashTeams() {
         }));
         console.log("Team created successfully:");
       }
-      setIsAddPopUp(false);
+      // setIsAddPopUp(false);
+      setIsAddModalOpen(false);
     } catch (error) {
       console.error("Error creating team:", error);
     }
   };
 
-  const handleOpen = () => {
-    setIsOpen(true);
-  };
-
-  const handleClose = () => {
-    setIsOpen(false);
-  };
-
-  const handleDelete = async (id) => {
+  const handleDeleteTeam = async () => {
     try {
-      const response = await axiosInstance.delete(`/team/delete/${id}`);
+      const response = await axiosInstance.delete(
+        `/team/delete/${selectedRowData._id}`
+      );
       if (response) {
         console.log("Team deleted successfully:");
         useTeamsStore.setState((state) => ({
-          teams: state.teams.filter((team) => team._id !== id),
+          teams: state.teams.filter((team) => team._id !== selectedRowData._id),
         }));
       }
-      setIsOpen(false);
+      setIsDeleteModalOpen(false);
     } catch (error) {
       console.log("Error deleting team:", error);
     }
   };
 
-  const handleEditOpen = () => {
-    setIsEditPopUp(true);
-  };
-
-  const handleCancelEdit = () => {
-    setIsEditPopUp(false);
-  };
-
-  const handleEditSave = async (id, formData) => {
+  const handleEditTeam = async (formData) => {
     try {
       const response = await axiosInstance.patch(
-        `/team/update/${id}`,
+        `/team/update/${formData._id}`,
         formData,
         {
           headers: {
@@ -118,7 +88,7 @@ function DashTeams() {
         console.log("Team updated successfully:");
         useTeamsStore.setState((state) => {
           const updatedTeams = state.teams.map((team) => {
-            if (team._id === id) {
+            if (team._id === formData._id) {
               return response.data;
             }
             return team;
@@ -128,7 +98,8 @@ function DashTeams() {
           };
         });
       }
-      setIsEditPopUp(false);
+      // setIsEditPopUp(false);
+      setIsEditModalOpen(false);
     } catch (error) {
       console.log("Error updating team:", error);
     }
@@ -136,136 +107,64 @@ function DashTeams() {
 
   return (
     <>
-      {isAddPopUp && (
-        <>
-          <AddPopUpTeam
-            handleCancelAdd={handleCancelAdd}
-            handleFormSubmitTeam={handleFormSubmitTeam}
-          />
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              // backgroundColor: "rgba(0, 0, 0, 0.5)",
-              // backgroundColor: "rgba(0, 0, 0, 0.8)",
-              backgroundColor: "rgba(0, 0, 0, 0.2)",
-              zIndex: 1002,
-            }}
-            onClick={() => setIsAddPopUp(false)}
-          ></div>
-        </>
-      )}
-      {isEditPopUp && (
-        <>
-          <EditPopUpTeams
-            selectedRowData={selectedRowData}
-            handleCancelEdit={handleCancelEdit}
-            handleSave={(formData) =>
-              handleEditSave(selectedRowData._id, formData)
-            }
-          />
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              // backgroundColor: "rgba(0, 0, 0, 0.5)",
-              // backgroundColor: "rgba(0, 0, 0, 0.8)",
-              backgroundColor: "rgba(0, 0, 0, 0.2)",
-              zIndex: 1002,
-            }}
-            onClick={() => setIsEditPopUp(false)}
-          ></div>
-        </>
-      )}
-      {isOpen && (
-        <Modal
-          aria-labelledby="transition-modal-title"
-          aria-describedby="transition-modal-description"
-          open={isOpen}
-          onClose={handleClose}
-          closeAfterTransition
-          slots={{ backdrop: Backdrop }}
-          slotProps={{
-            backdrop: {
-              timeout: 500,
-            },
-          }}
-        >
-          <Fade in={isOpen}>
-            <Box sx={style}>
-              <Typography
-                id="transition-modal-title"
-                variant="h6"
-                component="h2"
-              >
-                Are you sure to Delete this Team?
-              </Typography>
-              <div
-                style={{
-                  display: "flex",
-                  columnGap: "20px",
-                  marginTop: "10px",
-                }}
-              >
-                <Button
-                  variant="contained"
-                  sx={{
-                    bgcolor: "var(--primary-clr)",
-                    opacity: "1",
-                    transition: "opacity 0.3s ease",
-                    textTransform: "none",
-                    "&:hover": {
-                      bgcolor: "var(--primary-clr)",
-                      opacity: "0.7",
-                      cursor: "pointer",
-                    },
-                  }}
-                  onClick={() => handleDelete(selectedRowData._id)}
-                >
-                  Confirm
-                </Button>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    color: "var(--primary-clr)",
-                    borderColor: "var(--primary-clr)",
-                    textTransform: "none",
-                    opacity: "1",
-                    transition: "opacity 0.3s ease",
-                    "&:hover": {
-                      borderColor: "var(--third-clr)",
-                      opacity: "0.7",
-                      cursor: "pointer",
-                    },
-                  }}
-                  onClick={handleClose}
-                >
-                  Cancel
-                </Button>
-              </div>
-            </Box>
-          </Fade>
-        </Modal>
-      )}
       <div className={StyleDashTeams.container}>
-        <button className={StyleDashTeams.add} onClick={handleOpenPopUp}>
+        <button
+          className={StyleDashTeams.add}
+          onClick={() => setIsAddModalOpen(true)}
+        >
           Add Team +
         </button>
         <Table
           data={teams}
           isEdit={true}
           ForWhat="teams"
-          handleEditOpen={handleEditOpen}
-          handleOpenDelete={handleOpen}
+          handleEditOpen={() => setIsEditModalOpen(true)}
+          handleOpenDelete={() => setIsDeleteModalOpen(true)}
           setSelectedRowData={setSelectedRowData}
         />
       </div>
+
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        toggle={() => setIsDeleteModalOpen(false)}
+        title="Team Deletion"
+        body="Are you sure you want to delete this team?"
+        onConfirm={handleDeleteTeam}
+        // loadingDelete={loadingDelete}
+      />
+
+      <AddModal
+        isOpen={isAddModalOpen}
+        toggle={() => setIsAddModalOpen(false)}
+        onConfirm={handleAddTeam}
+        title="Add New Team"
+        buttonTitle="Add Team"
+        fields={[
+          { label: "Name", id: "name", type: "text" },
+          {
+            label: "Players",
+            id: "playersIds",
+            type: "select",
+            options: playersNoTeam,
+            isMulti: true,
+          },
+          { label: "Image", id: "image", type: "file" },
+        ]}
+        // loadingAdd={loadingAddCategory}
+      />
+
+      <EditModal
+        isOpen={isEditModalOpen}
+        toggle={() => setIsEditModalOpen(false)}
+        title="Edit Team"
+        data={selectedRowData}
+        onConfirm={handleEditTeam}
+        fields={[
+          { id: "name", label: "Name", type: "text" },
+          { id: "image", label: "Image", type: "file" },
+        ]}
+        // loadingUpdate={loadingUpdate}
+      />
     </>
   );
 }

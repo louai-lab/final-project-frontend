@@ -1,5 +1,5 @@
-import { Box, Stack, Typography } from "@mui/material";
-import React from "react";
+import { Typography } from "@mui/material";
+import { useEffect } from "react";
 import StyleDashOverview from "./DashOverview.module.css";
 import DashCard from "../../Components/DashCard/DashCard";
 import { useUsersStore } from "../../Zustand/Store";
@@ -18,12 +18,45 @@ import PieColor from "../../Components/PieColor/PieColor";
 import BarColor from "../../Components/BarColor/BarColor";
 
 function DashOverview() {
-  const { userCount } = useUsersStore();
-  const { teamCount } = useTeamsStore();
-  const { totalPlayersCount } = usePlayersStore();
-  const { titleCount } = useTitlesStore();
-  const { pitchCount } = usePitchesStore();
-  const { administratorsCount } = useAdministratorsStore();
+  const { userCount, getAllUsers } = useUsersStore();
+  const { teamCount, getAllTeams } = useTeamsStore();
+  const { totalPlayersCount, getAllPlayers } = usePlayersStore();
+  const { titleCount, getAllTitles } = useTitlesStore();
+  const { pitchCount, getAllPitches } = usePitchesStore();
+  const { administratorsCount, getAllAdministrators } =
+    useAdministratorsStore();
+
+  useEffect(() => {
+    // getUser();
+    getAllUsers();
+    // getAllReferees();
+    // getAllWatchers();
+    // getAllLinesman();
+    getAllPlayers();
+    // getAllPlayersNoTeam();
+    getAllTeams();
+    // getAllMatches();
+    getAllTitles();
+    // getAllSeasons();
+    getAllPitches();
+    getAllAdministrators();
+    // getAboutUs();
+  }, [
+    // getUser,
+    getAllUsers,
+    // getAllReferees,
+    // getAllWatchers,
+    // getAllLinesman,
+    getAllPlayers,
+    // getAllPlayersNoTeam,
+    getAllTeams,
+    // getAllMatches,
+    getAllTitles,
+    // getAllSeasons,
+    getAllPitches,
+    getAllAdministrators,
+    // getAboutUs,
+  ]);
 
   return (
     <div className={StyleDashOverview.container}>

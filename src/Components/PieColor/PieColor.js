@@ -6,7 +6,20 @@ import { PieChart } from "@mui/x-charts";
 // import { useUsersStore } from "../../Zustand/Store";
 
 export default function PieColor() {
-  const { watcherCount, refereeCount, linesManCount } = useUsersStore();
+  const {
+    watcherCount,
+    refereeCount,
+    linesManCount,
+    getAllWatchers,
+    getAllReferees,
+    getAllLinesman,
+  } = useUsersStore();
+
+  React.useEffect(() => {
+    getAllWatchers();
+    getAllReferees();
+    getAllLinesman();
+  }, [getAllWatchers, getAllReferees, getAllLinesman]);
 
   return (
     <div className={StylePieCard.borderPie}>

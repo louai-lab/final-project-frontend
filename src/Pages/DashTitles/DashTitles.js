@@ -1,36 +1,24 @@
 import { useTitlesStore } from "../../Zustand/Store";
 import Table from "../../Components/Table/Table";
 import StyleDashTitles from "./DashTitles.module.css";
-import { useState } from "react";
-import AddPopUpTitle from "./AddPopUpTitle/AddPopUpTitle";
+import { useEffect, useState } from "react";
 import axiosInstance from "../../Utils/AxiosInstance";
-import EditPopUpTitle from "./EditPopUpTitle/EditPopUpTitle";
-import { Backdrop, Box, Button, Fade, Modal, Typography } from "@mui/material";
+import DeleteModal from "../../Components/DeleteModal/DeleteModal";
+import AddModal from "../../Components/AddModal/AddModal";
+import EditModal from "../../Components/EditModal/EditModal";
 
 function DashTitles() {
-  const [isAddPopUp, setIsAddPopUp] = useState(false);
-  const [isEditPopUp, setIsEditPopUp] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState(null);
-  const { titles } = useTitlesStore();
+  const { titles, getAllTitles } = useTitlesStore();
 
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "none",
-    boxShadow: 24,
-    p: 4,
-  };
+  useEffect(() => {
+    getAllTitles();
+  }, [getAllTitles]);
 
-  const handleCancelAdd = () => {
-    setIsAddPopUp(false);
-  };
-
-  const handleFormSubmitTitle = async (formData) => {
+  const handleAddTitle = async (formData) => {
     // console.log(formData);
 
     try {
@@ -46,33 +34,17 @@ function DashTitles() {
         }));
         console.log("Title created successfully:");
       }
-      setIsAddPopUp(false);
+      // setIsAddPopUp(false);
+      setIsAddModalOpen(false);
     } catch (error) {
       console.error("Error creating team:", error);
     }
   };
 
-  const handleEditOpen = (selectedRowData) => {
-    setIsEditPopUp(true);
-    // console.log(selectedRowData);
-  };
-
-  const handleCancelEdit = () => {
-    setIsEditPopUp(false);
-  };
-
-  const handleOpen = () => {
-    setIsOpen(true);
-  };
-
-  const handleClose = () => {
-    setIsOpen(false);
-  };
-
-  const handleEditSave = async (id, formData) => {
+  const handleEditTitle = async (formData) => {
     try {
       const response = await axiosInstance.patch(
-        `/title/update/${id}`,
+        `/title/update/${formData._id}`,
         formData,
         {
           headers: {
@@ -85,7 +57,7 @@ function DashTitles() {
         console.log("Title updated successfully:");
         useTitlesStore.setState((state) => {
           const updatedTitle = state.titles.map((title) => {
-            if (title._id === id) {
+            if (title._id === formData._id) {
               return response.data;
             }
             return title;
@@ -95,24 +67,30 @@ function DashTitles() {
           };
         });
       }
-      setIsEditPopUp(false);
+      // setIsEditPopUp(false);
+      setIsEditModalOpen(false);
     } catch (error) {
       console.log("Error updating title:", error);
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDeleteTitle = async () => {
     // console.log(id);
     try {
-      const response = await axiosInstance.delete(`/title/delete/${id}`);
+      const response = await axiosInstance.delete(
+        `/title/delete/${selectedRowData._id}`
+      );
 
       if (response) {
         console.log("Title deleted successfully:");
         useTitlesStore.setState((state) => ({
-          titles: state.titles.filter((title) => title._id !== id),
+          titles: state.titles.filter(
+            (title) => title._id !== selectedRowData._id
+          ),
         }));
       }
-      setIsOpen(false);
+      // setIsOpen(false);
+      setIsDeleteModalOpen(false);
     } catch (error) {
       console.log("Error deleting title:", error);
     }
@@ -120,125 +98,10 @@ function DashTitles() {
 
   return (
     <>
-      {isAddPopUp && (
-        <>
-          <AddPopUpTitle
-            handleCancelAdd={handleCancelAdd}
-            handleFormSubmitTitle={handleFormSubmitTitle}
-          />
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              // backgroundColor: "rgba(0, 0, 0, 0.5)",
-              backgroundColor: "rgba(0, 0, 0, 0.2)",
-              zIndex: 1002,
-            }}
-            onClick={() => setIsAddPopUp(false)}
-          ></div>
-        </>
-      )}
-      {isEditPopUp && (
-        <>
-          <EditPopUpTitle
-            selectedRowData={selectedRowData}
-            handleCancelEdit={handleCancelEdit}
-            handleSave={(formData) =>
-              handleEditSave(selectedRowData._id, formData)
-            }
-          />
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              // backgroundColor: "rgba(0, 0, 0, 0.5)",
-              backgroundColor: "rgba(0, 0, 0, 0.2)",
-              zIndex: 1002,
-            }}
-            onClick={() => setIsEditPopUp(false)}
-          ></div>
-        </>
-      )}
-      {isOpen && (
-        <Modal
-          aria-labelledby="transition-modal-title"
-          aria-describedby="transition-modal-description"
-          open={isOpen}
-          onClose={handleClose}
-          closeAfterTransition
-          slots={{ backdrop: Backdrop }}
-          slotProps={{
-            backdrop: {
-              timeout: 500,
-            },
-          }}
-        >
-          <Fade in={isOpen}>
-            <Box sx={style}>
-              <Typography
-                id="transition-modal-title"
-                variant="h6"
-                component="h2"
-              >
-                Are you sure to Delete this Title?
-              </Typography>
-              <div
-                style={{
-                  display: "flex",
-                  columnGap: "20px",
-                  marginTop: "10px",
-                }}
-              >
-                <Button
-                  variant="contained"
-                  sx={{
-                    bgcolor: "var(--primary-clr)",
-                    opacity: "1",
-                    transition: "opacity 0.3s ease",
-                    textTransform: "none",
-                    "&:hover": {
-                      bgcolor: "var(--primary-clr)",
-                      opacity: "0.7",
-                      cursor: "pointer",
-                    },
-                  }}
-                  onClick={() => handleDelete(selectedRowData._id)}
-                >
-                  Confirm
-                </Button>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    color: "var(--primary-clr)",
-                    borderColor: "var(--primary-clr)",
-                    textTransform: "none",
-                    opacity: "1",
-                    transition: "opacity 0.3s ease",
-                    "&:hover": {
-                      borderColor: "var(--third-clr)",
-                      opacity: "0.7",
-                      cursor: "pointer",
-                    },
-                  }}
-                  onClick={handleClose}
-                >
-                  Cancel
-                </Button>
-              </div>
-            </Box>
-          </Fade>
-        </Modal>
-      )}
       <div className={StyleDashTitles.container}>
         <button
           className={StyleDashTitles.add}
-          onClick={() => setIsAddPopUp(true)}
+          onClick={() => setIsAddModalOpen(true)}
         >
           Add Title +
         </button>
@@ -246,11 +109,46 @@ function DashTitles() {
           data={titles}
           isEdit={true}
           ForWhat="titles"
-          handleEditOpen={handleEditOpen}
-          handleOpenDelete={handleOpen}
+          handleEditOpen={() => setIsEditModalOpen(true)}
+          handleOpenDelete={() => setIsDeleteModalOpen(true)}
           setSelectedRowData={setSelectedRowData}
         />
       </div>
+
+      <AddModal
+        isOpen={isAddModalOpen}
+        toggle={() => setIsAddModalOpen(false)}
+        onConfirm={handleAddTitle}
+        title="Add New Title"
+        buttonTitle="Add Title"
+        fields={[
+          { label: "Name", id: "name", type: "text" },
+          { label: "Image", id: "image", type: "file" },
+        ]}
+        // loadingAdd={loadingAddCategory}
+      />
+
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        toggle={() => setIsDeleteModalOpen(false)}
+        title="Title Deletion"
+        body="Are you sure you want to delete this title?"
+        onConfirm={handleDeleteTitle}
+        // loadingDelete={loadingDelete}
+      />
+
+      <EditModal
+        isOpen={isEditModalOpen}
+        toggle={() => setIsEditModalOpen(false)}
+        title="Edit Title"
+        data={selectedRowData}
+        onConfirm={handleEditTitle}
+        fields={[
+          { id: "name", label: "Name", type: "text" },
+          { id: "image", label: "Image", type: "file" },
+        ]}
+        // loadingUpdate={loadingUpdate}
+      />
     </>
   );
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, IconButton, TextField } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Grid from "@mui/material/Unstable_Grid2";
 import EditIcon from "@mui/icons-material/Edit";
@@ -36,7 +36,7 @@ const Table = ({
   const [error, setError] = useState(false);
   const buton = isEdit === true ? true : false;
 
-  const { loading, matches, matchCount } = useMatchesStore();
+  const { matchCount } = useMatchesStore();
   const { selectedPageNumber, updateSelectedPageNumber } = useMatchesStore();
   const [currentPage, setCurrentPage] = useState(1);
   const { getAllMatches } = useMatchesStore();
@@ -54,7 +54,7 @@ const Table = ({
   const { selectedPitchId, updateSelectedPitchId } = useMatchesStore();
   const [selectedPitch, setSelectedPitch] = useState(null);
 
-  const { getAllTeams } = useMatchesStore();
+  // const { getAllTeams } = useMatchesStore();
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [teamForPlayer, setTeamForPlayer] = useState(null);
   const [playerName, setPlayerName] = useState("");
@@ -263,7 +263,7 @@ const Table = ({
                   rowGap: "10px",
                   justifyContent: "center",
                   alignContent: "center",
-                  alignItems: "center",
+                  // alignItems: "center",
                 }}
               >
                 <img

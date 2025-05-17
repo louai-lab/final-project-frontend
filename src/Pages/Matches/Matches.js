@@ -183,7 +183,7 @@ function Matches() {
                 type="button"
                 className={`${StyleMatches.Filter} ${StyleMatches.CancelTransition}`}
               >
-                <p>{language === "en" ? "Filter" : "بحث"}</p>
+                <span>{language === "en" ? "Filter" : "بحث"}</span>
                 {/* <img src={iconFilter} alt="Filter Icon" /> */}
                 <IoFilterOutline />
               </button>

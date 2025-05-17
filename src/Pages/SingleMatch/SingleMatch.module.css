@@ -841,6 +841,7 @@
 .control {
   display: flex;
   justify-content: center;
+  font-size: medium;
 }
 
 .whistle {
