@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StyleAddPopUp from "./AddPopUpMatch.module.css";
 import {
   FormControl,
@@ -17,13 +17,13 @@ import { useSeasonsStore } from "../../../Zustand/Store";
 import { usePitchesStore } from "../../../Zustand/Store";
 
 function AddPopUpMatch({ handleCancelAdd, handleFormSubmitMatch }) {
-  const { teams } = useTeamsStore();
-  const { referees } = useUsersStore();
-  const { watchers } = useUsersStore();
-  const { linesman } = useUsersStore();
-  const { titles } = useTitlesStore();
-  const { seasons } = useSeasonsStore();
-  const { pitches } = usePitchesStore();
+  const { teams, getAllTeams } = useTeamsStore();
+  const { referees, getAllReferees } = useUsersStore();
+  const { watchers, getAllWatchers } = useUsersStore();
+  const { linesman, getAllLinesman } = useUsersStore();
+  const { titles, getAllTitles } = useTitlesStore();
+  const { seasons, getAllSeasons } = useSeasonsStore();
+  const { pitches, getAllPitches } = usePitchesStore();
   const [formData, setFormData] = useState({
     title: "",
     season: "",
@@ -41,6 +41,16 @@ function AddPopUpMatch({ handleCancelAdd, handleFormSubmitMatch }) {
     linesman_one: "",
     linesman_two: "",
   });
+
+  useEffect(() => {
+    getAllSeasons();
+    getAllTitles();
+    getAllPitches();
+    getAllTeams();
+    getAllReferees();
+    getAllWatchers();
+    getAllLinesman();
+  }, [getAllSeasons]);
 
   const handleChange = (e) => {
     const { name, type, checked, value } = e.target;
@@ -174,7 +184,8 @@ function AddPopUpMatch({ handleCancelAdd, handleFormSubmitMatch }) {
                         value={season._id}
                         style={{ display: "flex", gap: "20px" }}
                       >
-                        {season.seasonName}
+                        {/* {season.seasonName} */}
+                        {season?.firstPart} - {season?.secondPart}
                       </MenuItem>
                     ))}
                   </Select>

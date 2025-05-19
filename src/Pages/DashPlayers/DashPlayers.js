@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import StyleDashPlayers from "./DashPlayers.module.css";
 import { usePlayersStore } from "../../Zustand/Store.js";
 import Table from "../../Components/Table/Table.js";
@@ -8,6 +8,10 @@ import AddModal from "../../Components/AddModal/AddModal.js";
 import FormatDate from "../../Utils/FormatDate.js";
 import DeleteModal from "../../Components/DeleteModal/DeleteModal.js";
 import EditModal from "../../Components/EditModal/EditModal.js";
+import { AgGridReact } from "ag-grid-react";
+import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 function DashPlayers() {
   const [selectedRowData, setSelectedRowData] = useState(null);
@@ -123,6 +127,112 @@ function DashPlayers() {
     }
   };
 
+  const columns = useMemo(
+    () => [
+      {
+        headerName: "Name",
+        field: "name",
+        sortable: true,
+        filter: true,
+        flex: 1,
+        minWidth: 150,
+      },
+      {
+        headerName: "Image",
+        field: "image",
+        sortable: true,
+        filter: true,
+        flex: 1,
+        minWidth: 150,
+        // valueGetter: (params) => params.data.team?.name || "No Team",
+        cellRenderer: (params) => {
+          return (
+            <img
+              src={`${process.env.REACT_APP_IMAGE_PATH}/${params.data.image}`}
+              alt="Player"
+              style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+            />
+          );
+        },
+      },
+      {
+        headerName: "T-shirt Number",
+        field: "tShirtNumber",
+        sortable: true,
+        filter: true,
+        flex: 1,
+        minWidth: 150,
+      },
+      {
+        headerName: "Team",
+        field: "team",
+        sortable: true,
+        filter: true,
+        flex: 1,
+        minWidth: 150,
+        valueGetter: (params) => params.data.team?.name || "No Team",
+      },
+      {
+        headerName: "Id Card",
+        field: "idCard",
+        sortable: true,
+        filter: true,
+        flex: 1,
+        minWidth: 150,
+      },
+      {
+        headerName: "Mother Name",
+        field: "motherName",
+        sortable: true,
+        filter: true,
+        flex: 1,
+        minWidth: 150,
+      },
+      {
+        headerName: "Actions",
+        field: "actions",
+        minWidth: 200,
+        sortable: false,
+        filter: false,
+        cellRenderer: (params) => (
+          <div className="d-flex gap-2 align-items-center h-100">
+            <button
+              className="btn btn-warning"
+              // onClick={() => handleEditClick(params?.data)}
+              onClick={() => {
+                setSelectedRowData(params?.data);
+                setIsEditModalOpen(true);
+              }}
+            >
+              <i
+                className="uil uil-pen font-size-18 text-white"
+                id="edittooltip"
+              />{" "}
+              <span className="text-white">Edit</span>
+            </button>
+            <button
+              className="btn btn-danger"
+              // onClick={() =>  handleDeleteClick(params?.data)}
+              onClick={() => {
+                setSelectedRowData(params?.data);
+                setIsDeleteModalOpen(true);
+              }}
+              style={{ backgroundColor: "var(--primary-clr)" }}
+            >
+              <i
+                className="uil uil-trash-alt font-size-18"
+                id="deletetooltip"
+              />{" "}
+              <span className="text-white">Delete</span>
+            </button>
+          </div>
+        ),
+      },
+    ],
+    []
+  );
+
+  // console.log("players", players);
   return (
     <>
       <div className={StyleDashPlayers.container}>
@@ -132,6 +242,19 @@ function DashPlayers() {
         >
           Add Player +
         </button>
+
+        <div style={{ height: "calc(100vh - 270px)" }}>
+          <AgGridReact
+            rowData={players}
+            columnDefs={columns}
+            rowHeight={50}
+            pagination={true}
+            paginationPageSize={50}
+            domLayout="normal"
+            paginationPageSizeSelector={[50, 100, 200]}
+            suppressPaginationPanel={false}
+          />
+        </div>
         <Table
           data={players}
           isEdit={true}

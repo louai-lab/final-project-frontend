@@ -128,6 +128,9 @@ function SingleMatch() {
 
     const { role } = user;
 
+    // console.log(user);
+    // console.log(match);
+
     let detailId;
     let route;
 
@@ -143,7 +146,7 @@ function SingleMatch() {
 
     try {
       const response = await axiosInstance.patch(
-        `/matchdetails/${route}/${detailId}`,
+        `/matchdetails/${route}/${detailId}/${user?._id}/${match?._id}`,
         formAction
       );
 
@@ -3512,7 +3515,9 @@ function SingleMatch() {
             </div>
             <div className={StyleSingleMatch.thing}>
               <RiCalendarEventFill className={StyleSingleMatch.iconInfo} />
-              <p>{match?.season?.seasonName}</p>
+              {/* <p>{match?.season?.seasonName}</p> */}
+              <p>{match?.season?.firstPart}</p> -{" "}
+              <p>{match?.season?.secondPart}</p>
             </div>{" "}
           </div>
         </div>

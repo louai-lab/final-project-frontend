@@ -126,7 +126,11 @@ function DashSeasons() {
         onConfirm={handleAddSeason}
         title="Add New Team"
         buttonTitle="Add Team"
-        fields={[{ label: "Season", id: "seasonName", type: "text" }]}
+        fields={[
+          // { label: "Season", id: "seasonName", type: "text" },
+          { label: "First Part", id: "firstPart", type: "number" },
+          { label: "Second Part", id: "secondPart", type: "number" },
+        ]}
         // loadingAdd={loadingAddCategory}
       />
 
@@ -136,7 +140,11 @@ function DashSeasons() {
         title="Edit Title"
         data={selectedRowData}
         onConfirm={handleEditTitle}
-        fields={[{ id: "seasonName", label: "Season", type: "text" }]}
+        fields={[
+          // { id: "seasonName", label: "Season", type: "text" },
+          { id: "firstPart", label: "First Part", type: "number" },
+          { id: "secondPart", label: "Second Part", type: "number" },
+        ]}
         // loadingUpdate={loadingUpdate}
       />
 

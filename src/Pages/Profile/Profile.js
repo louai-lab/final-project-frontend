@@ -129,9 +129,9 @@ function Profile() {
                 <span>
                   <MdModeEditOutline />
                 </span>
-                <p>
+                <span>
                   {language === "en" ? "Edit Profile" : "تعديل الملف الشخصي"}
-                </p>
+                </span>
               </button>
             </div>
             <div className={StyleProfile.statisticContainer}>

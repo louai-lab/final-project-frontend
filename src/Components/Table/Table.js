@@ -226,7 +226,7 @@ const Table = ({
       } else if (ForWhat === "titles") {
         visibleFields = ["name", "image"];
       } else if (ForWhat === "seasons") {
-        visibleFields = ["seasonName"];
+        visibleFields = ["firstPart", "secondPart"];
       } else if (ForWhat === "pitches") {
         visibleFields = ["name", "location", "image"];
       } else if (ForWhat === "administrators") {
@@ -627,7 +627,9 @@ const Table = ({
                                 columnGap: "20px",
                               }}
                             >
-                              <span>{season.seasonName}</span>
+                              {/* <span>{season.seasonName}</span> */}
+                              <span>{season?.firstPart}</span> -{" "}
+                              <span>{season?.secondPart}</span>
                             </MenuItem>
                           ))}
                         </Select>
